@@ -135,10 +135,10 @@ public:
 	int gnelem() const;
 	int gnface() const;
 	int gnbface() const;
-	int gnnode() const;
+	int gnnode(int ielem) const;
 	int gndim() const;
 	int gnaface() const;
-	int gnfael() const;
+	int gnfael(int ielem) const;
 	int gnnofa() const;
 	int gnbtag() const;
 	int gndtag() const;
@@ -293,51 +293,52 @@ int UMesh2dh::gbface(int faceno, int val) const
 Matrix<double>* getcoords()
 { return &coords; }
 
-int gesup(int i) const { return esup.get(i); }
-int gesup_p(int i) const { return esup_p.get(i); }
-int gpsup(int i) const { return psup.get(i); }
-int gpsup_p(int i) const { return psup_p.get(i); }
-int gesuel(int ielem, int jnode) const { return esuel.get(ielem, jnode); }
-int gintfac(int face, int i) const { return intfac.get(face,i); }
-int gintfacbtags(int face, int i) const { return intfacbtags.get(face,i); }
-int gbpoints(int poin, int i) const { return bpoints.get(poin,i); }
-int gbpointsb(int poin, int i) const { return bpointsb.get(poin,i); }
-int gbfacebp(int iface, int i) const { return bfacebp.get(iface,i); }
-int gbifmap(int intfacno) const { return bifmap.get(intfacno); }
-int gifbmap(int bfaceno) const { return ifbmap.get(bfaceno); }
-double gjacobians(int ielem) const { return jacobians.get(ielem,0); }
+int UMesh2dh::gesup(int i) const { return esup.get(i); }
+int UMesh2dh::gesup_p(int i) const { return esup_p.get(i); }
+int UMesh2dh::gpsup(int i) const { return psup.get(i); }
+int UMesh2dh::gpsup_p(int i) const { return psup_p.get(i); }
+int UMesh2dh::gesuel(int ielem, int jnode) const { return esuel.get(ielem, jnode); }
+int UMesh2dh::gintfac(int face, int i) const { return intfac.get(face,i); }
+int UMesh2dh::gintfacbtags(int face, int i) const { return intfacbtags.get(face,i); }
+int UMesh2dh::gbpoints(int poin, int i) const { return bpoints.get(poin,i); }
+int UMesh2dh::gbpointsb(int poin, int i) const { return bpointsb.get(poin,i); }
+int UMesh2dh::gbfacebp(int iface, int i) const { return bfacebp.get(iface,i); }
+int UMesh2dh::gbifmap(int intfacno) const { return bifmap.get(intfacno); }
+int UMesh2dh::gifbmap(int bfaceno) const { return ifbmap.get(bfaceno); }
+double UMesh2dh::gjacobians(int ielem) const { return jacobians.get(ielem,0); }
 
-int gnpoin() const { return npoin; }
-int gnelem() const { return nelem; }
-int gnface() const { return nface; }
-int gnbface() const { return nbface; }
-int gnnode() const { return nnode; }
-int gndim() const { return ndim; }
-int gnaface() const {return naface; }
-int gnfael() const { return nfael; }
-int gnnofa() const { return nnofa; }
-int gnbtag() const{ return nbtag; }
-int gndtag() const { return ndtag; }
-int gnbpoin() const { return nbpoin; }
+int UMesh2dh::gnpoin() const { return npoin; }
+int UMesh2dh::gnelem() const { return nelem; }
+int UMesh2dh::gnface() const { return nface; }
+int UMesh2dh::gnbface() const { return nbface; }
+int UMesh2dh::gnnode(int ielem) const { return nnode[ielem]; }
+int UMesh2dh::gndim() const { return ndim; }
+int UMesh2dh::gnaface() const {return naface; }
+int UMesh2dh::gnfael(int ielem) const { return nfael[ielem]; }
+int UMesh2dh::gnnofa() const { return nnofa; }
+int UMesh2dh::gnbtag() const{ return nbtag; }
+int UMesh2dh::gndtag() const { return ndtag; }
+int UMesh2dh::gnbpoin() const { return nbpoin; }
 
 /** Functions to set some mesh data structures. */
-void setcoords(Matrix<double>* c)
+void UMesh2dh::setcoords(Matrix<double>* c)
 { coords = *c; }
 
-void setinpoel(Matrix<int>* inp)
+void UMesh2dh::setinpoel(Matrix<int>* inp)
 { inpoel = *inp; }
 
-void setbface(Matrix<int>* bf)
+void UMesh2dh::setbface(Matrix<int>* bf)
 { bface = *bf; }
 
-void modify_bface_marker(int iface, int pos, int number)
+void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 { bface(iface, pos) = number; }
 
 
 /** Reads Professor Luo's mesh file, which I call the 'domn' format.
    NOTE: Make sure nfael and nnofa are mentioned after ndim and nnode in the mesh file.
+   Not sure whether this can used for hybrid mesh at all.
 */
-void readDomn(string mfile)
+void UMesh2dh::readDomn(string mfile)
 {
 	ifstream infile(mfile);
 	
@@ -481,7 +482,6 @@ void UMesh2dh::readGmsh2(string mfile, int dimensions)
 	}
 	infile >> dums;
 	infile >> dums;
-	//cout << "UMesh2d: readGmsh2(): coords read." << endl;
 
 	int width_elms = 25;
 	int nelm, elmtype, nbtags, ntags;
@@ -614,7 +614,7 @@ void UMesh2dh::readGmsh2(string mfile, int dimensions)
 	inpoel.setup(nelem, maxnnode);
 	vol_regions.setup(nelem, ndtag);
 
-	cout << "UMesh2d: readGmsh2(): Done. No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ",\n number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", number of faces per element: " << nfael << endl;
+	cout << "UMesh2dh: readGmsh2(): Done. No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ",\n max number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", max number of faces per element: " << nfael << endl;
 
 	// write into inpoel and bface
 	// the first nface rows to be read are boundary faces
@@ -640,7 +640,7 @@ void UMesh2dh::readGmsh2(string mfile, int dimensions)
 	}
 }
 
-void compute_boundary_points()
+void UMesh2dh::compute_boundary_points()
 /** Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
 	NOTE: Only for linear meshes.
 */
@@ -725,12 +725,12 @@ void compute_boundary_points()
 	}
 }
 
-void printmeshstats()
+void UMesh2dh::printmeshstats()
 {
 	cout << "UMesh2dh: No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ", max number of nodes per element: " << maxnnode << ", number of nodes per face: " << nnofa << ", max number of faces per element: " << maxnfael << endl;
 }
 
-void writeGmsh2(string mfile)
+void UMesh2dh::writeGmsh2(string mfile)
 {
 	cout << "UMesh2dh: writeGmsh2(): writing mesh to file " << mfile << endl;
 	// decide element type first, based on nfael/nnode and nnofa
@@ -791,9 +791,11 @@ void writeGmsh2(string mfile)
 	outf.close();
 }
 
+/** Computes area of linear triangular elements. So it can't be used for hybrid meshes.
+	TODO: Generalize so that it works for rectangular meshes also
+*/
 void compute_jacobians()
 {
-	//TODO: Generalize so that it works for rectangular meshes also
 	if(maxnnode == 3 || maxnnode == 4)
 	{
 		if (alloc_jacobians == false)
@@ -834,7 +836,7 @@ void detect_negative_jacobians(ofstream& out)
 
 /// NOTE: (1) Use only after setup()
 ///		  (2) Currently only works for linear mesh
-void compute_topological()
+void UMesh2dh::compute_topological()
 {
 
 	cout << "UMesh2d: compute_topological(): Calculating and storing topological information...\n";
@@ -845,7 +847,7 @@ void compute_topological()
 
 	for(int i = 0; i < nelem; i++)
 	{
-		for(int j = 0; j < nnode; j++)
+		for(int j = 0; j < nnode[i]; j++)
 		{
 			esup_p(inpoel(i,j)+1,0) += 1;	// inpoel(i,j) + 1 : the + 1 is there because the storage corresponding to the first node begins at 0, not at 1
 		}
@@ -858,7 +860,7 @@ void compute_topological()
 	esup.zeros();
 	for(int i = 0; i < nelem; i++)
 	{
-		for(int j = 0; j < nnode; j++)
+		for(int j = 0; j < nnode[i]; j++)
 		{
 			int ipoin = inpoel(i,j);
 			esup(esup_p(ipoin,0),0) = i;		// now put that element no. in the space pointed to by esup_p(ipoin)
@@ -892,29 +894,29 @@ void compute_topological()
 
 			// find local node number of ip in ielem
 			int inode;
-			for(int jnode = 0; jnode < nnode; jnode++)
+			for(int jnode = 0; jnode < nnode[ielem]; jnode++)
 				if(inpoel(ielem,jnode) == ip) inode = jnode;
 
-			vector<bool> nbd(nnode);		// contains true if that local node number is connected to inode
-			for(int j = 0; j < nnode; j++)
+			vector<bool> nbd(nnode[ielem]);		// contains true if that local node number is connected to inode
+			for(int j = 0; j < nnode[ielem]; j++)
 				nbd[j] = false;
 
-			if(nnode == 3)
+			if(nnode[ielem] == 3)
 				for(int i = 0; i < nbd.size(); i++)
 					nbd[i] = true;
-			else if(nnode == 4)
+			else if(nnode[ielem] == 4)
 				for(int jnode = 0; jnode < nnode; jnode++)
 				{
-					if(jnode == perm(0,nnode-1,inode,1) || jnode == perm(0,nnode-1, inode, -1))
+					if(jnode == perm(0,nnode[ielem]-1,inode,1) || jnode == perm(0,nnode[ielem]-1, inode, -1))
 						nbd[jnode] = true;
 				}
 
 			//loop over nodes of the element
-			for(int inode = 0; inode < nnode; inode++)
+			for(int inode = 0; inode < nnode[ielem]; inode++)
 			{
 				//Get global index of this node
 				int jpoin = inpoel(ielem, inode);
-				if(lpoin(jpoin,0) != ip && nbd[inode])		// test of this point as already been counted as a surrounding point of ip
+				if(lpoin(jpoin,0) != ip && nbd[inode])		// test if this point as already been counted as a surrounding point of ip, and whether it's connected to ip.
 				{
 					istor++;
 					lpoin(jpoin,0) = ip;		// set this point as a surrounding point of ip
@@ -940,25 +942,25 @@ void compute_topological()
 
 			// find local node number of ip in ielem
 			int inode;
-			for(int jnode = 0; jnode < nnode; jnode++)
+			for(int jnode = 0; jnode < nnode[ielem]; jnode++)
 				if(inpoel(ielem,jnode) == ip) inode = jnode;
 
 			vector<bool> nbd(nnode);		// contains true if that local node number is connected to inode
-			for(int j = 0; j < nnode; j++)
+			for(int j = 0; j < nnode[ielem]; j++)
 				nbd[j] = false;
 
 			if(nnode == 3)
 				for(int i = 0; i < nbd.size(); i++)
 					nbd[i] = true;
-			else if(nnode == 4)
-				for(int jnode = 0; jnode < nnode; jnode++)
+			else if(nnode[ielem] == 4)
+				for(int jnode = 0; jnode < nnode[ielem]; jnode++)
 				{
-					if(jnode == perm(0,nnode-1,inode,1) || jnode == perm(0,nnode-1, inode, -1))
+					if(jnode == perm(0,nnode[ielem]-1,inode,1) || jnode == perm(0,nnode[ielem]-1, inode, -1))
 						nbd[jnode] = true;
 				}
 
 			//loop over nodes of the element
-			for(int inode = 0; inode < nnode; inode++)
+			for(int inode = 0; inode < nnode[ielem]; inode++)
 			{
 				//Get global index of this node
 				int jpoin = inpoel(ielem, inode);
@@ -977,21 +979,10 @@ void compute_topological()
 	//cout << "UMesh2d: compute_topological(): Elements surrounding elements...\n";
 
 	//Matrix<int> lpoin(npoin,1);
-	esuel.setup(nelem, nfael, ROWMAJOR);
+	esuel.setup(nelem, maxnfael, ROWMAJOR);
 	for(int ii = 0; ii < nelem; ii++)
-		for(int jj = 0; jj < nfael; jj++)
+		for(int jj = 0; jj < maxnfael; jj++)
 			esuel(ii,jj) = -1;
-	Matrix<int> lpofa(nfael, nnofa);	// lpofa(i,j) holds local node number of jth node of ith face (j in [0:nnofa], i in [0:nfael])
-	/*lpofa(0,0) = 1; lpofa(0,1) = 2;
-	lpofa(1,0) = 2; lpofa(1,1) = 0;
-	lpofa(2,0) = 0; lpofa(2,1) = 1;*/
-	for(int i = 0; i < nfael; i++)
-	{
-		for(int j = 0; j < nnofa; j++)
-		{
-			lpofa(i,j) = perm(0,nnode-1,i,j);
-		}
-	}
 	//lpofa.mprint();
 	Matrix<int> lhelp(nnofa,1);
 	lhelp.zeros();
@@ -999,7 +990,18 @@ void compute_topological()
 
 	for(int ielem = 0; ielem < nelem; ielem++)
 	{
-		for(int ifael = 0; ifael < nfael; ifael++)
+		// first get lpofa for this element
+		Matrix<int> lpofa(nfael[ielem], nnofa);	// lpofa(i,j) holds local node number of jth node of ith face (j in [0:nnofa], i in [0:nfael])
+		for(int i = 0; i < nfael[ielem]; i++)
+		{
+			for(int j = 0; j < nnofa; j++)
+			{
+				//lpofa(i,j) = perm(0,nnode-1,i,j);
+				lpofa(i,j) = (i+j)%nnode[ielem];		// fine as long as operands of % are not negative
+			}
+		}
+
+		for(int ifael = 0; ifael < nfael[ielem]; ifael++)
 		{
 			for(int i = 0; i < nnofa; i++)
 			{
@@ -1012,7 +1014,7 @@ void compute_topological()
 				int jelem = esup(istor);
 				if(jelem != ielem)
 				{
-					for(int jfael = 0; jfael < nfael; jfael++)
+					for(int jfael = 0; jfael < nfael[ielem]; jfael++)
 					{
 						//Assume that no. of nodes in face ifael is same as that in face jfael
 						int icoun = 0;
@@ -1043,7 +1045,7 @@ void compute_topological()
 	// first run: calculate nbface
 	for(int ie = 0; ie < nelem; ie++)
 	{
-		for(int in = 0; in < nnode; in++)
+		for(int in = 0; in < nnode[ie]; in++)
 		{
 			//int in1 = perm(0,nnode-1,in,1);
 			//int in2 = perm(0,nnode-1,in1,1);
@@ -1060,7 +1062,7 @@ void compute_topological()
 	naface = nbface;
 	for(int ie = 0; ie < nelem; ie++)
 	{
-		for(int in = 0; in < nnode; in++)
+		for(int in = 0; in < nnode[ie]; in++)
 		{
 			//int in1 = perm(0,nnode-1,in,1);
 			//int in2 = perm(0,nnode-1,in1,1);
@@ -1079,10 +1081,10 @@ void compute_topological()
 	//second run: populate intfac
 	for(int ie = 0; ie < nelem; ie++)
 	{
-		for(int in = 0; in < nnode; in++)
+		for(int in = 0; in < nnode[ie]; in++)
 		{
-			int in1 = perm(0,nnode-1,in,1);
-			//int in2 = perm(0,nnode-1,in1,1);
+			//int in1 = perm(0,nnode-1,in,1);
+			int in1 = (in+1)%nnode[ie];
 			int je = esuel(ie,in);
 			if(je == -1)
 			{
@@ -1099,10 +1101,10 @@ void compute_topological()
 	naface = nbface;
 	for(int ie = 0; ie < nelem; ie++)
 	{
-		for(int in = 0; in < nnode; in++)
+		for(int in = 0; in < nnode[ie]; in++)
 		{
-			int in1 = perm(0,nnode-1,in,1);
-			//int in2 = perm(0,nnode-1,in1,1);
+			//int in1 = perm(0,nnode-1,in,1);
+			int in1 = (in+1)%nnode[ie];
 			int je = esuel(ie,in);
 			if(je > ie && je < nelem)
 			{
@@ -1187,7 +1189,7 @@ void compute_topological()
 	}
 }
 
-void compute_boundary_maps()
+void UMesh2dh::compute_boundary_maps()
 {
 	// iterate over bfaces and find corresponding intfac face for each bface
 	bifmap.setup(nbface,1);
@@ -1242,7 +1244,7 @@ void compute_boundary_maps()
 	isBoundaryMaps = true;
 }
 
-void writeBoundaryMapsToFile(string mapfile)
+void UMesh2dh::writeBoundaryMapsToFile(string mapfile)
 {
 	if(isBoundaryMaps == false) {
 		cout << "UMesh2d: writeBoundaryMapsToFile(): ! Boundary maps not available!" << endl;
@@ -1260,7 +1262,7 @@ void writeBoundaryMapsToFile(string mapfile)
 	ofile.close();
 }
 
-void readBoundaryMapsFromFile(string mapfile)
+void UMesh2dh::readBoundaryMapsFromFile(string mapfile)
 {
 	ifstream ofile(mapfile);
 	string dum; int sz;
@@ -1280,7 +1282,7 @@ void readBoundaryMapsFromFile(string mapfile)
 	isBoundaryMaps = true;
 }
 
-void compute_intfacbtags()
+void UMesh2dh::compute_intfacbtags()
 {
 	/// Populate intfacbtags with boundary markers of corresponding bfaces
 
@@ -1302,7 +1304,7 @@ void compute_intfacbtags()
 /**	Adds high-order nodes to convert a linear mesh to a straight-faced quadratic mesh.
 	NOTE: Make sure to execute [compute_topological()](@ref compute_topological) before calling this function.
 */
-UMesh2dh convertLinearToQuadratic()
+UMesh2dh UMesh2dh::convertLinearToQuadratic()
 {
 	cout << "UMesh2d: convertLinearToQuadratic(): Producing quadratic mesh from linear mesh" << endl;
 	UMesh2dh q;
