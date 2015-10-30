@@ -1,0 +1,20 @@
+-input-mesh
+../../input/qin-mesh.msh
+-output-mesh
+../../output/DG-RBF-move/dgrbf1-qin.msh
+-negative-jacobian-file
+negative_jac.dat
+-rotation-angle
+55
+-coordinates-of-centre-of-rotation
+0.0 0.0
+-number-of-boundary-markers-whose-faces-have-to-be-rotated
+1
+-boundary-markers-of-faces-to-be-rotated
+1
+support-radius
+14.0
+-number-of-rbf-steps
+1
+
+feflo.domn.wing.coarse

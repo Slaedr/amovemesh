@@ -1,0 +1,14 @@
+-Input_mesh_file
+testmesh.domn
+-Output-mesh-file
+final.msh
+-Young_modulus
+1e9
+-Poisson_ratio
+0.33
+-y-displacement
+0.7
+-tol
+1e-6
+-maxiter
+2000

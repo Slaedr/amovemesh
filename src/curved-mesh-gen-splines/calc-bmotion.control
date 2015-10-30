@@ -1,0 +1,21 @@
+-Input-mesh
+30P30N_luo_1st_tri.msh
+-Output-file
+30P30N_luo_1st_tri.dat
+-max-angle
+30.0
+-number-of-boundary-parts-to-reconstruct
+3
+-flags-to-reconstruct-(first-entry-is-number-of-flags-in-part)
+1 13
+1 12
+1 14
+-tolerance-for-CG
+1e-6
+-maximum-iterations-for-CG
+10000
+
+rans_naca0012_225v65.msh
+rans_naca0012_225v65.spc
+cylinder-coarse.msh
+tinquad.msh

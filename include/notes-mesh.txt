@@ -1,0 +1,14 @@
+nfael : number of faces in an element (3 for a triangle, and 4 for a
+tetrahedral)
+nnofa : number of nodes in a face (2 in 2D, and 3 in 3D)
+lpofa(nnofa,nfael): local node number of a face
+For example, for triangular grids,
+lpofa(1,1) : first local nodal number of the first face (=2)
+lpofa(2,1) : second local nodal number of the first face (=3)
+lpofa(1,2) : first local nodal number of the second face (=3)
+lpofa(2,2) : second local nodal number of the second face (=1)
+lpofa(1,3) : first local nodal number of the third face( =1)
+lpofa(2,3) : second local nodal number of the third face(=2)
+
+The dimension for the help-array lhelp is nnofa (2 in 2D)
+The dimension for the help-array lpoin is npoin. 

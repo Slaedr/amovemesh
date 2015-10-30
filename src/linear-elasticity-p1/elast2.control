@@ -1,0 +1,17 @@
+-Input_mesh_file
+rdgflo.domn.32x32
+-Output-mesh-file
+movedrdg-cg.msh
+-Young_modulus
+1e9
+-Poisson_ratio
+0.33
+-rotation-angle-or-y-displacement
+-10.0
+-tol
+1e-8
+-maxiter
+4000
+
+feflo.domn.wing.coarse
+smalmesh.domn2

@@ -1,0 +1,10 @@
+-input-mesh
+feflo.domn.wing.coarse
+-output-mesh
+mm-coarse.msh
+-output-dg
+mdg-coarse.msh
+-negative-jacobian-file
+negative_jac.dat
+-rotation-angle
+25

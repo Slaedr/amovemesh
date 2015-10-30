@@ -1,0 +1,14 @@
+-input-mesh
+feflo.domn.wing.coarse
+-output-mesh
+dgrbf-coarse.msh
+-output-dg
+dgrbf-dg-coarse.msh
+-negative-jacobian-file
+negative_jac.dat
+-rotation-angle
+-5
+-radial-basis-function-choice
+2
+-support-radius
+500.0

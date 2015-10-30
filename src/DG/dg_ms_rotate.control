@@ -1,0 +1,10 @@
+-input-mesh
+feflo.domn.cylinder.medium
+-output-mesh
+mms-med.msh
+-output-dg
+mmsdg-med.msh
+-negative-jacobian-file
+negative_jac.dat
+-rotation-angle
+90

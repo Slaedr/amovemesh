@@ -1,0 +1,21 @@
+-Input_mesh_file
+feflo.domn.wing.coarse
+-Output-mesh-file
+movedwing-cg-35.msh
+-Young_modulus
+1e9
+-Poisson_ratio
+0.33
+-rotation-angle-or-y-displacement
+35.0
+-tol
+1e-4
+-maxiter
+3000
+
+feflo.domn.wing.coarse
+smalmesh.domn2
+
+---Notes---
+Works for positive angles
+Does not work for -65 degrees

@@ -1,0 +1,7 @@
+Without sorting points
+======================
+
+Coarse	32	0.010
+Medium	64	0.021
+Fine	128	0.077
+vfine	256	0.243

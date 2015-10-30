@@ -1,0 +1,25 @@
+-input-mesh
+3dbump160000_quadratic.msh
+-Curved-mesh
+3dbump160000_curved.msh
+-Support-radius
+0.011
+-Num-steps
+1
+-Number-of-fixed-boundary-flags
+3
+-Fixed-boundary-flags
+3 31 41
+
+tryhex_quadratic.msh
+3d2d_bump_coarse_quadratic.msh
+3drans_bump_quadratic.msh
+3dbump_quadratic.msh
+
+try_curved_rbf.msh
+3d2d_bump_coarse_curved.msh
+3drans_bump_curved.msh
+3dbump_curved.msh
+
+21 41 23 24 22 42	// 3d2d_bump
+3 31 41				// 3d bump
