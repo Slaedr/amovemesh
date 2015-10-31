@@ -1,4 +1,4 @@
-#include "amesh3d.hpp"
+#include "amesh2dh.hpp"
 
 using namespace amat;
 using namespace acfd;
@@ -6,11 +6,12 @@ using namespace std;
 
 int main()
 {
-	string mfilename = "tryhex.msh";
-	UMesh m;
-	m.readGmsh2(mfilename,3);
+	string mfilename = "testhybrid.msh";
+	UMesh2dh m;
+	m.readGmsh2(mfilename,2);
 	cout << endl;
-	m.compute_topological();
+	m.writeGmsh2("testhybrid2.msh");
+	//m.compute_topological();
 
 	/*int poin = 21;
 	cout << "Els surrounding point " << poin << endl;
@@ -41,9 +42,8 @@ int main()
 		cout << " " << m.gintfac(fac,i);
 	cout << endl;*/
 
-	UMesh mq = m.convertLinearToQuadratic();
-	mq.printmeshstats();
-	mq.writeGmsh2("trycurvedhex.msh");
+	//UMesh mq = m.convertLinearToQuadratic();
+	m.printmeshstats();
 
 	cout << endl;
 	return 0;
