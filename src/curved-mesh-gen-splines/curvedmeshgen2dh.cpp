@@ -1,16 +1,24 @@
-#include "alinelast-curvedmeshgen2d.hpp"
+#include "acurvedmeshgen2dh.hpp"
+#include <ctime>
+#include <limits>
 
 using namespace std;
 using namespace amat;
 using namespace acfd;
 
-int main()
+int main(int argc, char* argv[])
 {
-	string confile = "linelast-curvedmeshgen2d.control";
+	//string confile = "curvedmeshgen2dh.control";
+	if(argc < 2) {
+		cout << "Insufficient arguments given!";
+			return 0;
+	}
+
+	string confile(argv[1]);
 	ifstream conf(confile);
 	string dum, str_linearmesh, str_qmesh, str_curvedmesh;
-	int maxiter, nsplineparts, nflags;
-	double ym, pr, tol, cornerangle;
+	int rbfchoice, maxiter, nrbfsteps, nsplineparts, nflags;
+	double supportradius, tol, cornerangle;
 	vector<vector<int>> splineflags;
 	vector<int> vec;
 
@@ -18,8 +26,9 @@ int main()
 	conf >> dum; conf >> str_qmesh;
 	conf >> dum; conf >> str_curvedmesh;
 	conf >> dum; conf >> cornerangle;
-	conf >> dum; conf >> ym;
-	conf >> dum; conf >> pr;
+	conf >> dum; conf >> rbfchoice;
+	conf >> dum; conf >> supportradius;
+	conf >> dum; conf >> nrbfsteps;
 	conf >> dum; conf >> tol;
 	conf >> dum; conf >> maxiter;
 	conf >> dum; conf >> nsplineparts;
@@ -40,25 +49,26 @@ int main()
 	for(int i = 0; i < nsplineparts; i++)
 		cout << " Number of markers in part " << i << " = " << splineflags[i].size() << endl;
 	
-	UMesh2d m, mq;
+	UMesh2dh m, mq;
 	m.readGmsh2(str_linearmesh,2);
 	mq.readGmsh2(str_qmesh,2);
 
 	m.compute_boundary_points();
 	//m.compute_topological();
 
-	LinElastP2 rmove;
+	RBFmove rmove;
 	Curvedmeshgen2d cu;
-	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol, maxiter, ym, pr);
+	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol, maxiter, rbfchoice, supportradius, nrbfsteps);
 	cu.compute_boundary_displacements();
 	
 	clock_t begin = clock();
 	cu.generate_curved_mesh();
 	clock_t end = clock() - begin;
-	cout << "Time taken by linear elasticity is " << (double(end))/CLOCKS_PER_SEC << endl;
+	cout << "Time taken by RBF is " << (double(end))/CLOCKS_PER_SEC << endl;
 
 	mq.writeGmsh2(str_curvedmesh);
 
+	//cout << "Machine epsilon " << numeric_limits<double>::epsilon() << endl;
 	cout << endl;
 	return 0;
 }

@@ -41,12 +41,11 @@ TODO: (Not really needed) Make a Vector class, maybe as a sub-class of Matrix
 	#endif
 #endif
 
-#define __AMATRIX2_H
-
-// tolerance to check if something is zero
-#ifndef ZERO_TOL
-	#define ZERO_TOL 1e-15
+#ifndef __ACONSTANTS_H
+#include <aconstants.h>
 #endif
+
+#define __AMATRIX2_H
 
 #ifndef MATRIX_DOUBLE_PRECISION
 #define MATRIX_DOUBLE_PRECISION 14

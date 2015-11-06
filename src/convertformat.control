@@ -1,0 +1,9 @@
+-input-file
+../input/hairfoil.domn
+-input-format
+domn
+-output-file
+../input/hairfoil.msh
+-output-format
+msh
+

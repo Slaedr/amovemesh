@@ -1,6 +1,6 @@
 -Input-mesh-filename
-../../input/cylinder-coarse.msh
+../../input/hairfoil.msh
 -Output-quadratic-mesh-filename
-../../output/curved-mesh-gen-spline/cylinder-coarse_quadratic.msh
+../../output/curved-mesh-gen-spline/hairfoil_quadratic.msh
 
 30P30N_luo_1st_tri

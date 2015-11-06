@@ -613,7 +613,10 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 		//temp.mprint();
 
 		temp2 = pold.dot_product(temp);
-		if(temp2 <= ZERO_TOL) cout << "sparseCG_d: ! Matrix A is not positive-definite!! temp2 is " << temp2 << "\n";
+		if(temp2 <= ZERO_TOL) { 
+			cout << "sparseCG_d: Matrix A may not be positive-definite!! temp2 is " << temp2 << "\n";
+			cout << "sparseCG_D: Magnitude of pold in this iteration is " << pold.l2norm() << endl;
+		}
 		theta = temp1/temp2;
 
 		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta) //num_threads(nthreads_linalg)

@@ -957,9 +957,12 @@ public:
 			
 			if(pos == -1)
 			{
-				val[x].push_back(value);
-				col_ind[x].push_back(y);
-				rsize[x]++;
+				#pragma omp critical (omp_setval)
+				{
+					val[x].push_back(value);
+					col_ind[x].push_back(y);
+					rsize[x]++;
+				}
 				//nnz++;
 			}
 			else
@@ -1119,7 +1122,7 @@ public:
 			#endif
 			std::vector<int>* rsize = &this->rsize;
 			int j;
-			#pragma omp parallel for default(none) private(j) shared(val,col_ind,rsize,k,rownum,p,x,y,num) reduction(+:ans) num_threads(nthreads_sm)
+			//#pragma omp parallel for default(none) private(j) shared(val,col_ind,rsize,k,rownum,p,x,y,num) reduction(+:ans) num_threads(nthreads_sm)
 			for(j = 0; j < (*rsize)[rownum]; j++)
 			{
 					if(col_ind[rownum][j] < p)

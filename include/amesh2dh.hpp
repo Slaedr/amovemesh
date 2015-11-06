@@ -36,10 +36,10 @@
 
 #include <aconstants.h>
 
-#define __AMESH2DGENERAL_H
+#define __AMESH2DHYBRID_H
 
 #ifndef MESHDATA_DOUBLE_PRECISION
-#define MESHDATA_DOUBLE_PRECISION 14
+#define MESHDATA_DOUBLE_PRECISION 20
 #endif
 
 using namespace std;
@@ -153,7 +153,7 @@ public:
 	/* Reads Professor Luo's mesh file, which I call the 'domn' format.
 	   NOTE: Make sure nfael and nnofa are mentioned after ndim and nnode in the mesh file.
 	*/
-	//void readDomn(string mfile);
+	void readDomn(string mfile);
 
 	/// Reads mesh from Gmsh 2 format file
 	void readGmsh2(string mfile, int dimensions);
@@ -171,8 +171,8 @@ public:
 	/** Computes data structures for elements surrounding point (esup), points surrounding point (psup), elements surrounding elements (esuel),
 	 elements surrounding faces along with points in faces (intfac), and also
 	 a list of boundary points with correspong global point numbers and containing boundary faces (according to intfac) (bpoints).
-	 NOTE: (1) Use only after setup()
-			  (2) Currently only works for linear mesh
+	 NOTE:	(1) Use only after setup()
+	 		(2) Currently only works for linear mesh
 	*/
 	void compute_topological();
 
@@ -339,15 +339,17 @@ void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 
 
 /** Reads Professor Luo's mesh file, which I call the 'domn' format.
-   NOTE: Make sure nfael and nnofa are mentioned after ndim and nnode in the mesh file.
-   Not sure whether this can used for hybrid mesh at all.
+   NOTE: Make sure nnofa is mentioned after ndim and ntype in the mesh file. ntype makes no sense for us now.
+   Can only be used for linear mesh for now.
 */
-/*void UMesh2dh::readDomn(string mfile)
+void UMesh2dh::readDomn(string mfile)
 {
 	ifstream infile(mfile);
+
+	int maxnnode2 = 20;
 	
 	// Do file handling here to populate npoin and nelem
-	cout << "UTriMesh: Reading mesh file...\n";
+	cout << "UMesh2dh: Reading domn mesh file...\n";
 	char ch = '\0'; int dum = 0; double dummy;
 
 	infile >> dum;
@@ -357,8 +359,7 @@ void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 			ch = infile.get();
 		while(ch != '\n');
 	infile >> ndim;
-	infile >> maxnnode;
-	infile >> maxnfael;
+	infile >> dum;
 	infile >> nnofa;
 	infile >> ch;			//get the newline
 	do
@@ -368,16 +369,16 @@ void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 	infile >> dummy; 				// get time
 	ch = infile.get();			// clear newline
 
-	cout << "UTriMesh: Number of elements: " << nelem << ", number of points: " << npoin << ", number of nodes per element: " << nnode << endl;
-	cout << "Number of boundary faces: " << nface << ", Number of dimensions: " << ndim;
+	nnode.resize(nelem,-1);
+	nfael.resize(nelem,-1);
 
 	nbtag = 2;
 	ndtag = 2;
 
 	//cout << "\nUTriMesh: Allocating coords..";
 	coords.setup(npoin, ndim, ROWMAJOR);
-	//cout << "\nUTriMesh: Allocating inpoel..\n";
-	inpoel.setup(nelem, maxnnode, ROWMAJOR);
+	// temporary array to hold connectivity matrix
+	Matrix<double> elms(nelem,maxnnode2);
 	//cout << "UTriMesh: Allocating bface...\n";
 	bface.setup(nface, nnofa + nbtag, ROWMAJOR);
 	
@@ -390,21 +391,34 @@ void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 	//now populate inpoel
 	for(int i = 0; i < nelem; i++)
 	{
-		infile >> dum;
+		infile >> nnode[i];
+		nfael[i] = nnode[i];		// assuming linear element
 
-		for(int j = 0; j < nnode; j++)
-			infile >> inpoel(i,j);
+		for(int j = 0; j < nnode[i]; j++)
+			infile >> elms(i,j);
 
 		do
 			ch = infile.get();
 		while(ch != '\n');
 	}
-	cout << "\nUTriMesh: Populated inpoel.";
+	cout << "UMesh2dh: Populated inpoel.\n";
 
+	maxnnode = 3;
+	for(int i = 0; i < nelem; i++)
+		if(nnode[i] > maxnnode)
+			maxnnode = nnode[i];
+	
+	//cout << "\nUTriMesh: Allocating inpoel..\n";
+	inpoel.setup(nelem, maxnnode);
+
+	for(int i = 0; i < nelem; i++)
+		for(int j = 0; j < nnode[i]; j++)
+			inpoel(i,j) = elms.get(i,j);
+	
 	//Correct inpoel:
 	for(int i = 0; i < nelem; i++)
 	{
-		for(int j = 0; j < nnode; j++)
+		for(int j = 0; j < nnode[i]; j++)
 			inpoel(i,j)--;
 	}
 
@@ -420,7 +434,7 @@ void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 		for(int j = 0; j < ndim; j++)
 			infile >> coords(i,j);
 	}
-	cout << "\nUTriMesh: Populated coords.\n";
+	cout << "UMesh2dh: Populated coords.\n";
 
 	// skip initial conditions
 	ch = infile.get();
@@ -444,7 +458,7 @@ void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 			ch = infile.get();
 		while(ch!='\n');
 	}
-	cout << "UTriMesh: Populated bface. Done reading mesh.\n";
+	cout << "UMesh2dh: Populated bface. Done reading mesh.\n";
 	//correct first 2 columns of bface
 	for(int i = 0; i < nface; i++)
 		for(int j = 0; j < 2; j++)
@@ -454,10 +468,13 @@ void UMesh2dh::modify_bface_marker(int iface, int pos, int number)
 
 	vol_regions.setup(nelem, ndtag);
 	vol_regions.zeros();
+	
+	cout << "UMesh2dh: Number of elements: " << nelem << ", number of points: " << npoin << ", max number of nodes per element: " << maxnnode << endl;
+	cout << "Number of boundary faces: " << nface << ", Number of dimensions: " << ndim << endl;
 
-	if (nnode == 3) nmtens = 1;
-	else if(nnode == 4) nmtens = 4;
-}*/
+	/*if (nnode == 3) nmtens = 1;
+	else if(nnode == 4) nmtens = 4;*/
+}
 
 /// Reads mesh from Gmsh 2 format file
 void UMesh2dh::readGmsh2(string mfile, int dimensions)
@@ -484,8 +501,8 @@ void UMesh2dh::readGmsh2(string mfile, int dimensions)
 			infile >> coords(i,j);
 		if(ndim < 3) infile >> dummy;
 	}
-	infile >> dums;
-	infile >> dums;
+	infile >> dums;		// get 'endnodes'
+	infile >> dums;		// get 'elements'
 
 	int width_elms = 25;
 	int nelm, elmtype, nbtags, ntags;
@@ -599,7 +616,9 @@ void UMesh2dh::readGmsh2(string mfile, int dimensions)
 				nelem++;
 		}
 	}
-	//cout << "UMesh2d: readGmsh2(): Done reading elms" << endl;
+	/*cout << "UMesh2d: readGmsh2(): Done reading elms" << endl;
+	for(int i = 0; i < nelm; i++)
+		cout << nnodes[i] << " " << nfaels[i] << endl;*/
 
 	nnode.reserve(nelem);
 	nfael.reserve(nelem);
@@ -651,7 +670,8 @@ void UMesh2dh::readGmsh2(string mfile, int dimensions)
 }
 
 void UMesh2dh::compute_boundary_points()
-/** Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
+/**	Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
+	Also calculates bfacebp, which is like inpoel for boundary faces - it gives the boundary node number (according to bpointsb) of each local node of a bface.
 	NOTE: Only for linear meshes.
 */
 {
@@ -781,7 +801,9 @@ void UMesh2dh::writeGmsh2(string mfile)
 	//cout << "elements\n";
 	for(int iel = 0; iel < nelem; iel++)
 	{
-		if(nnode[iel] == 4)
+		if(nnode[iel] == 3)
+			elm_type = 2;
+		else if(nnode[iel] == 4)
 			elm_type = 3;
 		else if(nnode[iel] == 6)
 			elm_type = 9;
@@ -802,7 +824,7 @@ void UMesh2dh::writeGmsh2(string mfile)
 }
 
 /** Computes area of linear triangular elements. So it can't be used for hybrid meshes.
-	TODO: Generalize so that it works for rectangular meshes also
+	TODO: Generalize so that it works for quadrilateral meshes also
 */
 void UMesh2dh::compute_jacobians()
 {
@@ -846,10 +868,11 @@ void UMesh2dh::detect_negative_jacobians(ofstream& out)
 
 /// NOTE: (1) Use only after setup()
 ///		  (2) Currently only works for linear mesh
+/// TODO: There is an issue with psup for some boundary nodes belonging to elements of different types. Correct this.
 void UMesh2dh::compute_topological()
 {
 
-	cout << "UMesh2d: compute_topological(): Calculating and storing topological information...\n";
+	cout << "UMesh2dh: compute_topological(): Calculating and storing topological information...\n";
 	/// 1. Elements surrounding points
 	//cout << "UMesh2d: compute_topological(): Elements surrounding points\n";
 	esup_p.setup(npoin+1,1,ROWMAJOR);
@@ -885,7 +908,7 @@ void UMesh2dh::compute_topological()
 	// Elements surrounding points is now done.
 
 	/// 2. Points surrounding points
-	cout << "UMesh2d: compute_topological(): Points surrounding points\n";
+	cout << "UMesh2dh: compute_topological(): Points surrounding points\n";
 	psup_p.setup(npoin+1,1,ROWMAJOR);
 	psup_p.zeros();
 	psup_p(0,0) = 0;
@@ -907,7 +930,7 @@ void UMesh2dh::compute_topological()
 			for(int jnode = 0; jnode < nnode[ielem]; jnode++)
 				if(inpoel(ielem,jnode) == ip) inode = jnode;
 
-			vector<bool> nbd(nnode[ielem]);		// contains true if that local node number is connected to inode
+			vector<bool> nbd(nnode[ielem]);		// contains true if that local node number is connected to a particular local node.
 			for(int j = 0; j < nnode[ielem]; j++)
 				nbd[j] = false;
 
@@ -955,7 +978,7 @@ void UMesh2dh::compute_topological()
 			for(int jnode = 0; jnode < nnode[ielem]; jnode++)
 				if(inpoel(ielem,jnode) == ip) inode = jnode;
 
-			vector<bool> nbd(nnode[ielem]);		// contains true if that local node number is connected to inode
+			vector<bool> nbd(nnode[ielem]);		// nbd[j] contains true if ip is connected to local node number j of ielem.
 			for(int j = 0; j < nnode[ielem]; j++)
 				nbd[j] = false;
 
@@ -986,7 +1009,7 @@ void UMesh2dh::compute_topological()
 	//Points surrounding points is now done.
 
 	/// 3. Elements surrounding elements
-	//cout << "UMesh2d: compute_topological(): Elements surrounding elements...\n";
+	cout << "UMesh2dh: compute_topological(): Elements surrounding elements...\n";
 
 	//Matrix<int> lpoin(npoin,1);
 	esuel.setup(nelem, maxnfael, ROWMAJOR);
@@ -1001,13 +1024,14 @@ void UMesh2dh::compute_topological()
 	for(int ielem = 0; ielem < nelem; ielem++)
 	{
 		// first get lpofa for this element
-		Matrix<int> lpofa(nfael[ielem], nnofa);	// lpofa(i,j) holds local node number of jth node of ith face (j in [0:nnofa], i in [0:nfael])
+		Matrix<int> lpofai(nfael[ielem], nnofa);	// lpofa(i,j) holds local node number of jth node of ith face (j in [0:nnofa], i in [0:nfael])
+		Matrix<int> lpofaj;							// to be initialized for each jelem
 		for(int i = 0; i < nfael[ielem]; i++)
 		{
 			for(int j = 0; j < nnofa; j++)
 			{
 				//lpofa(i,j) = perm(0,nnode-1,i,j);
-				lpofa(i,j) = (i+j)%nnode[ielem];		// fine as long as operands of % are not negative
+				lpofai(i,j) = (i+j)%nnode[ielem];		// fine as long as operands of % are not negative
 			}
 		}
 
@@ -1015,22 +1039,29 @@ void UMesh2dh::compute_topological()
 		{
 			for(int i = 0; i < nnofa; i++)
 			{
-				lhelp(i,0) = inpoel(ielem, lpofa(ifael,i));	// lhelp stores global node nos. of current face of current element
+				lhelp(i,0) = inpoel(ielem, lpofai(ifael,i));	// lhelp stores global node nos. of current face of current element
 				lpoin(lhelp(i,0)) = 1;
 			}
 			int ipoin = lhelp(0);
 			for(int istor = esup_p(ipoin); istor < esup_p(ipoin+1); istor++)
 			{
 				int jelem = esup(istor);
+
 				if(jelem != ielem)
 				{
-					for(int jfael = 0; jfael < nfael[ielem]; jfael++)
+					// setup lpofa for jelem
+					lpofaj.setup(nfael[jelem],nnofa);
+					for(int i = 0; i < nfael[jelem]; i++)
+						for(int j = 0; j < nnofa; j++)
+							lpofaj(i,j) = (i+j)%nnode[jelem];
+
+					for(int jfael = 0; jfael < nfael[jelem]; jfael++)
 					{
 						//Assume that no. of nodes in face ifael is same as that in face jfael
 						int icoun = 0;
 						for(int jnofa = 0; jnofa < nnofa; jnofa++)
 						{
-							int jpoin = inpoel(jelem, lpofa(jfael,jnofa));
+							int jpoin = inpoel(jelem, lpofaj(jfael,jnofa));
 							if(lpoin(jpoin)==1) icoun++;
 						}
 						if(icoun == nnofa)		// nnofa is 2
@@ -1050,7 +1081,7 @@ void UMesh2dh::compute_topological()
 	The orientation of the face is such that the element with smaller index is always to the left of the face, while the element with greater index is always to the right of the face.
 	NOTE: After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before.*/
 
-	//cout << "UMesh2d: compute_topological(): Computing intfac..." << endl;
+	cout << "UMesh2dh: compute_topological(): Computing intfac..." << endl;
 	nbface = naface = 0;
 	// first run: calculate nbface
 	for(int ie = 0; ie < nelem; ie++)
@@ -1067,7 +1098,7 @@ void UMesh2dh::compute_topological()
 			}
 		}
 	}
-	cout << "UMesh2d: compute_topological(): Number of boundary faces = " << nbface << endl;
+	cout << "UMesh2dh: compute_topological(): Number of boundary faces = " << nbface << endl;
 	// calculate number of internal faces
 	naface = nbface;
 	for(int ie = 0; ie < nelem; ie++)
@@ -1080,7 +1111,7 @@ void UMesh2dh::compute_topological()
 			if(je > ie && je < nelem) naface++;
 		}
 	}
-	cout << "UMesh2d: compute_topological(): Number of all faces = " << naface << endl;
+	cout << "UMesh2dh: compute_topological(): Number of all faces = " << naface << endl;
 
 	//allocate intfac
 	intfac.setup(naface,nnofa+2,ROWMAJOR);
@@ -1088,16 +1119,18 @@ void UMesh2dh::compute_topological()
 	//reset face totals
 	nbface = naface = 0;
 
+	int in1, je;
+
 	//second run: populate intfac
 	for(int ie = 0; ie < nelem; ie++)
 	{
 		for(int in = 0; in < nnode[ie]; in++)
 		{
 			//int in1 = perm(0,nnode-1,in,1);
-			int in1 = (in+1)%nnode[ie];
-			int je = esuel(ie,in);
+			je = esuel(ie,in);
 			if(je == -1)
 			{
+				in1 = (in+1)%nnode[ie];
 				esuel(ie,in) = nelem+nbface;
 				intfac(nbface,0) = ie;
 				intfac(nbface,1) = nelem+nbface;
@@ -1114,10 +1147,10 @@ void UMesh2dh::compute_topological()
 		for(int in = 0; in < nnode[ie]; in++)
 		{
 			//int in1 = perm(0,nnode-1,in,1);
-			int in1 = (in+1)%nnode[ie];
-			int je = esuel(ie,in);
+			je = esuel(ie,in);
 			if(je > ie && je < nelem)
 			{
+				in1 = (in+1)%nnode[ie];
 				intfac(naface,0) = ie;
 				intfac(naface,1) = je;
 				intfac(naface,2) = inpoel(ie,in);
@@ -1141,10 +1174,10 @@ void UMesh2dh::compute_topological()
 	for(int i = 0; i < npoin; i++)
 		if(isbpflag(i)==1) nbpoin++;
 
-	cout << "UMesh2d: compute_topological(): Number of boundary points = " << nbpoin << endl;
+	cout << "UMesh2dh: compute_topological(): Number of boundary points = " << nbpoin << endl;
 
 	//Allocate bpoints
-	bpoints.setup(nbpoin,3);		// We need 1 field for global point number and in 2D linear meshes, we need 2 more for surrounding faces
+	/*bpoints.setup(nbpoin,3);		// We need 1 field for global point number and in 2D linear meshes, we need 2 more for surrounding faces
 	for(int i = 0; i < nbpoin; i++)
 		for(int j = 0; j < 3; j++)
 			bpoints(i,j) = -1;
@@ -1156,10 +1189,11 @@ void UMesh2dh::compute_topological()
 	for(int iface = 0; iface < nbface; iface++)
 	{
 		int p1, p2;
-		p1 = intfac(iface,2+0);
-		p2 = intfac(iface,2+1);
+		p1 = intfac.get(iface,2+0);
+		p2 = intfac.get(iface,2+1);
+		cout << p1 << "," << p2 << " ";
 
-		if(lpoin(p1) == 0)	// if this point has not been visited before
+		if(lpoin.get(p1) == 0)	// if this point has not been visited before
 		{
 			bpoints(bp,0) = p1;
 			bpoints(bp,2) = iface;
@@ -1172,13 +1206,13 @@ void UMesh2dh::compute_topological()
 			int ibp=-1;
 			for(int i = 0; i < bp; i++)
 			{
-				if(bpoints(i,0) == p1) ibp = i;
+				if(bpoints.get(i,0) == p1) ibp = i;
 			}
 
 			bpoints(ibp,2) = iface;
 		}
 
-		if(lpoin(p2) == 0)	// if this point has not been visited before
+		if(lpoin.get(p2) == 0)	// if this point has not been visited before
 		{
 			bpoints(bp,0) = p2;
 			bpoints(bp,1) = iface;
@@ -1191,12 +1225,13 @@ void UMesh2dh::compute_topological()
 			int ibp;
 			for(int i = 0; i < bp; i++)
 			{
-				if(bpoints(i,0) == p2) ibp = i;
+				if(bpoints.get(i,0) == p2) ibp = i;
 			}
 
 			bpoints(ibp,1) = iface;
 		}
-	}
+	}*/
+	cout << "UMesh2dh: compute_topological(): Done." << endl;
 }
 
 void UMesh2dh::compute_boundary_maps()
@@ -1324,6 +1359,10 @@ UMesh2dh UMesh2dh::convertLinearToQuadratic()
 	
 	/// We first calculate: total number of non-simplicial elements; nnode, nfael in each element; mmax nnode and max nfael.
 	int nelemnonsimp = 0;		// total number of non-simplicial elements
+	
+	q.nnode.resize(nelem);		// allocate
+	q.nfael.resize(nelem);
+
 	q.maxnfael = maxnfael;
 	q.maxnnode = 0; 
 	for(int ielem = 0; ielem < nelem; ielem++)
@@ -1443,7 +1482,7 @@ UMesh2dh UMesh2dh::convertLinearToQuadratic()
 		}
 
 		// in the right element, the new point is in face ip2
-		q.inpoel(jelem, nnode[ielem]+lp2) = npoin+ied*parm;
+		q.inpoel(jelem, nnode[jelem]+lp2) = npoin+ied*parm;
 	}
 	
 	// for non-simplicial mesh, add extra points at cell-centres as well
@@ -1473,6 +1512,7 @@ UMesh2dh UMesh2dh::convertLinearToQuadratic()
 		}
 	}
 	cout << "UMesh2dh: convertLinearToQuadratic(): Done." << endl;
+	//q.inpoel.mprint();
 	return q;
 }
 

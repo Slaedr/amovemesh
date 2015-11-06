@@ -1,4 +1,5 @@
 #include "acurvedmeshgen2d.hpp"
+#include <ctime>
 
 using namespace std;
 using namespace amat;
@@ -52,7 +53,11 @@ int main()
 	Curvedmeshgen2d cu;
 	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol, maxiter, rbfchoice, supportradius, nrbfsteps);
 	cu.compute_boundary_displacements();
+	
+	clock_t begin = clock();
 	cu.generate_curved_mesh();
+	clock_t end = clock() - begin;
+	cout << "Time taken by RBF is " << (double(end))/CLOCKS_PER_SEC << endl;
 
 	mq.writeGmsh2(str_curvedmesh);
 

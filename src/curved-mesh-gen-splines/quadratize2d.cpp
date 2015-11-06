@@ -1,4 +1,4 @@
-#include <amesh2d.hpp>
+#include <amesh2dh.hpp>
 
 using namespace std;
 using namespace amat;
@@ -14,7 +14,7 @@ int main()
 	conf.close();
 
 	cout << "Reading file " << inmesh << endl;
-	UMesh2d m, mq;
+	UMesh2dh m, mq;
 	m.readGmsh2(inmesh,2);
 	m.compute_topological();
 	mq = m.convertLinearToQuadratic();

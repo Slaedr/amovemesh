@@ -1,25 +1,25 @@
 -input-linear-mesh-filename
-../../input/30P30N_luo_1st_tri.msh
+../../input/hairfoil.msh
 -input-quadratic-mesh-filename
-../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_quadratic.msh
+../../output/curved-mesh-gen-spline/hairfoil_quadratic.msh
 -output-curved-mesh-filename
-../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_curved_elast.msh
+../../output/curved-mesh-gen-spline/hairfoil_curved.msh
 -angle-threshold-for-corners
 40.0
--YoungsModulus
+-RBF-choice
+2
+-Support-radius-for-RBF
+0.02
+-Number-of-RBF-steps
 1
--PoissonsRatio
-0.4
 -Tolerance-for-RBF-move
 1e-6
 -Maximum-iterations
-5000
+2000
 -Number-of-spline-parts
-3
+1
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers
-1 13
-1 12
-1 14
+1 5
 
 30P30N_luo_1st_tri.msh
 3compairfoil_tri_quadratic.msh

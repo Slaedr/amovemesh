@@ -98,8 +98,6 @@ RBFmove::RBFmove(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix
 
 	nsteps = num_steps;
 
-	//checks
-
 	switch(rbf_ch)
 	{
 		case(0): rbf = &RBFmove::rbf_c0;
@@ -107,7 +105,7 @@ RBFmove::RBFmove(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix
 		case(2): rbf = &RBFmove::rbf_c2_compact;
 		break;
 		case(4): rbf = &RBFmove::rbf_c4;
-		default: rbf = &RBFmove::gaussian;
+		default: rbf = &RBFmove::rbf_c2_compact;
 	}
 
 	b = new Matrix<double>[ndim];		// RHS vectors of linear system for each coordinate direction
@@ -147,8 +145,6 @@ void RBFmove::setup(Matrix<double>* int_points, Matrix<double>* boun_points, Mat
 	A.setup(nbpoin,nbpoin);
 
 	nsteps = num_steps;
-
-	//checks
 
 	switch(rbf_ch)
 	{
@@ -227,7 +223,7 @@ void RBFmove::assembleLHS()
 
 	// set the top nbpoin-by-nbpoin elements of A, ie, M_bb
 	//cout << "RBFmove:  assembleLHS(): assembling M_bb" << endl;
-	#pragma omp parallel for default(none) private(i,j,dist,temp) shared(A,bpoints,rbfunc,nbpoin,ndim)
+	//#pragma omp parallel for default(none) private(i,j,dist,temp) shared(A,bpoints,rbfunc,nbpoin,ndim)
 	for(i = 0; i < nbpoin; i++)
 	{
 		A->set(i,i, (this->*rbfunc)(0.0));			// set diagonal element in row i
@@ -247,6 +243,10 @@ void RBFmove::assembleLHS()
 			}
 		}
 	}
+
+	/*ofstream ofile("rbfmatrix.dat");
+	A->fprint(ofile);
+	ofile.close();*/
 
 	/*cout << "RBFmove:  assembleLHS(): assembling P_b" << endl;
 	// set P_b and P_b transpose
