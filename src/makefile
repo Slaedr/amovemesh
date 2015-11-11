@@ -3,3 +3,6 @@ metric2d:
 
 convert:
 	$(GPP) convertformat.cpp -o convert.out -std=c++11 -ggdb -I$(PRMM)/include
+
+q2t:
+	$(GPP) convertQuadToTri.cpp -o q2t.out -std=c++11 -ggdb -I$(PRMM)/include

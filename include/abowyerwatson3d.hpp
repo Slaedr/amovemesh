@@ -267,54 +267,63 @@ double Delaunay3D::det4(int ielem, int i, vector<double> r) const
 		ret += nodes[elem.p[0]](2) * (r[0]*(nodes[elem.p[2]](1)-nodes[elem.p[3]](1)) -r[1]*(nodes[elem.p[2]](0)-nodes[elem.p[3]](0)) + nodes[elem.p[2]](0)*nodes[elem.p[3]](1) - nodes[elem.p[2]](1)*nodes[elem.p[3]](0) );
 		ret -= r[0]*( nodes[elem.p[2]](1)*nodes[elem.p[3]](2) - nodes[elem.p[2]](2)*nodes[elem.p[3]](1) ) -r[1]*( nodes[elem.p[2]](0)*nodes[elem.p[3]](2) - nodes[elem.p[2]](2)*nodes[elem.p[3]](0) ) +r[2]*( nodes[elem.p[2]](0)*nodes[elem.p[3]](1) - nodes[elem.p[2]](1)*nodes[elem.p[3]](0) );
 		break;
+
+		case(2):
+		ret = nodes[elem.p[0]](0) * ( nodes[elem.p[1]](1)*(r[2]-nodes[elem.p[3]](2)) -nodes[elem.p[1]](2)*(r[1]-nodes[elem.p[3]](1)) + r[1]*nodes[elem.p[3]](2) - r[2]*nodes[elem.p[3]](1) );
+		ret -= nodes[elem.p[0]](1) * (nodes[elem.p[1]](0)*(r[2]-nodes[elem.p[3]](2)) -nodes[elem.p[1]](2)*(r[0]-nodes[elem.p[3]](0)) + r[0]*nodes[elem.p[3]](2) - r[2]*nodes[elem.p[3]](0) );
+		ret += nodes[elem.p[0]](2) * (nodes[elem.p[1]](0)*(r[1]-nodes[elem.p[3]](1)) -nodes[elem.p[1]](1)*(r[0]-nodes[elem.p[3]](0)) + r[0]*nodes[elem.p[3]](1) - r[1]*nodes[elem.p[3]](0) );
+		ret -= nodes[elem.p[1]](0)*( r[1]*nodes[elem.p[3]](2) - r[2]*nodes[elem.p[3]](1) ) -nodes[elem.p[1]](1)*( r[0]*nodes[elem.p[3]](2) - r[2]*nodes[elem.p[3]](0) ) +nodes[elem.p[1]](2)*( r[0]*nodes[elem.p[3]](1) - r[1]*nodes[elem.p[3]](0) );
+		break;
+
+		case(3):
+		ret = nodes[elem.p[0]](0) * ( nodes[elem.p[1]](1)*(nodes[elem.p[2]](2)-r[2]) -nodes[elem.p[1]](2)*(nodes[elem.p[2]](1)-r[1]) + nodes[elem.p[2]](1)*r[2] - nodes[elem.p[2]](2)*r[1] );
+		ret -= nodes[elem.p[0]](1) * (nodes[elem.p[1]](0)*(nodes[elem.p[2]](2)-r[2]) -nodes[elem.p[1]](2)*(nodes[elem.p[2]](0)-r[0]) + nodes[elem.p[2]](0)*r[2] - nodes[elem.p[2]](2)*r[0] );
+		ret += nodes[elem.p[0]](2) * (nodes[elem.p[1]](0)*(nodes[elem.p[2]](1)-r[1]) -nodes[elem.p[1]](1)*(nodes[elem.p[2]](0)-r[0]) + nodes[elem.p[2]](0)*r[1] - nodes[elem.p[2]](1)*r[0] );
+		ret -= nodes[elem.p[1]](0) *( nodes[elem.p[2]](1)*r[2] - nodes[elem.p[2]](2)*r[1] ) -nodes[elem.p[1]](1)*( nodes[elem.p[2]](0)*r[2] - nodes[elem.p[2]](2)*r[0] ) + nodes[elem.p[1]](2)*( nodes[elem.p[2]](0)*r[1] - nodes[elem.p[2]](1)*r[0] );
+		break;
+
+		default:
+		cout << "Delaunay3D: det4(): ! Invalid argument i! Should be between 0 and 3 inclusive." << endl;
+		return -1;
 	}
 }
 
-int Delaunay3D::find_containing_triangle(vector<double> xx, int startelement) const
+int Delaunay3D::find_containing_tet(vector<double> xx, int startelement) const
 {
 	if(xx.size() < 3) {
 		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
-		return 0;
+		return -1;
 	}
 	int ielem = startelement;
 	//int p1, p2;
-	vector<double> l(4);
-	//cout << "Delaunay3D:   Finding containing triangle...\n";
+	double l;
+	bool found;
+	cout << "Delaunay3D:   Finding containing triangle..." << endl;
+	
 	while(1)
 	{
+		found = true;
+
 		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3D:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; }
 		Tet super = elems[ielem];
 
-		l3 = rr[0]*(nodes[super.p[0]](1) - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;
-		#if DEBUGBW==1
-		if(dabs(l3) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
-		#endif
-		if(l3/super.D < 0)
+		for(int inode = 0; inode < 4; inode++)
 		{
-			ielem = super.surr[2];
-			continue;
+			// get jacobian
+			l = det4(ielem,inode,xx);
+			#if DEBUGW==1
+			if(dabs(l) < ZERO_TOL) cout << "Delaunay3D: find_containing_tet(): ! Degenerate case (type 1) for l " << inode << "!!\n";
+			#endif
+			if(l/super.D < 0)
+			{
+				ielem = super.surr[inode];
+				found = false;
+				break;
+			}
 		}
 
-		l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;
-		#if DEBUGBW==1
-		if(dabs(l1) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
-		#endif
-		if(l1/super.D < 0)
-		{
-			ielem = super.surr[0];
-			continue;
-		}
-
-		l2 = xx*(nodes[super.p[2]].y - nodes[super.p[0]].y) - yy*(nodes[super.p[2]].x - nodes[super.p[0]].x) + nodes[super.p[2]].x*nodes[super.p[0]].y - nodes[super.p[0]].x*nodes[super.p[2]].y;
-		#if DEBUGBW==1
-		if(dabs(l2) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l2!!\n";
-		#endif
-		if(l2/super.D < 0)
-		{
-			ielem = super.surr[1];
-			continue;
-		}
-		break;		// if all three area-ratios are positive, we've found our element
+		// if all 4 area-ratios are positive, we've found our element
+		if(found) break;
 	}
 	//cout << "Delaunay2D:   Containing triangle found.\n";
 	return ielem;
@@ -324,7 +333,7 @@ void Delaunay3D::bowyer_watson()
 /* Make sure 'points' has space for three more points when passing to this sub. 'N' is the actual number of real points. */
 {
 	// add super triangle
-	//find minimum and maximum x and y of the point set
+	//	find minimum and maximum x and y of the point set
 	double xmin = points(0,0), xmax = points(0,0), ymin = points(0,1), ymax = points(0,1);
 	for(int i = 1; i < npoints; i++)
 	{

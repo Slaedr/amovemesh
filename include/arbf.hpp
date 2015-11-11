@@ -269,7 +269,8 @@ void RBFmove::move_step()
 	Matrix<double> xold(nbpoin,1);
 	xold.zeros();
 	for(int idim = 0; idim < ndim; idim++)
-		coeffs[idim] = sparseCG_d(&A, b[idim], xold, tol, maxiter);
+		//coeffs[idim] = sparseCG_d(&A, b[idim], xold, tol, maxiter);
+		coeffs[idim] = sparse_bicgstab(&A, b[idim], xold, tol, maxiter);
 		//coeffs[idim] = sparsePCG(&A, b[idim], xold, "jacobi", tol, maxiter);
 		//coeffs[idim] = sparsegaussseidel(&A, b[idim], xold, tol, maxiter);
 		//coeffs[idim] = sparseSOR(&A, b[idim], xold, tol, maxiter);

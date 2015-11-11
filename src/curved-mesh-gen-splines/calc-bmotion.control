@@ -1,19 +1,17 @@
 -Input-mesh
-30P30N_luo_1st_tri.msh
+../../input/tinquadh.msh
 -Output-file
-30P30N_luo_1st_tri.dat
+../../output/tinquadh.dat
 -max-angle
-30.0
+90.0
 -number-of-boundary-parts-to-reconstruct
-3
+1
 -flags-to-reconstruct-(first-entry-is-number-of-flags-in-part)
-1 13
-1 12
-1 14
+1 3
 -tolerance-for-CG
 1e-6
 -maximum-iterations-for-CG
-10000
+1000
 
 rans_naca0012_225v65.msh
 rans_naca0012_225v65.spc

@@ -1,9 +1,9 @@
 -input-linear-mesh-filename
-../../input/30P30N_luo_1st_tri.msh
+../../input/sd7003.msh
 -input-quadratic-mesh-filename
-../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_quadratic.msh
+../../output/curved-mesh-gen-spline/sd7003_quadratic.msh
 -output-curved-mesh-filename
-../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_curved.msh
+../../output/curved-mesh-gen-spline/sd7003_curved.msh
 -angle-threshold-for-corners
 40.0
 -RBF-choice
@@ -15,13 +15,11 @@
 -Tolerance-for-RBF-move
 1e-6
 -Maximum-iterations
-1000
+2000
 -Number-of-spline-parts
-3
+1
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers
-1 13
-1 12
-1 14
+1 5
 
 30P30N_luo_1st_tri.msh
 3compairfoil_tri_quadratic.msh

@@ -942,8 +942,8 @@ public:
 		delete [] col_ind;
 	}
 
-	int rows() { return nrows; }
-	int cols() {return ncols; }
+	int rows() const { return nrows; }
+	int cols() const {return ncols; }
 
 	void set(int x, int y, T value)
 	{
@@ -973,7 +973,7 @@ public:
 	}
 	
 
-	T get(int x, int y)
+	T get(int x, int y) const
 	{
 		T retval = T(0);
 		for(int j = 0; j < rsize[x]; j++)
@@ -1031,7 +1031,7 @@ public:
 		std::cout << std::endl;
 	}*/
 
-	void mprint()
+	void mprint() const
 	{
 		std::cout << "\n";
 		for(int i = 0; i < nrows; i++)
@@ -1042,7 +1042,7 @@ public:
 		}
 	}
 
-	void fprint(std::ofstream& outfile)
+	void fprint(std::ofstream& outfile) const
 	{
 		//outfile << "\n";
 		for(int i = 0; i < nrows; i++)
@@ -1055,16 +1055,16 @@ public:
 
 	/** Returns product of sparse matrix with std::vector x and stores it in a.
 	*/
-	void multiply(const Mat& x, Mat* a, char paralel = 'n')
+	void multiply(const Mat& x, Mat* a, char paralel = 'n') const
 	{
 		a->zeros();
 		//std::cout << "MatrixCOO: multiply(): Rows and columns of a: " << a->rows() << " " << a->cols() << std::endl;
 		double temp;
 		#ifdef _OPENMP
-		std::vector<T>* val = this->val; std::vector<int>* col_ind = this->col_ind;
+		const std::vector<T>* val = this->val; const std::vector<int>* col_ind = this->col_ind;
 		#endif
 
- 		std::vector<int>* rsize = &(this->rsize);
+ 		const std::vector<int>* rsize = &(this->rsize);
 
 		for(int k = 0; k < x.cols(); k++)		// for each column of x
 		{
@@ -1082,14 +1082,14 @@ public:
 		//return a;
 	}
 
-	void multiply_parts(const Mat* x, const Mat* y, Mat* ans, int p)
+	void multiply_parts(const Mat* x, const Mat* y, Mat* ans, int p) const
 	/* Like the multiply() method, except the argument matrix is considered x for the first p-1 rows, 0 in the pth row and y for the remaining rows. */
 	{
 		ans->zeros();
 		#ifdef _OPENMP
-		std::vector<T>* val = MatrixCOO2::val; std::vector<int>* col_ind = MatrixCOO2::col_ind;
+		const std::vector<T>* val = MatrixCOO2::val; const std::vector<int>* col_ind = MatrixCOO2::col_ind;
 		#endif
-		std::vector<int>* rsize = &this->rsize;
+		const std::vector<int>* rsize = &this->rsize;
 
 		for(int k = 0; k < x->cols(); k++)		// for each column of x
 		{
@@ -1108,7 +1108,7 @@ public:
 		}
 	}
 
-	double getelem_multiply_parts(int rownum, Mat* x, Mat* y, int p, double num)
+	double getelem_multiply_parts(int rownum, Mat* x, Mat* y, int p, double num) const
 	/* Returns dot product of rownum'th row of this matrix with a certain std::vector. This vector is composed of x for for the first p-1 elements and y for p+1'th element onwards with num as pth element.
 	NOTE: Make sure dimensions of x and y are same. */
 	{
@@ -1118,9 +1118,9 @@ public:
 		for(int k = 0; k < x->cols(); k++)		// for each column of x
 		{
 			#ifdef _OPENMP
-			std::vector<T>* val = MatrixCOO2::val; std::vector<int>* col_ind = MatrixCOO2::col_ind;
+			const std::vector<T>* val = MatrixCOO2::val; const std::vector<int>* col_ind = MatrixCOO2::col_ind;
 			#endif
-			std::vector<int>* rsize = &this->rsize;
+			const std::vector<int>* rsize = &this->rsize;
 			int j;
 			//#pragma omp parallel for default(none) private(j) shared(val,col_ind,rsize,k,rownum,p,x,y,num) reduction(+:ans) num_threads(nthreads_sm)
 			for(j = 0; j < (*rsize)[rownum]; j++)
@@ -1136,7 +1136,7 @@ public:
 	}
 
 	/// D is returned as a column-vector containing diagonal elements of this sparse matrix.
-	void get_diagonal(Mat* D)
+	void get_diagonal(Mat* D) const
 	{
 		D->zeros();
 		for(int i = 0; i < nrows; i++)

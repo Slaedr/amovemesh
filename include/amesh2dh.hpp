@@ -189,6 +189,8 @@ public:
 		NOTE: Make sure to execute [compute_topological()](@ref compute_topological) before calling this function.
 	*/
 	UMesh2dh convertLinearToQuadratic();
+
+	UMesh2dh convertQuadToTri() const;
 };
 
 UMesh2dh::UMesh2dh() { 
@@ -392,7 +394,7 @@ void UMesh2dh::readDomn(string mfile)
 	for(int i = 0; i < nelem; i++)
 	{
 		infile >> nnode[i];
-		nfael[i] = nnode[i];		// assuming linear element
+		nfael[i] = nnode[i];		// NOTE: assuming linear element
 
 		for(int j = 0; j < nnode[i]; j++)
 			infile >> elms(i,j);
@@ -408,7 +410,6 @@ void UMesh2dh::readDomn(string mfile)
 		if(nnode[i] > maxnnode)
 			maxnnode = nnode[i];
 	
-	//cout << "\nUTriMesh: Allocating inpoel..\n";
 	inpoel.setup(nelem, maxnnode);
 
 	for(int i = 0; i < nelem; i++)
@@ -1514,6 +1515,82 @@ UMesh2dh UMesh2dh::convertLinearToQuadratic()
 	cout << "UMesh2dh: convertLinearToQuadratic(): Done." << endl;
 	//q.inpoel.mprint();
 	return q;
+}
+
+/**	Converts all quadrilaterals in a linear mesh into triangles, and returns the fully triangular mesh.
+*/
+UMesh2dh UMesh2dh::convertQuadToTri() const
+{
+	UMesh2dh tm;
+	vector<vector<int>> elms;
+	vector<vector<int>> volregs;
+	vector<int> vr(ndtag, -1);
+	int nnodet = 3;
+	vector<int> element(nnodet,-1);
+	int nelem2 = 0;
+
+	for(int ielem = 0; ielem < nelem; ielem++)
+	{
+		if(nnode[ielem] == 4)
+		{
+			element[0] = inpoel.get(ielem,0);
+			element[1] = inpoel.get(ielem,1);
+			element[2] = inpoel.get(ielem,3);
+			elms.push_back(element);
+			
+			for(int i = 0; i < ndtag; i++)
+				vr[i] = vol_regions.get(ielem,i);
+			volregs.push_back(vr);
+
+			element[0] = inpoel.get(ielem,1);
+			element[1] = inpoel.get(ielem,2);
+			element[2] = inpoel.get(ielem,3);
+			elms.push_back(element);
+			volregs.push_back(vr);
+
+			nelem2 += 2;
+		}
+		else if(nnode[ielem] == nnodet)
+		{
+			for(int i = 0; i < nnodet; i++)
+				element[i] = inpoel.get(ielem,i);
+			elms.push_back(element);
+			
+			for(int i = 0; i < ndtag; i++)
+				vr[i] = vol_regions.get(ielem,i);
+			volregs.push_back(vr);
+			
+			nelem2++;
+		}
+	}
+
+	tm.nelem = nelem2;
+	tm.ndim = ndim;
+	tm.npoin = npoin;
+	tm.nface = nface;
+	tm.nbtag = nbtag;
+	tm.ndtag = ndtag;
+	tm.nnofa = nnofa;
+
+	tm.nnode.resize(nelem2);
+	tm.nfael.resize(nelem2);
+
+	tm.coords = coords;
+	tm.inpoel.setup(tm.nelem, nnodet);
+	tm.vol_regions.setup(tm.nelem, ndtag);
+	tm.bface = bface;
+
+	for(int ielem = 0; ielem < nelem2; ielem++)
+	{
+		for(int inode = 0; inode < nnodet; inode++)
+			tm.inpoel(ielem, inode) = elms[ielem][inode];
+		tm.nnode[ielem] = nnodet;
+		tm.nfael[ielem] = nnodet;		// For linear elements
+		for(int i = 0; i < ndtag; i++)
+			tm.vol_regions(ielem,i) = volregs[ielem][i];
+	}
+	
+	return tm;
 }
 
 } // end namespace

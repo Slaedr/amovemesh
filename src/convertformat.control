@@ -1,9 +1,9 @@
 -input-file
-../input/hairfoil.domn
+../input/sd7003.domn
 -input-format
 domn
 -output-file
-../input/hairfoil.msh
+../input/sd7003.msh
 -output-format
 msh
 

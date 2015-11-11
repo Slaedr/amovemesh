@@ -738,7 +738,7 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 
 	//cout << "sparseCG_d(): Declared everything" << endl;
 
-	//M.ones();		// disable preconditioner
+	M.ones();		// disable preconditioner
 	//cout << "sparseCG_d(): preconditioner enabled" << endl;
 
 	A->multiply(xold, &temp);		// temp := A*xold
@@ -827,9 +827,19 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 	return xold;
 }
 
-Matrix<double> sparse_bicgstab(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter)
-// Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst
+
+/**	Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst.
+	NOTE: The initial guess vector xold is modified by this function.
+*/
+Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matrix<double>& xold, double tol, int maxiter)
 {
+	Matrix<double> x(b.rows(), 1);
+	// checks
+	if(!(A->rows() == A->cols() && A->rows() == b.rows() && b.rows() == xold.rows())) {
+		cout << "sparse_bicgstab(): ! Input size error!!" << endl;
+		return x;
+	}
+	
 	Matrix<double> rold(b.rows(), 1);
 	Matrix<double> r(b.rows(), 1);
 	Matrix<double> rhat(b.rows(), 1);
@@ -840,14 +850,34 @@ Matrix<double> sparse_bicgstab(SpMatrix* A, Matrix<double> b, Matrix<double> xol
 	Matrix<double> p(b.rows(), 1);
 	Matrix<double> s(b.rows(), 1);
 	Matrix<double> errdiff(b.rows(), 1);
-	Matrix<double> x(b.rows(), 1);
+	Matrix<double> M(A->rows(), 1);		// preconditioner. If K is the preconditioning matrix, this holds either K or K^(-1)
+	Matrix<double> y(b.rows(), 1);
+	Matrix<double> z(b.rows(), 1);
 	double rhoold, rho, wold, w, alpha, beta;
-	double error, initres, normalizer;
+	double resnormrel, resnorm, normalizer;
 
+	M.zeros();
+	A->get_diagonal(&M);
+	for(int i = 0; i < A->rows(); i++)
+	{
+		M(i) = 1.0/M(i);
+	}
+	// M now contains K^(-1), where K is the preconditioning matrix
 	A->multiply(xold, &t);		// t = A*xold, initially (t is only a temp variable here)
 	rold = b - t;
-	initres = error = rold.l2norm();
+	resnorm = rold.l2norm();
+	
+	if(resnorm < SMALL_NUMBER) {
+		cout << "sparse_bicgstab(): Initial residual is very small. Exiting." << endl;
+		return x;
+	}
+
 	normalizer = b.l2norm();
+	if(normalizer < ZERO_TOL) {
+		cout << "sparse_bicgstab(): RHS has zero norm. Exiting." << endl;
+		return x;
+	}
+	resnormrel = resnorm/normalizer;
 	int steps = 0;
 	int i;
 
@@ -857,48 +887,52 @@ Matrix<double> sparse_bicgstab(SpMatrix* A, Matrix<double> b, Matrix<double> xol
 
 	rhoold = alpha = wold = 1.0;
 
-	while(error > tol && steps <= maxiter)
+	while(resnormrel > tol && steps <= maxiter)
 	{
 		if(steps % 10 == 0 || steps == 1)
-			cout << "sparse_bicgstab(): Iteration " << steps << ": error = " << error << endl;
+			cout << "sparse_bicgstab(): Iteration " << steps << ": rel residual norm = " << resnormrel << endl;
 
 		rho = rhat.dot_product(rold);
 		beta = rho*alpha/(rhoold*wold);
 
 		for(i = 0; i < b.rows(); i++)
+		{
 			p(i) = rold.get(i) + beta * (pold.get(i) - wold*vold.get(i));
-
-		A->multiply(p, &v);			// v = A*p
+			y(i) = M.get(i)*p.get(i);
+		}
+		
+		A->multiply(y, &v);			// v = A*p
 		alpha = rho / rhat.dot_product(v);
 
 		for(i = 0; i < b.rows(); i++)
+		{
 			s(i) = rold.get(i) - alpha*v.get(i);
+			z(i) = M.get(i)*s.get(i);
+		}
 
-		if(s.dabsmax() < tol*tol)
+		/*if(s.dabsmax() < tol*tol)
 		{
 			x = xold + p*alpha;
 			break;
-		}
+		}*/
 
-		A->multiply(s, &t);			// t = A*s
+		A->multiply(z, &t);			// t = A*z
 
 		w = t.dot_product(s)/t.dot_product(t);
 
 		for(i = 0; i < b.rows(); i++)
 		{
-			x(i) = xold.get(i) + alpha*p.get(i) + w*s.get(i);
-			error += (x.get(i) - xold.get(i)) * (x.get(i)-xold.get(i));
+			x(i) = xold.get(i) + alpha*y.get(i) + w*z.get(i);
 		}
 
-		error = sqrt(error);
-
 		for(i = 0; i < b.rows(); i++)
-			r(i) = s.get(i) - w*t.get(i);
+			rold(i) = s.get(i) - w*t.get(i);
+
+		resnormrel = rold.l2norm()/normalizer;
 
 		for(i = 0; i < b.rows(); i++)
 		{
 			xold(i) = x.get(i);
-			rold(i) = r.get(i);
 			vold(i) = v.get(i);
 			pold(i) = p.get(i);
 		}
@@ -907,7 +941,7 @@ Matrix<double> sparse_bicgstab(SpMatrix* A, Matrix<double> b, Matrix<double> xol
 		steps++;
 	}
 
-	cout << "sparse_bicgstab(): Done. Iterations: " << steps << ", final relative error: " << error << endl;
+	cout << "sparse_bicgstab(): Done. Iterations: " << steps << ", final relative residual norm: " << resnormrel << endl;
 
 	return x;
 }

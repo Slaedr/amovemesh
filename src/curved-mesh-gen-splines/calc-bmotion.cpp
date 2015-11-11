@@ -1,4 +1,4 @@
-#include <ageometry.hpp>
+#include <ageometryh.hpp>
 
 using namespace std;
 using namespace amat;
@@ -6,7 +6,7 @@ using namespace acfd;
 
 int main()
 {
-	UMesh2d m;
+	UMesh2dh m;
 
 	string confile = "calc-bmotion.control", dum, mfile, outfile;
 	int n_parts, numf, maxiter;
@@ -52,7 +52,7 @@ int main()
 			for(int j = 0; j < f2r[i].size(); j++)
 				if(m.gbface(iface,m.gnnofa()) == f2r[i][j])
 				{
-					for(double u = 0; u <= 1; u += 0.1)
+					for(double u = 0; u <= 1; u += 0.05)
 						fout << br.getcoords(iface,0,u) << " " << br.getcoords(iface,1,u) << '\n';
 				}
 	}

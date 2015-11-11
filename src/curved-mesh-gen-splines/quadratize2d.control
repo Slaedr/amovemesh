@@ -1,6 +1,6 @@
 -Input-mesh-filename
-../../input/hairfoil.msh
+../../input/sd7003.msh
 -Output-quadratic-mesh-filename
-../../output/curved-mesh-gen-spline/hairfoil_quadratic.msh
+../../output/curved-mesh-gen-spline/sd7003_quadratic.msh
 
 30P30N_luo_1st_tri

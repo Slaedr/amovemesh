@@ -515,7 +515,8 @@ public:
 		return A;
 	}
 
-	Matrix<T> operator+(Matrix<T> B)
+	/**	The matrix addition and subtraction operators are inefficient! Do not use in long loops. */
+	Matrix<T> operator+(Matrix<T> B) const
 	{
 #ifdef DEBUG
 		if(nrows != B.rows() || ncols != B.cols())
@@ -533,7 +534,7 @@ public:
 		return C;
 	}
 
-	Matrix<T> operator-(Matrix<T> B)
+	Matrix<T> operator-(Matrix<T> B) const
 	{
 #ifdef DEBUG
 		if(nrows != B.rows() || ncols != B.cols())
