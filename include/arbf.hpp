@@ -268,12 +268,18 @@ void RBFmove::move_step()
 	cout << "RBFmove:  move_step(): Solving linear system" << endl;
 	Matrix<double> xold(nbpoin,1);
 	xold.zeros();
+	Matrix<double> B = A.toDense();
+	Matrix<double> rhs(nbpoin,ndim);
+	for(int i = 0; i < nbpoin; i++)
+		for(int j = 0; j < ndim; j++)
+			rhs(i,j) = b[j](i);
 	for(int idim = 0; idim < ndim; idim++)
 		//coeffs[idim] = sparseCG_d(&A, b[idim], xold, tol, maxiter);
-		coeffs[idim] = sparse_bicgstab(&A, b[idim], xold, tol, maxiter);
+		//coeffs[idim] = sparse_bicgstab(&A, b[idim], xold, tol, maxiter);
 		//coeffs[idim] = sparsePCG(&A, b[idim], xold, "jacobi", tol, maxiter);
 		//coeffs[idim] = sparsegaussseidel(&A, b[idim], xold, tol, maxiter);
 		//coeffs[idim] = sparseSOR(&A, b[idim], xold, tol, maxiter);
+		coeffs[idim] = gausselim(B, b);
 
 	cout << "RBFmove:  move_step(): Moving interior points" << endl;
 	// calculate new positions of interior points

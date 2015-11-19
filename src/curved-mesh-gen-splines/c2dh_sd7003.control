@@ -15,7 +15,7 @@
 -Tolerance-for-RBF-move
 1e-6
 -Maximum-iterations
-2000
+50000
 -Number-of-spline-parts
 1
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers

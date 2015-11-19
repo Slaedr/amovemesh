@@ -30,9 +30,10 @@ using namespace amat;
 namespace amat
 {
 
-/*#ifndef SPARSE_MATRIX_TO_USE
-typedef MatrixCOO SpMatrix;
-#endif*/
+/** Computes solution of Ax = b by Gaussian elimination.
+* A is mxm, b is mxk where k is the number of systems to be solved with the same LHS.
+*/
+Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMALL_NUMBER/100.0);
 
 /* Note: Cholesky algorithm only implemented for a row-major matrix */
 Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
@@ -122,14 +123,17 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 	return b;
 }
 
-Matrix<double> gausselim(Matrix<double> A, Matrix<double> b, double tol=1e-12)
+Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMALL_NUMBER/100.0)
 {
 	//cout << "gausselim: Input LHS matrix is " << A.rows() << " x " << A.cols() << endl;
 	if(A.rows() != b.rows()) { cout << "gausselim: Invalid dimensions of A and b!\n"; return A; }
 	int N = A.rows();
 
-	Matrix<double> x(N,1);
+	Matrix<double> x(N,b.cols());
 	x.zeros();
+	int l;
+	int k;
+	double ff;
 
 	for(int i = 0; i < N-1; i++)
 	{
@@ -146,47 +150,53 @@ Matrix<double> gausselim(Matrix<double> A, Matrix<double> b, double tol=1e-12)
 		if(max > tol)
 		{
 			//interchange rows i and maxr 
-			for(int k = i; k < N; k++)
+			for(k = i; k < N; k++)
 			{
 				double temp = A(i,k);
 				A(i,k) = A(maxr,k);
 				A(maxr,k) = temp;
 			}
 			// do the interchange for b as well
-			double temp = b(i,0);
-			b(i,0) = b(maxr,0);
-			b(maxr,0) = temp;
+			for(k = 0; k < b.cols(); k++)
+			{
+				double temp = b(i,k);
+				b(i,k) = b(maxr,k);
+				b(maxr,k) = temp;
+			}
 		}
 		else { cout << "! gausselim: Pivot not found!!\n"; return x; }
 
 		for(int j = i+1; j < N; j++)
 		{
-			double ff = A(j,i);
-			for(int l = i; l < N; l++)
+			ff = A(j,i);
+			for(l = i; l < N; l++)
 				A(j,l) = A(j,l) - ff/A(i,i)*A(i,l);
-			b(j,0) = b(j,0) - ff/A(i,i)*b(i,0);
+			for(k = 0; k < b.cols(); k++)
+				b(j,k) = b(j,k) - ff/A(i,i)*b(i,k);
 		}
 	}
 	//Thus, A has been transformed to an upper triangular matrix, b has been transformed accordingly.
 
 	//Part 2: back substitution to obtain final solution
 	// Note: the solution is stored in x
-	//Matrix<double> f(N,1,ROWMAJOR);
-	x(N-1,0) = b(N-1,0)/A(N-1,N-1);
-
-	for(int i = N-2; i >= 0; i--)
+	double sum;
+	for(l = 0; l < b.cols(); l++)
 	{
-		double sum = 0;
-		int k = i+1;
-		do
-		{	sum += A(i,k)*x(k,0);		// or A(k,i) ??
-			k++;
-		} while(k <= N-1);
-		x(i,0) = (b(i,0) - sum)/A(i,i);
+		x(N-1,l) = b(N-1,l)/A(N-1,N-1);
+
+		for(int i = N-2; i >= 0; i--)
+		{
+			sum = 0;
+			int k = i+1;
+			do
+			{	sum += A(i,k)*x(k,l);		// or A(k,i) ??
+				k++;
+			} while(k <= N-1);
+			x(i,l) = (b(i,l) - sum)/A(i,i);
+		}
 	}
 	return x;
 }
-
 
 //-------------------- Iterative Methods ----------------------------------------//
 
@@ -238,37 +248,7 @@ Matrix<double> pointjacobi(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 		c++;
 		if(c > maxiter) { cout << "pointjacobi: Max iterations exceeded!\n"; break; }
 	} while((x-xold).dabsmax() >= tol);
-
-	/* double error = 1.0;
-	do
-	{
-		xold = x;
-
-		Matrix<double> Axold(N,1);
-		Axold.zeros();
-		for(int i = 0; i < N; i++)
-		{
-			for(int k = 0; k < N; k++)
-				Axold(i,0) += A(i,k)*xold(k,0);
-		}
-		Matrix<double> inter(N,1);
-		for(int i = 0; i < N; i++)
-			inter(i,0) = b(i,0) - Axold(i,0);
-		for(int i = 0; i < N; i++)
-			x(i,0) = M(i,i) * inter(i,0);
-
-		c++;
-		if(c > maxiter) { cout << "pointjacobi: Max iterations exceeded!\n"; break; }
-		Matrix<double> diff(N,1);	// diff = x - xold
-		for(int i = 0; i < N; i++)
-			diff(i,0) = x(i,0) - xold(i,0);
-
-		error = dabs(diff(0,0));
-		for(int i = 1; i < N; i++)
-			if(dabs(diff(i,0)) > error) error = dabs(diff(i,0));
-		//cout << "pointjacobi: error = " << error << endl;
-
-	} while(error >= tol); */
+	
 	cout << "pointjacobi: No. of iterations = " << c << endl;
 
 	return x;
@@ -550,7 +530,7 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 	cout << "sparseCG_d(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with diagonal preconditioner\n";
 
 	// check
-	//if(A->rows() != b.rows() || A->rows() != xold.rows()) cout << "sparseCG_d(): ! Mismatch in number of rows!!" << endl;
+	if(A->rows() != b.rows() || A->rows() != xold.rows()) cout << "sparseCG_d(): ! Mismatch in number of rows!!" << endl;
 
 	Matrix<double> x(A->rows(),1);		// solution vector
 	Matrix<double> M(A->rows(), 1);		// diagonal preconditioner, or soon, inverse of preconditioner
@@ -622,7 +602,6 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta) //num_threads(nthreads_linalg)
 		for(i = 0; i < x.rows(); i++)
 		{
-			//cout << "Number of threads " << omp_get_num_threads();
 			x(i) = xold.get(i) + pold.get(i)*theta;
 			rold(i) = rold.get(i) - temp.get(i)*theta;
 		}
@@ -646,9 +625,8 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 		for(i = 0; i < x.rows(); i++)
 			pold(i) = zold.get(i) + pold.get(i)*beta;
 
-		//calculate ||b - A*x||
+		//calculate ||b - A*x||. 'error' is a misnomer - it's the residual norm.
 		error = rold.l2norm();
-		//calculate ||x - xold||
 
 		// set old variables
 		xold = x;
@@ -805,9 +783,6 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 
 		//calculate ||b - A*x||
 		error = rold.l2norm();
-		//calculate ||x - xold||
-		//error = diff.l2norm();
-		//if(steps == 0) initres = error;
 
 		// set old variables
 		xold = x;
@@ -867,7 +842,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 	rold = b - t;
 	resnorm = rold.l2norm();
 	
-	if(resnorm < SMALL_NUMBER) {
+	if(resnorm < A_SMALL_NUMBER) {
 		cout << "sparse_bicgstab(): Initial residual is very small. Exiting." << endl;
 		return x;
 	}
@@ -909,12 +884,6 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 			s(i) = rold.get(i) - alpha*v.get(i);
 			z(i) = M.get(i)*s.get(i);
 		}
-
-		/*if(s.dabsmax() < tol*tol)
-		{
-			x = xold + p*alpha;
-			break;
-		}*/
 
 		A->multiply(z, &t);			// t = A*z
 

@@ -214,10 +214,6 @@ public:
 		pp[0].x = xmin-xdelt; pp[0].y = ymax+ydelt;
 		pp[1].x = xmin-xdelt; pp[1].y = ymax - 2*(ymax-ymin) - 2*ydelt;
 		pp[2].x = xmin + 2*(xmax-xmin) + 2*xdelt; pp[2].y = ymax + ydelt;
-		/*pp[0].x = xmin-delt; pp[0].y = ymax+delt;
-		pp[1].x = xmin-delt; pp[1].y = ymax - 2*(ymax-ymin) - 2*delt;
-		pp[2].x = xmin + 2*(xmax-xmin) + 2*delt; pp[2].y = ymax + delt;*/
-		//cout << "Delaunay2D: Coordinates of the super-triangle are (" << pp[0].x << ", " << pp[0].y << ") (" << pp[1].x << ", " << pp[1].y << ") (" << pp[2].x << ", " << pp[2].y << ")\n";
 		for(int i = 0; i < 3; i++)
 		{
 			nodes.push_back(pp[i]);
@@ -263,7 +259,6 @@ public:
 			int newpoinnum = nodes.size()-1;
 
 			/// First, find the element containing the new point
-			//cout << "Delaunay2D:  First, find the element containing the new point\n";
 			int contelem = find_containing_triangle(points(ipoin,0),points(ipoin,1),0);
 			//cout << "Delaunay2D:  Containing element is " << contelem << endl;
 
@@ -302,20 +297,9 @@ public:
 			}
 
 			// Output badelems for debug purpose
-			/*cout << "Delaunay2D:  Badelems: ";
-			for(int i = 0; i < badelems.size(); i++)
-				cout << badelems[i] << " ";
-			cout << endl;*/
-
 			/// Third, store the faces that will be obtained after removal of bad triangles
 			//cout << "Delaunay2D:  Third, store the faces that will be obtained after removal of bad triangles\n";
-			//flags.clear();
 			flags.assign(faces.size(),-1);
-			/*cout << "**Flags : (" << faces.size() << ", " << flags.size() << ")";
-			for(int i = 0; i < flags.size(); i++)
-				cout << " " << flags[i];
-			cout << endl;
-			cout << "** Details of face 0: " << faces[0].p[0] << " " << faces[0].p[1] << ", " << faces[0].elem[0] << " " << faces[0].elem[1] << endl;*/
 
 			for(int ifa = 0; ifa < faces.size(); ifa++)
 			{
@@ -390,12 +374,6 @@ public:
 					if(faces[i].elem[1] > badelems[ibe]) faces[i].elem[1]--;
 				}
 			}
-
-			// output voidpoly for debug purposes
-			/*cout << "Delaunay2D:  voidpoly:";
-			for(int i = 0; i < voidpoly.size(); i++)
-				cout << " " << voidpoly[i];
-			cout << endl;*/
 
 			// Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'.
 			//cout << "Delaunay2D:  Fifth, add new elements; Also correspondingly update 'faces'\n";
@@ -571,17 +549,6 @@ public:
 		}
 		// remove super faces - not needed
 		cout << "Delaunay2D: Triangulation done.\n";
-
-		// print surrounding elements
-		/*for(int i = 0; i < elems.size(); i++)
-		{
-			cout << "Element " << i << ": ";
-			for(int j = 0; j < 3; j++)
-			{
-				cout << elems[i].surr[j] << " ";
-			}
-			cout << endl;
-		}*/
 	}
 
 	void clear()					// reset the Delaunay2D object, except for input data
@@ -604,21 +571,6 @@ public:
 			outf << ip+1 << " " << nodes[ip].x << " " << nodes[ip].y << " " << 0 << '\n';
 		}
 		outf << "$Elements\n" << elems.size() /*+nface*/ << '\n';
-		// boundary faces first
-		/*for(int iface = 0; iface < nface; iface++)
-		{
-			outf << iface+1 << " 8 2 0 1";
-			for(int i = 0; i < nnofa; i++)
-				outf << " " << bface(iface,i)+1;
-			outf << '\n';
-		}
-		for(int iel = 0; iel < nelem; iel++)
-		{
-			outf << nface+iel+1 << " 9 2 0 2";
-			for(int i = 0; i < nnode; i++)
-				outf << " " << inpoel(iel,i)+1;
-			outf << '\n';
-		}*/
 		for(int iel = 0; iel < elems.size(); iel++)
 		{
 			outf << iel+1 << " 2 2 0 2";

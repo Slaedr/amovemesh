@@ -850,6 +850,7 @@ public:
 
 /**
  Implements sparse matrix storage in coordinate format, but with separate arrays for each row of the matrix.
+ We do not need to store row indices any more.
 */
 template<typename T>
 class MatrixCOO2
@@ -1050,6 +1051,43 @@ public:
 			for(int j = 0; j < ncols; j++)
 				outfile << " " << get(i,j);
 			outfile << std::endl;
+		}
+	}
+
+	/**	Sorts each row by column index using insertion sort.
+		NOTE: Make sure to call this function before calling [LUfactor](@ref LUfactor).
+		We expect each row to have no more than tens of elements, so insertion sort is a good candidate.
+	*/
+	void sort_rows()
+	{
+		// insertion sort
+		int tempc = 0; T tempv = 0; int j = 0;
+
+		vector<int>* rsize = &(this->rsize);
+		#ifdef _OPENMP
+		vector<T>* val = this->val;
+		vector<int>* col_ind = this->col_ind;
+		int nrows = this->nrows;
+		int ncols = this->ncols;
+		#endif
+
+		for(int l = 0; l < nrows; l++)			// for each row
+		{
+			for(int i = 1; i < (*rsize)[l]; i++)
+			{
+				j = i;
+				while(j>0 && col_ind[l][j] < col_ind[l][j-1])
+				{
+					// swap col_ind[l][j] and col_ind[l][j-1], same for vp
+					tempc = col_ind[l][j];
+					col_ind[l][j] = col_ind[l][j-1];
+					col_ind[l][j-1] = tempc;
+					tempv = val[l][j];
+					val[l][j] = val[l][j-1];
+					val[l][j-1] = tempv;
+					j--;
+				}
+			}
 		}
 	}
 
@@ -1310,6 +1348,83 @@ public:
 			}
 		}
 	}
+
+	/**	Converts to dense matrix. */
+	Mat toDense() const
+	{
+		Matrix<T> dense(nrows, ncols);
+		for(int i = 0; i < nrows; i++)
+			for(int j = 0; j < rsize[i]; j++)
+				dense(i,col_ind[i][j]) = val[i][j];
+		return dense;
+	}
+
+	/**	Computes the LU factorization with partial pivoting.
+		L is the unit lower triangular matrix, U is the upper triangular matrix.
+	*/
+	/*void LUfactor(MatrixCOO2<double>& L, MatrixCOO2<double>& U, MatrixCOO2<int>& P)
+	{
+		// copy this matrix (A) into U
+		delete [] U.val;
+		delete [] U.col_ind;
+		U.val = new vector<double>[nrows];
+		U.col_ind = new vector<int>[ncols];
+		U.rsize = rsize;
+		for(int i = 0; i < nrows; i++)
+		{
+			U.val[i].resize(rsize[i]);
+			U.col_ind[i].resize(rsize[i]);
+			for(int j = 0; j < rsize[i]; j++)
+			{
+				U.val[i][j] = val[i][j];
+				U.col_ind[i][j] = col_ind[i][j];
+			}
+		}
+
+		// Make L and P identity matrices
+		delete [] L.val;
+		delete [] L.col_ind;
+		delete [] P.val;
+		delete [] P.col_ind;
+		L.val = new vector<double>[nrows];
+		L.col_ind = new vector<int>[nrows];
+		P.val = new vector<int>[nrows];
+		P.col_ind = new vector<int>[nrows];
+		for(int i = 0; i < nrows; i++)
+		{
+			L.rsize.push_back(1);
+			P.rsize.push_back(1);
+			L.val[i].resize(1);
+			L.col_ind[i].resize(1);
+			P.val[i].resize(1);
+			P.col_ind[i].resize(1);
+
+			L.val[i].reserve(10);
+			L.col_ind[i].reserve(10);
+
+			for(int j = 0; j < rsize[i]; j++)
+			{
+				L.val[i][j] = 1.0;
+				L.col_ind[i][j] = i;
+				P.val[i][j] = 1;
+				P.col_ind[i][j] = i;
+			}
+		}
+
+		// We can now start Gaussian elimination with partial pivoting
+		double max = 0;
+		int maxi = 0;
+		for(int k = 0; k < nrows-1; k++)
+		{
+			// first find maximum element in the kth column.
+			max = U.val[k][0];
+			maxi = 0;
+			for(int i = k+1; i < nrows; i++)
+			{
+				// we need a binary search of the ith row to look for col_ind k.
+			}
+		}
+	}*/
 };
 
 class MatrixCRS : public SparseMatrix

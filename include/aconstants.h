@@ -8,6 +8,6 @@
 	#define ZERO_TOL 1.1e-16
 
 	/// A small number likely smaller than most convergence tolerances
-	#define SMALL_NUMBER 1e-12
+	#define A_SMALL_NUMBER 1e-12
 
 #endif
