@@ -57,7 +57,7 @@ public:
 	double radius;		///< Radius of circumcircle of tet.
 
 	Tet() {
-		centre.reserve(3,0.0);
+		centre.resize(3,0.0);
 	}
 
 	Tet(const Tet& other) {
@@ -67,7 +67,7 @@ public:
 			surr[i] = other.surr[i];
 		}
 		centre = other.centre;
-		D = other.D
+		D = other.D;
 		radius = other.radius;
 	}
 };
@@ -105,11 +105,15 @@ public:
 	Delaunay3d& operator=(const Delaunay3d& other);
 	void setup(Matrix<double>* _points, int num_points);
 	
+	double l2norm(const vector<double>& a);
+	double dot(const vector<double>& a, const vector<double>& b);
 	void compute_jacobian(Tet& elem);
+	void cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b);
 	void compute_circumsphere(Tet& elem);
-	double det4(int ielem, int i, vector<double> r) const;
-	int find_containing_triangle(const vector<double>& r, int startelement) const;
+	double det4(int ielem, int i, const vector<double>& r) const;
+	int find_containing_tet(const vector<double>& r, int startelement) const;
 	int check_face_tet(const Tet& elem, const Face& face) const;
+	void compute_circumcircle(Tet& elem);
 
 	void bowyer_watson();
 	
@@ -185,10 +189,10 @@ void Delaunay3d::setup(Matrix<double>* _points, int num_points)
 void Delaunay3d::compute_jacobian(Tet& elem)
 {	
 	double ret;
-	ret = elem.p[0](0) * ( elem.p[1][1]*(elem.p[2][2]-elem.p[3][2]) -elem.p[1][2]*(elem.p[2][1]-elem.p[3][1]) + elem.p[2][1]*elem.p[3][2] - elem.p[2][2]*elem.p[3][1] );
-	ret -= elem.p[0][1] * (elem.p[1][0]*(elem.p[2][2]-elem.p[3][2]) -elem.p[1][2]*(elem.p[2][0]-elem.p[3][0]) + elem.p[2][0]*elem.p[3][2] - elem.p[2][2]*elem.p[3][0] );
-	ret += elem.p[0][2] * (elem.p[1][0]*(elem.p[2][1]-elem.p[3][1]) -elem.p[1][1]*(elem.p[2][0]-elem.p[3][0]) + elem.p[2][0]*elem.p[3][1] - elem.p[2][1]*elem.p[3][0] );
-	ret -= elem.p[1][0]*( elem.p[2][1]*elem.p[3][2] - elem.p[2](2)*elem.p[3][1] ) -elem.p[1][1]*( elem.p[2][0]*elem.p[3][2] - elem.p[2][2]*elem.p[3][0] ) +elem.p[1][2]*( elem.p[2][0]*elem.p[3][1] - elem.p[2][1]*elem.p[3][0] );
+	ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
+	ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
+	ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
+	ret -= nodes[elem.p[1]][0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
 	elem.D = ret;
 }
 
@@ -223,18 +227,18 @@ inline double Delaunay3d::l2norm(const vector<double>& a)
 */
 void Delaunay3d::compute_circumcircle(Tet& elem)
 {
-	vector<double> a(ndim), b(ndim), c(ndim), n1(idim), n2(idim), n3(idim), fin(idim);
-	for(int i = 0; i < ndim; i++)
+	vector<double> a(ndim), b(ndim), c(ndim), n1(ndim), n2(ndim), n3(ndim), fin(ndim);
+	for(int idim = 0; idim < ndim; idim++)
 	{
-		a[idim] = elem.p[0](idim)-elem.p[3](idim);
-		b[idim] = elem.p[1](idim)-elem.p[3](idim);
-		c[idim] = elem.p[2](idim)-elem.p[3](idim);
+		a[idim] = nodes[elem.p[0]][idim]-nodes[elem.p[3]][idim];
+		b[idim] = nodes[elem.p[1]][idim]-nodes[elem.p[3]][idim];
+		c[idim] = nodes[elem.p[2]][idim]-nodes[elem.p[3]][idim];
 	}
 
-	cross_product(n1,b,c);
-	cross_product(n2,c,a);
-	cross_product(n3,a,b);
-	for(int i = 0; i < ndim; i++)
+	cross_product3(n1,b,c);
+	cross_product3(n2,c,a);
+	cross_product3(n3,a,b);
+	for(int idim = 0; idim < ndim; idim++)
 	{
 		fin[idim] = dot(a,a)*n1[idim] + dot(b,b)*n2[idim] + dot(c,c)*n3[idim];
 		fin[idim] /= 6*elem.D;
@@ -246,7 +250,7 @@ void Delaunay3d::compute_circumcircle(Tet& elem)
 /**	Calculates the jacobian of the tetrahedron formed by point r and a face of tetrahedron ielem. The face is selected by i between 0 and 3.
 	Face i is the face opposite to local node i of the tetrahedron.
 */
-double Delaunay3d::det4(int ielem, int i, vector<double> r) const
+double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 {
 	#if DEBUGW==1
 	if(i > 3) {
@@ -337,7 +341,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 /** Returns the local face number (number of node opposite to the face) of elem's face that is the same as the second argument.
 *  If no faces of elem match, it returns -1.
 */
-inline int check_face_tet(const Tet& elem, const Face& face) const
+inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 {
 	// iterate over each face of elem
 	for(int i = 0; i < 4; i++)
@@ -768,7 +772,7 @@ void Delaunay3D::writeGmsh2(string mfile)
 	//cout << "Delaunay2D: Number of faces finally = " << faces.size() << endl;
 }
 
-Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(vector<double> xx, int startelement) const
+Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<double>& xx, int startelement) const
 /* Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
    Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
 {
