@@ -31,7 +31,7 @@ Notes:
 #define __ABOWYERWATSON3D_H 1
 
 #ifndef DEBUGBW
-#define DEBUGBW 0
+#define DEBUGBW 1
 #endif
 
 using namespace std;
@@ -53,7 +53,7 @@ public:
 	int p[4];			///< Indices of vertices.
 	Point centre;		///< Coords of circumcenter of the tet.
 	int surr[4];		///< Indices of surrounding tets. Note that the neighbor corresponding to surr[3] is opposite the vertex p[3].
-	double D;			///< 2*volume of tet.
+	double D;			///< 6*volume of tet.
 	double radius;		///< Radius of circumcircle of tet.
 
 	Tet() {
@@ -193,7 +193,7 @@ void Delaunay3d::compute_jacobian(Tet& elem)
 	ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
 	ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
 	ret -= nodes[elem.p[1]][0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-	elem.D = ret;
+	elem.D = -ret;
 }
 
 /** Computes cross product c of two 3-vectors a and b.*/
@@ -242,7 +242,7 @@ void Delaunay3d::compute_circumcircle(Tet& elem)
 	{
 		fin[idim] = dot(a,a)*n1[idim] + dot(b,b)*n2[idim] + dot(c,c)*n3[idim];
 		fin[idim] /= 6*elem.D;
-		elem.centre(idim) = fin[idim];
+		elem.centre[idim] = fin[idim];
 	}
 	elem.radius = l2norm(fin);
 }
@@ -305,23 +305,27 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 		return -1;
 	}
 	int ielem = startelement;
+	Tet super;
 	double l;
 	bool found;
-	cout << "Delaunay3D:   Finding containing triangle..." << endl;
+	cout << "Delaunay3d:   Finding containing tetrahedron..." << endl;
 	
 	while(1)
 	{
+		cout << "Delaunay3d:  find_containing_tet(): Current element = " << ielem << endl;
 		found = true;
 
-		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; }
-		Tet super = elems[ielem];
+		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; return ielem; }
+		super = elems[ielem];
+		cout << "  Jacobian = " << super.D;
 
 		for(int inode = 0; inode < nnode; inode++)
 		{
 			// get jacobian
-			l = det4(ielem,inode,xx);
+			l = -det4(ielem,inode,xx);
+			cout << "  " << l;
 			#if DEBUGW==1
-			if(dabs(l) < ZERO_TOL) cout << "Delaunay3D: find_containing_tet(): ! Degenerate case (type 1) for l " << inode << "!!\n";
+			if(dabs(l) < ZERO_TOL) cout << "Delaunay3D: find_containing_tet(): ! Degenerate case (type 1) " << inode << "!!\n";
 			#endif
 			if(l/super.D < 0)
 			{
@@ -330,6 +334,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 				break;
 			}
 		}
+		cout << endl;
 
 		// if all 4 area-ratios are positive, we've found our element
 		if(found) break;
@@ -378,20 +383,22 @@ void Delaunay3d::bowyer_watson()
 		rdelt[idim] = 1.0+(rmax[idim]-rmin[idim]);
 	Tet super;
 	vector<Point> pp(nnode);
+	for(int i = 0; i < nnode; i++)
+		pp[i].resize(ndim);
 	
-	pp[0](0) = rmin[0]-rdelt[0]; pp[0](1) = rmax[1] + rdelt[1]; pp[0](2) = rmin[2] - rdelt[2];
+	pp[0][0] = rmin[0]-rdelt[0]; pp[0][1] = rmax[1] + rdelt[1]; pp[0][2] = rmin[2] - rdelt[2];
 
-	pp[1](0) = rmin[0] + 2*(rmax[0]-rmin[0]) + 2*rdelt[0]; pp[1](1) = pp[0](1); pp[1](2) = pp[0](1);
+	pp[1][0] = rmin[0] + 2*(rmax[0]-rmin[0]) + 2*rdelt[0]; pp[1][1] = pp[0][1]; pp[1][2] = pp[0][1];
 
-	pp[2](0) = pp[0](0); pp[2](1) = pp[0](1); pp[2](2) = rmin[2] + 2*(rmax[2] - rmin[2]) + 2.0*rdelt[2];
+	pp[2][0] = pp[0][0]; pp[2][1] = pp[0][1]; pp[2][2] = rmin[2] + 2*(rmax[2] - rmin[2]) + 2.0*rdelt[2];
 
-	pp[3](0) = pp[0](0); pp[3](1) = rmax[1] - 2.0*(rmax[1]-rmin[1]) - rdelt[1]; pp[3](2) = pp[0](2);
+	pp[3][0] = pp[0][0]; pp[3][1] = rmax[1] - 2.0*(rmax[1]-rmin[1]) - rdelt[1]; pp[3][2] = pp[0][2];
 
 	cout << "Delaunay3d: bowyer_watson(): Coordinates of vertices of the super triangle are:\n";
 	for(int inode = 0; inode < nnode; inode++)
 	{
 		for(int idim = 0; idim < ndim; idim++)
-			cout << pp[inode](idim) << "\t";
+			cout << pp[inode][idim] << "\t";
 		cout << endl;
 	}
 	
@@ -403,8 +410,8 @@ void Delaunay3d::bowyer_watson()
 	for(int inode = 0; inode < nnode; inode++)
 		super.surr[inode] = -1;
 
-	super.D = compute_jacobian(super);
-	super.compute_circumcircle();
+	compute_jacobian(super);
+	compute_circumcircle(super);
 
 	elems.push_back(super);			// add super to elems list
 
@@ -597,7 +604,7 @@ void Delaunay3d::bowyer_watson()
 			}
 			else cout << "Delaunay2D: !! Error while creating new element - face " << voidpoly[ifa] << " in voidpoly does not have -2 as either left elem or right elem.\n";
 
-			nw.D = compute_jacobian(nw);
+			compute_jacobian(nw);
 			compute_circumcircle(nw);
 
 			//cout << "Delaunay3d:  New element circumcentre and radius: " << nw.centre.x << ", " << nw.centre.y << "; " << nw.radius << endl;
@@ -683,6 +690,7 @@ void Delaunay3d::bowyer_watson()
 		voidpoly.clear();
 	} // end iteration over points
 
+	cout << "Delaunay3d: bowyer_watson(): Number of elements before removing super points is " << elems.size() << endl;
 	// Remove super triangle
 	//cout << "Delaunay2D:  Remove super triangle\n";
 	for(int ielem = 0; ielem < elems.size(); ielem++)
@@ -691,7 +699,7 @@ void Delaunay3d::bowyer_watson()
 		bool finval = false;
 		for(int i = 0; i < nnode; i++)
 		{
-			if(elem[ielem].p[nnode] == 0 || elem[ielem].p[nnode] == 1 || elem[ielem].p[nnode] == 2 || elem[ielem].p[nnode] == 3) {
+			if(elems[ielem].p[nnode] == 0 || elems[ielem].p[nnode] == 1 || elems[ielem].p[nnode] == 2 || elems[ielem].p[nnode] == 3) {
 				finval = true;
 				break;
 			}
@@ -704,7 +712,7 @@ void Delaunay3d::bowyer_watson()
 			// re-adjust surr[] of each element. This is yet another place where we would benefit from a graph data structure.
 			for(int iel = 0; iel < elems.size(); iel++)
 			{
-				for(int j = 0; j < 3; j++)
+				for(int j = 0; j < nnode; j++)
 				{
 					if(elems[iel].surr[j] == ielem) elems[iel].surr[j] = -1;
 					if(elems[iel].surr[j] > ielem) elems[iel].surr[j]--;
@@ -716,14 +724,14 @@ void Delaunay3d::bowyer_watson()
 		}
 	}
 	// remove super nodes
-	nodes.erase(nodes.begin(),nodes.begin()+3);
-	for(int ielem = 0; ielem < elems.size(); ielem++)
+	nodes.erase(nodes.begin(),nodes.begin()+nnode);
+	/*for(int ielem = 0; ielem < elems.size(); ielem++)
 	{
 		for(int i = 0; i < nnode; i++)
 		{
-			elems[ielem].p[i] = elems[ielem].p[i]-3;
+			elems[ielem].p[i] = elems[ielem].p[i]-nnode;
 		}
-	}
+	}*/
 	// remove super faces - not needed
 	cout << "Delaunay3d: Triangulation done.\n";
 
@@ -739,7 +747,7 @@ void Delaunay3d::bowyer_watson()
 	}*/
 }
 
-void Delaunay3D::clear()					// reset the Delaunay2D object, except for input data
+void Delaunay3d::clear()					// reset the Delaunay2D object, except for input data
 {
 	nodes.clear();
 	elems.clear();
@@ -748,7 +756,7 @@ void Delaunay3D::clear()					// reset the Delaunay2D object, except for input da
 	voidpoly.clear();
 }
 
-void Delaunay3D::writeGmsh2(string mfile)
+void Delaunay3d::writeGmsh2(string mfile)
 {
 	ofstream outf(mfile);
 
@@ -761,7 +769,7 @@ void Delaunay3D::writeGmsh2(string mfile)
 	outf << "$Elements\n" << elems.size() << '\n';
 	for(int iel = 0; iel < elems.size(); iel++)
 	{
-		outf << iel+1 << " 3 2 0 2";
+		outf << iel+1 << " 4 2 0 2";
 		for(int i = 0; i < nnode; i++)
 			outf << " " << elems[iel].p[i]+1;
 		outf << '\n';
@@ -779,9 +787,10 @@ Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<dou
 	Walkdata dat;
 	if(xx.size() < 3) {
 		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
-		return -1;
+		return dat;
 	}
 	int ielem = startelement;
+	Tet super;
 	vector<double> l(ndim+1);
 	bool found;
 	cout << "Delaunay3D:   Finding containing tet..." << endl;
@@ -791,7 +800,7 @@ Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<dou
 		found = true;
 
 		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; }
-		Tet super = elems[ielem];
+		super = elems[ielem];
 
 		for(int inode = 0; inode < nnode; inode++)
 		{
@@ -818,17 +827,17 @@ Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<dou
 	return dat;
 }
 
-void Delaunay3D::compute_jacobians()
+void Delaunay3d::compute_jacobians()
 {
 	jacobians.setup(elems.size(),1);
 	for(int i = 0; i < elems.size(); i++)
 	{
-		elems[i].D = compute_jacobian(elems[i]);
+		compute_jacobian(elems[i]);
 		jacobians(i) = elems[i].D;
 	}
 }
 
-bool Delaunay3D::detect_negative_jacobians()
+bool Delaunay3d::detect_negative_jacobians()
 {
 	bool flagj = false;
 	for(int i = 0; i < elems.size(); i++)
