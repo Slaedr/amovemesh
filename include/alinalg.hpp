@@ -123,7 +123,7 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 	return b;
 }
 
-Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMALL_NUMBER/100.0)
+Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 {
 	//cout << "gausselim: Input LHS matrix is " << A.rows() << " x " << A.cols() << endl;
 	if(A.rows() != b.rows()) { cout << "gausselim: Invalid dimensions of A and b!\n"; return A; }

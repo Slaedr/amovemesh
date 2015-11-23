@@ -185,7 +185,7 @@ void Delaunay3d::setup(Matrix<double>* _points, int num_points)
 	nodes.reserve(num_points+3);
 }
 
-/** Computes 2*volume of any tetrahedron. */
+/** Computes 6*volume of any tetrahedron. */
 void Delaunay3d::compute_jacobian(Tet& elem)
 {	
 	double ret;
@@ -241,7 +241,7 @@ void Delaunay3d::compute_circumcircle(Tet& elem)
 	for(int idim = 0; idim < ndim; idim++)
 	{
 		fin[idim] = dot(a,a)*n1[idim] + dot(b,b)*n2[idim] + dot(c,c)*n3[idim];
-		fin[idim] /= 6*elem.D;
+		fin[idim] /= 2.0*elem.D;
 		elem.centre[idim] = fin[idim];
 	}
 	elem.radius = l2norm(fin);
@@ -469,6 +469,7 @@ void Delaunay3d::bowyer_watson()
 			#endif
 			if(dist < elems[curelem].radius*elems[curelem].radius)		// if point lies inside circumcircle, ie, Delaunay criterion is violated
 			{
+				cout << "TRUE" << endl;
 				badelems.push_back(curelem);
 				stk.pop_back();
 				for(int j = 0; j < ndim+1; j++)
@@ -482,10 +483,10 @@ void Delaunay3d::bowyer_watson()
 		}
 
 		// Output badelems for debug purpose
-		/*cout << "Delaunay2D:  Badelems: ";
+		cout << "Delaunay3d:  Badelems: ";
 		for(int i = 0; i < badelems.size(); i++)
 			cout << badelems[i] << " ";
-		cout << endl;*/
+		cout << endl;
 
 		/// Third, store the faces that will be obtained after removal of bad triangles
 		//cout << "Delaunay2D:  Third, store the faces that will be obtained after removal of bad triangles\n";

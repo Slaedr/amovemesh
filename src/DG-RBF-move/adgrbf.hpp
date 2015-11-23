@@ -8,16 +8,16 @@ Oct 7, 2015: Changed the way s (prescribed boundary motion at each DG point) is 
 Oct 7, 2015: Added a similar class, DGRBFrotate, for rotation interpolation.
 */
 
-#ifndef __ALINALG_H
+/*#ifndef __ALINALG_H
 #include <alinalg.hpp>
-#endif
+#endif*/
 
 #ifndef __ABOWYERWATSON_H
 #include <abowyerwatson.hpp>
 #endif
 
 #ifndef ZERO_TOL
-	#define ZERO_TOL 1e-14
+	#define ZERO_TOL 1e-15
 #endif
 
 using namespace std;
@@ -663,6 +663,7 @@ public:
 		int elem; 
 		double* rr = new double[ndim];
 		double sum = 0;
+		vector<double> rp(ndim);
 		// This loop can be parallelized
 		for(int ipoin = 0; ipoin < ninpoin; ipoin++)
 		{
@@ -699,8 +700,10 @@ public:
 				//points(ipoin,1) = (points(ipoin,1) - rc[1])*cos(rr[0]) - (points(ipoin,0)-rc[0])*sin(rr[0]) + rc[1];
 
 				// the ones below are derived by me (just rotation in opposite direction to above)
-				points(ipoin,0) = (points(ipoin,0) - rc[0])*cos(rr[0]) - (points(ipoin,1)-rc[1])*sin(rr[0]) + rc[0];
-				points(ipoin,1) = (points(ipoin,1) - rc[1])*cos(rr[0]) + (points(ipoin,0)-rc[0])*sin(rr[0]) + rc[1];
+				rp[0] = (points(ipoin,0) - rc[0])*cos(rr[0]) - (points(ipoin,1)-rc[1])*sin(rr[0]) + rc[0];
+				rp[1] = (points(ipoin,1) - rc[1])*cos(rr[0]) + (points(ipoin,0)-rc[0])*sin(rr[0]) + rc[1];
+				points(ipoin,0) = rp[0];
+				points(ipoin,1) = rp[1];
 			}
 			else {
 				cout << "DGRBFrotate: movemesh(): ! Position update not implemented for 3d!!" << endl;
@@ -715,8 +718,10 @@ public:
 		for(int ipoin = 0; ipoin < ndgpoin; ipoin++)
 		{
 			if(ndim == 2) {
-				dgpoints(ipoin,0) = (dgpoints(ipoin,0) - rc[0])*cos(bmotionb(ipoin)) - (dgpoints(ipoin,1)-rc[1])*sin(bmotionb(ipoin)) + rc[0];
-				dgpoints(ipoin,1) = (dgpoints(ipoin,1) - rc[1])*cos(bmotionb(ipoin)) + (dgpoints(ipoin,0)-rc[0])*sin(bmotionb(ipoin)) + rc[1];
+				rp[0] = (dgpoints(ipoin,0) - rc[0])*cos(bmotionb(ipoin)) - (dgpoints(ipoin,1)-rc[1])*sin(bmotionb(ipoin)) + rc[0];
+				rp[1] = (dgpoints(ipoin,1) - rc[1])*cos(bmotionb(ipoin)) + (dgpoints(ipoin,0)-rc[0])*sin(bmotionb(ipoin)) + rc[1];
+				dgpoints(ipoin,0) = rp[0];
+				dgpoints(ipoin,1) = rp[1];
 			}
 			else {
 				cout << "DGRBFrotate: movemesh(): ! Position update not implemented for 3d!!" << endl;

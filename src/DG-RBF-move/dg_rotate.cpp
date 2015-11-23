@@ -33,6 +33,7 @@ int main()
 	double angle = stod(anglestr)*PI/180.0;			// convert to radians
 	cout << "support radius is " << suprad << endl;
 	cout << "Centre is " << centre[0] << " " << centre[1] << endl;
+	cout << "Angle is " << angle << endl;
 
 	// read mesh
 	UMesh2d m;
