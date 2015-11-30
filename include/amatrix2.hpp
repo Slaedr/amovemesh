@@ -1,12 +1,20 @@
-/*
-This file defines a class Matrix to store a matrix in column-major or row-major storage.
+/**
+@file amatrix2.hpp
+@brief Defines a class to manipulate matrices.
 
-Aditya Kashi
-Feb 10, 2015
+Part of Amocurve.
+@author Aditya Kashi
+@date Feb 10, 2015
+*/
+
+/**
+\class Matrix
+\brief Stores a dense matrix.
 
 Notes:
 If A is a column-major matrix, A[i][j] == A[j * nrows + i] where i is the row-index and j is the column index.
 
+\todo
 TODO: Make 'storage' a template parameter rather than class member, OR, eliminate storage order choice - make everything rowmajor
 TODO: (Not really needed) Make a Vector class, maybe as a sub-class of Matrix
 */
@@ -51,11 +59,12 @@ TODO: (Not really needed) Make a Vector class, maybe as a sub-class of Matrix
 #define MATRIX_DOUBLE_PRECISION 14
 #endif
 
-//using namespace std;
+namespace amat {
 
 const int WIDTH = 10;		// width of field for printing matrices
 
-namespace amat {
+template <class T>
+class Matrix;
 
 double dabs(double x)
 {
@@ -69,6 +78,10 @@ double minmod(double a, double b)
 	else return 0.0;
 }
 
+template <typename T>
+T determinant(const Matrix<T>& mat);
+
+/// Matrix storage type. Note that its usage is deprecated.
 enum MStype {ROWMAJOR, COLMAJOR};
 
 template <class T>
@@ -83,7 +96,7 @@ private:
 	bool isalloc;
 
 public:
-	//No-arg constructor. Note: no memory allocation! Make sure Matrix::setup(int,int,MStype) is used.
+	///No-arg constructor. Note: no memory allocation! Make sure Matrix::setup(int,int,MStype) is used.
 	Matrix()
 	{
 		nrows = 0; ncols = 0; size = 0;
@@ -150,7 +163,7 @@ public:
 		return *this;
 	}
 
-	//Separate setup function in case no-arg constructor has to be used
+	/// Separate setup function in case no-arg constructor has to be used
 	void setup(int nr, int nc, MStype st=ROWMAJOR)
 	{
 		if(nc==0)
@@ -171,7 +184,7 @@ public:
 		isalloc = true;
 	}
 
-	// no deleting earlier allocation: use in case of Matrix<t>* (pointer to Matrix<t>)
+	/// Setup without deleting earlier allocation: use in case of Matrix<t>* (pointer to Matrix<t>)
 	void setupraw(int nr, int nc, MStype st)
 	{
 		//std::cout << "\nEntered setupraw";
@@ -190,7 +203,8 @@ public:
 		elems = new T[nrows*ncols];
 		isalloc = true;
 	}
-
+	
+	/// Fill the matrix with zeros.
 	void zeros()
 	{
 		for(int i = 0; i < size; i++)
@@ -213,7 +227,7 @@ public:
 				else operator()(i,j) = zero;
 	}
 
-	// function to set matrix elements from a ROW-MAJOR std::vector
+	/// function to set matrix elements from a ROW-MAJOR array
 	void setdata(const T* A, int sz)
 	{
 #ifdef DEBUG
@@ -262,6 +276,7 @@ public:
 	int msize() const { return size; }
 	MStype storetype() const { return storage;}
 
+	/// Prints the matrix to standard output.
 	void mprint() const
 	{
 		std::cout << "\n";
@@ -281,6 +296,7 @@ public:
 			}
 	}
 
+	/// Prints the matrix to file
 	void fprint(std::ofstream& outfile) const
 	{
 		//outfile << '\n';
@@ -301,6 +317,7 @@ public:
 			}
 	}
 
+	/// Reads matrix from file
 	void fread(std::ifstream& infile)
 	{
 		infile >> nrows; infile >> ncols;
@@ -318,7 +335,7 @@ public:
 					infile >> elems[j*nrows + i];
 	}
 
-	// For expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141
+	/// Getter/setter function for expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141
 	T& operator()(int x, int y=0)
 	{
 #ifdef DEBUG
@@ -360,6 +377,7 @@ public:
 		return max;
 	}
 
+	/// Returns the magnitude of the element with largest magnitude
 	double dabsmax() const
 	{
 		double max = dabs((double)elems[0]);
@@ -401,7 +419,8 @@ public:
 		return avg;
 	}
 
-	T l2norm() const		// sums the square of all elements in the matrix and returns the square root of this sum
+	// sums the square of all elements in the matrix and returns the square root of this sum
+	T l2norm() const		
 	{
 		T tot = 0;
 		for(int i = 0; i < size; i++)
@@ -412,7 +431,7 @@ public:
 		return tot;
 	}
 
-	// function to return a sub-matrix of this matrix
+	/// function to return a sub-matrix of this matrix
 	Matrix<T> sub(int startr, int startc, int offr, int offc) const
 	{
 		Matrix<T> B(offr, offc);
@@ -427,7 +446,7 @@ public:
 		return B;
 	}
 
-	//Function that returns a given column of the matrix as a row-major matrix
+	/// Function that returns a given column of the matrix as a row-major matrix
 	Matrix<T> col(int j) const
 	{
 		Matrix<T> b(nrows, 1);
@@ -466,7 +485,7 @@ public:
 		return *b;
 	} */
 
-	// Function for replacing a column of the matrix with a vector. NOTE: No check for whether b is really a vector - which it must be.
+	/// Function for replacing a column of the matrix with a vector. NOTE: No check for whether b is really a vector - which it must be.
 	void replacecol(int j, Matrix<T> b)
 	{
 #ifdef DEBUG
@@ -480,7 +499,7 @@ public:
 				elems[i*ncols + j] = b.elems[i];
 	}
 
-	//Function for replacing a row
+	/// Function for replacing a row
 	void replacerow(int i, Matrix<T> b)
 	{
 #ifdef DEBUG
@@ -494,7 +513,7 @@ public:
 				elems[i*ncols + j] = b.elems[j];
 	}
 
-	//transpose
+	/// Returns the transpose
 	Matrix<T> trans() const
 	{
 		Matrix<T> t(ncols, nrows, storage);
@@ -504,7 +523,7 @@ public:
 		return t;
 	}
 
-	// Multiply a matrix by a scalar. Note: only expressions of type A*3 work, not 3*A
+	/// Multiply a matrix by a scalar. Note: only expressions of type A*3 work, not 3*A
 	Matrix<T> operator*(T num)
 	{
 		Matrix<T> A(nrows,ncols,storage);
@@ -571,8 +590,8 @@ public:
 		return C;
 	}
 
+	/// Returns sum of products of respective elements of flattened arrays containing matrix elements of this and A
 	T dot_product(const Matrix<T>& A)
-	/* Returns sum of products of respective elements of flattened arrays containing matrix elements of this and A */
 	{
 		T* elemsA = A.elems;
 		#ifdef _OPENMP
@@ -589,6 +608,56 @@ public:
 		}
 		return ans;
 	}
+
+	friend T determinant<>(const Matrix<T>& mat);
 };
 
+/// Recursively computes the determinant of a matrix.
+/** Note that the algorithm used here is inefficient - by my estimate, it takes O(n!) operations to compute, where n is the size of the matrix.
+* However, for small matrices, say n < 6, this naive method is probably better than some other method such as LU decomposition. The latter is O(n^3).
+*/
+template <typename T>
+T determinant(const Matrix<T>& mat)
+{
+#ifdef DEBUG
+	if(mat.nrows != mat.ncols || mat.nrows < 2) {
+		std::cout << "Matrix: determinant(): Size error!" << std::endl;
+		return 0;
+	}
+#endif
+	if(mat.nrows == 2)
+		return mat.get(0,0)*mat.get(1,1) - mat.get(0,1)*mat.get(1,0);
+	else
+	{
+		T det;
+		// create minors
+		Matrix<T>* submat;
+		submat = new Matrix<T>[mat.nrows];
+		T* dets = new T[mat.nrows];
+		for(int k = 0; k < mat.nrows; k++)
+		{
+			submat[k].setup(mat.nrows-1,mat.nrows-1);
+			int i,j, ii=0, jj=0;
+			for(i = 1; i < mat.nrows; i++)		// leave first row
+			{
+				jj = 0;
+				for(j = 0; j < mat.ncols; j++)
+				{
+					if(j == k) continue;
+					submat[k](ii,jj) = mat.get(i,j);
+					//std::cout << "Element " << i << "," << j << " of original matrix stored in element " << ii << "," << jj << " of sub-matrix " << k << std::endl;
+					jj++;
+				}
+				ii++;
+			}
+			// recursive call
+			dets[k] = determinant(submat[k]);
+			// compute the determinant
+			det += (T)(pow(-1.0,k+1))*mat.get(0,k)*dets[k];
+		}
+		delete [] submat;
+		delete [] dets;
+		return det;
+	}
+}
 } //end namespace amat

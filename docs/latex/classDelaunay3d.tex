@@ -1,0 +1,149 @@
+\hypertarget{classDelaunay3d}{\section{Delaunay3d Class Reference}
+\label{classDelaunay3d}\index{Delaunay3d@{Delaunay3d}}
+}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classDelaunay3d_abe712c140487218604eafa7b5699a82b}{{\bfseries Delaunay3d} (Matrix$<$ double $>$ $\ast$\-\_\-points, int num\-\_\-points)}\label{classDelaunay3d_abe712c140487218604eafa7b5699a82b}
+
+\item 
+\hypertarget{classDelaunay3d_a53ba9360ae73bc4be8e1bf10b0bd71e0}{{\bfseries Delaunay3d} (const \hyperlink{classDelaunay3d}{Delaunay3d} \&other)}\label{classDelaunay3d_a53ba9360ae73bc4be8e1bf10b0bd71e0}
+
+\item 
+\hypertarget{classDelaunay3d_af4f12bb96cecb18e6b3afd607a4df832}{\hyperlink{classDelaunay3d}{Delaunay3d} \& {\bfseries operator=} (const \hyperlink{classDelaunay3d}{Delaunay3d} \&other)}\label{classDelaunay3d_af4f12bb96cecb18e6b3afd607a4df832}
+
+\item 
+\hypertarget{classDelaunay3d_af28bf31d5febf051c9a2d1a6c421b090}{void {\bfseries setup} (Matrix$<$ double $>$ $\ast$\-\_\-points, int num\-\_\-points)}\label{classDelaunay3d_af28bf31d5febf051c9a2d1a6c421b090}
+
+\item 
+\hypertarget{classDelaunay3d_a66361bf4bb01c8851333d1e37d9a439d}{double {\bfseries l2norm} (const vector$<$ double $>$ \&a)}\label{classDelaunay3d_a66361bf4bb01c8851333d1e37d9a439d}
+
+\item 
+\hypertarget{classDelaunay3d_a71612b6b61b2128a699d5c5513879a07}{double {\bfseries dot} (const vector$<$ double $>$ \&a, const vector$<$ double $>$ \&b)}\label{classDelaunay3d_a71612b6b61b2128a699d5c5513879a07}
+
+\item 
+void \hyperlink{classDelaunay3d_a096cf0a463d63b968018a2c22f9f99cb}{compute\-\_\-jacobian} (\hyperlink{classTet}{Tet} \&elem)
+\item 
+void \hyperlink{classDelaunay3d_a70437b8f7fe094a42b1383c12dff999c}{cross\-\_\-product3} (vector$<$ double $>$ \&c, const vector$<$ double $>$ \&a, const vector$<$ double $>$ \&b)
+\item 
+\hypertarget{classDelaunay3d_a29fcc2ab4187bcdee2a9b0481cfee87b}{void {\bfseries compute\-\_\-circumsphere} (\hyperlink{classTet}{Tet} \&elem)}\label{classDelaunay3d_a29fcc2ab4187bcdee2a9b0481cfee87b}
+
+\item 
+double \hyperlink{classDelaunay3d_a757ff79c60a75b78b7441c585252cc0a}{det4} (int ielem, int i, const vector$<$ double $>$ \&r) const 
+\item 
+\hypertarget{classDelaunay3d_aceecd74eb976c65e5b2fbe6a03e88e1d}{int {\bfseries find\-\_\-containing\-\_\-tet} (const vector$<$ double $>$ \&r, int startelement) const }\label{classDelaunay3d_aceecd74eb976c65e5b2fbe6a03e88e1d}
+
+\item 
+int \hyperlink{classDelaunay3d_aab9796c1c3cf7aafb89fdcb407695923}{check\-\_\-face\-\_\-tet} (const \hyperlink{classTet}{Tet} \&elem, const \hyperlink{structFace}{Face} \&face) const 
+\item 
+void \hyperlink{classDelaunay3d_a1b400eb3465cefeccc300f497eb0616b}{compute\-\_\-circumcircle} (\hyperlink{classTet}{Tet} \&elem)
+\item 
+void \hyperlink{classDelaunay3d_a7bee4058767627eccd7b1e400ed69f92}{bowyer\-\_\-watson} ()
+\item 
+\hypertarget{classDelaunay3d_a9ae73ad17b71066c3c6d2dfd94cf9921}{void \hyperlink{classDelaunay3d_a9ae73ad17b71066c3c6d2dfd94cf9921}{clear} ()}\label{classDelaunay3d_a9ae73ad17b71066c3c6d2dfd94cf9921}
+
+\begin{DoxyCompactList}\small\item\em Reset the \hyperlink{classDelaunay3d}{Delaunay3d} object, except for input data. \end{DoxyCompactList}\item 
+\hypertarget{classDelaunay3d_a8cece1786c45c77d43bade6d1f081c6a}{void {\bfseries write\-Gmsh2} (string mfile)}\label{classDelaunay3d_a8cece1786c45c77d43bade6d1f081c6a}
+
+\item 
+\hypertarget{classDelaunay3d_af6557b81e00a71b8990974c0a5ad1a20}{\hyperlink{structWalkdata}{Walkdata} {\bfseries find\-\_\-containing\-\_\-tet\-\_\-and\-\_\-barycentric\-\_\-coords} (const vector$<$ double $>$ \&rr, int startelement) const }\label{classDelaunay3d_af6557b81e00a71b8990974c0a5ad1a20}
+
+\item 
+\hypertarget{classDelaunay3d_a4751319429c34ae060834a9942b28f5e}{void {\bfseries compute\-\_\-jacobians} ()}\label{classDelaunay3d_a4751319429c34ae060834a9942b28f5e}
+
+\item 
+\hypertarget{classDelaunay3d_ae2c595128a16dcdc725a8fe10f44fc47}{bool {\bfseries detect\-\_\-negative\-\_\-jacobians} ()}\label{classDelaunay3d_ae2c595128a16dcdc725a8fe10f44fc47}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{classDelaunay3d_a938f34fc5d7b0ef177092389226b3620}{Matrix$<$ double $>$ {\bfseries points}}\label{classDelaunay3d_a938f34fc5d7b0ef177092389226b3620}
+
+\item 
+\hypertarget{classDelaunay3d_a4f767d7975fdd85a5a326999eb04f557}{std\-::vector$<$ Point $>$ \hyperlink{classDelaunay3d_a4f767d7975fdd85a5a326999eb04f557}{nodes}}\label{classDelaunay3d_a4f767d7975fdd85a5a326999eb04f557}
+
+\begin{DoxyCompactList}\small\item\em List of nodes in the Delaunay graph. \end{DoxyCompactList}\item 
+\hypertarget{classDelaunay3d_ab97f146049daef3d7a79939fa6bdc629}{std\-::vector$<$ \hyperlink{classTet}{Tet} $>$ \hyperlink{classDelaunay3d_ab97f146049daef3d7a79939fa6bdc629}{elems}}\label{classDelaunay3d_ab97f146049daef3d7a79939fa6bdc629}
+
+\begin{DoxyCompactList}\small\item\em List of all elements (\hyperlink{classTet}{tetrahedra}) in the Delaunay graph. \end{DoxyCompactList}\item 
+\hypertarget{classDelaunay3d_a49a8bff2fcbe3adfbdaacbafc8abf34a}{std\-::vector$<$ int $>$ \hyperlink{classDelaunay3d_a49a8bff2fcbe3adfbdaacbafc8abf34a}{badelems}}\label{classDelaunay3d_a49a8bff2fcbe3adfbdaacbafc8abf34a}
+
+\begin{DoxyCompactList}\small\item\em Collection of 'bad elements', that are to be removed while adding a point; its are integers that index members index \hyperlink{classDelaunay3d_ab97f146049daef3d7a79939fa6bdc629}{elems}. \end{DoxyCompactList}\item 
+\hypertarget{classDelaunay3d_a52099509435e33e359a20e6da2ff9bfa}{std\-::vector$<$ \hyperlink{structFace}{Face} $>$ \hyperlink{classDelaunay3d_a52099509435e33e359a20e6da2ff9bfa}{faces}}\label{classDelaunay3d_a52099509435e33e359a20e6da2ff9bfa}
+
+\begin{DoxyCompactList}\small\item\em List of all \hyperlink{structFace}{faces} in the Delaunay graph. \end{DoxyCompactList}\item 
+\hypertarget{classDelaunay3d_acae7eb79f62b26d6176c0f92e190490f}{std\-::vector$<$ int $>$ \hyperlink{classDelaunay3d_acae7eb79f62b26d6176c0f92e190490f}{voidpoly}}\label{classDelaunay3d_acae7eb79f62b26d6176c0f92e190490f}
+
+\begin{DoxyCompactList}\small\item\em Collection of faces that bounds the void obtained after removing bad elements while adding a point; its members are integers that index \hyperlink{classDelaunay3d_a52099509435e33e359a20e6da2ff9bfa}{faces}. \end{DoxyCompactList}\item 
+\hypertarget{classDelaunay3d_a612475276e0fa983028c19cb0f22d316}{Matrix$<$ double $>$ {\bfseries jacobians}}\label{classDelaunay3d_a612475276e0fa983028c19cb0f22d316}
+
+\item 
+\hypertarget{classDelaunay3d_a4cbd7a4e470643e9e5ab884869eb90e8}{int {\bfseries npoints}}\label{classDelaunay3d_a4cbd7a4e470643e9e5ab884869eb90e8}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classDelaunay3d_a7bee4058767627eccd7b1e400ed69f92}{\index{Delaunay3d@{Delaunay3d}!bowyer\-\_\-watson@{bowyer\-\_\-watson}}
+\index{bowyer\-\_\-watson@{bowyer\-\_\-watson}!Delaunay3d@{Delaunay3d}}
+\subsubsection[{bowyer\-\_\-watson}]{\setlength{\rightskip}{0pt plus 5cm}void Delaunay3d\-::bowyer\-\_\-watson (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{classDelaunay3d_a7bee4058767627eccd7b1e400ed69f92}
+Computes the Delaunay triangulation (tetrahedralization, in this case). Make sure 'points' has space for three more points when passing to this sub. 'N' is the actual number of real points. First, find the element containing the new point
+
+Second, search among neighbors for other triangles whose circumcircles contain this point
+
+Third, store the faces that will be obtained after removal of bad triangles
+
+Delete faces which are between two bad elements. N\-O\-T\-E\-: This is one place that is ineffecient because of use of array stacks (std\-::vectors) as it needs deletion of arbitrary members.
+
+Fourth, delete bad elements. This is another place where array stacks (vectors) of elems, badelems etc make the program slower.
+
+Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'. \hypertarget{classDelaunay3d_aab9796c1c3cf7aafb89fdcb407695923}{\index{Delaunay3d@{Delaunay3d}!check\-\_\-face\-\_\-tet@{check\-\_\-face\-\_\-tet}}
+\index{check\-\_\-face\-\_\-tet@{check\-\_\-face\-\_\-tet}!Delaunay3d@{Delaunay3d}}
+\subsubsection[{check\-\_\-face\-\_\-tet}]{\setlength{\rightskip}{0pt plus 5cm}int Delaunay3d\-::check\-\_\-face\-\_\-tet (
+\begin{DoxyParamCaption}
+\item[{const {\bf Tet} \&}]{elem, }
+\item[{const {\bf Face} \&}]{face}
+\end{DoxyParamCaption}
+) const\hspace{0.3cm}{\ttfamily [inline]}}}\label{classDelaunay3d_aab9796c1c3cf7aafb89fdcb407695923}
+Returns the local face number (number of node opposite to the face) of elem's face that is the same as the second argument. If no faces of elem match, it returns -\/1. \hypertarget{classDelaunay3d_a1b400eb3465cefeccc300f497eb0616b}{\index{Delaunay3d@{Delaunay3d}!compute\-\_\-circumcircle@{compute\-\_\-circumcircle}}
+\index{compute\-\_\-circumcircle@{compute\-\_\-circumcircle}!Delaunay3d@{Delaunay3d}}
+\subsubsection[{compute\-\_\-circumcircle}]{\setlength{\rightskip}{0pt plus 5cm}void Delaunay3d\-::compute\-\_\-circumcircle (
+\begin{DoxyParamCaption}
+\item[{{\bf Tet} \&}]{elem}
+\end{DoxyParamCaption}
+)}}\label{classDelaunay3d_a1b400eb3465cefeccc300f497eb0616b}
+Computes circumcentre and circumradius of a \hyperlink{classTet}{tetrahedron}. N\-O\-T\-E\-: The tetrahedron's jacobian (2$\ast$volume) should be stored in \mbox{[}elem.\-D\mbox{]}(\&ref D) beforehand. The center and radius of the circumsphere are calculated as follows. The circumcenter is \[ \mathbf{O} = \frac{|\mathbf{a}^2(\mathbf{b}\times \mathbf{c}) + \mathbf{b}^2(\mathbf{c}\times \mathbf{a}) + \mathbf{c}^2(\mathbf{a}\times \mathbf{b})|}{12 V} \] and the radius $ R = |\mathbf{O}|$. \hypertarget{classDelaunay3d_a096cf0a463d63b968018a2c22f9f99cb}{\index{Delaunay3d@{Delaunay3d}!compute\-\_\-jacobian@{compute\-\_\-jacobian}}
+\index{compute\-\_\-jacobian@{compute\-\_\-jacobian}!Delaunay3d@{Delaunay3d}}
+\subsubsection[{compute\-\_\-jacobian}]{\setlength{\rightskip}{0pt plus 5cm}void Delaunay3d\-::compute\-\_\-jacobian (
+\begin{DoxyParamCaption}
+\item[{{\bf Tet} \&}]{elem}
+\end{DoxyParamCaption}
+)}}\label{classDelaunay3d_a096cf0a463d63b968018a2c22f9f99cb}
+Computes 6$\ast$volume of any tetrahedron. \hypertarget{classDelaunay3d_a70437b8f7fe094a42b1383c12dff999c}{\index{Delaunay3d@{Delaunay3d}!cross\-\_\-product3@{cross\-\_\-product3}}
+\index{cross\-\_\-product3@{cross\-\_\-product3}!Delaunay3d@{Delaunay3d}}
+\subsubsection[{cross\-\_\-product3}]{\setlength{\rightskip}{0pt plus 5cm}void Delaunay3d\-::cross\-\_\-product3 (
+\begin{DoxyParamCaption}
+\item[{vector$<$ double $>$ \&}]{c, }
+\item[{const vector$<$ double $>$ \&}]{a, }
+\item[{const vector$<$ double $>$ \&}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{classDelaunay3d_a70437b8f7fe094a42b1383c12dff999c}
+Computes cross product c of two 3-\/vectors a and b. \hypertarget{classDelaunay3d_a757ff79c60a75b78b7441c585252cc0a}{\index{Delaunay3d@{Delaunay3d}!det4@{det4}}
+\index{det4@{det4}!Delaunay3d@{Delaunay3d}}
+\subsubsection[{det4}]{\setlength{\rightskip}{0pt plus 5cm}double Delaunay3d\-::det4 (
+\begin{DoxyParamCaption}
+\item[{int}]{ielem, }
+\item[{int}]{i, }
+\item[{const vector$<$ double $>$ \&}]{r}
+\end{DoxyParamCaption}
+) const}}\label{classDelaunay3d_a757ff79c60a75b78b7441c585252cc0a}
+Calculates the jacobian of the tetrahedron formed by point r and a face of tetrahedron ielem. The face is selected by i between 0 and 3. \hyperlink{structFace}{Face} i is the face opposite to local node i of the tetrahedron. 
+
+The documentation for this class was generated from the following file\-:\begin{DoxyCompactItemize}
+\item 
+/home/aditya/\-Myprojects/amovemesh/include/abowyerwatson3d.\-hpp\end{DoxyCompactItemize}

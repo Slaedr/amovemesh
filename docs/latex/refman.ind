@@ -1,0 +1,46 @@
+\begin{theindex}
+
+  \item {bowyer\discretionary {-}{}{}\_\discretionary {-}{}{}watson}
+    \subitem {Delaunay3d}, \hyperpage{4}
+
+  \indexspace
+
+  \item {check\discretionary {-}{}{}\_\discretionary {-}{}{}face\discretionary {-}{}{}\_\discretionary {-}{}{}tet}
+    \subitem {Delaunay3d}, \hyperpage{4}
+  \item {compute\discretionary {-}{}{}\_\discretionary {-}{}{}circumcircle}
+    \subitem {Delaunay3d}, \hyperpage{4}
+  \item {compute\discretionary {-}{}{}\_\discretionary {-}{}{}jacobian}
+    \subitem {Delaunay3d}, \hyperpage{4}
+  \item {cross\discretionary {-}{}{}\_\discretionary {-}{}{}product3}
+    \subitem {Delaunay3d}, \hyperpage{4}
+
+  \indexspace
+
+  \item {Delaunay3d}, \hyperpage{3}
+    \subitem {bowyer\discretionary {-}{}{}\_\discretionary {-}{}{}watson}, 
+		\hyperpage{4}
+    \subitem {check\discretionary {-}{}{}\_\discretionary {-}{}{}face\discretionary {-}{}{}\_\discretionary {-}{}{}tet}, 
+		\hyperpage{4}
+    \subitem {compute\discretionary {-}{}{}\_\discretionary {-}{}{}circumcircle}, 
+		\hyperpage{4}
+    \subitem {compute\discretionary {-}{}{}\_\discretionary {-}{}{}jacobian}, 
+		\hyperpage{4}
+    \subitem {cross\discretionary {-}{}{}\_\discretionary {-}{}{}product3}, 
+		\hyperpage{4}
+    \subitem {det4}, \hyperpage{4}
+  \item {det4}
+    \subitem {Delaunay3d}, \hyperpage{4}
+
+  \indexspace
+
+  \item {Face}, \hyperpage{5}
+
+  \indexspace
+
+  \item {Tet}, \hyperpage{5}
+
+  \indexspace
+
+  \item {Walkdata}, \hyperpage{6}
+
+\end{theindex}

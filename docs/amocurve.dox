@@ -1,0 +1,16 @@
+/**
+\mainpage
+\author Aditya Kashi
+
+This library contains implementations of various methods for mesh movement, including
+- interpolation by Delaunay graph mapping (DGM)
+- interpolation by Radial basis functions (RBF)
+- interpolation by both DGM and RBF (DGRBF)
+- lineal spring analogy
+- torsional spring analogy
+- linear elasticity.
+
+The interpolation-based nethods are applicable to any type of mesh, while the others are currently only implemented for triangular meshes.
+
+In high-order CFD methods, it is necessary to use curved meshes for geometries with curved boundaries to achieve design order of accuracy. Thus, one major application of these mesh movement schemes is in curved mesh generation. Classes for curved mesh generation have been implemented utilizing some of the mesh movement methods.
+*/

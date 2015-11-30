@@ -1063,10 +1063,10 @@ public:
 		// insertion sort
 		int tempc = 0; T tempv = 0; int j = 0;
 
-		vector<int>* rsize = &(this->rsize);
+		std::vector<int>* rsize = &(this->rsize);
 		#ifdef _OPENMP
-		vector<T>* val = this->val;
-		vector<int>* col_ind = this->col_ind;
+		std::vector<T>* val = this->val;
+		std::vector<int>* col_ind = this->col_ind;
 		int nrows = this->nrows;
 		int ncols = this->ncols;
 		#endif
