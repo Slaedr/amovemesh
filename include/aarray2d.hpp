@@ -1,14 +1,12 @@
-/*
-This file defines a class Array2d to store a 2D array in column-major or row-major storage.
-
-Aditya Kashi
-November 16, 2015
-
+/**
+@file aarrray2d.hpp
+@brief This file defines a class Array2d to store a 2D array in column-major or row-major storage.
+@author Aditya Kashi
+@date November 16, 2015
 Notes:
 This class is almost a copy of the Matrix class.
 Matrix multiplication has been removed; it was inefficient anyway.
 If A is a column-major matrix, A[i][j] == A[j * nrows + i] where i is the row-index and j is the column index.
-
 */
 
 // Comment out the following line for removing array index-range checks and thus improving performance
@@ -51,8 +49,6 @@ If A is a column-major matrix, A[i][j] == A[j * nrows + i] where i is the row-in
 #define MATRIX_DOUBLE_PRECISION 14
 #endif
 
-//using namespace std;
-
 const int WIDTH = 10;		// width of field for printing matrices
 
 namespace amat {
@@ -83,10 +79,10 @@ private:
 	bool isalloc;
 
 public:
-	//No-arg constructor. Note: no memory allocation! Make sure Array2d::setup(int,int,MStype) is used.
+	/// No-arg constructor. Note: no memory allocation! Make sure Array2d<T>::setup(int,int,MStype) is used.
 	Array2d();
 
-	// Full-arg constructor
+	/// Full-arg constructor.
 	Array2d(int nr, int nc, MStype st = ROWMAJOR);
 
 	Array2d(const Array2d<T>& other);
@@ -95,10 +91,10 @@ public:
 
 	Array2d<T>& operator=(Array2d<T> rhs);
 
-	//Separate setup function in case no-arg constructor has to be used
+	/// Separate setup function in case no-arg constructor has to be used.
 	void setup(int nr, int nc, MStype st=ROWMAJOR);
 
-	// no deleting earlier allocation: use in case of Array2d<t>* (pointer to Array2d<t>)
+	/// Same as [setup](@ref setup), but without deleting earlier allocation: use in case of Array2d<t>* (pointer to Array2d<t>)
 	void setupraw(int nr, int nc, MStype st);
 
 	void zeros();
@@ -107,7 +103,7 @@ public:
 
 	void identity();
 
-	// function to set matrix elements from a ROW-MAJOR std::vector
+	/// Function to set matrix elements from a ROW-MAJOR std::vector
 	void setdata(const T* A, int sz);
 
 	inline T get(int i, int j=0) const;
@@ -125,7 +121,7 @@ public:
 
 	void fread(std::ifstream& infile);
 
-	// For expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141
+	/// For expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141.
 	T& operator()(int x, int y=0);
 
 	T maxincol(int j) const;
@@ -148,10 +144,10 @@ public:
 
 	T l2norm() const;		// sums the square of all elements in the matrix and returns the square root of this sum
 
-	// function to return a sub-matrix of this matrix
+	/// function to return a sub-matrix of this matrix
 	Array2d<T> sub(int startr, int startc, int offr, int offc) const;
 
-	//Function that returns a given column of the matrix as a row-major matrix
+	/// Function that returns a given column of the matrix as a row-major matrix
 	Array2d<T> col(int j) const;
 
 	Array2d<T> row(int i) const;
@@ -159,16 +155,18 @@ public:
 	/*//Function to return a reference to a given column of the matrix
 	Array2d<T>& colr(int j); */
 
-	// Function for replacing a column of the matrix with a vector. NOTE: No check for whether b is really a vector - which it must be.
+	/// Function for replacing a column of the matrix with a vector. 
+	/** NOTE: No check for whether b is really a vector - which it must be.
+	*/
 	void replacecol(int j, Array2d<T> b);
 
-	//Function for replacing a row
+	/// Function for replacing a row
 	void replacerow(int i, Array2d<T> b);
 
-	//transpose
+	/// Computes transpose.
 	Array2d<T> trans() const;
 
-	// Multiply a matrix by a scalar. Note: only expressions of type A*3 work, not 3*A
+	/// Multiply a matrix by a scalar. Note: only expressions of type A*3 work, not 3*A
 	Array2d<T> operator*(T num);
 
 	/**	The matrix addition and subtraction operators are inefficient! Do not use in long loops. */
@@ -176,19 +174,21 @@ public:
 
 	Array2d<T> operator-(Array2d<T> B) const;
 
+	/// Returns sum of products of respective elements of flattened arrays containing matrix elements of this and A.
 	T dot_product(const Array2d<T>& A);
-	/* Returns sum of products of respective elements of flattened arrays containing matrix elements of this and A */
 };
 
-//No-arg constructor. Note: no memory allocation! Make sure Array2d::setup(int,int,MStype) is used.
-Array2d()
+//No-arg constructor. Note: no memory allocation! Make sure Array2d<T>::setup(int,int,MStype) is used.
+template <typename T>
+Array2d<T>::Array2d()
 {
 	nrows = 0; ncols = 0; size = 0;
 	isalloc = false;
 }
 
 // Full-arg constructor
-Array2d(int nr, int nc, MStype st = ROWMAJOR)
+template <typename T>
+Array2d<T>::Array2d(int nr, int nc, MStype st)
 {
 	if(nc==0)
 	{
@@ -206,7 +206,8 @@ Array2d(int nr, int nc, MStype st = ROWMAJOR)
 	isalloc = true;
 }
 
-Array2d(const Array2d<T>& other)
+template <typename T>
+Array2d<T>::Array2d(const Array2d<T>& other)
 {
 	nrows = other.nrows;
 	ncols = other.ncols;
@@ -220,14 +221,16 @@ Array2d(const Array2d<T>& other)
 	}
 }
 
-~Array2d()
+template <typename T>
+Array2d<T>::~Array2d()
 {
 	if(isalloc == true)	
 		delete [] elems;
 	isalloc = false;
 }
 
-Array2d<T>& operator=(Array2d<T> rhs)
+template <typename T>
+Array2d<T>& Array2d<T>::operator=(Array2d<T> rhs)
 {
 #ifdef DEBUG
 	if(this==&rhs) return *this;		// check for self-assignment
@@ -248,7 +251,8 @@ Array2d<T>& operator=(Array2d<T> rhs)
 }
 
 //Separate setup function in case no-arg constructor has to be used
-void setup(int nr, int nc, MStype st=ROWMAJOR)
+template <typename T>
+void Array2d<T>::setup(int nr, int nc, MStype st)
 {
 	if(nc==0)
 	{
@@ -269,7 +273,8 @@ void setup(int nr, int nc, MStype st=ROWMAJOR)
 }
 
 // no deleting earlier allocation: use in case of Array2d<t>* (pointer to Array2d<t>)
-void setupraw(int nr, int nc, MStype st)
+template <typename T>
+void Array2d<T>::setupraw(int nr, int nc, MStype st)
 {
 	//std::cout << "\nEntered setupraw";
 	if(nc==0)
@@ -288,19 +293,22 @@ void setupraw(int nr, int nc, MStype st)
 	isalloc = true;
 }
 
-inline void zeros()
+template <typename T>
+inline void Array2d<T>::zeros()
 {
 	for(int i = 0; i < size; i++)
 		elems[i] = (T)(0.0);
 }
 
-void ones()
+template <typename T>
+void Array2d<T>::ones()
 {
 	for(int i = 0; i < size; i++)
 		elems[i] = 1;
 }
 
-void identity()
+template <typename T>
+void Array2d<T>::identity()
 {
 	T one = (T)(1);
 	T zero = (T)(0);
@@ -311,7 +319,8 @@ void identity()
 }
 
 // function to set matrix elements from a ROW-MAJOR std::vector
-void setdata(const T* A, int sz)
+template <typename T>
+void Array2d<T>::setdata(const T* A, int sz)
 {
 #ifdef DEBUG
 	if(sz != size)
@@ -330,7 +339,8 @@ void setdata(const T* A, int sz)
 				elems[i*ncols+j] = A[i*ncols+j];
 }
 
-inline T get(int i, int j=0) const
+template <typename T>
+inline T Array2d<T>::get(int i, int j) const
 {
 #ifdef DEBUG
 	if(i>=nrows || j>=ncols) { std::cout << "Array2d: get(): Index beyond array size(s)\n"; return 0; }
@@ -342,7 +352,8 @@ inline T get(int i, int j=0) const
 		return elems[i*ncols + j];
 }
 
-void set(int i, int j, T data)
+template <typename T>
+void Array2d<T>::set(int i, int j, T data)
 {
 #ifdef DEBUG
 	if(i>=nrows || j>=ncols) { std::cout << "Array2d: set(): Index beyond array size(s)\n"; return; }
@@ -354,12 +365,17 @@ void set(int i, int j, T data)
 		elems[i*ncols + j] = data;
 }
 
-inline int rows() const { return nrows; }
-inline int cols() const { return ncols; }
-inline int msize() const { return size; }
-MStype storetype() const { return storage;}
+template <typename T>
+inline int Array2d<T>::rows() const { return nrows; }
+template <typename T>
+inline int Array2d<T>::cols() const { return ncols; }
+template <typename T>
+inline int Array2d<T>::msize() const { return size; }
+template <typename T>
+MStype Array2d<T>::storetype() const { return storage;}
 
-void mprint() const
+template <typename T>
+void Array2d<T>::mprint() const
 {
 	std::cout << "\n";
 	if(storage==COLMAJOR)
@@ -378,7 +394,8 @@ void mprint() const
 		}
 }
 
-void fprint(std::ofstream& outfile) const
+template <typename T>
+void Array2d<T>::fprint(std::ofstream& outfile) const
 {
 	//outfile << '\n';
 	outfile << std::setprecision(MATRIX_DOUBLE_PRECISION);
@@ -398,7 +415,8 @@ void fprint(std::ofstream& outfile) const
 		}
 }
 
-void fread(std::ifstream& infile)
+template <typename T>
+void Array2d<T>::fread(std::ifstream& infile)
 {
 	infile >> nrows; infile >> ncols;
 	size = nrows*ncols;
@@ -416,7 +434,8 @@ void fread(std::ifstream& infile)
 }
 
 // For expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141
-inline T& operator()(int x, int y=0)
+template <typename T>
+inline T& Array2d<T>::operator()(int x, int y)
 {
 #ifdef DEBUG
 	if(x>=nrows || y>=ncols) { std::cout << "Array2d (): Index beyond array size(s)\n"; return elems[0]; }
@@ -425,7 +444,8 @@ inline T& operator()(int x, int y=0)
 	else return elems[x*ncols + y];
 }
 
-T maxincol(int j) const
+template <typename T>
+T Array2d<T>::maxincol(int j) const
 {
 	T max = get(0,j);
 	for(int i = 0; i < nrows; i++)
@@ -433,7 +453,8 @@ T maxincol(int j) const
 	return max;
 }
 
-T maxinrow(int i) const
+template <typename T>
+T Array2d<T>::maxinrow(int i) const
 {
 	T max = get(i,0);
 	for(int j = 0; j < nrows; j++)
@@ -441,7 +462,8 @@ T maxinrow(int i) const
 	return max;
 }
 
-T max() const
+template <typename T>
+T Array2d<T>::max() const
 {
 	T max = elems[0];
 	for(int i = 0; i < size; i++)
@@ -449,7 +471,8 @@ T max() const
 	return max;
 }
 
-T absmax() const
+template <typename T>
+T Array2d<T>::absmax() const
 {
 	T max = abs(elems[0]);
 	for(int i = 0; i < size; i++)
@@ -457,7 +480,8 @@ T absmax() const
 	return max;
 }
 
-inline double dabsmax() const
+template <typename T>
+inline double Array2d<T>::dabsmax() const
 {
 	double max = dabs((double)elems[0]);
 	for(int i = 0; i < size; i++)
@@ -465,7 +489,8 @@ inline double dabsmax() const
 	return max;
 }
 
-T minincol(int j) const
+template <typename T>
+T Array2d<T>::minincol(int j) const
 {
 	T min = get(0,j);
 	for(int i = 0; i < nrows; i++)
@@ -473,7 +498,8 @@ T minincol(int j) const
 	return min;
 }
 
-T mininrow(int i) const
+template <typename T>
+T Array2d<T>::mininrow(int i) const
 {
 	T max = get(i,0);
 	for(int j = 0; j < nrows; j++)
@@ -481,7 +507,8 @@ T mininrow(int i) const
 	return max;
 }
 
-T min() const
+template <typename T>
+T Array2d<T>::min() const
 {
 	T max = elems[0];
 	for(int i = 0; i < size; i++)
@@ -489,7 +516,8 @@ T min() const
 	return max;
 }
 
-T average() const
+template <typename T>
+T Array2d<T>::average() const
 {
 	T avg = 0;
 	for(int i = 0; i < size; i++)
@@ -498,7 +526,8 @@ T average() const
 	return avg;
 }
 
-T l2norm() const		// sums the square of all elements in the matrix and returns the square root of this sum
+template <typename T>
+T Array2d<T>::l2norm() const		// sums the square of all elements in the matrix and returns the square root of this sum
 {
 	T tot = 0;
 	for(int i = 0; i < size; i++)
@@ -510,7 +539,8 @@ T l2norm() const		// sums the square of all elements in the matrix and returns t
 }
 
 // function to return a sub-matrix of this matrix
-Array2d<T> sub(int startr, int startc, int offr, int offc) const
+template <typename T>
+Array2d<T> Array2d<T>::sub(int startr, int startc, int offr, int offc) const
 {
 	Array2d<T> B(offr, offc);
 	if(storage == COLMAJOR)
@@ -525,7 +555,8 @@ Array2d<T> sub(int startr, int startc, int offr, int offc) const
 }
 
 //Function that returns a given column of the matrix as a row-major matrix
-Array2d<T> col(int j) const
+template <typename T>
+Array2d<T> Array2d<T>::col(int j) const
 {
 	Array2d<T> b(nrows, 1);
 	if(storage==COLMAJOR)
@@ -537,7 +568,8 @@ Array2d<T> col(int j) const
 	return b;
 }
 
-Array2d<T> row(int i) const
+template <typename T>
+Array2d<T> Array2d<T>::row(int i) const
 {
 	Array2d<T> b(1, ncols);
 	if(storage==COLMAJOR)
@@ -550,7 +582,8 @@ Array2d<T> row(int i) const
 }
 
 /*//Function to return a reference to a given column of the matrix
-Array2d<T>& colr(int j)
+template <typename T>
+Array2d<T>& Array2d<T>::colr(int j)
 {
 	//Array2d<T>* b(nrows, 1);
 	Array2d<T>* b; b->elems.reserve(nrows);
@@ -564,7 +597,8 @@ Array2d<T>& colr(int j)
 } */
 
 // Function for replacing a column of the matrix with a vector. NOTE: No check for whether b is really a vector - which it must be.
-void replacecol(int j, Array2d<T> b)
+template <typename T>
+void Array2d<T>::replacecol(int j, Array2d<T> b)
 {
 #ifdef DEBUG
 	if(b.cols() != 1 || b.rows() != nrows) { std::cout << "\nSize error in replacecol"; return; }
@@ -578,7 +612,8 @@ void replacecol(int j, Array2d<T> b)
 }
 
 //Function for replacing a row
-void replacerow(int i, Array2d<T> b)
+template <typename T>
+void Array2d<T>::replacerow(int i, Array2d<T> b)
 {
 #ifdef DEBUG
 	if(b.cols() != ncols || b.rows() != 1) { std::cout << "\nSize error in replacerow"; return; }
@@ -592,7 +627,8 @@ void replacerow(int i, Array2d<T> b)
 }
 
 //transpose
-Array2d<T> trans() const
+template <typename T>
+Array2d<T> Array2d<T>::trans() const
 {
 	Array2d<T> t(ncols, nrows, storage);
 	for(int i = 0; i < ncols; i++)
@@ -602,7 +638,8 @@ Array2d<T> trans() const
 }
 
 // Multiply a matrix by a scalar. Note: only expressions of type A*3 work, not 3*A
-Array2d<T> operator*(T num)
+template <typename T>
+Array2d<T> Array2d<T>::operator*(T num)
 {
 	Array2d<T> A(nrows,ncols,storage);
 	int i;
@@ -613,7 +650,8 @@ Array2d<T> operator*(T num)
 }
 
 /**	The matrix addition and subtraction operators are inefficient! Do not use in long loops. */
-Array2d<T> operator+(Array2d<T> B) const
+template <typename T>
+Array2d<T> Array2d<T>::operator+(Array2d<T> B) const
 {
 #ifdef DEBUG
 	if(nrows != B.rows() || ncols != B.cols())
@@ -631,7 +669,8 @@ Array2d<T> operator+(Array2d<T> B) const
 	return C;
 }
 
-Array2d<T> operator-(Array2d<T> B) const
+template <typename T>
+Array2d<T> Array2d<T>::operator-(Array2d<T> B) const
 {
 #ifdef DEBUG
 	if(nrows != B.rows() || ncols != B.cols())
@@ -648,7 +687,8 @@ Array2d<T> operator-(Array2d<T> B) const
 	return C;
 }
 
-T dot_product(const Array2d<T>& A)
+template <typename T>
+T Array2d<T>::dot_product(const Array2d<T>& A)
 /* Returns sum of products of respective elements of flattened arrays containing matrix elements of this and A */
 {
 	T* elemsA = A.elems;

@@ -1,4 +1,8 @@
-
+/** @file amesh2dh.hpp
+ * @brief Contains a class to handle 2D hybrid meshes containing triangles and quadrangles
+ * @author Aditya Kashi
+ */
+ 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
 #endif
@@ -46,7 +50,7 @@ using namespace std;
 using namespace amat;
 
 namespace acfd {
-/** Class UMesh2dh is a general hybrid unstructured mesh class supporting triangular and quadrangular elements. */
+/// General hybrid unstructured mesh class supporting triangular and quadrangular elements
 class UMesh2dh
 {
 private:
@@ -69,42 +73,48 @@ private:
 	Matrix<int> bface;				///< Boundary face data: lists nodes belonging to a boundary face and contains boudnary markers
 	Matrix<double> vol_regions;		///< to hold volume region markers, if any
 
+	/// List of indices of [esup](@ref esup) corresponding to nodes
 	Matrix<int> esup_p;
+	/// List of elements surrounding points. 
+	/** Integers pointing to particular points' element lists are stored in [esup_p](@ref esup_p). */
 	Matrix<int> esup;
+	/// Lists of indices of psup corresponding to nodes (points)
 	Matrix<int> psup_p;
+	/// List of nodes surrounding nodes
+	/** Integers pointing to particular nodes' node lists are stored in [psup_p](@ref psup_p). */
 	Matrix<int> psup;
-	Matrix<int> esuel;
-	Matrix<int> intfac;
-	Matrix<int> intfacbtags;		///< to hold boundary tags (markers) corresponding to intfac
+	Matrix<int> esuel;				///< Elements surrounding elements
+	Matrix<int> intfac;				///< Face data structure - contains info about elements and nodes associated with a face
+	Matrix<int> intfacbtags;		///< Holds boundary tags (markers) corresponding to intfac
 
 	Matrix<int> bpoints;
-	//< bpoints contains: bpoints(0) = global point number, bpoints(1) = first containing intfac face (face with intfac's second point as this point),
-	//<  bpoints(2) = second containing intfac face (face with intfac's first point as this point)
+	///< bpoints contains: bpoints(0) = global point number, bpoints(1) = first containing intfac face (face with intfac's second point as this point),
+	///<  bpoints(2) = second containing intfac face (face with intfac's first point as this point)
 
 	Matrix<int> bpointsb;
-	//< Like bpoints, but stores bface numbers corresponding to each face, rather than intfac faces
+	///< Like bpoints, but stores bface numbers corresponding to each face, rather than intfac faces
 
 	Matrix<int> bfacebp;
-	//< Stores boundary-points numbers (defined by bpointsb) of the two points making up a particular bface.
+	///< Stores boundary-points numbers (defined by bpointsb) of the two points making up a particular bface.
 
-	Matrix<int> bifmap;				//< relates boundary faces in intfac with bface, ie, bifmap(intfac no.) = bface no.
-	Matrix<int> ifbmap;				//< relates boundary faces in bface with intfac, ie, ifbmap(bface no.) = intfac no.
-	bool isBoundaryMaps;			//< Specifies whether bface-intfac maps have been created
+	Matrix<int> bifmap;				///< relates boundary faces in intfac with bface, ie, bifmap(intfac no.) = bface no.
+	Matrix<int> ifbmap;				///< relates boundary faces in bface with intfac, ie, ifbmap(bface no.) = intfac no.
+	bool isBoundaryMaps;			///< Specifies whether bface-intfac maps have been created
 
-	bool alloc_jacobians;
-	Matrix<double> jacobians;		//< Contains jacobians of each (linear) element
-
+	bool alloc_jacobians;			///< Flag indicating whether space has been allocated for jacobians
+	Matrix<double> jacobians;		///< Contains jacobians of each (linear) element
+	
+	/// Contains Knupp's node-local areas for each node of each element. 
+	/** If the elements are triangles, it contains just 1 value for each element. If elements are quads, there are 4 values for each element, one associated with each node. */
 	Matrix<double> alpha;
-	/**< Contains Knupp's node-local areas for each node of each element. If the elements are triangles, it contains just 1 value for each element.
-	If elements are quads, there are 4 values for each element, one associated with each node. */
 
+	/// Contains Knupp's 3 coeffs of metric tensor for each node of each element. 
+	/** In case of triangles, it just contains 3 coeffs for each element. In case of quads, we need to store 3 coeffs for each node of each element. */
 	Matrix<double>* lambda;
-	/**< Contains Knupp's 3 coeffs of metric tensor for each node of each element. In case of triangles, it just contains 3 coeffs for each element.
-	In case of quads, we need to store 3 coeffs for each node of each element. */
 
-	vector<int> nmtens;				//< number of metric tensors required for each element - 1 for triangles and 4 for quads.
-	int neleminlambda;		//< number of coeffs in lambda per element per node.
-	bool alloc_lambda;		//< Contains true if alpha and lambda have been allocated.
+	vector<int> nmtens;				///< number of metric tensors required for each element - 1 for triangles and 4 for quads.
+	int neleminlambda;				///< number of coeffs in lambda per element per node.
+	bool alloc_lambda;				///< Contains true if alpha and lambda have been allocated.
 
 public:
 	UMesh2dh();
@@ -150,16 +160,16 @@ public:
 	void setbface(Matrix<int>* bf);
 	void modify_bface_marker(int iface, int pos, int number);
 
-	/* Reads Professor Luo's mesh file, which I call the 'domn' format.
-	   NOTE: Make sure nfael and nnofa are mentioned after ndim and nnode in the mesh file.
+	/* \biref Reads Professor Luo's mesh file, which I call the 'domn' format.
+	 * 
+	 * \note NOTE: Make sure nfael and nnofa are mentioned after ndim and nnode in the mesh file.
 	*/
 	void readDomn(string mfile);
 
 	/// Reads mesh from Gmsh 2 format file
 	void readGmsh2(string mfile, int dimensions);
 	
-	/** Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
-	*/
+	/// Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
 	void compute_boundary_points();
 
 	void printmeshstats();
@@ -168,15 +178,20 @@ public:
 	void compute_jacobians();
 	void detect_negative_jacobians(ofstream& out);
 	
-	/** Computes data structures for elements surrounding point (esup), points surrounding point (psup), elements surrounding elements (esuel),
-	 elements surrounding faces along with points in faces (intfac), and also
-	 a list of boundary points with correspong global point numbers and containing boundary faces (according to intfac) (bpoints).
-	 NOTE:	(1) Use only after setup()
-	 		(2) Currently only works for linear mesh
-	*/
+	/** Computes data structures for 
+	 * elements surrounding point (esup), 
+	 * points surrounding point (psup), 
+	 * elements surrounding elements (esuel), 
+	 * elements surrounding faces along with points in faces (intfac), and also 
+	 * a list of boundary points with correspong global point numbers and containing boundary faces (according to intfac) (bpoints).
+	 * \note
+	 * - Use only after setup()
+	 * - Currently only works for linear mesh
+	 */
 	void compute_topological();
 
-	/// Iterates over bfaces and finds corresponding intfac face for each bface. Stores this data in the boundary label maps [ifbmap](@ref ifbmap) and [bifmap](@ref bifmap).
+	/// Iterates over bfaces and finds the corresponding intfac face for each bface
+	/// Stores this data in the boundary label maps [ifbmap](@ref ifbmap) and [bifmap](@ref bifmap).
 	void compute_boundary_maps();
 	
 	void writeBoundaryMapsToFile(string mapfile);
@@ -185,8 +200,9 @@ public:
 	/// Populate [intfacbtags](@ref intfacbtags) with boundary markers of corresponding bfaces
 	void compute_intfacbtags();
 
-	/**	Adds high-order nodes to convert a linear mesh to a straight-faced quadratic mesh.
-		NOTE: Make sure to execute [compute_topological()](@ref compute_topological) before calling this function.
+	/**	\brief Adds high-order nodes to convert a linear mesh to a straight-faced quadratic mesh.
+	 * 
+	 * \note Make sure to execute [compute_topological()](@ref compute_topological) before calling this function.
 	*/
 	UMesh2dh convertLinearToQuadratic();
 
@@ -673,7 +689,7 @@ void UMesh2dh::readGmsh2(string mfile, int dimensions)
 void UMesh2dh::compute_boundary_points()
 /**	Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
 	Also calculates bfacebp, which is like inpoel for boundary faces - it gives the boundary node number (according to bpointsb) of each local node of a bface.
-	NOTE: Only for linear meshes.
+	\note Only for linear meshes.
 */
 {
 	cout << "UMesh2dh: compute_boundary_points(): Calculating bpointsb structure"<< endl;
@@ -824,8 +840,9 @@ void UMesh2dh::writeGmsh2(string mfile)
 	outf.close();
 }
 
-/** Computes area of linear triangular elements. So it can't be used for hybrid meshes.
-	TODO: Generalize so that it works for quadrilateral meshes also
+/** \brief Computes area of linear triangular elements. So it can't be used for hybrid meshes.
+ * 
+ * \todo TODO: Generalize so that it works for quadrilateral meshes also
 */
 void UMesh2dh::compute_jacobians()
 {
@@ -862,14 +879,7 @@ void UMesh2dh::detect_negative_jacobians(ofstream& out)
 	if(flagj == true) cout << "UMesh2d: detect_negative_jacobians(): There exist " << nneg << " element(s) with negative jacobian!!\n";
 }
 
-
-/// Computes data structures for elements surrounding point (esup), points surrounding point (psup), elements surrounding elements (esuel),
-/// elements surrounding faces along with points in faces (intfac), and also
-/// a list of boundary points with correspong global point numbers and containing boundary faces (according to intfac) (bpoints).
-
-/// NOTE: (1) Use only after setup()
-///		  (2) Currently only works for linear mesh
-/// TODO: There is an issue with psup for some boundary nodes belonging to elements of different types. Correct this.
+/// \todo: TODO: There is an issue with psup for some boundary nodes belonging to elements of different types. Correct this.
 void UMesh2dh::compute_topological()
 {
 
@@ -1080,7 +1090,7 @@ void UMesh2dh::compute_topological()
 
 	/** Computes, for each face, the elements on either side, the starting node and the ending node of the face. This is stored in intfac. Also computes unit normals to, and lengths of, each face as well as boundary flags of boundary faces, in gallfa.
 	The orientation of the face is such that the element with smaller index is always to the left of the face, while the element with greater index is always to the right of the face.
-	NOTE: After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before.*/
+	\note After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before.*/
 
 	cout << "UMesh2dh: compute_topological(): Computing intfac..." << endl;
 	nbface = naface = 0;

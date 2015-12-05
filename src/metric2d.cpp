@@ -1,6 +1,7 @@
-/** Computes skew-size metric of a mesh.
-	The mesh file name is passed as the first command line argument, the area of the domain is passed as the second, and the output file name is the third argument.
-*/
+/** @brief Computes skew-size metric of a mesh.
+ * The mesh file name is passed as the first command line argument, the area of the domain is passed as the second, and the output file name is the third argument.
+ * @author Aditya Kashi
+ */
 
 #ifndef _GLIBCXX_CSTDLIB
 #include <cstdlib>

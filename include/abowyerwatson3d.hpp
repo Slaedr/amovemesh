@@ -98,6 +98,11 @@ class Delaunay3d
 	double tol;
 	int nnode;
 	int ndim;
+
+	/// Stores the face-point relationship of a tetrahedron.
+	/** Row i contains the local node numbers of the face opposite to node i. The local node numbers are ordered so that the face points outwards. */
+	Matrix<int> lpofa;
+
 public:
 	Matrix<double> points;
 	std::vector<Point> nodes;		///< List of nodes in the Delaunay graph.
@@ -116,25 +121,39 @@ public:
 	void setup(Matrix<double>* _points, int num_points);
 	
 	double l2norm(const vector<double>& a);
+	
 	double dot(const vector<double>& a, const vector<double>& b);
-	void compute_jacobian(Tet& elem);
-	void cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b);
-	void compute_circumsphere(Tet& elem);
-	void compute_circumsphere2(Tet& elem);
+	
 	/// Computes the jacobian of a tet formed from a point and a face of a tetrahedron.
 	double det4(int ielem, int i, const vector<double>& r) const;
+	
+	void compute_jacobian(Tet& elem);
+	
+	void cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b);
+	
+	void compute_circumsphere(Tet& elem);
+
+	void compute_circumsphere_contra(Tet& elem);
+	
+	/// Returs the Jacobian (6 * volume) of a tetrahedron formed by 4 points taken as arguments
+	double tetvol(const vector<double>& a, const vector<double>& b, const vector<double>& c, const vector<double>& d) const;
+	
 	int find_containing_tet(const vector<double>& r, int startelement) const;
+	
 	int check_face_tet(const Tet& elem, const Face& face) const;
-	void compute_circumcircle(Tet& elem);
 
 	void bowyer_watson();
 	
 	void clear();					///< Reset the Delaunay3d object, except for input data
+	
 	/// Writes the Delaunay graph to a Gmsh file.
 	void writeGmsh2(string mfile);
+	
 	/// Finds the DG element containing a given point.
 	Walkdata find_containing_tet_and_barycentric_coords(const vector<double>& rr, int startelement) const;
+	
 	void compute_jacobians();
+	
 	bool detect_negative_jacobians();
 };
 
@@ -152,6 +171,14 @@ Delaunay3d::Delaunay3d(Matrix<double>* _points, int num_points)
 	points = *_points;
 	npoints = num_points;
 	nodes.reserve(num_points+3);
+
+	lpofa.setup(nnode,nnode-1);
+	lpofa(0,0) = 1; lpofa(0,1) = 2; lpofa(0,2) = 3;
+	lpofa(1,0) = 2; lpofa(1,1) = 0; lpofa(1,2) = 3;
+	lpofa(2,0) = 3; lpofa(2,1) = 0; lpofa(2,2) = 1;
+	lpofa(3,0) = 0; lpofa(3,1) = 2; lpofa(3,2) = 1;
+
+	cout << setprecision(12);
 }
 
 Delaunay3d::Delaunay3d(const Delaunay3d& other)
@@ -197,17 +224,54 @@ void Delaunay3d::setup(Matrix<double>* _points, int num_points)
 	points = *_points;
 	npoints = num_points;
 	nodes.reserve(num_points+3);
+
+	lpofa.setup(nnode,nnode-1);
+	lpofa(0,0) = 1; lpofa(0,1) = 2; lpofa(0,2) = 3;
+	lpofa(1,0) = 2; lpofa(1,1) = 0; lpofa(1,2) = 3;
+	lpofa(2,0) = 3; lpofa(2,1) = 0; lpofa(2,2) = 1;
+	lpofa(3,0) = 0; lpofa(3,1) = 2; lpofa(3,2) = 1;
+
+	cout << setprecision(12);
+}
+
+double Delaunay3d::tetvol(const vector<double>& a, const vector<double>& b, const vector<double>& c, const vector<double>& d) const
+{
+	/*Matrix<double> vold(ndim,ndim);
+	vold(0,0) = a[0]-b[0]; vold(0,1) = b[0]-c[0]; vold(0,2) = c[0]-d[0];
+	vold(1,0) = a[1]-b[1]; vold(1,1) = b[1]-c[1]; vold(1,2) = c[1]-d[1];
+	vold(2,0) = a[2]-b[2]; vold(2,1) = b[2]-c[2]; vold(2,2) = c[2]-d[2];
+	return determinant(vold);*/
+
+	double x1, y1, z1, x21, y21, z21, x31, y31, z31, x41, y41, z41;
+	x1 = a[0]; y1 = a[1]; z1 = a[2];
+
+	x21 = b[0] - x1;
+	y21 = b[1] - y1;
+	z21 = b[2] - z1;
+
+	x31 = c[0] - x1;
+	y31 = c[1] - y1;
+	z31 = c[2] - z1;
+
+	x41 = d[0] - x1;
+	y41 = d[1] - y1;
+	z41 = d[2] - z1;
+
+	return x21*(y31*z41-z31*y41) + x31*(z21*y41-y21*z41) + x41*(y21*z31-z21*y31);
 }
 
 /// Computes 6*volume, ie the Jacobian of any tetrahedron.
 void Delaunay3d::compute_jacobian(Tet& elem)
 {	
-	double ret;
+	/*double ret;
 	ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
 	ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
 	ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
 	ret -= nodes[elem.p[1]][0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-	elem.D = -ret;
+	
+	elem.D = ret;*/
+
+	elem.D = tetvol(nodes[elem.p[0]],nodes[elem.p[1]],nodes[elem.p[2]],nodes[elem.p[3]]);
 }
 
 /// Computes cross product c of two 3-vectors a and b.
@@ -238,99 +302,153 @@ inline double Delaunay3d::l2norm(const vector<double>& a)
 	return norm;
 }
 
-/// Computes circumcentre and circumradius of a [tetrahedron](@ref Tet).
-/** NOTE: The tetrahedron's jacobian (2*volume) should be stored in [elem.D](&ref D) beforehand.
-* The center and radius of the circumsphere are calculated as follows. The circumcenter is
-* \f[ \mathbf{O} = \frac{|\mathbf{a}^2(\mathbf{b}\times \mathbf{c}) + \mathbf{b}^2(\mathbf{c}\times \mathbf{a}) + \mathbf{c}^2(\mathbf{a}\times \mathbf{b})|}{12 V} \f]
-* and the radius \f$ R = |\mathbf{O}|\f$. 
-*/
-void Delaunay3d::compute_circumsphere2(Tet& elem)
-{
-	vector<double> a(ndim), b(ndim), c(ndim), n1(ndim), n2(ndim), n3(ndim), fin(ndim);
-	for(int idim = 0; idim < ndim; idim++)
-	{
-		a[idim] = nodes[elem.p[0]][idim]-nodes[elem.p[3]][idim];
-		b[idim] = nodes[elem.p[1]][idim]-nodes[elem.p[3]][idim];
-		c[idim] = nodes[elem.p[2]][idim]-nodes[elem.p[3]][idim];
-	}
-
-	cross_product3(n1,b,c);
-	cross_product3(n2,c,a);
-	cross_product3(n3,a,b);
-	for(int idim = 0; idim < ndim; idim++)
-	{
-		fin[idim] = dot(a,a)*n1[idim] + dot(b,b)*n2[idim] + dot(c,c)*n3[idim];
-		fin[idim] /= 2.0*elem.D;
-		elem.centre[idim] = fin[idim];
-	}
-	elem.radius = l2norm(fin);
-	cout << "Circumcircle data: centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius " << elem.radius << ", elem jacobian " << elem.D << endl;
-}
-
-/// Computes circumcentre and circumradius of a [tetrahedron](@ref Tet).
-/** NOTE: The tetrahedron's jacobian (6*volume) should be stored in [elem.D](@ref elem::D) beforehand.
-* Reference: Weisstein, Eric W. "Circumsphere." From MathWorld--A Wolfram Web Resource. http://mathworld.wolfram.com/Circumsphere.html 
-*/
+/// Cmoputes circumcentre and circumradius of a tet
 void Delaunay3d::compute_circumsphere(Tet& elem)
 {
-	Matrix<double> dx(nnode,nnode), dy(nnode,nnode), dz(nnode,nnode), cc(nnode,nnode);
-	double a = elem.D, c, d_x, d_y, d_z;
+	// normals to the perp bisectors of 3 non-coplanar edges of the tet
+	Matrix<double> normal(ndim,ndim), rhs(ndim,1);
+	// jth component of midpoint of an edge
+	double midpointj;
+
+	int i,j,k;
+	for(i = 0; i < ndim; i++)		// loop over three non-coplanar edges of the tet
+	{
+		for(j = 0; j < ndim; j++)
+			normal(i,j) = nodes[elem.p[i+1]][j] - nodes[elem.p[0]][j];
+		
+		rhs(i) = 0;
+		for(j = 0; j < ndim; j++) 
+		{
+			midpointj = (nodes[elem.p[i+1]][j]+nodes[elem.p[0]][j])/2.0;
+			rhs(i) += normal(i,j)*midpointj;
+		}
+	}
+
+	// solve the linear system by Cramer's rule to get coords of the circumcentre
+	vector<double> rc(ndim);
+	Matrix<double> numer(ndim,ndim);
+	double detnum;
+	//double detdenom = determinant(normal);
+	double detdenom = 0;
+	detdenom = normal(0,0)*( normal(1,1)*normal(2,2)-normal(1,2)*normal(2,1) ) -normal(0,1)*( normal(1,0)*normal(2,2)-normal(1,2)*normal(2,0)) +normal(0,2)*( normal(1,0)*normal(2,1)-normal(1,1)*normal(2,0));
+	if(fabs(detdenom) <= ZERO_TOL) cout << "Delaunay3d: compute_circumsphere(): ! System is inconsistent!! Jacobian of elem is " << elem.D << endl;
+	
+	for(k = 0; k < ndim; k++)
+	{
+		for(j = 0; j < ndim; j++)
+		{
+			if(j == k) continue;
+			for(i = 0; i < ndim; i++)
+				numer(i,j) = normal.get(i,j);
+		}
+		for(i = 0; i < ndim; i++)
+			numer(i,k) = rhs.get(i);
+		
+		detnum = numer(0,0)*( numer(1,1)*numer(2,2)-numer(1,2)*numer(2,1) ) -numer(0,1)*( numer(1,0)*numer(2,2)-numer(1,2)*numer(2,0)) +numer(0,2)*( numer(1,0)*numer(2,1)-numer(1,1)*numer(2,0));
+		//detnum = determinant(numer);
+		rc[k] = detnum/detdenom;
+	}
+
+	elem.centre = rc;
+	elem.radius = 0.0;
+	
+	// now calculate radius
+	for(j = 0; j < ndim; j++)
+		elem.radius += (rc[j]-nodes[elem.p[0]][j])*(rc[j]-nodes[elem.p[0]][j]);
+
+	// check
+	Matrix<double> rhstest(ndim,1); rhstest.zeros();
+	for(i = 0; i < ndim; i++)
+		for(j = 0; j < ndim; j++)
+			rhstest(i) += normal(i,j)*rc[j];
+	
+	rhstest.mprint();
+	rhs.mprint();
+
+	cout << "Circumsphere data : centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius^2 " << elem.radius << endl;
+	cout << "Delaunay3d: compute_circumsphere(): Element jacobian = " << elem.D << endl;
+}
+
+void Delaunay3d::compute_circumsphere_contra(Tet& elem)
+{
+	vector<double> g1(ndim), g2(ndim), nrm(ndim),  g2co(ndim), cold(ndim), rdiff(ndim), rave(ndim);
+	double tp;
+	int k;
+	
+	for(k = 0; k < ndim; k++)
+	{
+		g1[k] = nodes[elem.p[1]][k] - nodes[elem.p[0]][k];
+		g2[k] = nodes[elem.p[2]][k] - nodes[elem.p[0]][k];
+	}
+	
+	// normal vector to "base" face 0-1-2
+	nrm[0] = g1[1]*g2[2] - g1[2]*g2[1];
+	nrm[1] = g1[2]*g2[0] - g1[0]*g2[2];
+	nrm[2] = g1[0]*g2[1] - g1[1]*g2[0];
+	
+	// normalize the normal vector
+	double normnrm = 0;
+	for(k = 0; k < ndim; k++)
+		normnrm += nrm[k]*nrm[k];
+	
 	#if DEBUGW==1
-	if(fabs(a) < ZERO_TOL) cout << "Delaunay3d: compute_circumcircle(): ! Jacobian of the element is zero!!" << endl;
+	if(normnrm < ZERO_TOL) cout << "Delaunay3d: compute_circumsphere_contra(): ! Element is degenerate!!" << endl;
 	#endif
 	
-	dx(0,0) = nodes[elem.p[0]][0]*nodes[elem.p[0]][0] + nodes[elem.p[0]][1]*nodes[elem.p[0]][1] + nodes[elem.p[0]][2]*nodes[elem.p[0]][2];
-	dx(0,1) = nodes[elem.p[0]][1]; dx(0,2) = nodes[elem.p[0]][2]; dx(0,3) = 1;
-	dx(1,0) = nodes[elem.p[1]][0]*nodes[elem.p[1]][0] + nodes[elem.p[1]][1]*nodes[elem.p[1]][1] + nodes[elem.p[1]][2]*nodes[elem.p[1]][2];
-	dx(1,1) = nodes[elem.p[1]][1]; dx(1,2) = nodes[elem.p[1]][2]; dx(1,3) = 1;
-	dx(2,0) = nodes[elem.p[2]][0]*nodes[elem.p[2]][0] + nodes[elem.p[2]][1]*nodes[elem.p[2]][1] + nodes[elem.p[2]][2]*nodes[elem.p[2]][2];
-	dx(2,1) = nodes[elem.p[2]][1]; dx(2,2) = nodes[elem.p[2]][2]; dx(2,3) = 1;
-	dx(3,0) = nodes[elem.p[3]][0]*nodes[elem.p[3]][0] + nodes[elem.p[3]][1]*nodes[elem.p[3]][1] + nodes[elem.p[3]][2]*nodes[elem.p[3]][2];
-	dx(3,1) = nodes[elem.p[3]][1]; dx(3,2) = nodes[elem.p[3]][2]; dx(3,3) = 1;
+	normnrm = 1.0/sqrt(normnrm);
+	for(k = 0; k < ndim; k++)
+		nrm[k] *= normnrm;
 	
-	dy(0,0) = nodes[elem.p[0]][0]*nodes[elem.p[0]][0] + nodes[elem.p[0]][1]*nodes[elem.p[0]][1] + nodes[elem.p[0]][2]*nodes[elem.p[0]][2];
-	dy(0,1) = nodes[elem.p[0]][0]; dy(0,2) = nodes[elem.p[0]][2]; dy(0,3) = 1;
-	dy(1,0) = nodes[elem.p[1]][0]*nodes[elem.p[1]][0] + nodes[elem.p[1]][1]*nodes[elem.p[1]][1] + nodes[elem.p[1]][2]*nodes[elem.p[1]][2];
-	dy(1,1) = nodes[elem.p[1]][0]; dy(1,2) = nodes[elem.p[1]][2]; dy(1,3) = 1;
-	dy(2,0) = nodes[elem.p[2]][0]*nodes[elem.p[2]][0] + nodes[elem.p[2]][1]*nodes[elem.p[2]][1] + nodes[elem.p[2]][2]*nodes[elem.p[2]][2];
-	dy(2,1) = nodes[elem.p[2]][0]; dy(2,2) = nodes[elem.p[2]][2]; dy(2,3) = 1;
-	dy(3,0) = nodes[elem.p[3]][0]*nodes[elem.p[3]][0] + nodes[elem.p[3]][1]*nodes[elem.p[3]][1] + nodes[elem.p[3]][2]*nodes[elem.p[3]][2];
-	dy(3,1) = nodes[elem.p[3]][0]; dy(3,2) = nodes[elem.p[3]][2]; dy(3,3) = 1;
+	// "contravariant" vector g2co = nrm _cross_ g1
+	g2co[0] = nrm[1]*g1[2] - nrm[2]*g1[1];
+	g2co[1] = nrm[2]*g1[0] - nrm[0]*g1[2];
+	g2co[2] = nrm[0]*g1[1] - nrm[1]*g1[0];
+
+	// compute "factor t for base", ie, tp
+	double tpd = 0;
+	tp = 0;
+	for(k = 0; k < ndim; k++)
+	{
+		tpd += g2co[k]*g2[k];
+		tp += (g2[k]-g1[k])*g2[k];
+	}
+	tp = 0.5 * tp / tpd;
+
+	// circumcentre of base face
+	for(k = 0; k < ndim; k++)
+		cold[k] = nodes[elem.p[0]][k] + 0.5*g1[k] + tp*g2co[k];
 	
-	dz(0,0) = nodes[elem.p[0]][0]*nodes[elem.p[0]][0] + nodes[elem.p[0]][1]*nodes[elem.p[0]][1] + nodes[elem.p[0]][2]*nodes[elem.p[0]][2];
-	dz(0,1) = nodes[elem.p[0]][0]; dz(0,2) = nodes[elem.p[0]][1]; dz(0,3) = 1;
-	dz(1,0) = nodes[elem.p[1]][0]*nodes[elem.p[1]][0] + nodes[elem.p[1]][1]*nodes[elem.p[1]][1] + nodes[elem.p[1]][2]*nodes[elem.p[1]][2];
-	dz(1,1) = nodes[elem.p[1]][0]; dz(1,2) = nodes[elem.p[1]][1]; dz(1,3) = 1;
-	dz(2,0) = nodes[elem.p[2]][0]*nodes[elem.p[2]][0] + nodes[elem.p[2]][1]*nodes[elem.p[2]][1] + nodes[elem.p[2]][2]*nodes[elem.p[2]][2];
-	dz(2,1) = nodes[elem.p[2]][0]; dz(2,2) = nodes[elem.p[2]][1]; dz(2,3) = 1;
-	dz(3,0) = nodes[elem.p[3]][0]*nodes[elem.p[3]][0] + nodes[elem.p[3]][1]*nodes[elem.p[3]][1] + nodes[elem.p[3]][2]*nodes[elem.p[3]][2];
-	dz(3,1) = nodes[elem.p[3]][0]; dz(3,2) = nodes[elem.p[3]][1]; dz(3,3) = 1;
+	// now average and difference of node 3 (the final node, not part of the base face) and node 0
+	for(k = 0; k < ndim; k++)
+	{
+		rdiff[k] = nodes[elem.p[3]][k] - nodes[elem.p[0]][k];
+		rave[k] = 0.5*( nodes[elem.p[3]][k] + nodes[elem.p[0]][k] );
+	}
+
+	// final t parameter
+	tpd = 0; tp = 0;
+	for(k = 0; k < ndim; k++)
+	{
+		tpd += nrm[k]*rdiff[k];
+		tp += (rave[k]-cold[k])*rdiff[k];
+	}
+	tp = tp/tpd;
+
+	// finally, the circumcentre
+	for(k = 0; k < ndim; k++)
+		elem.centre[k] = cold[k] + tp*nrm[k];
 	
-	cc(0,0) = nodes[elem.p[0]][0]*nodes[elem.p[0]][0] + nodes[elem.p[0]][1]*nodes[elem.p[0]][1] + nodes[elem.p[0]][2]*nodes[elem.p[0]][2];
-	cc(0,1) = nodes[elem.p[0]][0]; cc(0,2) = nodes[elem.p[0]][1]; cc(0,3) = nodes[elem.p[0]][2];
-	cc(1,0) = nodes[elem.p[1]][0]*nodes[elem.p[1]][0] + nodes[elem.p[1]][1]*nodes[elem.p[1]][1] + nodes[elem.p[1]][2]*nodes[elem.p[1]][2];
-	cc(1,1) = nodes[elem.p[1]][0]; cc(1,2) = nodes[elem.p[1]][1]; cc(1,3) = nodes[elem.p[1]][2];
-	cc(2,0) = nodes[elem.p[2]][0]*nodes[elem.p[2]][0] + nodes[elem.p[2]][1]*nodes[elem.p[2]][1] + nodes[elem.p[2]][2]*nodes[elem.p[2]][2];
-	cc(2,1) = nodes[elem.p[2]][0]; cc(2,2) = nodes[elem.p[2]][1]; cc(2,3) = nodes[elem.p[2]][2];
-	cc(3,0) = nodes[elem.p[3]][0]*nodes[elem.p[3]][0] + nodes[elem.p[3]][1]*nodes[elem.p[3]][1] + nodes[elem.p[3]][2]*nodes[elem.p[3]][2];
-	cc(3,1) = nodes[elem.p[3]][0]; cc(3,2) = nodes[elem.p[3]][1]; cc(3,3) = nodes[elem.p[3]][2];
-
-	d_x = determinant(dx);
-	d_y = determinant(dy);
-	d_z = determinant(dz);
-	c = determinant(cc);
-
-	elem.centre[0] = d_x/a*0.5;
-	elem.centre[1] = d_y/a*0.5;
-	elem.centre[2] = d_z/a*0.5;
-	elem.radius = sqrt(d_x*d_x + d_y*d_y + d_z*d_z - 4.0*a*c)/2*fabs(a);
-
-	cout << "Circumcircle data: centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius " << elem.radius << ", elem jacobian " << a << endl;
+	// radius
+	elem.radius = 0;
+	for(k = 0; k < ndim; k++)
+		elem.radius += (elem.centre[k] - nodes[elem.p[0]][k])*(elem.centre[k] - nodes[elem.p[0]][k]);
+	
+	//cout << "Circumsphere data : centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius^2 " << elem.radius << endl;
+	//cout << "Delaunay3d: compute_circumsphere_contra(): Element jacobian = " << elem.D << endl;
 }
 
 ///	Calculates the jacobian of the tetrahedron formed by point r and a face of tetrahedron ielem.
-/** The face is selected by i between 0 and 3.
-*   Face i is the face opposite to local node i of the tetrahedron.
+/** The face is selected by i between 0 and 3. Face i is the face opposite to local node i of the tetrahedron.
 */
 double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 {
@@ -341,8 +459,8 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 	}
 	#endif
 
-	double ret = 0;
 	Tet elem = elems[ielem];
+	/*double ret = 0;
 	switch(i)
 	{
 		case(0):
@@ -377,7 +495,13 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 		cout << "Delaunay3D: det4(): ! Invalid argument i! Should be between 0 and 3 inclusive." << endl;
 		ret = -1;
 	}
-	return ret;
+	return ret;*/
+
+	vector<double> ta[4];
+	for(int j = 0; j < nnode; j++)
+		ta[j] = nodes[elem.p[j]];
+	ta[i] = r;
+	return tetvol(ta[0],ta[1],ta[2],ta[3]);
 }
 
 /// Locates the Delaunay graph (DG) element which contains the input point.
@@ -389,7 +513,7 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 */
 int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) const
 {
-	if(xx.size() < 3) {
+	if(xx.size() < ndim) {
 		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
 		return -1;
 	}
@@ -397,24 +521,20 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 	Tet super;
 	double l;
 	bool found;
-	cout << "Delaunay3d:   Finding containing tetrahedron..." << endl;
 	
 	while(1)
 	{
-		cout << "Delaunay3d:  find_containing_tet(): Current element = " << ielem << endl;
 		found = true;
 
 		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; return ielem; }
 		super = elems[ielem];
-		cout << "  Jacobian = " << super.D;
 
 		for(int inode = 0; inode < nnode; inode++)
 		{
 			// get jacobian
-			l = -det4(ielem,inode,xx);
-			cout << "  " << l;
+			l = det4(ielem,inode,xx);
 			#if DEBUGW==1
-			if(dabs(l) < ZERO_TOL) cout << "Delaunay3D: find_containing_tet(): ! Degenerate case (type 1) " << inode << "!!\n";
+			if(dabs(l) < ZERO_TOL) cout << "Delaunay3d: find_containing_tet(): ! Degenerate case (type 1) " << inode << "!!\n";
 			#endif
 			if(l/super.D < 0)
 			{
@@ -423,12 +543,11 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 				break;
 			}
 		}
-		cout << endl;
 
 		// if all 4 area-ratios are positive, we've found our element
 		if(found) break;
 	}
-	//cout << "Delaunay2D:   Containing triangle found.\n";
+	cout << "Delaunay2D:   Containing triangle found as " << ielem << endl;
 	return ielem;
 }
 
@@ -458,7 +577,7 @@ void Delaunay3d::bowyer_watson()
 {
 	// add super triangle
 	//	find minimum and maximum x and y of the point set
-	vector<double> rmin(ndim), rmax(ndim);
+	vector<double> rmin(ndim,0), rmax(ndim,0);
 	for(int i = 1; i < npoints; i++)
 	{
 		for(int idim = 0; idim < ndim; idim++) {
@@ -466,22 +585,49 @@ void Delaunay3d::bowyer_watson()
 			if(points(i,idim) < rmin[idim]) rmin[idim] = points(i,idim);
 		}
 	}
-	//cout << "Delaunay3D: bowyer_watson(): xmax, xmin, ymax, ymin " << xmax << " " << xmin << " " << ymax << " " << ymin << '\n';
-	vector<double> rdelt(ndim);		// stores some extra length to have factor of safety in deciding the first 4 points
+	
+	cout << "Bounds of the point set are ";
 	for(int idim = 0; idim < ndim; idim++)
-		rdelt[idim] = 1.0+(rmax[idim]-rmin[idim]);
+		cout << " " << rmin[idim] << " " << rmax[idim] << endl;
+	cout << "**\n";
+
+	// factor by which to scale rdelt, for providing a factor of safety.
+	double factor = 10.0;
+	
+	vector<double> rdelt(ndim);		// stores some extra length to have factor of safety in deciding the first 4 points
+	for(int idim = 0; idim < ndim; idim++){
+		rdelt[idim] = A_SMALL_NUMBER + factor*(rmax[idim]-rmin[idim]);
+		rmax[idim] += rdelt[idim];
+		rmin[idim] -= rdelt[idim];
+	}
+
+	cout << "Bounds of the extended cuboid are ";
+	for(int idim = 0; idim < ndim; idim++)
+		cout << " " << rmin[idim] << " " << rmax[idim] << endl;
+	cout << "**\n";
+
+	// now rmax and rmin denote the expanse of a cuboid that contains all the points.
+
 	Tet super;
 	vector<Point> pp(nnode);
 	for(int i = 0; i < nnode; i++)
 		pp[i].resize(ndim);
-	
-	pp[0][0] = rmin[0]-rdelt[0]; pp[0][1] = rmax[1] + rdelt[1]; pp[0][2] = rmin[2] - rdelt[2];
 
-	pp[1][0] = rmin[0] + 2*(rmax[0]-rmin[0]) + 2*rdelt[0]; pp[1][1] = pp[0][1]; pp[1][2] = pp[0][1];
+	pp[0][0] = rmin[0] - (rmax[2]-rmin[2])*0.5;
+	pp[0][1] = rmin[1];
+	pp[0][2] = (rmax[2]+rmin[2])*0.5 + rmax[1] - rmin[1];
 
-	pp[2][0] = pp[0][0]; pp[2][1] = pp[0][1]; pp[2][2] = rmin[2] + 2*(rmax[2] - rmin[2]) + 2.0*rdelt[2];
+	pp[1][0] = rmax[0] + rmax[1] - rmin[1];
+	pp[1][1] = rmin[1];
+	pp[1][2] = rmax[0]-rmin[0] + 2.0*(rmax[1]-rmin[1]) + rmax[2];
 
-	pp[3][0] = pp[0][0]; pp[3][1] = rmax[1] - 2.0*(rmax[1]-rmin[1]) - rdelt[1]; pp[3][2] = pp[0][2];
+	pp[2][0] = rmax[0] + rmax[1] - rmin[1];
+	pp[2][1] = rmin[1];
+	pp[2][2] = rmin[2] - (rmax[0]-rmin[0]);
+
+	pp[3][0] = rmin[0] - 0.5*(rmax[2]-rmin[2]);
+	pp[3][1] = rmax[0]-rmin[0] + 0.5*(rmax[2]-rmin[2]) + rmax[2];
+	pp[3][2] = rmin[0] + rmin[2] - rmax[0];
 
 	cout << "Delaunay3d: bowyer_watson(): Coordinates of vertices of the super triangle are:\n";
 	for(int inode = 0; inode < nnode; inode++)
@@ -500,19 +646,18 @@ void Delaunay3d::bowyer_watson()
 		super.surr[inode] = -1;
 
 	compute_jacobian(super);
-	compute_circumsphere2(super);
+	compute_circumsphere(super);
 
 	elems.push_back(super);			// add super to elems list
 
 	// set up initial face list
 	//cout << "Delaunay3d: set up initial face list\n";
 	Face f[ndim+1];
-	// TODO: faces' points are WRONG *********************************************
 	f[0].p[0] = super.p[1]; f[0].p[1] = super.p[0]; f[0].p[2] = super.p[2];
 	f[1].p[0] = super.p[2]; f[1].p[1] = super.p[0]; f[1].p[2] = super.p[3];
 	f[2].p[0] = super.p[3]; f[2].p[1] = super.p[1]; f[2].p[2] = super.p[2];
 	f[3].p[0] = super.p[3]; f[3].p[1] = super.p[0]; f[3].p[2] = super.p[1];
-	for(int i = 0; i < 3; i++)
+	for(int i = 0; i < nnode; i++)
 	{
 		f[i].elem[0] = 0;
 		f[i].elem[1] = -1;
@@ -526,27 +671,35 @@ void Delaunay3d::bowyer_watson()
 	cout << "Delaunay3d: Starting iteration over points\n";
 	for(int ipoin = 0; ipoin < npoints; ipoin++)
 	{
+		cout << "New point coords: " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
 		for(int idim = 0; idim < ndim; idim++)
 			newpoin[idim] = points.get(ipoin,idim);
 		nodes.push_back(newpoin);
 		newpoinnum = nodes.size()-1;
 
 		/// First, find the element containing the new point
-		contelem = find_containing_tet(newpoin,0);
-		//cout << "Delaunay2D:  Containing element is " << contelem << endl;
+		contelem = find_containing_tet(newpoin,elems.size()-1);
 
 		/// Second, search among neighbors for other triangles whose circumcircles contain this point
-		//cout << "Delaunay2D:  Second, search among neighbors for other triangles whose circumcircles contain this point\n";
 		int curelem;
 		vector<int> stk;					// stack to hold the indices of tets to be checked
 		double dist;						// square of distance from point to circumcentre
 		stk.push_back(contelem);			// add the containing element to the list of bad elements
 		vector<int> flags(elems.size());	// stores 1 at an index if the corresponding element has been checked for the Delaunay criterion
-		for(int i = 0; i < elems.size(); i++) flags[i] = 0;
+		for(int i = 0; i < elems.size(); i++) 
+			flags[i] = 0;
 
 		while(stk.empty() == false)
 		{
 			curelem = stk.back();			// access last element in stack of elements to be checked
+
+			// if this element has already been checked, just remove it and continue
+			if(flags[curelem] == 1)
+			{
+				stk.pop_back();
+				continue;
+			}
+
 			flags[curelem] = 1;				// curelem will now be checked
 
 			//calculate distance between circumcentre and the point
@@ -555,11 +708,14 @@ void Delaunay3d::bowyer_watson()
 				dist += (newpoin[idim] - elems[curelem].centre[idim])*(newpoin[idim] - elems[curelem].centre[idim]);
 
 			#if DEBUGBW==1
-			if(dabs(dist - elems[curelem].radius*elems[curelem].radius) < ZERO_TOL) cout << "Delaunay2D: Degenerate case (type 2)!!\n";
+			if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay2D: Degenerate case (type 2)!!\n";
 			#endif
-			if(dist <= elems[curelem].radius*elems[curelem].radius + ZERO_TOL)		// if point lies inside circumcircle, ie, Delaunay criterion is violated
+			
+			// FOR DEBUG
+			cout << "Delaunay3d: bowyer_watson(): Dist^2 and radius^2 are " << dist << ", " << elems[curelem].radius << endl;
+
+			if(dist <= elems[curelem].radius)		// if point lies inside circumcircle, ie, Delaunay criterion is violated
 			{
-				cout << "TRUE" << endl;
 				badelems.push_back(curelem);
 				stk.pop_back();
 				for(int j = 0; j < ndim+1; j++)
@@ -578,14 +734,9 @@ void Delaunay3d::bowyer_watson()
 			cout << badelems[i] << " ";
 		cout << endl;
 
-		/// Third, store the faces that will be obtained after removal of bad triangles
-		//cout << "Delaunay2D:  Third, store the faces that will be obtained after removal of bad triangles\n";
+		/// Third, we store the faces that will be obtained after removal of bad elements
 		flags.assign(faces.size(),-1);
-		/*cout << "**Flags : (" << faces.size() << ", " << flags.size() << ")";
-		for(int i = 0; i < flags.size(); i++)
-			cout << " " << flags[i];
-		cout << endl;
-		cout << "** Details of face 0: " << faces[0].p[0] << " " << faces[0].p[1] << ", " << faces[0].elem[0] << " " << faces[0].elem[1] << endl;*/
+		cout << "** Flags : (" << faces.size() << ", " << flags.size() << ")\n";
 
 		for(int ifa = 0; ifa < faces.size(); ifa++)
 		{
@@ -667,14 +818,15 @@ void Delaunay3d::bowyer_watson()
 		}
 
 		// output voidpoly for debug purposes
-		/*cout << "Delaunay2D:  voidpoly:";
+		cout << "Delaunay3d:  voidpoly:";
 		for(int i = 0; i < voidpoly.size(); i++)
 			cout << " " << voidpoly[i];
-		cout << endl;*/
+		cout << endl;
 
 		/// Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'.
 		//cout << "Delaunay2D:  Fifth, add new elements; Also correspondingly update 'faces'\n";
 		vector<int> newfaces;				// new faces formed from new elements created
+		int temp;
 		for(int ifa = 0; ifa < voidpoly.size(); ifa++)		// for each face in void polygon
 		{
 			Tet nw;
@@ -684,7 +836,13 @@ void Delaunay3d::bowyer_watson()
 				nw.p[1] = faces[voidpoly[ifa]].p[0];
 				nw.p[2] = faces[voidpoly[ifa]].p[1];
 				nw.p[3] = faces[voidpoly[ifa]].p[2];
-				faces[voidpoly[ifa]].elem[0] = elems.size();		// this new element has not been pushed into elems yet, so we need elems.size() - 1 + 1
+				// we also need to reverse the face's orientation to make it point to the new element
+				temp = faces[voidpoly[ifa]].elem[1];
+				faces[voidpoly[ifa]].elem[1] = elems.size();		// this new element has not been pushed into elems yet, so we need elems.size() - 1 + 1
+				faces[voidpoly[ifa]].elem[0] = temp;
+				faces[voidpoly[ifa]].p[0] = nw.p[1];
+				faces[voidpoly[ifa]].p[1] = nw.p[3];
+				faces[voidpoly[ifa]].p[2] = nw.p[2];
 			}
 			else if(faces[voidpoly[ifa]].elem[1] == -2)	// if the new element is to the right of the face
 			{
@@ -696,15 +854,18 @@ void Delaunay3d::bowyer_watson()
 			else cout << "Delaunay2D: !! Error while creating new element - face " << voidpoly[ifa] << " in voidpoly does not have -2 as either left elem or right elem.\n";
 
 			compute_jacobian(nw);
-			compute_circumsphere2(nw);
+			compute_circumsphere_contra(nw);
 
-			//cout << "Delaunay3d:  New element circumcentre and radius: " << nw.centre.x << ", " << nw.centre.y << "; " << nw.radius << endl;
+			if(nw.D < ZERO_TOL)
+				cout << "Delaunay3d: bowyer_watson(): New elem is degenerate or inverted! Points are " << nw.p[0] << " " << nw.p[1] << " " << nw.p[2] << " " << nw.p[3] << endl;
+
+			cout << "Delaunay3d:  New element created." << endl;
 			// Push new element into the elements' list
 			elems.push_back(nw);
 
 			Face fc;
 
-			vector<bool> val(ndim+1, false);		
+			vector<bool> val(ndim+1, false);	
 			//^ flag for each face face of the new element - but we actually only need it for those faces that include the new point 0, ie faces 1, 2 and 3.
 			//^ val[i] contains true if a newface corresponding to the ith local face of nw has been found.
 
@@ -725,16 +886,18 @@ void Delaunay3d::bowyer_watson()
 
 				// if this newface has -4 as the right element, then replace this by the new element
 				//if(faces[newfaces[jfa]].elem[1] == -4)		// Do we really need this check? I don't think so.
-				{
-					faces[newfaces[jfa]].elem[1] = elems.size()-1;
-					elems.back().surr[localface] = faces[newfaces[jfa]].elem[0];
+				//{
+				
+				faces[newfaces[jfa]].elem[1] = elems.size()-1;
+				elems.back().surr[localface] = faces[newfaces[jfa]].elem[0];
 
-					// Also, find which local face of newfaces[jfa]'s left element is the same as newfaces[jfa].
-					// Set the new element as a surrounding element of of the left element of newfaces[jfa].
-					jface = check_face_tet(elems[faces[newfaces[jfa]].elem[0]], faces[newfaces[jfa]]);
-					if(jface == -1) {cout << "Delaunay3d: bowyer_watson(): ! Error while setting surrounding element of a new element!" << endl; }
-					elems[faces[newfaces[jfa]].elem[0]].surr[jface] = elems.size()-1;
-				}
+				// Also, find which local face of newfaces[jfa]'s left element is the same as newfaces[jfa].
+				// Set the new element as a surrounding element of of the left element of newfaces[jfa].
+				jface = check_face_tet(elems[faces[newfaces[jfa]].elem[0]], faces[newfaces[jfa]]);
+				if(jface == -1) {cout << "Delaunay3d: bowyer_watson(): ! Error while setting surrounding element of a new element!" << endl; }
+				elems[faces[newfaces[jfa]].elem[0]].surr[jface] = elems.size()-1;
+				
+				//}
 
 				val[localface] = true;
 				
@@ -750,19 +913,21 @@ void Delaunay3d::bowyer_watson()
 				// if face corresponding to local node iface does not exist in newfaces, add the face.
 				if(val[iface] == false)
 				{
-					fc.p[0] = nw.p[0];
-					fc.p[1] = nw.p[3];
-					fc.p[2] = nw.p[2];
+					for(int j = 0; j < nnode-1; j++)	
+						fc.p[j] = nw.p[lpofa.get(iface,j)];
+
 					fc.elem[0] = elems.size()-1;
 					fc.elem[1] = -4;			// the element to the right of the new face is undefined as of now.
-					// Add this new faces to list of faces and the current list of newfaces.
+					
+					// Add this new face to list of faces and the current list of newfaces.
 					faces.push_back(fc);
 					newfaces.push_back(faces.size()-1);
 				}
 			}
 
 			// Surrounding element of this new element - across pre-existing face
-			elems.back().surr[0] = (faces[voidpoly[ifa]].elem[0] != elems.size()-1) ? faces[voidpoly[ifa]].elem[0] : faces[voidpoly[ifa]].elem[1];
+			//elems.back().surr[0] = (faces[voidpoly[ifa]].elem[0] != elems.size()-1) ? faces[voidpoly[ifa]].elem[1] : faces[voidpoly[ifa]].elem[0];
+			elems.back().surr[0] = faces[voidpoly[ifa]].elem[0];
 
 			// Now to set the new element as a surrounding element of the element neighboring this void face
 			int nbor = elems.back().surr[0];
@@ -779,30 +944,20 @@ void Delaunay3d::bowyer_watson()
 		//empty badelems and voidpoly
 		badelems.clear();
 		voidpoly.clear();
-
-		cout << "Delaunay3d: bowyer_watson(): Elements at the end of cycle " << ipoin << endl;
-		for(int i = 0; i < elems.size(); i++)
-		{
-			cout << "Elem " << i << "\n"  << "Points: ";
-			for(int j = 0; j < nnode; j++)
-				cout << elems[i].p[j] << " ";
-			cout << "\nSurr: ";
-			for(int j = 0; j < nnode; j++)
-				cout << elems[i].surr[j] << " ";
-			cout << endl;
-		}
-	} // end iteration over points
+	} 
+	
+	// end iteration over points
 
 	cout << "Delaunay3d: bowyer_watson(): Number of elements before removing super points is " << elems.size() << endl;
 	// Remove super triangle
 	//cout << "Delaunay2D:  Remove super triangle\n";
-	/*for(int ielem = 0; ielem < elems.size(); ielem++)
+	for(int ielem = 0; ielem < elems.size(); ielem++)
 	{
 		//vector<bool> val(nnode,false);
 		bool finval = false;
 		for(int i = 0; i < nnode; i++)
 		{
-			if(elems[ielem].p[nnode] == 0 || elems[ielem].p[nnode] == 1 || elems[ielem].p[nnode] == 2 || elems[ielem].p[nnode] == 3) {
+			if(elems[ielem].p[i] == 0 || elems[ielem].p[i] == 1 || elems[ielem].p[i] == 2 || elems[ielem].p[i] == 3) {
 				finval = true;
 				break;
 			}
@@ -821,21 +976,22 @@ void Delaunay3d::bowyer_watson()
 					if(elems[iel].surr[j] > ielem) elems[iel].surr[j]--;
 				}
 			}
-			//NOTE: Perhaps we should readjust the two elems of each face.
+			/// \note Perhaps we should readjust the two elems of each face while deleting elements containing the super nodes.
 
 			ielem--;
 		}
 	}
-	// remove super nodes
-	nodes.erase(nodes.begin(),nodes.begin()+nnode);*/
 	
-	/*for(int ielem = 0; ielem < elems.size(); ielem++)
+	// remove super nodes
+	nodes.erase(nodes.begin(),nodes.begin()+nnode);
+	
+	for(int ielem = 0; ielem < elems.size(); ielem++)
 	{
 		for(int i = 0; i < nnode; i++)
 		{
 			elems[ielem].p[i] = elems[ielem].p[i]-nnode;
 		}
-	}*/
+	}
 	// remove super faces - not needed
 	cout << "Delaunay3d: Triangulation done.\n";
 
@@ -865,8 +1021,8 @@ void Delaunay3d::writeGmsh2(string mfile)
 	ofstream outf(mfile);
 
 	outf << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n";
-	outf << "$Nodes\n" << npoints+3 << '\n';
-	for(int ip = 0; ip < npoints+3; ip++)
+	outf << "$Nodes\n" << nodes.size() << '\n';
+	for(int ip = 0; ip < nodes.size(); ip++)
 	{
 		outf << ip+1 << " " << nodes[ip][0] << " " << nodes[ip][1] << " " << nodes[ip][2] << '\n';
 	}
@@ -881,7 +1037,6 @@ void Delaunay3d::writeGmsh2(string mfile)
 	outf << "$EndElements\n";
 
 	outf.close();
-	//cout << "Delaunay2D: Number of faces finally = " << faces.size() << endl;
 }
 
 Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<double>& xx, int startelement) const

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.5"/>
-<title>Delaunay Triangulation: Face Struct Reference</title>
+<title>Amocurve: Face Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,8 +22,9 @@
  <tbody>
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
-   <div id="projectname">Delaunay Triangulation
+   <div id="projectname">Amocurve
    </div>
+   <div id="projectbrief">A library for unstructured mesh movement and curved mesh generation</div>
   </td>
  </tr>
  </tbody>
@@ -37,6 +38,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -61,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
       <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="inherits.html"><span>Class&#160;Hierarchy</span></a></li>
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
@@ -69,7 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Variables</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -88,21 +91,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Structure for triangular face.  
+ <a href="structFace.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="abowyerwatson3d_8hpp_source.html">abowyerwatson3d.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a0a09789ff28af56e91b9fa3ab9b8e82d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a09789ff28af56e91b9fa3ab9b8e82d"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>p</b> [3]</td></tr>
-<tr class="separator:a0a09789ff28af56e91b9fa3ab9b8e82d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a600520d8abadc036ff2100c88293120f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a600520d8abadc036ff2100c88293120f"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>elem</b> [2]</td></tr>
-<tr class="separator:a600520d8abadc036ff2100c88293120f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c13b9b4f5d584e93b6609543b2b6885"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c13b9b4f5d584e93b6609543b2b6885"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a> [2]</td></tr>
+<tr class="memdesc:a2c13b9b4f5d584e93b6609543b2b6885"><td class="mdescLeft">&#160;</td><td class="mdescRight">indices of endpoints of the face <br/></td></tr>
+<tr class="separator:a2c13b9b4f5d584e93b6609543b2b6885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accd8f2dbe3de7e28386f1b850e88dd66"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="accd8f2dbe3de7e28386f1b850e88dd66"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">elem</a> [2]</td></tr>
+<tr class="memdesc:accd8f2dbe3de7e28386f1b850e88dd66"><td class="mdescLeft">&#160;</td><td class="mdescRight">elements on either side of the face <br/></td></tr>
+<tr class="separator:accd8f2dbe3de7e28386f1b850e88dd66"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Structure for triangular face. </p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/home/aditya/Myprojects/amovemesh/include/<a class="el" href="abowyerwatson3d_8hpp_source.html">abowyerwatson3d.hpp</a></li>
+</div><hr/>The documentation for this struct was generated from the following files:<ul>
+<li><a class="el" href="abowyerwatson_8hpp_source.html">abowyerwatson.hpp</a></li>
+<li><a class="el" href="abowyerwatson3d_8hpp_source.html">abowyerwatson3d.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
