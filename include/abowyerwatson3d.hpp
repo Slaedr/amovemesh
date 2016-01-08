@@ -2,7 +2,6 @@
 @file abowyerwatson3d.hpp
 @brief This file contains a class that implements the Bowyer-Watson algorithm for Delaunay tesselation in 3D.
 
-This file is part of KaMoCurve.
 @author Aditya Kashi
 @date November 3, 2015
 */
@@ -157,7 +156,23 @@ public:
 	bool detect_negative_jacobians();
 };
 
-Delaunay3d::Delaunay3d() {}
+Delaunay3d::Delaunay3d() 
+{
+	nnode = 4;
+	ndim = 3;
+	cap = 1000;
+	badcap = 50;
+	tol = 1e-10;
+	elems.reserve(cap);
+	faces.reserve(cap);
+	cout << setprecision(12);
+	
+	lpofa.setup(nnode,nnode-1);
+	lpofa(0,0) = 1; lpofa(0,1) = 2; lpofa(0,2) = 3;
+	lpofa(1,0) = 2; lpofa(1,1) = 0; lpofa(1,2) = 3;
+	lpofa(2,0) = 3; lpofa(2,1) = 0; lpofa(2,2) = 1;
+	lpofa(3,0) = 0; lpofa(3,1) = 2; lpofa(3,2) = 1;
+}
 
 Delaunay3d::Delaunay3d(Matrix<double>* _points, int num_points)
 {
@@ -357,7 +372,7 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 		elem.radius += (rc[j]-nodes[elem.p[0]][j])*(rc[j]-nodes[elem.p[0]][j]);
 
 	// check
-	Matrix<double> rhstest(ndim,1); rhstest.zeros();
+	/*Matrix<double> rhstest(ndim,1); rhstest.zeros();
 	for(i = 0; i < ndim; i++)
 		for(j = 0; j < ndim; j++)
 			rhstest(i) += normal(i,j)*rc[j];
@@ -366,7 +381,7 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	rhs.mprint();
 
 	cout << "Circumsphere data : centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius^2 " << elem.radius << endl;
-	cout << "Delaunay3d: compute_circumsphere(): Element jacobian = " << elem.D << endl;
+	cout << "Delaunay3d: compute_circumsphere(): Element jacobian = " << elem.D << endl;*/
 }
 
 void Delaunay3d::compute_circumsphere_contra(Tet& elem)
@@ -460,42 +475,6 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 	#endif
 
 	Tet elem = elems[ielem];
-	/*double ret = 0;
-	switch(i)
-	{
-		case(0):
-		ret = r[0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
-		ret -= r[1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
-		ret += r[2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-		ret -= nodes[elem.p[1]][0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-		break;
-
-		case(1):
-		ret = nodes[elem.p[0]][0] * ( r[1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -r[2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
-		ret -= nodes[elem.p[0]][1] * (r[0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -r[2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
-		ret += nodes[elem.p[0]][2] * (r[0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -r[1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-		ret -= r[0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -r[1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +r[2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-		break;
-
-		case(2):
-		ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(r[2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(r[1]-nodes[elem.p[3]][1]) + r[1]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][1] );
-		ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(r[2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(r[0]-nodes[elem.p[3]][0]) + r[0]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][0] );
-		ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(r[1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(r[0]-nodes[elem.p[3]][0]) + r[0]*nodes[elem.p[3]][1] - r[1]*nodes[elem.p[3]][0] );
-		ret -= nodes[elem.p[1]][0]*( r[1]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( r[0]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( r[0]*nodes[elem.p[3]][1] - r[1]*nodes[elem.p[3]][0] );
-		break;
-
-		case(3):
-		ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-r[2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-r[1]) + nodes[elem.p[2]][1]*r[2] - nodes[elem.p[2]][2]*r[1] );
-		ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-r[2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-r[0]) + nodes[elem.p[2]][0]*r[2] - nodes[elem.p[2]][2]*r[0] );
-		ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-r[1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-r[0]) + nodes[elem.p[2]][0]*r[1] - nodes[elem.p[2]][1]*r[0] );
-		ret -= nodes[elem.p[1]][0] *( nodes[elem.p[2]][1]*r[2] - nodes[elem.p[2]][2]*r[1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*r[2] - nodes[elem.p[2]][2]*r[0] ) + nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*r[1] - nodes[elem.p[2]][1]*r[0] );
-		break;
-
-		default:
-		cout << "Delaunay3D: det4(): ! Invalid argument i! Should be between 0 and 3 inclusive." << endl;
-		ret = -1;
-	}
-	return ret;*/
 
 	vector<double> ta[4];
 	for(int j = 0; j < nnode; j++)
@@ -547,7 +526,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 		// if all 4 area-ratios are positive, we've found our element
 		if(found) break;
 	}
-	cout << "Delaunay2D:   Containing triangle found as " << ielem << endl;
+	//cout << "Delaunay2D:   Containing triangle found as " << ielem << endl;
 	return ielem;
 }
 
@@ -613,7 +592,7 @@ void Delaunay3d::bowyer_watson()
 	for(int i = 0; i < nnode; i++)
 		pp[i].resize(ndim);
 
-	pp[0][0] = rmin[0] - (rmax[2]-rmin[2])*0.5;
+	/*pp[0][0] = rmin[0] - (rmax[2]-rmin[2])*0.5;
 	pp[0][1] = rmin[1];
 	pp[0][2] = (rmax[2]+rmin[2])*0.5 + rmax[1] - rmin[1];
 
@@ -627,7 +606,12 @@ void Delaunay3d::bowyer_watson()
 
 	pp[3][0] = rmin[0] - 0.5*(rmax[2]-rmin[2]);
 	pp[3][1] = rmax[0]-rmin[0] + 0.5*(rmax[2]-rmin[2]) + rmax[2];
-	pp[3][2] = rmin[0] + rmin[2] - rmax[0];
+	pp[3][2] = rmin[0] + rmin[2] - rmax[0];*/
+	
+	pp[0][0] = -10; pp[0][1] = -2; pp[0][2] = 2;
+	pp[1][0] = 0; pp[1][1] = 8; pp[1][2] = 0;
+	pp[2][0] = 10; pp[2][1] = -2; pp[2][2] = 2;
+	pp[3][0] = 0; pp[3][1] = -2; pp[3][2] = -8;
 
 	cout << "Delaunay3d: bowyer_watson(): Coordinates of vertices of the super triangle are:\n";
 	for(int inode = 0; inode < nnode; inode++)
@@ -671,7 +655,7 @@ void Delaunay3d::bowyer_watson()
 	cout << "Delaunay3d: Starting iteration over points\n";
 	for(int ipoin = 0; ipoin < npoints; ipoin++)
 	{
-		cout << "New point coords: " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
+		cout << "New point : " << ipoin  << "  " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
 		for(int idim = 0; idim < ndim; idim++)
 			newpoin[idim] = points.get(ipoin,idim);
 		nodes.push_back(newpoin);
@@ -708,11 +692,11 @@ void Delaunay3d::bowyer_watson()
 				dist += (newpoin[idim] - elems[curelem].centre[idim])*(newpoin[idim] - elems[curelem].centre[idim]);
 
 			#if DEBUGBW==1
-			if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay2D: Degenerate case (type 2)!!\n";
+			if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay3D: Degenerate case (type 2)!!\n";
 			#endif
 			
 			// FOR DEBUG
-			cout << "Delaunay3d: bowyer_watson(): Dist^2 and radius^2 are " << dist << ", " << elems[curelem].radius << endl;
+			//cout << "Delaunay3d: bowyer_watson(): Dist^2 and radius^2 are " << dist << ", " << elems[curelem].radius << endl;
 
 			if(dist <= elems[curelem].radius)		// if point lies inside circumcircle, ie, Delaunay criterion is violated
 			{
@@ -729,14 +713,14 @@ void Delaunay3d::bowyer_watson()
 		}
 
 		// Output badelems for debug purpose
-		cout << "Delaunay3d:  Badelems: ";
+		/*cout << "Delaunay3d:  Badelems: ";
 		for(int i = 0; i < badelems.size(); i++)
 			cout << badelems[i] << " ";
-		cout << endl;
+		cout << endl;*/
 
 		/// Third, we store the faces that will be obtained after removal of bad elements
 		flags.assign(faces.size(),-1);
-		cout << "** Flags : (" << faces.size() << ", " << flags.size() << ")\n";
+		//cout << "** Flags : (" << faces.size() << ", " << flags.size() << ")\n";
 
 		for(int ifa = 0; ifa < faces.size(); ifa++)
 		{
@@ -818,10 +802,10 @@ void Delaunay3d::bowyer_watson()
 		}
 
 		// output voidpoly for debug purposes
-		cout << "Delaunay3d:  voidpoly:";
+		/*cout << "Delaunay3d:  voidpoly:";
 		for(int i = 0; i < voidpoly.size(); i++)
 			cout << " " << voidpoly[i];
-		cout << endl;
+		cout << endl;*/
 
 		/// Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'.
 		//cout << "Delaunay2D:  Fifth, add new elements; Also correspondingly update 'faces'\n";
@@ -855,11 +839,12 @@ void Delaunay3d::bowyer_watson()
 
 			compute_jacobian(nw);
 			compute_circumsphere_contra(nw);
+			//compute_circumsphere(nw);
 
 			if(nw.D < ZERO_TOL)
 				cout << "Delaunay3d: bowyer_watson(): New elem is degenerate or inverted! Points are " << nw.p[0] << " " << nw.p[1] << " " << nw.p[2] << " " << nw.p[3] << endl;
 
-			cout << "Delaunay3d:  New element created." << endl;
+			//cout << "Delaunay3d:  New element created." << endl;
 			// Push new element into the elements' list
 			elems.push_back(nw);
 
@@ -1099,13 +1084,15 @@ void Delaunay3d::compute_jacobians()
 bool Delaunay3d::detect_negative_jacobians()
 {
 	bool flagj = false;
+	int numneg = 0;
 	for(int i = 0; i < elems.size(); i++)
 	{
-		if(jacobians(i,0) < ZERO_TOL) {
+		if(jacobians(i,0) <= 0.0) {
 			//out << i << " " << jacobians(i,0) << '\n';
 			flagj = true;
+			numneg++;
 		}
 	}
-	if(flagj == true) cout << "Delaunay2D: detect_negative_jacobians(): There exist element(s) with negative jacobian!!\n";
+	if(flagj == true) cout << "Delaunay3D: detect_negative_jacobians(): There exist " << numneg << " element(s) with negative jacobian!!\n";
 	return flagj;
 }

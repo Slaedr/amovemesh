@@ -1,6 +1,7 @@
-/* Mesh movement using Delaunay graph (DG) mapping technique of Liu, Qin and Xia.
-Aditya Kashi
-July 1, 2015
+/** @file adgrbf.hpp
+ * \brief  Mesh movement using Delaunay graph radial basis function (DGRBF) technique of Wang, Qin and Zhao.
+ * @author Aditya Kashi
+ * @date July 1, 2015
 
 Changelog:
 Oct 7, 2015: Changed the way s (prescribed boundary motion at each DG point) is calculated in calcalpha().
@@ -707,7 +708,7 @@ public:
 			}
 			else {
 				cout << "DGRBFrotate: movemesh(): ! Position update not implemented for 3d!!" << endl;
-				// TODO: figure out and implement for 3d
+				/// \todo TODO: figure out and implement for 3d
 			}
 		}
 		delete [] rr;

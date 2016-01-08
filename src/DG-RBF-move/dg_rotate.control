@@ -1,13 +1,13 @@
 -input-mesh
 ../../input/qin-mesh.msh
 -output-mesh
-../../output/DG-RBF-move/dgrbf_r-qin.msh
+../../output/DG-RBF-move/qin-60-dgrbf2.msh
 -output-dg
 dgrbf_r-dg-qin.msh
 -negative-jacobian-file
 negative_jac.dat
 -rotation-angle
-120
+60
 -coordinates-of-centre-of-rotation
 0 0
 -number-of-boundary-markers-whose-faces-have-to-be-rotated

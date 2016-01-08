@@ -1,5 +1,5 @@
 /** @brief Computes skew-size metric of a mesh.
- * The mesh file name is passed as the first command line argument, the area of the domain is passed as the second, and the output file name is the third argument.
+ * The mesh file name is passed as the first command line argument, the reference area is passed as the second, and the output file name is the third argument.
  * @author Aditya Kashi
  */
 
@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 	m.readGmsh2(mname,2);
 
 	// get reference area
-	double w = area/m.gnelem();
+	double w = area; // /m.gnelem();
 
 	m.compute_metric_quantities();
 	Matrix<double> skew(m.gnelem(),1);

@@ -21,6 +21,8 @@ int main()
 	Delaunay3d d(&pts, np);
 	d.bowyer_watson();
 	d.writeGmsh2("tryd.msh");
+	d.compute_jacobians();
+	bool decneg = d.detect_negative_jacobians();
 	cout << endl;
 
 	return 0;

@@ -90,3 +90,54 @@ void Delaunay3d::compute_circumsphere3(Tet& elem)
 
 	cout << "Circumcircle data: centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius " << elem.radius << ", elem jacobian " << a << endl;
 }
+
+///	Calculates the jacobian of the tetrahedron formed by point r and a face of tetrahedron ielem.
+/** The face is selected by i between 0 and 3. Face i is the face opposite to local node i of the tetrahedron.
+*/
+double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
+{
+	#if DEBUGW==1
+	if(i > 3) {
+		std::cout << "Delaunay3D: det4(): ! Second argument is greater than 3!" << std::endl;
+		return 0;
+	}
+	#endif
+
+	Tet elem = elems[ielem];
+	double ret = 0;
+	switch(i)
+	{
+		case(0):
+		ret = r[0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
+		ret -= r[1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
+		ret += r[2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
+		ret -= nodes[elem.p[1]][0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
+		break;
+
+		case(1):
+		ret = nodes[elem.p[0]][0] * ( r[1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -r[2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
+		ret -= nodes[elem.p[0]][1] * (r[0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -r[2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
+		ret += nodes[elem.p[0]][2] * (r[0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -r[1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
+		ret -= r[0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -r[1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +r[2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
+		break;
+
+		case(2):
+		ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(r[2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(r[1]-nodes[elem.p[3]][1]) + r[1]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][1] );
+		ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(r[2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(r[0]-nodes[elem.p[3]][0]) + r[0]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][0] );
+		ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(r[1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(r[0]-nodes[elem.p[3]][0]) + r[0]*nodes[elem.p[3]][1] - r[1]*nodes[elem.p[3]][0] );
+		ret -= nodes[elem.p[1]][0]*( r[1]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( r[0]*nodes[elem.p[3]][2] - r[2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( r[0]*nodes[elem.p[3]][1] - r[1]*nodes[elem.p[3]][0] );
+		break;
+
+		case(3):
+		ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-r[2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-r[1]) + nodes[elem.p[2]][1]*r[2] - nodes[elem.p[2]][2]*r[1] );
+		ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-r[2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-r[0]) + nodes[elem.p[2]][0]*r[2] - nodes[elem.p[2]][2]*r[0] );
+		ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-r[1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-r[0]) + nodes[elem.p[2]][0]*r[1] - nodes[elem.p[2]][1]*r[0] );
+		ret -= nodes[elem.p[1]][0] *( nodes[elem.p[2]][1]*r[2] - nodes[elem.p[2]][2]*r[1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*r[2] - nodes[elem.p[2]][2]*r[0] ) + nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*r[1] - nodes[elem.p[2]][1]*r[0] );
+		break;
+
+		default:
+		cout << "Delaunay3D: det4(): ! Invalid argument i! Should be between 0 and 3 inclusive." << endl;
+		ret = -1;
+	}
+	return ret;
+}
