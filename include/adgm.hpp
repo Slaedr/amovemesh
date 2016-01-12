@@ -1,15 +1,21 @@
-/* Mesh movement using Delaunay graph (DG) mapping technique of Liu, Qin and Xia.
-Aditya Kashi
-July 1, 2015
-*/
+/** @file adgm.hpp
+ * @brief Mesh movement using Delaunay graph (DG) mapping technique of Liu, Qin and Xia.
+ * @author Aditya Kashi
+ * @date July 1, 2015
+ */
 
+#ifndef __ABOWYERWATSON_H
 #include <abowyerwatson.hpp>
+#endif
+
+#define __ADGM_H 1
 
 using namespace std;
 using namespace amat;
 
 namespace acfd {
 
+/// Class to carry out mesh-movement using Delaunay graph mapping.
 class DGmove
 {
 	int ndim;
@@ -62,6 +68,7 @@ public:
 		ninpoin = incoords->rows();
 		points.setup(ninpoin, ndim+1+ndim+1);	// for each interior point, store coords, containing DG element, and area coordinates w.r.t. that DG element
 		//columns 0 and 1 contain x- and y-coords, column 2 contains index of containing element, and columns 3,4,5 contain area coordinates.
+		
 		dgpoints = *bouncoords;					// copy bouncoords
 
 		for(int i = 0; i < incoords->rows(); i++)
@@ -91,6 +98,10 @@ public:
 			}
 		}
 
+		/*cout << "DGmove: generateDG(): Checking DG.\n";
+		dg.compute_jacobians();
+		dg.detect_negative_jacobians();*/
+
 		// for debugging
 		/*cout << "DGmove: generateDG(): Checking\n";
 		for(int iel = 0; iel < dg.elems.size(); iel++)
@@ -114,6 +125,12 @@ public:
 			// first find containing DG element by "walking-through" the DG
 			//cout << "DGmove: movemesh(): Point " << ipoin << endl;
 			dat = dg.find_containing_triangle_and_area_coords(points(ipoin,0), points(ipoin,1), dg.elems.size()/2);
+			
+			if(dat.elem < 0 || dat.elem >= dg.elems.size())
+			{
+				cout << "DGmove: movemesh(): Error in locating point " << ipoin << "!!" << endl;
+				return;
+			}
 
 			// store DG element and area coords in points
 			points(ipoin,2) = dat.elem;
@@ -156,6 +173,14 @@ public:
 		cout << "DGmove: movedg(): Checking jacobians of the DG\n";
 		dg.compute_jacobians();
 		dg.detect_negative_jacobians();
+	}
+
+	/// Combining the 3 steps of movement - generate DG, move mesh and move DG into 1 function.
+	void move()
+	{
+		generateDG();
+		movemesh();
+		movedg();
 	}
 
 	Matrix<double> getInteriorPoints()

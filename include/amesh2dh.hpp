@@ -1042,7 +1042,7 @@ void UMesh2dh::compute_topological()
 			for(int j = 0; j < nnofa; j++)
 			{
 				//lpofa(i,j) = perm(0,nnode-1,i,j);
-				lpofai(i,j) = (i+j)%nnode[ielem];		// fine as long as operands of % are not negative
+				lpofai(i,j) = (i+j) % nnode[ielem];		// fine as long as operands of % are not negative
 			}
 		}
 

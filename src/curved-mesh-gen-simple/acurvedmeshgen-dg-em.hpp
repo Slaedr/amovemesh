@@ -1,6 +1,7 @@
-/** @file acurvedmeshgen-dg.hpp
- * @brief Contains a class to generate curved mesh based on analytical expression of true boundary.
+/** @file acurvedmeshgen-dg-em.hpp
+ * @brief Contains a class to generate curved mesh based on analytical expression of true boundary. In this implementation, all interior points move.
  * @author Aditya Kashi
+ * @date January 11, 2016
  */
 
 #ifndef __AMESH2DGENERAL_H
@@ -106,28 +107,17 @@ public:
 			}
 		}
 
-		npomo = 0;
-		for(int i = 0; i < m->gnpoin(); i++)
-			if(hflag(i) == 1 && bflag(i)==0) npomo++;		// point is a high order point and not a boundary point
-
-		mipoints.setup(npomo, m->gndim());
-		fipoints.setup(ninpoin-npomo, m->gndim());
+		mipoints.setup(ninpoin, m->gndim());
+		//fipoints.setup(ninpoin-npomo, m->gndim());
 
 		k = 0; int l = 0;
 		for(int i = 0; i < m->gnpoin(); i++)
 		{
-			if(bflag(i)==0 && hflag(i) == 1)				// point is an interior point and a high-order point
+			if(bflag(i)==0)				// point is an interior point
 			{
 				for(int idim = 0; idim < m->gndim(); idim++)
 					mipoints(k,idim) = m->gcoords(i,idim);
-				if(k == 52) cout << "Debug info: mipoints(52,) corresponds to " << i << endl;
 				k++;
-			}
-			else if(bflag(i)==0)
-			{
-				for(int idim = 0; idim < m->gndim(); idim++)
-					fipoints(l,idim) = m->gcoords(i,idim);
-				l++;
 			}
 		}
 
@@ -204,17 +194,11 @@ public:
 					coord(i,idim) = bpoints(bp,idim);
 				bp++;
 			}
-			else if(hflag(i) == 1)
+			else
 			{
 				for(int idim = 0; idim < m->gndim(); idim++)
 					coord(i,idim) = mipoints(mp,idim);
 				mp++;
-			}
-			else
-			{
-				for(int idim = 0; idim < m->gndim(); idim++)
-					coord(i,idim) = fipoints(fp,idim);
-				fp++;
 			}
 		}
 		m->setcoords(&coord);

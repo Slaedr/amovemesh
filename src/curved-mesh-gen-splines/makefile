@@ -1,3 +1,5 @@
+OPTIONS = -std=c++11 -ggdb
+
 splinec:
 	$(GPP) calc-bmotion.cpp -o cb.out -std=c++11 -I$(PRMM)/include -ggdb
 
@@ -12,6 +14,9 @@ quadratize:
 
 curve:
 	$(GPP) curvedmeshgen2d.cpp -o curve.out -std=c++11 -ggdb -I$(PRMM)/include
+
+curvedgm:
+	$(GPP) curvedmeshgen2d-dgm.cpp -o curvedgm.out -I../../include $(OPTIONS)
 
 curveh:
 	$(GPP) curvedmeshgen2dh.cpp -o curveh.out -std=c++11 -ggdb -I$(PRMM)/include -fopenmp

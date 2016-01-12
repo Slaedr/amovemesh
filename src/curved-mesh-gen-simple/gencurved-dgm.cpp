@@ -32,10 +32,14 @@ int main()
 	}
 	outf.close();*/
 	mq.writeGmsh2(intermesh);
-
+	
+	// for 2D bump mesh
 	Matrix<int> bounflags(2,1); bounflags(0) = 9; bounflags(1) = 1;
+	
 	//Matrix<int> bounflags(1,1); bounflags(0) = 3;
+	
 	cout << endl;
+	
 	//CurvedMeshGeneration cmg(&mq, bounflags);
 	CurvedMeshGeneration cmg(&mq, bounflags);
 	cmg.compute_boundary_displacement();

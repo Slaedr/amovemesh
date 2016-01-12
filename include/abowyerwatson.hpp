@@ -586,7 +586,7 @@ public:
 
 	Walkdata find_containing_triangle_and_area_coords(double xx, double yy, int startelement)
 	/* Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
-	   Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
+	Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
 	{
 		Walkdata dat;
 		int ielem = startelement;
@@ -597,7 +597,10 @@ public:
 		while(1)
 		{
 			//cout << "  Iteration of walk-through\n";
-			if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay2D: find_containing_triangle..(): !!Reached an element index that is out of bounds!! Index is " << ielem << "\n"; }
+			if(ielem < 0 || ielem >= elems.size()) { 
+				cout << "Delaunay2D: find_containing_triangle..(): !!Reached an element index that is out of bounds!! Index is " << ielem << "\n";
+				break;
+			}
 			//super = elems[ielem];
 			super = elems.at(ielem);			// at() function checks index out-of-bounds, unlike overloaded [] operator.
 
@@ -660,6 +663,7 @@ public:
 			}
 		}
 		if(flagj == true) cout << "Delaunay2D: detect_negative_jacobians(): There exist element(s) with negative jacobian!!\n";
+		else cout << "Delaunay2d: detect_negative_jacobians(): DG is fine." << endl;
 		return flagj;
 	}
 };

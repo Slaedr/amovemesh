@@ -101,8 +101,6 @@ public:
 					cout << "DGmove: generateDG(): esuel contains out-of-bounds entry at (" << iel << ", " << j << "), with entry " << dgesuel(iel,j) << endl;
 			}
 		}*/
-
-		//dg.writeGmsh2("rans_dg.msh");
 	}
 
 	void movemesh()
