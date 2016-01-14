@@ -97,8 +97,8 @@ void Curvedmeshgen2d::compute_boundary_displacements()
 	{
 		// first check if iface was reconstructed!
 		if(toRec(iface))
-				for(int idim = 0; idim < m->gndim(); idim++)
-					disps(iface,idim) = br.getcoords(iface,idim,uh) - facemidpoints.get(iface,idim);
+			for(int idim = 0; idim < m->gndim(); idim++)
+				disps(iface,idim) = br.getcoords(iface,idim,uh) - facemidpoints.get(iface,idim);
 	}
 
 	/// We do not need the linear mesh once we have the displacements of the faces' midpoints.
@@ -145,7 +145,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	for(int ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
 		if(bflagg(ipoin))
 		{
-			for(int idim = 0; idim < mq->gndim(); idim++){
+			for(int idim = 0; idim < mq->gndim(); idim++) {
 				bounpoints(k,idim) = mq->gcoords(ipoin,idim);
 				boundisps(k,idim) = allpoint_disps(ipoin,idim);
 			}

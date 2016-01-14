@@ -69,7 +69,7 @@ public:
 		points.setup(ninpoin, ndim+1+ndim+1);	// for each interior point, store coords, containing DG element, and area coordinates w.r.t. that DG element
 		//columns 0 and 1 contain x- and y-coords, column 2 contains index of containing element, and columns 3,4,5 contain area coordinates.
 		
-		dgpoints = *bouncoords;					// copy bouncoords
+		dgpoints = *bouncoords;					// deep copy bouncoords
 
 		for(int i = 0; i < incoords->rows(); i++)
 			for(int j = 0; j < incoords->cols(); j++)

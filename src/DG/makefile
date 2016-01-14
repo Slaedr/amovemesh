@@ -1,6 +1,6 @@
 OPTIONS = -std=c++11 -ggdb
-dg3d:
-	$(GPP) triangulate3d.cpp -o dg3d.out -I../../include/ $(OPTIONS)
+tri3d:
+	$(GPP) triangulate3d.cpp -o tri3d.out -I../../include/ $(OPTIONS)
 
 dgmove:
 	g++ dg_rotate.cpp -o dgrotate -std=c++11 -ggdb -I/media/aditya/Data/include

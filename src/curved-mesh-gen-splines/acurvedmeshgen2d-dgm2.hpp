@@ -131,11 +131,11 @@ void Curvedmeshgen2d::generate_curved_mesh()
 			bflagg(mq->gbface(iface,inode)) = 1;
 	}
 
-	// differentiate high-order nodes from others
+	// differentiate high-order nodes from others. In 2D, number of vertices always equals the number of faces.
 	hflagg.zeros();
 	for(int i = 0; i < mq->gnelem(); i++)
 	{
-		for(int jnode = mq->gnfael(); jnode < mq->gnnofa(); jnode++)
+		for(int jnode = mq->gnfael(); jnode < mq->gnnode(); jnode++)
 			hflagg(mq->ginpoel(i,jnode)) = 1;
 	}
 
@@ -143,14 +143,21 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	for(int i = 0; i < mq->gnpoin(); i++)
 		nbounpoin += bflagg(i);
 
+	int ndgpoin;		// number of points to be triangulated
+	ndgpoin = 0;
+	for(int i = 0; i < mq->gnpoin(); i++)
+		if(hflagg(i) && bflagg(i))
+			ndgpoin++;
+
 	ninpoin = mq->gnpoin()-nbounpoin;
 	cout << "Curvedmeshgen2d: generate_curved_mesh(): Number of boundary points in quadratic mesh = " << nbounpoin << endl;
+	cout << "Curvedmeshgen2d: generate_curved_mesh(): Number of boundary high order points in quadratic mesh = " << ndgpoin << endl;
 	cout << "Curvedmeshgen2d: generate_curved_mesh(): Number of interior points in quadratic mesh = " << ninpoin << endl;
-	bounpoints.setup(nbounpoin,mq->gndim());
-	boundisps.setup(nbounpoin,mq->gndim());
+	bounpoints.setup(ndgpoin,mq->gndim());
+	boundisps.setup(ndgpoin,mq->gndim());
 	inpoints.setup(ninpoin,mq->gndim());
 	
-	///We divide mesh nodes into high-order boundary points and interior points. We also populate boundisp so that it holds the displacement of each high-order boundary point.
+	/// We divide mesh nodes into high-order boundary points and interior points. We also populate boundisp so that it holds the displacement of each high-order boundary point.
 	int k = 0, l = 0;
 	for(int ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
 		if(bflagg(ipoin) && hflagg(ipoin))
@@ -169,7 +176,6 @@ void Curvedmeshgen2d::generate_curved_mesh()
 		}
 	
 	/// We now have all we need to call the mesh-movement functions and generate the curved mesh.
-	//Call mesh-movement functions here
 
 	mmv->setup(2, &inpoints, &bounpoints, &boundisps);
 	mmv->move();
@@ -194,7 +200,8 @@ void Curvedmeshgen2d::generate_curved_mesh()
 				newcoords(ipoin,idim) = bounpoints(k,idim);
 			k++;
 		}
-		else if(!bflagg(ipoin){
+		else if(!bflagg(ipoin))
+		{
 			for(int idim = 0; idim < mq->gndim(); idim++)
 				newcoords(ipoin,idim) = inpoints(l,idim);
 			l++;

@@ -1,15 +1,15 @@
-/** Data structure and setup for 2D unstructured mesh.
-	Aditya Kashi
-	Aug 12, 2015
-
-	References:
-	===========
-	For mesh quality metrics:
-	Patrick M. Knupp, "Algebraic mesh quality metrics for unstructured initial meshes", Finite Elements in Analysis and Design, vol. 39, pp 217-241, 2003.
-
-	Changelog:
-	2015-10-21: Adding computation of mesh-quality metrics.
-*/
+/**@brief Data structure and setup for 2D unstructured mesh.
+ * @author Aditya Kashi
+ * @date Aug 12, 2015
+ * References:
+ * ===========
+ * For mesh quality metrics:
+ * Patrick M. Knupp, "Algebraic mesh quality metrics for unstructured initial meshes", Finite Elements in Analysis and Design, vol. 39, pp 217-241, 2003.
+ *
+ * Changelog:
+ * 2015-10-21: Adding computation of mesh-quality metrics.
+ * *2016-01-13: Adding computation of mesh stats such as aspect-ratio and minimum angle in a triangle; the mesh-quality metrics include this.
+ */
 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
@@ -248,7 +248,7 @@ public:
 	int gndtag() const { return ndtag; }
 	int gnbpoin() const { return nbpoin; }
 	
-	/** Functions to set some mesh data structures. */
+	/// Sets coords array. Note that a deep copy is performed.
 	void setcoords(Matrix<double>* c)
 	{ coords = *c; }
 
@@ -752,6 +752,16 @@ public:
 				bfacebp(iface,1) = ibp;
 			}
 		}
+	}
+
+	/// TODO: Computes various properties of the mesh.
+	/** \todo
+	 * 1. largest and smallest aspect ratio of cells
+	 * 2. distance of nearest mesh point from a boundary point (perhaps average of this for all boundary points?
+	 */
+	void compute_mesh_stats()
+	{
+		// Duh
 	}
 
 	void printmeshstats()
@@ -1614,7 +1624,7 @@ public:
 		}
 	}
 
-	/** Computes skew metric of each element of a quad mesh and stores it in skew. */
+	/// Computes skew metric of each element of a quad mesh and stores it in skew.
 	void linearmetric_skew(Matrix<double>* skew)
 	{
 		if(!alloc_lambda) {
@@ -1635,7 +1645,7 @@ public:
 		}
 	}
 
-	/** Computes size metric of each element of a mesh with respect to reference area w, and stores it in size. */
+	/// Computes size metric of each element of a mesh with respect to reference area w, and stores it in size.
 	void linearmetric_size(double w, Matrix<double>* size)
 	{
 		if(nnode == 4)
@@ -1662,7 +1672,7 @@ public:
 		}
 	}
 
-	/** Computes the skew-size metric, which is the product of the skew and size metrics. */
+	/// Computes the skew-size metric, which is the product of the skew and size metrics.
 	void linearmetric_skewsize(double w, Matrix<double>* ss)
 	{
 		cout << "UMesh2d: linearmetric_skewsize(): Computing the skew-size metric" << endl;

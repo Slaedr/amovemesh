@@ -81,7 +81,7 @@ public:
 	}
 };
 
-/// Intended to encapsulate data required by 'walk-through' algorothms.
+/// Intended to encapsulate data required by 'walk-through' algorithms.
 /**  Not needed for mesh generation, but needed, for instance, in independent application of the walk-through subroutine find_containing_tet_and_barycentric_coords().
 */
 struct Walkdata
@@ -557,9 +557,10 @@ void Delaunay3d::bowyer_watson()
 	// add super triangle
 	//	find minimum and maximum x and y of the point set
 	vector<double> rmin(ndim,0), rmax(ndim,0);
-	for(int i = 1; i < npoints; i++)
+	for(int i = 0; i < npoints; i++)
 	{
-		for(int idim = 0; idim < ndim; idim++) {
+		for(int idim = 0; idim < ndim; idim++) 
+		{
 			if(points(i,idim) > rmax[idim]) rmax[idim] = points(i,idim);
 			if(points(i,idim) < rmin[idim]) rmin[idim] = points(i,idim);
 		}
@@ -571,7 +572,7 @@ void Delaunay3d::bowyer_watson()
 	cout << "**\n";
 
 	// factor by which to scale rdelt, for providing a factor of safety.
-	double factor = 10.0;
+	double factor = 0.5;
 	
 	vector<double> rdelt(ndim);		// stores some extra length to have factor of safety in deciding the first 4 points
 	for(int idim = 0; idim < ndim; idim++){
@@ -592,26 +593,26 @@ void Delaunay3d::bowyer_watson()
 	for(int i = 0; i < nnode; i++)
 		pp[i].resize(ndim);
 
-	/*pp[0][0] = rmin[0] - (rmax[2]-rmin[2])*0.5;
+	pp[0][0] = rmin[0] - (rmax[2]-rmin[2])*0.5 - (rmax[1]-rmin[1]);
 	pp[0][1] = rmin[1];
-	pp[0][2] = (rmax[2]+rmin[2])*0.5 + rmax[1] - rmin[1];
+	pp[0][2] = (rmax[2]+rmin[2])*0.5;
 
 	pp[1][0] = rmax[0] + rmax[1] - rmin[1];
 	pp[1][1] = rmin[1];
-	pp[1][2] = rmax[0]-rmin[0] + 2.0*(rmax[1]-rmin[1]) + rmax[2];
+	pp[1][2] = rmax[2] + rmax[0]-rmin[0] + 2.0*(rmax[1]-rmin[1]);
 
 	pp[2][0] = rmax[0] + rmax[1] - rmin[1];
 	pp[2][1] = rmin[1];
-	pp[2][2] = rmin[2] - (rmax[0]-rmin[0]);
+	pp[2][2] = rmin[2] - (rmax[0]-rmin[0]) - 2.0*(rmax[1]-rmin[1]);
 
-	pp[3][0] = rmin[0] - 0.5*(rmax[2]-rmin[2]);
-	pp[3][1] = rmax[0]-rmin[0] + 0.5*(rmax[2]-rmin[2]) + rmax[2];
-	pp[3][2] = rmin[0] + rmin[2] - rmax[0];*/
+	pp[3][0] = 0.5*(rmax[0]+rmin[0]) - 0.25*(rmax[2]-rmin[2]);
+	pp[3][1] = 0.5*(rmax[0]-rmin[0]) + 0.25*(rmax[2]-rmin[2]) + rmax[1];
+	pp[3][2] = 0.5*(rmax[2] + rmin[2]);
 	
-	pp[0][0] = -10; pp[0][1] = -2; pp[0][2] = 2;
+	/*pp[0][0] = -10; pp[0][1] = -2; pp[0][2] = 2;
 	pp[1][0] = 0; pp[1][1] = 8; pp[1][2] = 0;
 	pp[2][0] = 10; pp[2][1] = -2; pp[2][2] = 2;
-	pp[3][0] = 0; pp[3][1] = -2; pp[3][2] = -8;
+	pp[3][0] = 0; pp[3][1] = -2; pp[3][2] = -8;*/
 
 	cout << "Delaunay3d: bowyer_watson(): Coordinates of vertices of the super triangle are:\n";
 	for(int inode = 0; inode < nnode; inode++)
@@ -1076,7 +1077,7 @@ void Delaunay3d::compute_jacobians()
 	jacobians.setup(elems.size(),1);
 	for(int i = 0; i < elems.size(); i++)
 	{
-		compute_jacobian(elems[i]);
+		//compute_jacobian(elems[i]);
 		jacobians(i) = elems[i].D;
 	}
 }
