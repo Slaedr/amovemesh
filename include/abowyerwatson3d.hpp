@@ -103,6 +103,7 @@ class Delaunay3d
 	/// Stores the face-point relationship of a tetrahedron.
 	/** Row i contains the local node numbers of the face opposite to node i. The local node numbers are ordered so that the face points outwards. */
 	Matrix<int> lpofa;
+	void setlpofa();
 
 public:
 	Matrix<double> points;
@@ -158,6 +159,15 @@ public:
 	bool detect_negative_jacobians();
 };
 
+void Delaunay3d::setlpofa()
+{
+	lpofa.setup(nnode,nnode-1);
+	lpofa(0,0) = 1; lpofa(0,1) = 2; lpofa(0,2) = 3;
+	lpofa(1,0) = 2; lpofa(1,1) = 0; lpofa(1,2) = 3;
+	lpofa(2,0) = 3; lpofa(2,1) = 0; lpofa(2,2) = 1;
+	lpofa(3,0) = 0; lpofa(3,1) = 2; lpofa(3,2) = 1;
+}
+
 Delaunay3d::Delaunay3d() 
 {
 	nnode = 4;
@@ -168,12 +178,7 @@ Delaunay3d::Delaunay3d()
 	elems.reserve(cap);
 	faces.reserve(cap);
 	cout << setprecision(12);
-	
-	lpofa.setup(nnode,nnode-1);
-	lpofa(0,0) = 1; lpofa(0,1) = 2; lpofa(0,2) = 3;
-	lpofa(1,0) = 2; lpofa(1,1) = 0; lpofa(1,2) = 3;
-	lpofa(2,0) = 3; lpofa(2,1) = 0; lpofa(2,2) = 1;
-	lpofa(3,0) = 0; lpofa(3,1) = 2; lpofa(3,2) = 1;
+	setlpofa();
 }
 
 Delaunay3d::Delaunay3d(Matrix<double>* _points, int num_points)
@@ -188,12 +193,7 @@ Delaunay3d::Delaunay3d(Matrix<double>* _points, int num_points)
 	points = *_points;
 	npoints = num_points;
 	nodes.reserve(num_points+3);
-
-	lpofa.setup(nnode,nnode-1);
-	lpofa(0,0) = 1; lpofa(0,1) = 2; lpofa(0,2) = 3;
-	lpofa(1,0) = 2; lpofa(1,1) = 0; lpofa(1,2) = 3;
-	lpofa(2,0) = 3; lpofa(2,1) = 0; lpofa(2,2) = 1;
-	lpofa(3,0) = 0; lpofa(3,1) = 2; lpofa(3,2) = 1;
+	setlpofa();
 
 	cout << setprecision(12);
 }
@@ -211,6 +211,7 @@ Delaunay3d::Delaunay3d(const Delaunay3d& other)
 	faces = other.faces;
 	jacobians = other.jacobians;
 	npoints = other.npoints;
+	setlpofa();
 }
 
 Delaunay3d& Delaunay3d::operator=(const Delaunay3d& other)
@@ -226,6 +227,7 @@ Delaunay3d& Delaunay3d::operator=(const Delaunay3d& other)
 	faces = other.faces;
 	jacobians = other.jacobians;
 	npoints = other.npoints;
+	setlpofa();
 	return *this;
 }
 
@@ -241,12 +243,7 @@ void Delaunay3d::setup(Matrix<double>* _points, int num_points)
 	points = *_points;
 	npoints = num_points;
 	nodes.reserve(num_points+3);
-
-	lpofa.setup(nnode,nnode-1);
-	lpofa(0,0) = 1; lpofa(0,1) = 2; lpofa(0,2) = 3;
-	lpofa(1,0) = 2; lpofa(1,1) = 0; lpofa(1,2) = 3;
-	lpofa(2,0) = 3; lpofa(2,1) = 0; lpofa(2,2) = 1;
-	lpofa(3,0) = 0; lpofa(3,1) = 2; lpofa(3,2) = 1;
+	setlpofa();
 
 	cout << setprecision(12);
 }
@@ -845,11 +842,11 @@ void Delaunay3d::bowyer_watson()
 			compute_jacobian(nw);
 			compute_circumsphere_contra(nw);
 			//compute_circumsphere(nw);
+			cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;
 
 			if(nw.D < ZERO_TOL)
 				cout << "Delaunay3d: bowyer_watson(): New elem is degenerate or inverted! Points are " << nw.p[0] << " " << nw.p[1] << " " << nw.p[2] << " " << nw.p[3] << endl;
 
-			//cout << "Delaunay3d:  New element created." << endl;
 			// Push new element into the elements' list
 			elems.push_back(nw);
 
