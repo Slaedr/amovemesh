@@ -8,14 +8,16 @@
 
 /**
 \class Delaunay3d
-\brief A class for Delaunay tetrahedralization of a given set of points based loosely on Bowyer-Watson algorithm.
+\brief A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm.
 
 It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
 
 Notes:
   Currently uses a std::vector to store elements, faces etc. 
+  \todo TODO: Change the deletion and insertion of faces and elements such that we're not moving entire lists.
+
   It might be better to use a std::list or std::forward_list instead.
-  \todo A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
+  \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
 */
 
 #ifndef _GLIBCXX_IOSTREAM
@@ -39,8 +41,8 @@ Notes:
 
 #define __ABOWYERWATSON3D_H 1
 
-#ifndef DEBUGBW
-#define DEBUGBW 1
+#ifndef DEBUGW
+#define DEBUGW 1
 #endif
 
 using namespace std;
@@ -63,7 +65,7 @@ public:
 	Point centre;		///< Coords of circumcenter of the tet.
 	int surr[4];		///< Indices of surrounding tets. Note that the neighbor corresponding to surr[3] is opposite the vertex p[3].
 	double D;			///< 6*volume of tet.
-	double radius;		///< Radius of circumcircle of tet.
+	double radius;		///< Square of radius of circumcircle of tet.
 
 	Tet() {
 		centre.resize(3,0.0);
@@ -367,7 +369,7 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	elem.centre = rc;
 	elem.radius = 0.0;
 	
-	// now calculate radius
+	// now calculate radius squared
 	for(j = 0; j < ndim; j++)
 		elem.radius += (rc[j]-nodes[elem.p[0]][j])*(rc[j]-nodes[elem.p[0]][j]);
 
@@ -453,7 +455,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 	for(k = 0; k < ndim; k++)
 		elem.centre[k] = cold[k] + tp*nrm[k];
 	
-	// radius
+	// square of radius
 	elem.radius = 0;
 	for(k = 0; k < ndim; k++)
 		elem.radius += (elem.centre[k] - nodes[elem.p[0]][k])*(elem.centre[k] - nodes[elem.p[0]][k]);
@@ -503,6 +505,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 	
 	while(1)
 	{
+		//cout << " " << ielem;
 		found = true;
 
 		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; return ielem; }
@@ -513,7 +516,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 			// get jacobian
 			l = det4(ielem,inode,xx);
 			#if DEBUGW==1
-			if(dabs(l) < ZERO_TOL) cout << "Delaunay3d: find_containing_tet(): ! Degenerate case (type 1) " << inode << "!!\n";
+			//if(dabs(l) < ZERO_TOL) cout << "Delaunay3d: find_containing_tet(): ! Degenerate case (type 1) " << inode << "!!\n";
 			#endif
 			if(l/super.D < 0)
 			{
@@ -631,6 +634,7 @@ void Delaunay3d::bowyer_watson()
 		super.surr[inode] = -1;
 
 	compute_jacobian(super);
+	if(super.D < ZERO_TOL) cout << "Delaunay3d: !!Error: super triangle has negative Jacobian!" << endl;
 	compute_circumsphere(super);
 
 	elems.push_back(super);			// add super to elems list
@@ -654,7 +658,7 @@ void Delaunay3d::bowyer_watson()
 
 	// iterate through points
 	cout << "Delaunay3d: Starting iteration over points\n";
-	for(int ipoin = 0; ipoin < npoints; ipoin++)
+	for(int ipoin = 0; ipoin < 117/*npoints*/; ipoin++)
 	{
 		cout << "New point : " << ipoin  << "  " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
 		for(int idim = 0; idim < ndim; idim++)
@@ -670,9 +674,9 @@ void Delaunay3d::bowyer_watson()
 		vector<int> stk;					// stack to hold the indices of tets to be checked
 		double dist;						// square of distance from point to circumcentre
 		stk.push_back(contelem);			// add the containing element to the list of bad elements
-		vector<int> flags(elems.size());	// stores 1 at an index if the corresponding element has been checked for the Delaunay criterion
-		for(int i = 0; i < elems.size(); i++) 
-			flags[i] = 0;
+		vector<int> flags(elems.size(),0);	// stores 1 at an index if the corresponding element has been checked for the Delaunay criterion
+		//for(int i = 0; i < elems.size(); i++) 
+		//	flags[i] = 0;
 
 		while(stk.empty() == false)
 		{
@@ -687,7 +691,7 @@ void Delaunay3d::bowyer_watson()
 
 			flags[curelem] = 1;				// curelem will now be checked
 
-			//calculate distance between circumcentre and the point
+			// calculate square of distance between circumcentre and the point
 			dist = 0;
 			for(int idim = 0; idim < ndim; idim++)
 				dist += (newpoin[idim] - elems[curelem].centre[idim])*(newpoin[idim] - elems[curelem].centre[idim]);

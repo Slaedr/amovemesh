@@ -1,0 +1,5 @@
+-input-file
+../../input/cube.points
+-output-file
+../../output/t_cube.msh
+
