@@ -33,10 +33,22 @@ void read_points(string finname, Delaunay3d& d3d)
 
 int main(int argc, char* argv[])
 {
+	if(argc < 2)
+	{
+		cout << "Insufficient arguments. Please provide a control file name.\n";
+		return -1;
+	}
 	Delaunay3d d3;
-	read_points("../../input/delau.domn.points", d3);
+	string inpfile, outfile, dum;
+	ifstream fin(argv[1]);
+	fin >> dum; fin >> inpfile;
+	fin >> dum; fin >> outfile;
+	fin.close();
+
+	read_points(inpfile, d3);
 	d3.bowyer_watson();
-	d3.writeGmsh2("../../output/dg.msh");
+	d3.writeGmsh2(outfile);
+	cout << "Output written to " << outfile << endl;
 	d3.compute_jacobians();
 	bool negjac = d3.detect_negative_jacobians();
 	cout << endl;

@@ -41,8 +41,8 @@ Notes:
 
 #define __ABOWYERWATSON3D_H 1
 
-#ifndef DEBUGW
-#define DEBUGW 1
+#ifndef DEBUGBW
+#define DEBUGBW 1
 #endif
 
 using namespace std;
@@ -405,7 +405,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 	for(k = 0; k < ndim; k++)
 		normnrm += nrm[k]*nrm[k];
 	
-	#if DEBUGW==1
+	#if DEBUGBW==1
 	if(normnrm < ZERO_TOL) cout << "Delaunay3d: compute_circumsphere_contra(): ! Element is degenerate!!" << endl;
 	#endif
 	
@@ -466,7 +466,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 */
 double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 {
-	#if DEBUGW==1
+	#if DEBUGBW==1
 	if(i > 3) {
 		std::cout << "Delaunay3D: det4(): ! Second argument is greater than 3!" << std::endl;
 		return 0;
@@ -512,7 +512,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 		{
 			// get jacobian
 			l = det4(ielem,inode,xx);
-			#if DEBUGW==1
+			#if DEBUGBW==1
 			//if(dabs(l) < ZERO_TOL) cout << "Delaunay3d: find_containing_tet(): ! Degenerate case (type 1) " << inode << "!!\n";
 			#endif
 			if(l/super.D < 0)
@@ -655,7 +655,7 @@ void Delaunay3d::bowyer_watson()
 
 	// iterate through points
 	cout << "Delaunay3d: Starting iteration over points\n";
-	for(int ipoin = 0; ipoin < 117/*npoints*/; ipoin++)
+	for(int ipoin = 0; ipoin < npoints; ipoin++)
 	{
 		cout << "New point : " << ipoin  << "  " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
 		for(int idim = 0; idim < ndim; idim++)
@@ -700,7 +700,7 @@ void Delaunay3d::bowyer_watson()
 			// FOR DEBUG
 			//cout << "Delaunay3d: bowyer_watson(): Dist^2 and radius^2 are " << dist << ", " << elems[curelem].radius << endl;
 
-			if(dist <= elems[curelem].radius)		// if point lies inside circumcircle, ie, Delaunay criterion is violated
+			if(dist < elems[curelem].radius)		// if point lies inside circumsphere (or on it), ie, Delaunay criterion is violated
 			{
 				badelems.push_back(curelem);
 				stk.pop_back();
@@ -842,10 +842,10 @@ void Delaunay3d::bowyer_watson()
 			compute_jacobian(nw);
 			compute_circumsphere_contra(nw);
 			//compute_circumsphere(nw);
-			cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;
+			//cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;
 
 			if(nw.D < ZERO_TOL)
-				cout << "Delaunay3d: bowyer_watson(): New elem is degenerate or inverted! Points are " << nw.p[0] << " " << nw.p[1] << " " << nw.p[2] << " " << nw.p[3] << endl;
+				cout << "Delaunay3d: bowyer_watson(): New elem is degenerate or inverted! Points are " << nw.p[0] << " " << nw.p[1] << " " << nw.p[2] << " " << nw.p[3] << ", " << nw.D << endl;
 
 			// Push new element into the elements' list
 			elems.push_back(nw);
@@ -872,8 +872,6 @@ void Delaunay3d::bowyer_watson()
 				}
 
 				// if this newface has -4 as the right element, then replace this by the new element
-				//if(faces[newfaces[jfa]].elem[1] == -4)		// Do we really need this check? I don't think so.
-				//{
 				
 				faces[newfaces[jfa]].elem[1] = elems.size()-1;
 				elems.back().surr[localface] = faces[newfaces[jfa]].elem[0];
@@ -881,10 +879,8 @@ void Delaunay3d::bowyer_watson()
 				// Also, find which local face of newfaces[jfa]'s left element is the same as newfaces[jfa].
 				// Set the new element as a surrounding element of of the left element of newfaces[jfa].
 				jface = check_face_tet(elems[faces[newfaces[jfa]].elem[0]], faces[newfaces[jfa]]);
-				if(jface == -1) {cout << "Delaunay3d: bowyer_watson(): ! Error while setting surrounding element of a new element!" << endl; }
+				if(jface == -1) { cout << "Delaunay3d: bowyer_watson(): ! Error while setting surrounding element of a new element!" << endl; }
 				elems[faces[newfaces[jfa]].elem[0]].surr[jface] = elems.size()-1;
-				
-				//}
 
 				val[localface] = true;
 				
@@ -934,7 +930,7 @@ void Delaunay3d::bowyer_watson()
 	} 
 	
 	// end iteration over points
-
+	
 	cout << "Delaunay3d: bowyer_watson(): Number of elements before removing super points is " << elems.size() << endl;
 	// Remove super triangle
 	//cout << "Delaunay2D:  Remove super triangle\n";
@@ -981,7 +977,7 @@ void Delaunay3d::bowyer_watson()
 	}
 	// remove super faces - not needed
 	cout << "Delaunay3d: Triangulation done.\n";
-
+	
 	// print surrounding elements
 	/*for(int i = 0; i < elems.size(); i++)
 	{
@@ -1052,7 +1048,7 @@ Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<dou
 		{
 			// get jacobian
 			l[inode] = det4(ielem,inode,xx);
-			#if DEBUGW==1
+			#if DEBUGBW==1
 			if(dabs(l[inode]) < ZERO_TOL) cout << "Delaunay3D: find_containing_tet(): ! Degenerate case (type 1) for l " << inode << "!!\n";
 			#endif
 			if(l[inode]/super.D < 0)
