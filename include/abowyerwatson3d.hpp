@@ -632,7 +632,8 @@ void Delaunay3d::bowyer_watson()
 
 	compute_jacobian(super);
 	if(super.D < ZERO_TOL) cout << "Delaunay3d: !!Error: super triangle has negative Jacobian!" << endl;
-	compute_circumsphere(super);
+	compute_circumsphere_contra(super);
+	//compute_circumsphere(super);
 
 	elems.push_back(super);			// add super to elems list
 
@@ -840,6 +841,7 @@ void Delaunay3d::bowyer_watson()
 			else cout << "Delaunay2D: !! Error while creating new element - face " << voidpoly[ifa] << " in voidpoly does not have -2 as either left elem or right elem.\n";
 
 			compute_jacobian(nw);
+
 			compute_circumsphere_contra(nw);
 			//compute_circumsphere(nw);
 			//cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;

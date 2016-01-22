@@ -1,8 +1,0 @@
-While Delaunay graph mapping (DGM) is a very efficient scheme for accomplishing many types of mesh movement, it has a characteristic because of which it is unsuitable for certain meshes and motions. This is the fact that the movement of the node depends only on the motion of the Delaunay element containing it, not necessarily on the motion of the nearest boundary facets.
-
-In case of curved mesh generation for highly anisotropic viscous meshes, it is possible for some Delaunay triangulation facets make angles with the boundary that are very different from 90 degrees (see FIGURE). Then we have at least two issues.
-(1) Interior points close to a boundary facet can be influenced by another boundary facet far away having a very different curvature.
-(2) It may be the case that an interior point is not at all influenced by the closest boundary facet.
-These issues lead to low curved mesh quality in certain regions, and even invalid elements. We could try using DG-RBF to help alleviate issue (1), but issue (2) would still persist.
-
-Figures (FIGURE) shows a portion of the slat of a 3-element airfoil. Figure (FIGURE) shows the Delaunay graph and figure (FIGURE2) shows the deformed mesh. We can see that the DG lines make an angle far from 90 degrees with the boundary. It is clear how points originally in a straight line deform in an oscillatory manner because successive points depend on different Delaunay elements.
