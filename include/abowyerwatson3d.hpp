@@ -55,6 +55,7 @@ struct Face
 {
 	int p[3];			///< indices of endpoints of the face
 	int elem[2];		///< elements on either side of the face
+	//int lfel[2];		///< the local face numbers of this face corresponding to the two elements in elem
 };
 
 /// Class representing a tetrahedron.
@@ -500,7 +501,8 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 	double l;
 	bool found;
 	
-	while(1)
+	//while(1)
+	for(int ii = 0; ii < elems.size()+3; ii++)
 	{
 		//cout << " " << ielem;
 		found = true;
@@ -536,7 +538,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 {
 	// iterate over each face of elem
-	for(int i = 0; i < 4; i++)
+	/*for(int i = 0; i < 4; i++)
 	{
 		// check all 6 permutations by which elem's ith face could be same as the input face.
 		if(face.p[0]==elem.p[(0+i)%4] && face.p[1]==elem.p[(1+i)%4] && face.p[2]==elem.p[(2+i)%4]) return (3+i)%4;
@@ -546,6 +548,40 @@ inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 		if(face.p[0]==elem.p[(2+i)%4] && face.p[1]==elem.p[(0+i)%4] && face.p[2]==elem.p[(1+i)%4]) return (3+i)%4;
 		if(face.p[0]==elem.p[(2+i)%4] && face.p[1]==elem.p[(1+i)%4] && face.p[2]==elem.p[(0+i)%4]) return (3+i)%4;
 	}
+	return -1;*/
+	
+	int i,j,k;
+
+	// iterate over local faces of the element
+	for(i = 0; i < nnode; i++)
+	{
+		bool foundf = true;
+		// iterate over nodes of the element's face
+		for(k = 1; k < nnode; k++)	
+		{
+			bool found = false;
+
+			// iterate over nodes of the face to be tested
+			for(j = 0; j < nnode-1; j++)
+			{
+				if(elem.p[(i+k) % nnode] == face.p[j])
+				{
+					found = true;
+					break;
+				}
+			}
+
+			// if none of the face's nodes match the element's ith face's kth node, the ith face is not the one we're looking for
+			if(!found) 
+			{
+				foundf = false;
+				break;
+			}
+		}
+
+		if(foundf) return i;
+	}
+
 	return -1;
 }
 
@@ -819,10 +855,12 @@ void Delaunay3d::bowyer_watson()
 			Tet nw;
 			nw.p[0] = newpoinnum;
 			if(faces[voidpoly[ifa]].elem[0] == -2)	
-			{	// if the new element is to the left of this face, the orientation of the remaining points of the tet is same as the orientation of the face
+			{	
+				// if the new element is to the left of this face, the orientation of the remaining points of the tet is same as the orientation of the face
 				nw.p[1] = faces[voidpoly[ifa]].p[0];
 				nw.p[2] = faces[voidpoly[ifa]].p[1];
 				nw.p[3] = faces[voidpoly[ifa]].p[2];
+				
 				// we also need to reverse the face's orientation to make it point to the new element
 				temp = faces[voidpoly[ifa]].elem[1];
 				faces[voidpoly[ifa]].elem[1] = elems.size();		// this new element has not been pushed into elems yet, so we need elems.size() - 1 + 1
@@ -839,6 +877,8 @@ void Delaunay3d::bowyer_watson()
 				faces[voidpoly[ifa]].elem[1] = elems.size();
 			}
 			else cout << "Delaunay2D: !! Error while creating new element - face " << voidpoly[ifa] << " in voidpoly does not have -2 as either left elem or right elem.\n";
+
+			// After the above, the right element of the current void face has the new element.
 
 			compute_jacobian(nw);
 

@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-	int np = 12;
+	int np = 13;
 	Matrix<double> pts(np,3);
 	/*pts(0,0) = 0; pts(0,1) = 0; pts(0,2) = 0;
 	pts(1,0) = 1; pts(1,1) = 0; pts(1,2) = 0;
@@ -26,10 +26,11 @@ int main()
 	pts(5,0) = 0; pts(5,1) = 1; pts(5,2) = 1;
 	pts(6,0) = 1; pts(6,1) = 0; pts(6,2) = 1;
 	pts(7,0) = 1; pts(7,1) = 1; pts(7,2) = 1;
-	pts(8,0) = 1; pts(8,1) = 1.1; pts(8,2) = 1.5;
-	pts(9,0) = 0; pts(9,1) = 1.01; pts(9,2) = 1.5;
+	pts(8,0) = 1; pts(8,1) = 1.0; pts(8,2) = 1.5;
+	pts(9,0) = 0; pts(9,1) = 1.00; pts(9,2) = 1.5;
 	pts(10,0) = 1; pts(10,1) = 0; pts(10,2) = 1.5;
 	pts(11,0) = 0; pts(11,1) = 0; pts(11,2) = 1.5;
+	pts(12,0) = 0.5; pts(12,1) = 0.7; pts(12,2) = 0.6;
 
 	Delaunay3d d(&pts, np);
 	d.bowyer_watson();
