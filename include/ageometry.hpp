@@ -299,8 +299,6 @@ void CSpline::sequence()
 		}
 		seq_spoin(nseg) = m->gbface(facelist[nseg-1], 1);
 	}
-	//seq_bface.mprint();
-	//seq_spoin.mprint();
 }
 
 void CSpline::compute()

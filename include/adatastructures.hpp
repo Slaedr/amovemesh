@@ -2,9 +2,95 @@
 #include <iostream>
 #endif
 
+#ifndef _GLIBCXX_VECTOR
+#include <vector>
+#endif
+
 #define __ADATASTRUCTURES_H
 
 using namespace std;
+
+template <class T>
+/// Class implementing a stack which is not compressed after arbitrary element deletion. New data can be written to unused entries rather than pushed back.
+/** Uses the std::vector class as the underlying stack implementation.
+ */
+class PList
+{
+	int size;
+	vector<T> data;
+	vector<int> freed;
+public:
+	
+	void reserve(int sze)
+	{
+		data.reserve(sze);
+	}
+	
+	void resize(int sze)
+	{
+		data.resize(sze);
+		size = sze;
+	}
+
+	/// element access
+	T& operator[](int index)
+	{
+		return data[index];
+	}
+
+	/// getter
+	T at(int index)
+	{
+		return data.at(index);
+	}
+
+	/// insert at end of stack
+	void push_back(T dat)
+	{
+		data.push_back(dat);
+		size++;
+	}
+	
+	/// delete from end of stack
+	void pop_back()
+	{
+		data.pop_back();
+		size--;
+	}
+	/// delete from arbitrary location in stack
+	void delete_element(int index)
+	{
+		freed.push_back(index);
+		size--;
+	}
+	
+	/// insert at first free location (as given by freed )
+	void insert_element(T val)
+	{
+		if(!freed.empty())
+		{
+			data[freed.back()] = val;
+			freed.pop_back();
+		}
+		else
+			data.push_back(val);
+	}
+
+	/// output contents
+	void print()
+	{
+		for(int i = 0; i < data.size(); i++)
+		{
+			if(freed.empty()) cout << data[i] << " ";
+			else for(int j = 0; j < freed.size(); j++)
+			{
+				if(i != freed[j])
+					cout << data[i] << " ";
+			}
+		}
+		cout << endl;
+	}
+};
 
 template <class T>
 struct Node
@@ -126,7 +212,7 @@ int perm(int start, int end, int n, int off)
 	return cur->data;
 }
 
-template <class T>
+/*template <class T>
 class MergeSort
 {
 	T** arrs;
@@ -146,4 +232,4 @@ public:
 	void mergesort()
 	{
 	}
-};
+};*/

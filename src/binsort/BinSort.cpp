@@ -1,3 +1,8 @@
+/** @file BinSort.cpp
+ * @author Tianyi Feng
+ * @date June 2015
+ */
+
 #include<stdio.h>
 #include<math.h>
 #include<iostream>
@@ -8,7 +13,7 @@ using namespace std;
 int main(){
 	string filename;
 	filename = "bounpoints.dat";
-	ifstream fin("bounpoints.dat");
+	ifstream fin(filename);
 	if (!fin)
 	{
 		cout << "error" << endl;

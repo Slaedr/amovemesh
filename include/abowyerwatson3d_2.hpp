@@ -1,9 +1,9 @@
 /**
-@file abowyerwatson3d.hpp
+@file abowyerwatson3d_2.hpp
 @brief This file contains a class that implements the Bowyer-Watson algorithm for Delaunay tesselation in 3D.
 
 @author Aditya Kashi
-@date November 3, 2015
+@date January 25, 2016
 */
 
 /**
@@ -278,6 +278,14 @@ double Delaunay3d::tetvol(const vector<double>& a, const vector<double>& b, cons
 /// Computes 6*volume, ie the Jacobian of any tetrahedron.
 void Delaunay3d::compute_jacobian(Tet& elem)
 {	
+	/*double ret;
+	ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
+	ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
+	ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
+	ret -= nodes[elem.p[1]][0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
+	
+	elem.D = ret;*/
+
 	elem.D = tetvol(nodes[elem.p[0]],nodes[elem.p[1]],nodes[elem.p[2]],nodes[elem.p[3]]);
 }
 
@@ -520,7 +528,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 		// if all 4 area-ratios are positive, we've found our element
 		if(found) break;
 	}
-	cout << "Delaunay2D:   Containing triangle found as " << ielem << endl;
+	//cout << "Delaunay2D:   Containing triangle found as " << ielem << endl;
 	return ielem;
 }
 
@@ -693,7 +701,7 @@ void Delaunay3d::bowyer_watson()
 		newpoinnum = nodes.size()-1;
 
 		/// First, find the element containing the new point
-		contelem = find_containing_tet(newpoin,elems.size()*3/4);
+		contelem = find_containing_tet(newpoin,elems.size()-1);
 
 		/// Second, search among neighbors for other triangles whose circumcircles contain this point
 		int curelem;
@@ -723,13 +731,13 @@ void Delaunay3d::bowyer_watson()
 				dist += (newpoin[idim] - elems[curelem].centre[idim])*(newpoin[idim] - elems[curelem].centre[idim]);
 
 			#if DEBUGBW==1
-			//if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay3D: Degenerate case (type 2)!!\n";
+			if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay3D: Degenerate case (type 2)!!\n";
 			#endif
 			
 			// FOR DEBUG
 			//cout << "Delaunay3d: bowyer_watson(): Dist^2 and radius^2 are " << dist << ", " << elems[curelem].radius << endl;
 
-			if(dist < elems[curelem].radius)		// if point lies inside circumsphere, ie, Delaunay criterion is violated
+			if(dist < elems[curelem].radius)		// if point lies inside circumsphere (or on it), ie, Delaunay criterion is violated
 			{
 				badelems.push_back(curelem);
 				stk.pop_back();
@@ -879,25 +887,21 @@ void Delaunay3d::bowyer_watson()
 			//cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;
 
 			if(nw.D < ZERO_TOL)
-			{
 				cout << "Delaunay3d: bowyer_watson(): New elem is degenerate or inverted! Points are " << nw.p[0] << " " << nw.p[1] << " " << nw.p[2] << " " << nw.p[3] << ", " << nw.D << endl;
-				//elems.push_back(nw);
-				//return;
-			}
 
 			// Push new element into the elements' list
 			elems.push_back(nw);
 
 			Face fc;
 
-			vector<bool> val(ndim+1, false);
-			//^ flag for each face of the new element - but we actually only need it for those faces that include the new point 0, ie faces 1, 2 and 3.
+			vector<bool> val(ndim+1, false);	
+			//^ flag for each face face of the new element - but we actually only need it for those faces that include the new point 0, ie faces 1, 2 and 3.
 			//^ val[i] contains true if a newface corresponding to the ith local face of nw has been found.
 
 			int localface, jface;
 			for(int jfa = 0; jfa < newfaces.size(); jfa++)
 			{
-				// test whether the newface is part of the new tet.
+				//Instead of separately comparing each face of nw, use the function to test whether a face is part of a tet.
 				localface = check_face_tet(nw, faces[newfaces[jfa]]);
 				
 				// If this newface does not match any face of the new element, go to the next newface.
@@ -915,14 +919,14 @@ void Delaunay3d::bowyer_watson()
 				elems.back().surr[localface] = faces[newfaces[jfa]].elem[0];
 
 				// Also, find which local face of newfaces[jfa]'s left element is the same as newfaces[jfa].
-				// Set the new element as a surrounding element of the left element of newfaces[jfa].
+				// Set the new element as a surrounding element of of the left element of newfaces[jfa].
 				jface = check_face_tet(elems[faces[newfaces[jfa]].elem[0]], faces[newfaces[jfa]]);
 				if(jface == -1) { cout << "Delaunay3d: bowyer_watson(): ! Error while setting surrounding element of a new element!" << endl; }
 				elems[faces[newfaces[jfa]].elem[0]].surr[jface] = elems.size()-1;
 
 				val[localface] = true;
 				
-				// ************************ CHECK!!!    if faces corresponding to all 3 new faces of the new element have been found, quit the jfa loop
+				// if faces corresponding to all 3 new faces of the new element have been found, quit the jfa loop
 				bool brk = true;
 				for(int i = 1; i < ndim+1; i++)
 					if(!val[i]) brk = false;
