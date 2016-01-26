@@ -47,10 +47,13 @@ int main(int argc, char* argv[])
 
 	read_points(inpfile, d3);
 	d3.bowyer_watson();
-	d3.writeGmsh2(outfile);
-	cout << "Output written to " << outfile << endl;
+
 	d3.compute_jacobians();
 	bool negjac = d3.detect_negative_jacobians();
+
+	d3.writeGmsh2(outfile);
+	cout << "Output written to " << outfile << endl;
+	
 	cout << endl;
 	return 0;
 }
