@@ -1,7 +1,7 @@
-// Funtionality for solving equations of linear elasticity on a straight-edged quadratic mesh using P2 Lagrange finite elements
-// (no non-homogeneous Neumann BCs)
-// June 12, 2015
-// Adtya Kashi
+/** @brief Funtionality for solving equations of linear elasticity on a straight-edged quadratic mesh using P2 Lagrange finite elements (no non-homogeneous Neumann BCs)
+ * @date June 12, 2015
+ * @author Adtya Kashi
+ */
 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
@@ -39,6 +39,7 @@ using namespace acfd;
 
 namespace acfd {
 
+/// Class implementing solution of linear elasticity system by P2 Lagrange finite elements.
 class LinElastP2
 {
 	UMesh2d* m;
@@ -56,6 +57,10 @@ class LinElastP2
 
 public:
 	LinElastP2() {}
+
+
+	/// Sets inputs and computes derivatives of basis functions and face-normals
+	/// \note The computations are only for straight-sided P2 elements!
 	LinElastP2(UMesh2d* mesh, double mu, double lambd)
 	{
 		m = mesh;
@@ -69,6 +74,7 @@ public:
 		cbig = 1e40;
 		//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);
 		//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);
+		
 
 		for(int i = 0; i < m->gnelem(); i++)
 		{
@@ -102,6 +108,8 @@ public:
 		cout << "LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n";
 	}
 
+	/// Sets inputs and computes derivatives of basis functions and face-normals
+	/// \note The computations are only for straight-sided P2 elements!
 	void setup(UMesh2d* mesh, double mu, double lambd)
 	{
 		m = mesh;
@@ -327,11 +335,12 @@ public:
 		return f;
 	}
 
-	/** Applies Dirichlet BC on high-order nodes of all boundary faces.
-	* bdata is a npoin-by-2 vector, containing x- and y-displacements of all mesh points to be imposed as Dirichlet BCs (zero for interior points). 
-	* bglags is a npoin x 1 vector that contains 1 for boundary points and 0 for interior points, ie, it's a boundary boolean vector for nodes.
-	* IGNORE:extra is a npoin-by-1 vector storing a flag (0 or 1) for each mesh point; if extra(ipoin) == 1, then ipoin is to be kept fixed
-	*/
+	/** \brief Applies Dirichlet BC on high-order nodes of all boundary faces.
+	 *
+	 * bdata is a npoin-by-2 vector, containing x- and y-displacements of all mesh points to be imposed as Dirichlet BCs (zero for interior points). The first npoin entries are x-displacements.
+	 * bglags is a npoin x 1 vector that contains 1 for boundary points and 0 for interior points, ie, it's a boundary boolean vector for nodes.
+	 * IGNORE:extra is a npoin-by-1 vector storing a flag (0 or 1) for each mesh point; if extra(ipoin) == 1, then ipoin is to be kept fixed
+	 */
 	void dirichletBC_onAllBface(const Matrix<double>& bdata, const Matrix<int>& bflags)
 	{
 		double temp; int p;

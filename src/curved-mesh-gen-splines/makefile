@@ -22,6 +22,6 @@ curveh:
 	$(GPP) curvedmeshgen2dh.cpp -o curveh.out -std=c++11 -ggdb -I$(PRMM)/include -fopenmp
 	
 curvee:
-	$(GPP) linelast-curvedmeshgen2d.cpp -o curvee.out -std=c++11 -ggdb -I$(PRMM)/include -fopenmp
+	$(GPP) linelast-curvedmeshgen2d.cpp -o curvee.out -std=c++11 -ggdb -I$(PRMM)/include
 test:
 	$(GPP) test.cpp -o test.out -std=c++11 -I$(PRMM)/include -ggdb

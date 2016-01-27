@@ -14,7 +14,7 @@ It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
 
 Notes:
   Currently uses a std::vector to store elements, faces etc. 
-  \todo TODO: Change the deletion and insertion of faces and elements such that we're not moving entire lists.
+  \todo TODO: Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
 
   It might be better to use a std::list or std::forward_list instead.
   \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
@@ -335,8 +335,12 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	double detnum;
 	//double detdenom = determinant(normal);
 	double detdenom = 0;
-	detdenom = normal(0,0)*( normal(1,1)*normal(2,2)-normal(1,2)*normal(2,1) ) -normal(0,1)*( normal(1,0)*normal(2,2)-normal(1,2)*normal(2,0)) +normal(0,2)*( normal(1,0)*normal(2,1)-normal(1,1)*normal(2,0));
-	if(fabs(detdenom) <= ZERO_TOL) cout << "Delaunay3d: compute_circumsphere(): ! System is inconsistent!! Jacobian of elem is " << elem.D << endl;
+	detdenom = normal(0,0)*( normal(1,1)*normal(2,2)-normal(1,2)*normal(2,1) ) -normal(0,1)*( normal(1,0)*normal(2,2)-normal(1,2)*normal(2,0)) 
+		+normal(0,2)*( normal(1,0)*normal(2,1)-normal(1,1)*normal(2,0));
+
+#if DEBUGBW==1
+	if(fabs(detdenom) < ZERO_TOL) cout << "Delaunay3d: compute_circumsphere(): ! System is inconsistent!! Jacobian of elem is " << elem.D << endl;
+#endif
 	
 	for(k = 0; k < ndim; k++)
 	{
@@ -361,6 +365,8 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	for(j = 0; j < ndim; j++)
 		elem.radius += (rc[j]-nodes[elem.p[0]][j])*(rc[j]-nodes[elem.p[0]][j]);
 
+	elem.radius = sqrt(elem.radius);
+
 	// check
 	/*Matrix<double> rhstest(ndim,1); rhstest.zeros();
 	for(i = 0; i < ndim; i++)
@@ -377,7 +383,7 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 {
 	vector<double> g1(ndim), g2(ndim), nrm(ndim),  g2co(ndim), cold(ndim), rdiff(ndim), rave(ndim);
-	double tp;
+	double tp, tpd;
 	int k;
 	
 	for(k = 0; k < ndim; k++)
@@ -410,7 +416,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 	g2co[2] = nrm[0]*g1[1] - nrm[1]*g1[0];
 
 	// compute "factor t for base", ie, tp
-	double tpd = 0;
+	tpd = 0;
 	tp = 0;
 	for(k = 0; k < ndim; k++)
 	{
@@ -660,8 +666,8 @@ void Delaunay3d::bowyer_watson()
 
 	compute_jacobian(super);
 	if(super.D < ZERO_TOL) cout << "Delaunay3d: !!Error: super triangle has negative Jacobian!" << endl;
-	compute_circumsphere_contra(super);
-	//compute_circumsphere(super);
+	//compute_circumsphere_contra(super);
+	compute_circumsphere(super);
 
 	elems.push_back(super);			// add super to elems list
 
@@ -682,7 +688,7 @@ void Delaunay3d::bowyer_watson()
 	int newpoinnum, contelem;
 	vector<double> newpoin(ndim);
 
-	zero_scale = 100;
+	zero_scale = 10;
 
 	// iterate through points
 	cout << "Delaunay3d: Starting iteration over points\n";
@@ -881,8 +887,8 @@ void Delaunay3d::bowyer_watson()
 
 			compute_jacobian(nw);
 
-			compute_circumsphere_contra(nw);
-			//compute_circumsphere(nw);
+			//compute_circumsphere_contra(nw);
+			compute_circumsphere(nw);
 			//cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;
 
 			if(nw.D < ZERO_TOL)

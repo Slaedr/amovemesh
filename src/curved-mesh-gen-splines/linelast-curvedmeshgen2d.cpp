@@ -4,13 +4,17 @@ using namespace std;
 using namespace amat;
 using namespace acfd;
 
-int main()
+int main(int argc, char* argv[])
 {
-	string confile = "linelast-curvedmeshgen2d.control";
+	if(argc < 2) {
+		cout << "Please specify a control file name!\n";
+		return -1;
+	}
+	string confile = argv[1];
 	ifstream conf(confile);
 	string dum, str_linearmesh, str_qmesh, str_curvedmesh;
 	int maxiter, nsplineparts, nflags;
-	double ym, pr, tol, cornerangle;
+	double ym, pr, tol_g, tol_e, cornerangle, chi;
 	vector<vector<int>> splineflags;
 	vector<int> vec;
 
@@ -20,7 +24,9 @@ int main()
 	conf >> dum; conf >> cornerangle;
 	conf >> dum; conf >> ym;
 	conf >> dum; conf >> pr;
-	conf >> dum; conf >> tol;
+	conf >> dum; conf >> chi;
+	conf >> dum; conf >> tol_g;
+	conf >> dum; conf >> tol_e;
 	conf >> dum; conf >> maxiter;
 	conf >> dum; conf >> nsplineparts;
 	conf >> dum;
@@ -49,7 +55,7 @@ int main()
 
 	LinElastP2 rmove;
 	Curvedmeshgen2d cu;
-	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol, maxiter, ym, pr);
+	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol_g, tol_e, maxiter, ym, pr, chi);
 	cu.compute_boundary_displacements();
 	
 	clock_t begin = clock();
