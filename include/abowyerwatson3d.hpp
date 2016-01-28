@@ -14,7 +14,7 @@ It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
 
 Notes:
   Currently uses a std::vector to store elements, faces etc. 
-  \todo TODO: Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
+  \todo Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
 
   It might be better to use a std::list or std::forward_list instead.
   \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
@@ -124,16 +124,16 @@ public:
 	Delaunay3d& operator=(const Delaunay3d& other);
 	void setup(Matrix<double>* _points, int num_points);
 	
-	double l2norm(const vector<double>& a);
+	double l2norm(const vector<double>& a) const;
 	
-	double dot(const vector<double>& a, const vector<double>& b);
+	double dot(const vector<double>& a, const vector<double>& b) const;
 	
 	/// Computes the jacobian of a tet formed from a point and a face of a tetrahedron.
 	double det4(int ielem, int i, const vector<double>& r) const;
 	
 	void compute_jacobian(Tet& elem);
 	
-	void cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b);
+	void cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b) const;
 	
 	void compute_circumsphere(Tet& elem);
 
@@ -151,7 +151,7 @@ public:
 	void clear();					///< Reset the Delaunay3d object, except for input data
 	
 	/// Writes the Delaunay graph to a Gmsh file.
-	void writeGmsh2(string mfile);
+	void writeGmsh2(string mfile) const;
 	
 	/// Finds the DG element containing a given point.
 	Walkdata find_containing_tet_and_barycentric_coords(const vector<double>& rr, int startelement) const;
@@ -280,7 +280,7 @@ void Delaunay3d::compute_jacobian(Tet& elem)
 }
 
 /// Computes cross product c of two 3-vectors a and b; c = a x b
-inline void Delaunay3d::cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b)
+inline void Delaunay3d::cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b) const
 {
 	c[0] = a[1]*b[2]-a[2]*b[1];
 	c[1] = a[2]*b[0]-a[0]*b[2];
@@ -288,7 +288,7 @@ inline void Delaunay3d::cross_product3(vector<double>& c, const vector<double>& 
 }
 
 /// Returns the dot product of two vectors.
-inline double Delaunay3d::dot(const vector<double>& a, const vector<double>& b)
+inline double Delaunay3d::dot(const vector<double>& a, const vector<double>& b) const
 {
 	double val = 0;
 	for(int i = 0; i < ndim; i++)
@@ -297,7 +297,7 @@ inline double Delaunay3d::dot(const vector<double>& a, const vector<double>& b)
 }
 
 /// Returns the \f$ l^2 \f$ norm of a vector.
-inline double Delaunay3d::l2norm(const vector<double>& a)
+inline double Delaunay3d::l2norm(const vector<double>& a) const
 {
 	// a.size() should ideally equal ndim
 	double norm = 0;
@@ -709,10 +709,8 @@ void Delaunay3d::bowyer_watson()
 		double dist;						// square of distance from point to circumcentre
 		stk.push_back(contelem);			// add the containing element to the list of bad elements
 		vector<int> flags(elems.size(),0);	// stores 1 at an index if the corresponding element has been checked for the Delaunay criterion
-		//for(int i = 0; i < elems.size(); i++) 
-		//	flags[i] = 0;
-
-		cout << "No. of elements = " << elems.size() << endl;
+		//cout << "No. of elements = " << elems.size() << endl;
+		
 		while(stk.empty() == false)
 		{
 			curelem = stk.back();			// access last element in stack of elements to be checked
@@ -886,9 +884,10 @@ void Delaunay3d::bowyer_watson()
 			// After the above, the right element of the current void face has the new element.
 
 			compute_jacobian(nw);
-
+			
 			//compute_circumsphere_contra(nw);
 			compute_circumsphere(nw);
+
 			//cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;
 
 			if(nw.D < ZERO_TOL)
@@ -1053,7 +1052,7 @@ void Delaunay3d::clear()					// reset the Delaunay2D object, except for input da
 	voidpoly.clear();
 }
 
-void Delaunay3d::writeGmsh2(string mfile)
+void Delaunay3d::writeGmsh2(string mfile) const
 {
 	ofstream outf(mfile);
 

@@ -1,0 +1,436 @@
+\documentclass[11pt,          % font size: 11pt or 12pt
+               ms,           % degree:    ms or phd
+               onehalfspacing % spacing: onehalfspacing or doublespacing
+               ]{ncsuthesis}
+
+%%----------------------------------------------------------------------------%%
+%%------------------------------ Import Packages -----------------------------%%
+%%----------------------------------------------------------------------------%%
+
+\usepackage{booktabs}  % professionally typeset tables
+\usepackage{amsmath}   %,amssymb,amsfonts}
+\usepackage{amssymb}
+\usepackage{textcomp}  % better copyright sign, among other things
+%\usepackage{xcolor}
+\usepackage{lipsum}    % filler text
+\usepackage{subfig}    % composite figures
+\usepackage{placeins}
+
+%%ORTIZ PACKAGES
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% Old bibliography commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+%\usepackage[super,sort&compress,comma,square,authoryear]{natbib} %\cite command %Added by Ortiz
+
+%use the following line with plainnat
+%\usepackage[super,sort&compress,comma,square,numbers]{natbib} %\cite command %Added by Ortiz
+%\usepackage{natbib}
+
+%\usepackage[style=alphabetic,natbib=true,backend=bibtex
+%sorting=nyt,firstinits=true,isbn=false,doi=false,url=false]{biblatex} %couldn't get backend=biber to work
+
+%\usepackage{filecontents}
+
+%\bibliography{Ortiz-thesis2}
+%\bibliographystyle{plain}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% Hack for alphanumeric bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+\RequirePackage[
+			style=alphabetic,%numeric-comp,%authoryear-comp,%
+			sorting=nyt,%ynt					
+			hyperref=true, %	
+			firstinits=true,%
+			backend=bibtex,
+			natbib=true,
+			url=false,
+			isbn=false,
+			maxnames=2, %for et al to be used
+			maxalphanames=1, %to avoid printing a + for every et al in the abbreviation
+			doi=false]{biblatex}		
+			
+
+%needed to do et al after two names
+%http://tex.stackexchange.com/questions/44048/use-et-al-in-biblatex-custom-style
+\renewcommand*{\finalnamedelim}{\addspace\&\space}
+
+%Simplify abbreviation (the default uses either one or two authors and it indicates et al with a +)
+%The following five lines make it so that only the first author is used in the abbreviation
+%http://tex.stackexchange.com/questions/27956/label-only-from-first-author
+\renewcommand*{\labelalphaothers}{}
+    \renewcommand*{\intitlepunct}{}
+    \DefineBibliographyStrings{german}{in={}}
+    \DefineBibliographyStrings{english}{in={}}
+    \DeclareNameAlias{sortname}{last-first}
+    \DeclareNameAlias{default}{last-first}
+	
+%\AtEveryCitekey{\ifciteseen{}{\defcounter{maxnames}{99}}} %authoryear			
+\DeclareFieldFormat[article,periodical]{volume}{\mkbibbold{#1}}
+\makeatletter
+
+\newrobustcmd*{\parentexttrack}[1]{%
+  \begingroup
+  \blx@blxinit
+  \blx@setsfcodes
+  \blx@bibopenparen#1\blx@bibcloseparen
+  \endgroup}
+
+\AtEveryCite{%
+  \let\parentext=\parentexttrack%
+  \let\bibopenparen=\bibopenbracket%
+  \let\bibcloseparen=\bibclosebracket}
+
+\makeatother
+\renewcommand{\cite}[1]{\parencite{#1}}
+
+
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{%
+  \printtext{\bibstring{in}\intitlepunct}}}
+  
+\AtEveryBibitem{\clearfield{month}}
+
+\AtEveryBibitem{\clearfield{language}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\addbibresource{Ortiz-thesis2.bib}
+%\addbibresource{Ortiz-thesisURL.bib}
+
+% added by Aditya
+%\bibliographystyle{plain}
+
+\addbibresource{adityakashi-thesis}
+
+ \defbibheading{myheading}[BIBLIOGRAPHY]{
+ \chapter*{#1}
+ %\centerline{\bf{#1}}
+ \markboth{#1}{#1}}
+
+%\usepackage{amsmath,amssymb,amsfonts} %amssymb and amsfonts cannot be used in conjunction with mdput
+%\usepackage{graphicx,subfig}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+%\usepackage{bm}% bold math
+%\usepackage{hyperref}% add hypertext capabilities
+%\usepackage{hypernat}% make hyperref and natbib work together
+\usepackage{cancel}
+\usepackage{verbatim}% multiline commenting
+\usepackage{ifthen}
+\usepackage{url}
+\usepackage{sectsty}
+\usepackage{balance} 
+%\usepackage{caption}
+\usepackage{graphicx} %eps figures can be used instead
+\usepackage{lastpage}
+\usepackage[format=plain,justification=RaggedRight,singlelinecheck=false,font=small,labelfont=bf,labelsep=space]{caption} 
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+%http://tex.stackexchange.com/questions/100817/error-when-using-bc-from-abbrevs-in-caption
+%Getting BC
+\usepackage{abbrevs}
+\usepackage{etoolbox}
+\robustify{\DateMark} % after having loaded abbrevs
+
+\usepackage{units} %Needed to solve bug from citation Hydrodynamics in 21/2 dimensions
+%see http://www.latex-community.org/viewtopic.php?f=5&t=989
+
+\usepackage[sharp]{easylist} %used for brainstorming purposes 
+%\usepackage{mathabx} % used for \Asterisk for convolution %conflicts with \widering
+
+%compile on single pass
+%\usepackage[backend=biber,...]{biblatex}
+
+
+%%%%%%%%%%%%
+%%% Hack to make chapters start on odd pages
+% http://tex.stackexchange.com/questions/73591/how-to-have-a-blank-even-page-before-every-chapter
+%%%%%%%%%%%%
+%\newcommand{\ensureoddstart}{\checkoddpage\ifoddpage\else\newpage\mbox{}\fi}
+%\newcommand{\ensureoddstart}{}
+
+
+%%%Fancy tables
+%http://tex.stackexchange.com/questions/94032/fancy-tables-in-latex
+\usepackage[table]{xcolor}
+\usepackage{array,booktabs}
+\usepackage{colortbl}
+\newcolumntype{L}{@{}>{\kern\tabcolsep}l<{\kern\tabcolsep}}
+
+
+
+%%%%%%%%%%
+%%%%% Hack to allow more levels in outline
+%%%%%%%%%%
+%\setcounter{secnumdepth}{5}
+%\setcounter{tocdepth}{5} %may violate ETD
+%Usage http://pleasemakeanote.blogspot.com/2010/06/how-to-activate-subsubsubsection-in.html
+%\section{} % level 1
+%\subsection{} % level 2
+%\subsubsection{} % level 3
+%\paragraph{} % level 4 - equivalent to subsubsubsection
+%\subparagraph{} % level 5
+
+%http://tex.stackexchange.com/questions/60209/how-to-add-an-extra-level-of-sections-with-headings-below-subsubsection
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% Hack for containing figures within sections
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%http://ctan.org/pkg/placeins
+\usepackage{placeins}
+%De­fines a \FloatBar­rier com­mand, be­yond which floats may not pass; use­ful, for ex­am­ple, to en­sure all floats for a sec­tion ap­pear be­fore the next \sec­tion com­mand.
+
+%%%Hack for centering all figures
+%\makeatletter
+%\g@addto@macro\@floatboxreset\centering
+%\makeatother
+
+%%----------------------------------------------------------------------------%%
+%%---------------------------- Formatting Options ----------------------------%%
+%%----------------------------------------------------------------------------%%
+%%
+
+%% -------------------------------------------------------------------------- %%
+%% Disposition format -- any titles, headings, section titles
+%%  These formatting commands affect all headings, titles, headings,
+%%  so sizing commands should not be used here.
+%%  Formatting options to consider are
+%%     +  \sffamily - sans serif fonts.  Dispositions are often typeset in
+%%                    sans serif, so this is a good option. 
+%%     +  \rmfamily - serif fonts
+%%     +  \bfseries - bold face
+%\dispositionformat{\sffamily\bfseries}   % bold and sans serif
+\dispositionformat{\bfseries}            % bold and serif
+
+%% -------------------------------------------------------------------------- %%
+%% Formatting for centered headings - Abstract, Dedication, etc. headings
+%%  This is where one might put a sizing command.
+%%  \MakeUppercase can be used to typeset all headings in uppercase.
+\headingformat{\large\MakeUppercase}   % All letters uppercase
+%\headingformat{\large}                % Not all uppercase
+%\headingformat{\Large\scshape}        % Small Caps, used with serif fonts.
+
+%% Typographers recommend using a normal inter-word space after
+%% sentences. TeX's default is to add an wider space, but \frenchspacing
+%% gives a normal spacing. Comment out the following line if you prefer
+%% wider spaces between sentences.
+\frenchspacing
+
+
+%% -------------------------------------------------------------------------- %%
+%%  Optional packages
+%%    A number of compatible packages to improve the look and feel of
+%%    your document are available in the file optional.tex 
+%%    (For example, hyperlinks, fancy chapter headings, and fonts)
+%% To use these options, uncomment the next line and see optional.tex
+%\include{optional}
+%solve bug from fancyhdr in optional
+%http://nw360.blogspot.com/2006/11/latex-headheight-is-too-small.html
+\setlength{\headheight}{14pt}
+
+%%----------------------------------------------------------------------------%%
+%%---------------------------- Content Options -------------------------------%%
+%%----------------------------------------------------------------------------%%
+%% Size of committee: 3, 4, 5, or 6 -- this number includes the chair
+\committeesize{3}
+
+%% Members of committee
+%%  Each of the following member commands takes an optional argument
+%%   to specify their role on the committee.
+%%  For co-chairs, use the commands:
+%%      \cochairI{Doug Dodd}
+%%      \cochairII{Chris Cox}
+%%
+\chair{Hong Luo}
+\memberI{Jack R. Edwards Jr}
+\memberII{Pierre Gremaud}
+
+
+%% Student writing thesis, \student{First Middle}{Last}
+\student{Aditya}{Kashi} % a full middle name
+%\student{John M.}{Smith} % a middle initial
+
+%% Degree program
+\program{Mechanical Engineering}
+
+%% Thesis Title
+%%  Keep in mind, according to ETD guidelines:
+%%    +  Capitalize first letter of important words.
+%%    +  Use inverted pyramid shape if title spans more than one line.
+%%
+%%  Note: To break the title onto multiple lines, use \break instead of \\.
+%\thesistitle{A North Carolina State University Sample \LaTeX{} Thesis \break 
+%with a Title So Long it Needs a Line Break}
+\thesistitle{Techniques for Mesh-movement and Curved Mesh Generation}
+
+%% Degree year.  Necessary if your degree year doesn't equal the current year.
+%\degreeyear{1995}
+
+
+%%----------------------------------------------------------------------------%%
+%%---------------------------- Personal Macros -------------------------------%%
+%%----------------------------------------------------------------------------%%
+
+%% A central location to add your favorite macros.
+
+%% A few examples to get you started.
+\newcommand{\uv}[1]{\ensuremath{\mathbf{\hat{#1}}}}
+\newcommand{\bo}{\ensuremath{\mathbf{\Omega}}}
+\newcommand{\eref}[1]{Eq.~\ref{#1}}
+\newcommand{\fref}[1]{Fig.~\ref{#1}}
+\newcommand{\tref}[1]{Table~\ref{#1}}
+\newcommand{\del}{\nabla}
+\renewcommand{\exp}[1]{e^{#1}}
+\newcommand{\Conv}{\mathop{\scalebox{1.5}{\raisebox{-0.2ex}{$\ast$}}}}%
+
+
+\usepackage{color}
+%\newcommand{\NEW}[1]{\textcolor{blue}{#1}}
+\newcommand{\NEW}[1]{#1}
+\newcommand{\COMMENT}[1]{\textcolor{green}{#1}}
+
+
+\newcommand{\NOTER}[1]{\textcolor{orange}{#1}}
+\newcommand{\NOTEC}[1]{\textcolor{blue}{#1}}
+\newcommand{\NOTEK}[1]{\textcolor{magenta}{#1}}
+
+\newcommand{\mum}{\ensuremath{{\mu}\text{m}}}
+\let\bld\boldsymbol
+%\newcommand{\bld}{\boldsymbol}
+
+%This makes it so that you can add short paths in your .tex by including the folders where you store your images in the search path
+\graphicspath{{images/}{./Chapter-1/figs/}}%{./Chapter-4/figs/}{./Chapter-5/figs/}{./Chapter-6/figs/}}
+
+
+%%---------------------------------------------------------------------------%%
+\usepackage{calc}
+%% Capital letter height
+\newlength{\chaptercapitalheight}
+\settoheight{\chaptercapitalheight}{D}
+\newlength{\chapterfootskip}
+\setlength{\chapterfootskip}{\chaptercapitalheight}
+\addtolength{\chapterfootskip}{2\baselineskip}
+\addtolength{\chapterfootskip}{0.5ex}  % A little extra space to ensure there are 2 full double spaced lines
+%\def\chapterfootskipnum{\chapterfootskip}
+\renewcommand{\listfigurename}{LIST OF FIGURES}
+\renewcommand{\listtablename}{LIST OF TABLES}
+\renewcommand{\bibname}{BIBLIOGRAPHY}
+
+%\renewcommand{\cfttoctitlefont}{\centering\ncsu@headingformat}
+
+
+%http://tex.stackexchange.com/questions/47184/height-of-figure-caption-textheight
+\newlength\graphht
+\newcommand\calculategraphicstargetheight[1]{%
+     \setlength\graphht{\textheight 
+                       -\parskip
+                       -\abovecaptionskip -\belowcaptionskip
+                       -(12pt * #1) % assuming baselineskip of 12pt in caption
+                       -\chapterfootskip
+                       }}
+
+%\usepackage{titlesec}
+
+%landscape support in fancyhdr from http://tex.stackexchange.com/questions/9071/how-to-translate-and-rotate-the-heading-of-landscaped-pages
+\usepackage{pdflscape}
+\usepackage{tikz}
+\fancypagestyle{lscapedplain}{%
+  \fancyhf{}
+  \fancyfoot{%
+    \tikz[remember picture,overlay]
+      \node[outer sep=1cm,above,rotate=90] at (current page.east) {\thepage};}
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt}
+}
+                      
+\begin{document}
+\pagestyle{plain}
+%%---------------------------------------------------------------------------%%
+\frontmatter
+
+\include{front}
+
+%%---------------------------------------------------------------------------%%
+\mainmatter
+
+
+
+%\pagestyle{fancy}
+\newgeometry{margin=1in,lmargin=1.25in,footskip=\chapterfootskip, includehead, includefoot}
+
+\include{Chapter-1/Chapter-1}
+\include{Chapter-2/Chapter-2}
+\include{Chapter-3/Chapter-3}
+%\include{Chapter-4/Chapter-4}
+%\include{Chapter-5/Chapter-5}
+%\include{Chapter-6/Chapter-6}
+%\restoregeometry
+
+
+%%---------------------------------------------------------------------------%%
+%%  Bibliography 
+
+%%  You can use the bibitem list.
+%\bibliographystyle{unsrt}
+%\begin{%thebibliography}{99}
+%\bibitem{cb02}
+%Casella, G. and Berger, R.L. (2002)
+%\newblock {\it Statistical Inference, Second Edition.}
+%Duxbury Press, Belmont, CA.
+%
+%\bibitem{t06}
+%Tsiatis, A.A. (2006)
+%\newblock {\it Semiparametric Theory and Missing Data.}
+%Springer, New York.
+%
+%\end{thebibliography}
+
+%% or use BibTeX
+%\bibliography{adityakashi-thesis}
+%\nociterec{*}
+
+%\bibliographystyle{plainnat}%plainnat is necessary to enable the use of citet. Natbib style file.
+%\bibliography{Ortiz-thesis2}
+%\ensureoddstart
+\begin{spacing}{1}
+ \setlength\bibitemsep{11pt} %22pt = 2*11pt, where fontsize is 11pt
+ \addcontentsline{toc}{chapter}{{\uppercase{\bibname}}} %\textorpdfstring and \uppercase needed due to hyperref package http://www.latex-community.org/forum/viewtopic.php?f=44&t=16601
+ %\vspace{-0.5in}
+\titleformat{\chapter}[display]{\bf\filcenter
+}{\chaptertitlename\ \thechapter}{11pt}{\bf\filcenter}
+\titlespacing*{\chapter}{0pt}{-0.5in-9pt}{22pt}
+
+\printbibliography[heading=myheading]
+\end{spacing}
+%\bibliographystyle{apalike}
+
+
+%%---------------------------------------------------------------------------%%
+% Appendices
+%\ensureoddstart
+\restoregeometry
+\appendix
+\newgeometry{margin=1in,lmargin=1.25in,footskip=\chapterfootskip, includehead, includefoot}
+
+No appendices yet.
+%\include{Appendix-A/Appendix-A}
+
+\restoregeometry
+
+%%---------------------------------------------------------------------------%%
+%\ensureoddstart
+\backmatter
+
+
+\end{document}

@@ -1,0 +1,9 @@
+\chapter{Introduction}
+
+Moving meshes are required in various problems in computational fluid dynamics (CFD), such as aeroelasticity, aerodynamic shape optimization \cite{appl:opt} and some kinds of multi-phase/multi-component flow simulations. Mesh movement may also be used in generating curved meshes for spatially high-order computational methods \cite{curve:persson}. In general, good properties of a mesh movement scheme are as follows.
+\begin{enumerate}
+\item It should be robust. In many kinds of meshes, such as meshes required for viscous flow computations, even small boundary movements can invalidate the mesh. The scheme should be able to preserve mesh validity, at the very least.
+\item Mesh quality should be preserved to a great extent. Elements should not become highly distorted after movement, as this can impact flow computations on the deformed mesh.
+\item It should be computationally inexpensive. Many applications need very fast mesh movement schemes as they require the mesh to be moved many times during the simulation, sometimes every time step.
+\end{enumerate}
+Some mesh movement schemes that we present here satisfy only one or two of the above criteria. Our aim is to find a scheme that satisfies all three criteria well.
