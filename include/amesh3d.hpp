@@ -1,6 +1,6 @@
-/// Data structure and setup for 3D unstructured mesh.
-/// Aditya Kashi
-/// May 16, 2015 (more like August 20, 2015)
+/// @brief Data structure and setup for 3D unstructured mesh.
+/// @author Aditya Kashi
+/// @date August 20, 2015
 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
@@ -39,22 +39,6 @@ using namespace std;
 using namespace amat;
 
 namespace acfd {
-
-// This function is a cyclic permutation of consecutive integers from 'start' to 'end' (inclusive). It returns the integer (between 'start' and 'end') that is 'off' integers away from 'n' in the cyclic order.
-/*int perm(int start, int end, int n, int off)
-{
-	if(n > end) { cout << "Permutation point error!\n"; return 0; }
-
-	CircList<int> list(start);
-	for(int i = start+1; i <= end; i++)
-		list.push(i);
-
-	Node<int>* nn = list.find(n);
-	Node<int>* cur = nn;
-	for(int i = 0; i < off; i++)
-		cur = cur->next;
-	return cur->data;
-}*/
 
 class UMesh
 {
@@ -431,8 +415,8 @@ public:
 		cout << "UMesh3d: No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ", number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", number of faces per element: " << nfael << endl;
 	}
 
+	/// Changes node ordering. Use only for hex mesh!!
 	void mapinpoelXiaodongToGmsh()
-	/** Changes node ordering. Use only for hex mesh!! */
 	{
 		int temp;
 
@@ -527,15 +511,16 @@ public:
 		outf.close();
 	}
 
-	/** Computes various connectivity data structures for the mesh.
-		These include
-		(1) Elements surrounding points (esup and esup_p)
-		(2) Points surrounding points (psup)
-		(3) Elements surrounding elements (esuel)
-		(4) Elements surrounding edge (elsed)
-		(5) Edge data structure (intedge)
-		(6) Face data structure (intfac)
-	*/
+	/** \brief Computes various connectivity data structures for the mesh.
+	 *
+	 * These include
+	 * (1) Elements surrounding points (esup and esup_p)
+	 * (2) Points surrounding points (psup)
+	 * (3) Elements surrounding elements (esuel)
+	 * (4) Elements surrounding edge (elsed)
+	 * (5) Edge data structure (intedge)
+	 * (6) Face data structure (intfac)
+	 */
 	void compute_topological()
 	{
 		/// NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
@@ -891,8 +876,7 @@ public:
 	}
 
 	
-	/** Creates a UMesh object by adding one extra node at each edge centre, and also, in case of a hex mesh, one extra node at each face centre and cell centre.
-	*/
+	/// Creates a UMesh object by adding one extra node at each edge centre, and also, in case of a hex mesh, one extra node at each face centre and cell centre.
 	UMesh convertLinearToQuadratic()
 	{
 		UMesh q;
@@ -1294,7 +1278,7 @@ public:
 				{
 					nodenum = 23;
 					q.inpoel(elem,nodenum) = npoin + nelem + iface;
-					continue;							// this face is done
+					continue;
 				}
 
 				ematch = true;
@@ -1307,7 +1291,7 @@ public:
 				{
 					nodenum = 25;
 					q.inpoel(elem,nodenum) = npoin + nelem + iface;
-					continue;							// this face is done
+					continue;
 				}
 			}
 

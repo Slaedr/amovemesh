@@ -12,6 +12,8 @@
 0.4
 -stiffening-exponent
 0.0
+-stiffening-scheme
+shape
 -Tolerance-for-spline
 1e-8
 -Tolerance-for-elasticity

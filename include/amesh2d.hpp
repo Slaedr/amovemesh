@@ -1,6 +1,7 @@
 /**@brief Data structure and setup for 2D unstructured mesh.
  * @author Aditya Kashi
  * @date Aug 12, 2015
+ *
  * References:
  * ===========
  * For mesh quality metrics:
@@ -89,33 +90,40 @@ private:
 	Matrix<int> intfacbtags;		//< to hold boundary tags corresponding to intfac
 
 	Matrix<int> bpoints;
-	//< bpoints contains: bpoints(0) = global point number, bpoints(1) = first containing intfac face (face with intfac's second point as this point),
-	//<  bpoints(2) = second containing intfac face (face with intfac's first point as this point)
+	///< bpoints contains: bpoints(0) = global point number, bpoints(1) = first containing intfac face (face with intfac's second point as this point),
+	///<  bpoints(2) = second containing intfac face (face with intfac's first point as this point)
 
 	Matrix<int> bpointsb;
-	//< Like bpoints, but stores bface numbers corresponding to each face, rather than intfac faces
+	///< Like bpoints, but stores bface numbers corresponding to each face, rather than intfac faces
 
 	Matrix<int> bfacebp;
-	//< Stores boundary-points numbers (defined by bpointsb) of the two points making up a particular bface.
+	///< Stores boundary-points numbers (defined by bpointsb) of the two points making up a particular bface.
 
-	Matrix<int> bifmap;				//< relates boundary faces in intfac with bface, ie, bifmap(intfac no.) = bface no.
-	Matrix<int> ifbmap;				//< relates boundary faces in bface with intfac, ie, ifbmap(bface no.) = intfac no.
-	bool isBoundaryMaps;			//< Specifies whether bface-intfac maps have been created
+	Matrix<int> bifmap;				///< relates boundary faces in intfac with bface, ie, bifmap(intfac no.) = bface no.
+	Matrix<int> ifbmap;				///< relates boundary faces in bface with intfac, ie, ifbmap(bface no.) = intfac no.
+	bool isBoundaryMaps;			///< Specifies whether bface-intfac maps have been created
 
 	bool alloc_jacobians;
-	Matrix<double> jacobians;		//< Contains jacobians of each (linear) element
+	Matrix<double> jacobians;		///< Contains jacobians of each (linear) element
 
+	/// Contains Knupp's node-local areas for each node of each element. 
+	/** If the elements are triangles, it contains just 1 value for each element.
+	 * If elements are quads, there are 4 values for each element, one associated with each node.
+	 */
 	Matrix<double> alpha;
-	/**< Contains Knupp's node-local areas for each node of each element. If the elements are triangles, it contains just 1 value for each element.
-	If elements are quads, there are 4 values for each element, one associated with each node. */
 
+	/// Contains Knupp's 3 coeffs of metric tensor for each node of each element. 
+	/** In case of triangles, it just contains 3 coeffs for each element.
+	 * In case of quads, we need to store 3 coeffs for each node of each element.
+	 * lambda[*](*,0) is Knupp's lambda_11, lambda[*](*,1) is Knupp's lambda_12 and lambda[*](*,2) is Knupp's lambda_22.
+	 */
 	Matrix<double>* lambda;
-	/**< Contains Knupp's 3 coeffs of metric tensor for each node of each element. In case of triangles, it just contains 3 coeffs for each element.
-	In case of quads, we need to store 3 coeffs for each node of each element. */
 
-	int nmtens;				//< number of metric tensors required for each element - 1 for triangles and 4 for quads.
-	int neleminlambda;		//< number of coeffs in lambda per element per node.
-	bool alloc_lambda;		//< Contains true if alpha and lambda have been allocated.
+	int nmtens;				///< number of metric tensors required for each element - 1 for triangles and 4 for quads.
+	int neleminlambda;		///< number of coeffs in lambda per element per node.
+	bool alloc_lambda;		///< Contains true if alpha and lambda have been allocated.
+
+	double total_area;		///< Total area of the meshed domain
 
 public:
 
@@ -159,6 +167,7 @@ public:
 		//gallfa = other.gallfa;
 		alloc_jacobians = other.alloc_jacobians;
 		jacobians = other.jacobians;
+		total_area = other.total_area;
 	}
 
 	UMesh2d& operator=(const UMesh2d& other)
@@ -195,6 +204,7 @@ public:
 		//gallfa = other.gallfa;
 		alloc_jacobians = other.alloc_jacobians;
 		jacobians = other.jacobians;
+		total_area = other.total_area;
 		return *this;
 	}
 
@@ -247,6 +257,7 @@ public:
 	int gnbtag() const{ return nbtag; }
 	int gndtag() const { return ndtag; }
 	int gnbpoin() const { return nbpoin; }
+	double garea() const {return total_area; }
 	
 	/// Sets coords array. Note that a deep copy is performed.
 	void setcoords(Matrix<double>* c)
@@ -670,9 +681,8 @@ public:
 		}
 	}
 
+	/// Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
 	void compute_boundary_points()
-	/** Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
-	*/
 	{
 		cout << "UMesh2d: compute_boundary_points(): Calculating bpointsb structure"<< endl;
 
@@ -830,8 +840,11 @@ public:
 		outf.close();
 	}
 
+	/// Computes element jacobians.
+	/// \note Does not work for quads!!
 	void compute_jacobians()
 	{
+		total_area = 0;
 		if(nnode == 3 || nnode == 4)
 		{
 			if (alloc_jacobians == false)
@@ -839,11 +852,20 @@ public:
 				jacobians.setup(nelem, 1);
 				alloc_jacobians = true;
 			}
+			
+			if(nnode==3)
+				for(int i = 0; i < gnelem(); i++)
+				{
+					jacobians(i,0) = gcoords(ginpoel(i,0),0)*(gcoords(ginpoel(i,1),1) - gcoords(ginpoel(i,2),1)) - gcoords(ginpoel(i,0),1)*(gcoords(ginpoel(i,1),0)-gcoords(ginpoel(i,2),0)) + gcoords(ginpoel(i,1),0)*gcoords(ginpoel(i,2),1) - gcoords(ginpoel(i,2),0)*gcoords(ginpoel(i,1),1);
+					total_area += jacobians(i,0)/2.0;
+				}
+			else if(nnode==4)
+				for(int i = 0; i < nelem; i++)
+				{
+					// WRONG!
+					jacobians(i,0) = 2*( gcoords(ginpoel(i,0),0)*(gcoords(ginpoel(i,1),1) - gcoords(ginpoel(i,2),1)) - gcoords(ginpoel(i,0),1)*(gcoords(ginpoel(i,1),0)-gcoords(ginpoel(i,2),0)) + gcoords(ginpoel(i,1),0)*gcoords(ginpoel(i,2),1) - gcoords(ginpoel(i,2),0)*gcoords(ginpoel(i,1),1) );
 
-			for(int i = 0; i < gnelem(); i++)
-			{
-				jacobians(i,0) = gcoords(ginpoel(i,0),0)*(gcoords(ginpoel(i,1),1) - gcoords(ginpoel(i,2),1)) - gcoords(ginpoel(i,0),1)*(gcoords(ginpoel(i,1),0)-gcoords(ginpoel(i,2),0)) + gcoords(ginpoel(i,1),0)*gcoords(ginpoel(i,2),1) - gcoords(ginpoel(i,2),0)*gcoords(ginpoel(i,1),1);
-			}
+				}
 		}
 		else {
 			cout << "UMesh2d: compute_jacobians(): ! Mesh is not linear. Cannot compute jacobians." << endl;
@@ -1624,6 +1646,36 @@ public:
 		}
 	}
 
+	/// Computes the shape metric for triangles and quadrilaterals.
+	/** This metric depends on both the ratio of sides of the element and on angles formed by the sides of the element. 
+	 * For triangles, this is as good as a skew metric, as the element angles cannot change without changing the ratio of the lengths of the sides.
+	 * For quads, this metric depends both on the aspect ratio of the sides and element angles, unlike the skew metric that depends only on angles.
+	 */
+	void linearmetric_shape(Matrix<double>* shape)
+	{
+		if(!alloc_lambda) {
+			cout << "UMesh2d: linearmetric_skew(): ! Metric quantities not computed!" << endl;
+			return;
+		}
+
+		if(nnode == 3)
+		{
+			for(int ielem = 0; ielem < nelem; ielem++)
+				(*shape)(ielem) = SQRT3*alpha(ielem,0) / (lambda[ielem](0,0) + lambda[ielem](0,2) - lambda[ielem](0,1));
+		}
+		else if(nnode == 4)
+		{
+			double val;
+			for(int ielem = 0; ielem < nelem; ielem++)
+			{
+				val = 0;
+				for(int k = 0; k < nnode; k++)
+					val += (lambda[ielem](k,0) + lambda[ielem](k,2)) / alpha(ielem,k);
+				(*shape)(ielem) = 8.0/val;
+			}
+		}
+	}
+
 	/// Computes skew metric of each element of a quad mesh and stores it in skew.
 	void linearmetric_skew(Matrix<double>* skew)
 	{
@@ -1631,9 +1683,11 @@ public:
 			cout << "UMesh2d: linearmetric_skew(): ! Metric quantities not computed!" << endl;
 			return;
 		}
-		if(nnode == 3) {
-			cout << "UMesh2d: linearmetric_skew(): ! No skew metric for triangles!" << endl;
-			return;
+		if(nnode == 3) 
+		{
+			// skew metric is same as shape metric for triangles
+			for(int ielem = 0; ielem < nelem; ielem++)
+				(*skew)(ielem) = SQRT3*alpha(ielem,0) / (lambda[ielem](0,0) + lambda[ielem](0,2) - lambda[ielem](0,1));
 		}
 
 		for(int ielem = 0; ielem < nelem; ielem++)
@@ -1648,13 +1702,14 @@ public:
 	/// Computes size metric of each element of a mesh with respect to reference area w, and stores it in size.
 	void linearmetric_size(double w, Matrix<double>* size)
 	{
+		double tau, invtau;
 		if(nnode == 4)
 		{
 			for(int ielem = 0; ielem < nelem; ielem++)
 			{
-				double tau = (alpha(ielem,0) + alpha(ielem,2))/(2.0*w);
+				tau = (alpha(ielem,0) + alpha(ielem,2))/(2.0*w);
 				if(tau < ZERO_TOL) cout << "UMesh2d: linearmetric_size(): ! tau is nearly zero!!" << endl;
-				double invtau = 1.0/tau;
+				invtau = 1.0/tau;
 				if(tau >= invtau) (*size)(ielem) = invtau;
 				else (*size)(ielem) = tau;
 			}
@@ -1663,31 +1718,45 @@ public:
 		{
 			for(int ielem = 0; ielem < nelem; ielem++)
 			{
-				double tau = alpha(ielem,0)/w;
+				tau = alpha(ielem,0)/w;
 				if(tau < ZERO_TOL) cout << "UMesh2d: linearmetric_size(): ! tau is nearly zero!!" << endl;
-				double invtau = 1.0/tau;
+				invtau = 1.0/tau;
 				if(tau >= invtau) (*size)(ielem) = invtau;
 				else (*size)(ielem) = tau;
 			}
 		}
 	}
 
-	/// Computes the skew-size metric, which is the product of the skew and size metrics.
+	/// Computes the skew-size metric, which is the product of the skew and size metrics. The reference area needs to be supplied.
 	void linearmetric_skewsize(double w, Matrix<double>* ss)
 	{
 		cout << "UMesh2d: linearmetric_skewsize(): Computing the skew-size metric" << endl;
 		Matrix<double> size = *ss;
 		if(!alloc_lambda) {
-			cout << "UMesh2d: linearmetric_skew(): ! Metric quantities not computed!" << endl;
-			return;
-		}
-		if(nnode == 3) {
-			cout << "UMesh2d: linearmetric_skew(): ! No skew metric for triangles!" << endl;
+			cout << "UMesh2d: linearmetric_skewsize(): ! Metric quantities not computed!" << endl;
 			return;
 		}
 
 		linearmetric_size(w,&size);
 		linearmetric_skew(ss);
+
+		for(int i = 0; i < nelem; i++)
+			(*ss)(i) *= size(i);
+	}
+
+	/// Computes the shape-size metric. Uses total_area for calculating the average area, to use as the reference area.
+	void linearmetric_shapesize(Matrix<double>* ss)
+	{
+		Matrix<double> size(nelem,1);
+		if(!alloc_lambda) {
+			cout << "UMesh2d: linearmetric_skewsize(): ! Metric quantities not computed!" << endl;
+			return;
+		}
+
+		double w = total_area/nelem;
+
+		linearmetric_size(w,&size);
+		linearmetric_shape(ss);
 
 		for(int i = 0; i < nelem; i++)
 			(*ss)(i) *= size(i);

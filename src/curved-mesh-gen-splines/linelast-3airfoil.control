@@ -3,7 +3,7 @@
 -input-quadratic-mesh-filename
 ../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_quadratic.msh
 -output-curved-mesh-filename
-../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_curved_elast.msh
+../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_curved_elastshape.msh
 -angle-threshold-for-corners
 40.0
 -YoungsModulus
@@ -11,7 +11,9 @@
 -PoissonsRatio
 0.4
 -stiffening-exponent
-2.75
+2.50
+-stiffening-scheme
+shapesize
 -Tolerance-for-spline
 1e-8
 -Tolerance-for-elasticity

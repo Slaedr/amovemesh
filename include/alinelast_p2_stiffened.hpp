@@ -62,8 +62,11 @@ class LinElastP2
 public:
 
 	/// Sets inputs and computes derivatives of basis functions and face-normals
-	/// \note The computations are only for straight-sided P2 elements!
-	void setup(UMesh2d* mesh, double mu, double lambd, double xch)
+	/** \note The computations are only for straight-sided P2 elements!
+	 * \param xch Exponent to which the stiffening factor is raised in each element stiffness entry.
+	 * \param stiffscheme A string, either 'size', 'shape' or 'shapesize', describing the kind of stiffening to be used.
+	 */
+	void setup(UMesh2d* mesh, double mu, double lambd, double xch, string stiffscheme)
 	{
 		m = mesh;
 		ngeoel = 7;
@@ -104,8 +107,32 @@ public:
 		j0 /= m->gnelem();
 
 		// stiffening factor
-		for(int iel = 0; iel < m->gnelem(); iel++)
-			stiff(iel) = pow(j0/geoel.get(iel,0),chi);
+		if(stiffscheme == "size")
+		{
+			for(int iel = 0; iel < m->gnelem(); iel++)
+				stiff(iel) = pow(j0/geoel.get(iel,0),chi);
+		}
+		else
+		{
+			m->compute_metric_quantities();
+			if(stiffscheme == "shape")
+			{
+				m->linearmetric_shape(&stiff);
+				
+				// if we have zero metric, we're toast
+				for(int iel = 0; iel < m->gnelem(); iel++)
+					if(stiff.get(iel) < ZERO_TOL) stiff(iel) = ZERO_TOL;
+
+				for(int iel = 0; iel < m->gnelem(); iel++)
+					stiff(iel) = pow(1.0/stiff.get(iel),chi);
+			}
+			else if(stiffscheme == "shapesize")
+			{
+				m->linearmetric_shapesize(&stiff);
+				for(int iel = 0; iel < m->gnelem(); iel++)
+					stiff(iel) = pow(1.0/stiff.get(iel),chi);
+			}
+		}
 		
 		for(int i = 0; i < m->gnface(); i++)
 		{

@@ -1,7 +1,7 @@
-/** Class to convert linear mesh into quadratic mesh using P2 linear elasticity.
-	Aditya Kashi
-	October 29, 2015
-*/
+/** @brief Class to convert linear mesh into quadratic mesh using P2 linear elasticity.
+ * @author Aditya Kashi
+ * @date October 29, 2015
+ */
 
 #ifndef __AGEOMETRY_H
 	#include <ageometry.hpp>
@@ -39,6 +39,7 @@ class Curvedmeshgen2d
 	double lambda;
 	double mu;
 	double chi;						///< stiffening exponent for stiffened linear elasticity
+	string stiffscheme;				///< stiffening scheme used for stiffened linear elasticity
 
 	int nbounpoin;					///< Number if boundary points.
 	int ninpoin;					///< Number of interior points.
@@ -50,14 +51,14 @@ class Curvedmeshgen2d
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 public:
-	void setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double tolg, double tole, double maxitera, double youngsmodulus, double poissonsratio, double xchi); 
+	void setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double tolg, double tole, double maxitera, double youngsmodulus, double poissonsratio, double xchi, string sscheme); 
 
 	void compute_boundary_displacements();
 
 	void generate_curved_mesh();
 };
 
-void Curvedmeshgen2d::setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler1, double toler2, double maxitera, double youngsmodulus, double poissonsratio, double xchi)
+void Curvedmeshgen2d::setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler1, double toler2, double maxitera, double youngsmodulus, double poissonsratio, double xchi, string sscheme)
 {
 	m = mesh;
 	mq = meshq;
@@ -69,6 +70,7 @@ void Curvedmeshgen2d::setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, in
 	young = youngsmodulus;
 	nu = poissonsratio;
 	chi = xchi;
+	stiffscheme = sscheme;
 	lambda = nu*young/((1+nu)*(1-2*nu));
 	mu = young/(2*(1+nu));
 
@@ -141,7 +143,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 			allpoint_disps(mq->gbface(iface,mq->gnnofa()-1), idim) = disps(iface,idim);
 	}
 
-	mmv->setup(mq, mu, lambda, chi);
+	mmv->setup(mq, mu, lambda, chi, stiffscheme);
 	cout << "Cuvedmeshgen2d: generate_curved_mesh(): Assembling stiffness matrix and load vector." << endl;
 	mmv->assembleStiffnessMatrix();
 	mmv->assembleLoadVector();
