@@ -265,7 +265,8 @@ vector&lt; vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="b
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Detect corners in each part based on dot-product of normals of adjacent faces becoming too small. </p>
+<p>Detect corners in each part based on dot-product of normals of adjacent faces becoming too small.</p>
+<p>Detects corner points by computing dot-products of normals of the two faces associated with a point and comparing it with cos(theta) for each point, for a given angle theta. Computes the corners data structure. Each element of corners is a list of corner points structures for each corner point, so corner[ipart][0] refers to the first corner point of part number ipart. Each corner point structure contains the global point number of the corner and the two faces associated with that point. So, corner[ipart][0][0] refers the global point number of the first corner of part ipart, corner[ipart][0][1] contains the left face associated with the corner, and corner[ipart][0][2] contians the right face associated with the corner. </p>
 
 </div>
 </div>
@@ -281,8 +282,7 @@ vector&lt; vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="b
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Detect corners in each part based on dot-product of normals of adjacent faces becoming too small.</p>
-<p>Detects corner points by computing dot-products of normals of the two faces associated with a point and comparing it with cos(theta) for each point, for a given angle theta. Computes the corners data structure. Each element of corners is a list of corner points structures for each corner point, so corner[ipart][0] refers to the first corner point of part number ipart. Each corner point structure contains the global point number of the corner and the two faces associated with that point. So, corner[ipart][0][0] refers the global point number of the first corner of part ipart, corner[ipart][0][1] contains the left face associated with the corner, and corner[ipart][0][2] contians the right face associated with the corner. </p>
+<p>Detect corners in each part based on dot-product of normals of adjacent faces becoming too small. </p>
 
 </div>
 </div>

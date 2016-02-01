@@ -88,11 +88,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">alinelast_p2_sparse.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Funtionality for solving equations of linear elasticity on a straight-edged quadratic mesh using P2 Lagrange finite elements</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// (no non-homogeneous Neumann BCs)</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// June 12, 2015</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Adtya Kashi</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#ifndef _GLIBCXX_IOSTREAM</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#endif</span></div>
@@ -129,348 +125,354 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">namespace </span>acfd {</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html">   42</a></span>&#160;<span class="keyword">class </span><a class="code" href="classacfd_1_1LinElastP2.html">LinElastP2</a></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;{</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* m;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">int</span> ngeoel;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> ngeofa;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">   47</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">ndofe</a>;                  </div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">   48</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">geoel</a>;       </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">   49</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">geofa</a>;       </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">   50</a></span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> <a class="code" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">K</a>;                 </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#aad8276ca77d303df9b46d08680c41425">   51</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#aad8276ca77d303df9b46d08680c41425">f</a>;           </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">   53</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">muE</a>;                 </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">double</span> lambdaE;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">   55</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">cbig</a>;                </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="classacfd_1_1LinElastP2.html">LinElastP2</a>() {}</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classacfd_1_1LinElastP2.html">LinElastP2</a>(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">double</span> mu, <span class="keywordtype">double</span> lambd)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        m = mesh;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        ngeoel = 7;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        ngeofa = 3;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        muE = mu; lambdaE = lambd;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        geoel.setup(m-&gt;gnelem(), ngeoel, ROWMAJOR);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        geofa.setup(m-&gt;gnface(), ngeofa, ROWMAJOR);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        K.setup(m-&gt;gndim()*m-&gt;gnpoin(), m-&gt;gndim()*m-&gt;gnpoin());</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        f.setup(m-&gt;gndim()*m-&gt;gnpoin(),1);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        cbig = 1e40;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment">//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment">//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnelem(); i++)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            geoel(i,0) = m-&gt;gcoords(m-&gt;ginpoel(i,0),0)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),1)) - m-&gt;gcoords(m-&gt;ginpoel(i,0),1)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),0)-m-&gt;gcoords(m-&gt;ginpoel(i,2),0)) + m-&gt;gcoords(m-&gt;ginpoel(i,1),0)*m-&gt;gcoords(m-&gt;ginpoel(i,2),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),0)*m-&gt;gcoords(m-&gt;ginpoel(i,1),1);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordtype">double</span> D = geoel(i,0);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="comment">//a1 = (y2 - y3) :</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            geoel(i,1) = (m-&gt;gcoords(m-&gt;ginpoel(i,1), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 1));</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="comment">//a2 = (y3 - y1):</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            geoel(i,2) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,0), 1));</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="comment">//a3 = (y1 - y2) :</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            geoel(i,3) = -geoel(i,1)-geoel(i,2);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="comment">//b1 = (x3 - x2) :</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            geoel(i,4) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,1), 0));</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="comment">//b2 = (x1 - x3) :</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            geoel(i,5) = (m-&gt;gcoords(m-&gt;ginpoel(i,0), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 0));</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="comment">//b3 = (x2 - x1) :</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            geoel(i,6) = -geoel(i,5) - geoel(i,4);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnface(); i++)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="comment">//n_x = y_2 - y_1</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            geofa(i,0) = m-&gt;gcoords(m-&gt;gbface(i,2), 1) - m-&gt;gcoords(m-&gt;gbface(i,0), 1);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="comment">//n_y = x_1 - x_2</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            geofa(i,1) = m-&gt;gcoords(m-&gt;gbface(i,0), 0) - m-&gt;gcoords(m-&gt;gbface(i,2), 0);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="comment">//l = sqrt(n_x^2 + n_y^2)</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            geofa(i,2) = sqrt(geofa(i,0)*geofa(i,0) + geofa(i,1)*geofa(i,1));</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="comment">//geofa(i,2) = sqrt((m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1))*(m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1)) + (m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0))*(m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0)));</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n&quot;</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">double</span> mu, <span class="keywordtype">double</span> lambd)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        m = mesh;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        ngeoel = 7;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        ngeofa = 3;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        muE = mu; lambdaE = lambd;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        geoel.setup(m-&gt;gnelem(), ngeoel, ROWMAJOR);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        geofa.setup(m-&gt;gnface(), ngeofa, ROWMAJOR);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        K.setup(m-&gt;gndim()*m-&gt;gnpoin(), m-&gt;gndim()*m-&gt;gnpoin());</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        f.setup(m-&gt;gndim()*m-&gt;gnpoin(),1);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        cbig = 1e30;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="comment">//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment">//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnelem(); i++)</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        {</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            geoel(i,0) = m-&gt;gcoords(m-&gt;ginpoel(i,0),0)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),1)) - m-&gt;gcoords(m-&gt;ginpoel(i,0),1)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),0)-m-&gt;gcoords(m-&gt;ginpoel(i,2),0)) + m-&gt;gcoords(m-&gt;ginpoel(i,1),0)*m-&gt;gcoords(m-&gt;ginpoel(i,2),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),0)*m-&gt;gcoords(m-&gt;ginpoel(i,1),1);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordtype">double</span> D = geoel(i,0);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="comment">//a1 = (y2 - y3) :</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            geoel(i,1) = (m-&gt;gcoords(m-&gt;ginpoel(i,1), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 1));</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="comment">//a2 = (y3 - y1):</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            geoel(i,2) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,0), 1));</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="comment">//a3 = (y1 - y2) :</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            geoel(i,3) = -geoel(i,1)-geoel(i,2);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="comment">//b1 = (x3 - x2) :</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            geoel(i,4) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,1), 0));</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="comment">//b2 = (x1 - x3) :</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            geoel(i,5) = (m-&gt;gcoords(m-&gt;ginpoel(i,0), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 0));</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="comment">//b3 = (x2 - x1) :</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            geoel(i,6) = -geoel(i,5) - geoel(i,4);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnface(); i++)</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="comment">//n_x = y_2 - y_1</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            geofa(i,0) = m-&gt;gcoords(m-&gt;gbface(i,2), 1) - m-&gt;gcoords(m-&gt;gbface(i,0), 1);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="comment">//n_y = x_1 - x_2</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            geofa(i,1) = m-&gt;gcoords(m-&gt;gbface(i,0), 0) - m-&gt;gcoords(m-&gt;gbface(i,2), 0);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="comment">//l = sqrt(n_x^2 + n_y^2)</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            geofa(i,2) = sqrt(geofa(i,0)*geofa(i,0) + geofa(i,1)*geofa(i,1));</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="comment">//geofa(i,2) = sqrt((m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1))*(m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1)) + (m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0))*(m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0)));</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        }</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n&quot;</span>;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> elementstiffnessK11(<span class="keywordtype">int</span> iel)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    {</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K11(6,6);</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordtype">double</span> coeff = 2*muE+lambdaE;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 3; i++)</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; 3; j++)</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            {</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                <span class="keywordflow">if</span>(i==j)</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                    K11(i,i) = (coeff*geoel(iel,i+1)*geoel(iel,i+1) + muE*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0));  <span class="comment">// ai^2 / 2D</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                    K11(i,j) = -1.0*(coeff*geoel(iel,i+1)*geoel(iel,j+1) + muE*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0));     <span class="comment">// (c*ai*aj + mu*bi*bj) / 6D</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            }</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        K11(0,3) = (coeff*2*geoel(iel,1)*geoel(iel,2) + muE*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        K11(0,4) = 0.0;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        K11(0,5) = (coeff*2*geoel(iel,1)*geoel(iel,3) + muE*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        K11(1,3) = (coeff*2*geoel(iel,2)*geoel(iel,1) + muE*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        K11(1,4) = (coeff*2*geoel(iel,2)*geoel(iel,3) + muE*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        K11(1,5) = 0.0;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        K11(2,3) = 0.0;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        K11(2,4) = (coeff*2*geoel(iel,3)*geoel(iel,2) + muE*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        K11(2,5) = (coeff*2*geoel(iel,3)*geoel(iel,1) + muE*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        K11(3,3) = 4/(3*geoel(iel,0))*( coeff*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + muE*(geoel(iel,5)*geoel(iel,5)+geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) );</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        K11(4,4) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + muE*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) );</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        K11(5,5) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        K11(3,4) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + muE*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) );</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        K11(3,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        K11(4,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + muE*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="classacfd_1_1LinElastP2.html">LinElastP2</a></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* m;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> ngeoel;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> ngeofa;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">   48</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">ndofe</a>;                  </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">   49</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">geoel</a>;       </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">   50</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">geofa</a>;       </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">   51</a></span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> <a class="code" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">K</a>;                 </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ab691e7c8d5372f8c6b4316ec434f100e">   52</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#ab691e7c8d5372f8c6b4316ec434f100e">f</a>;           </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">   54</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">muE</a>;                 </div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067">   55</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067">lambdaE</a>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">   56</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">cbig</a>;                </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="classacfd_1_1LinElastP2.html">LinElastP2</a>() {}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ab04c23e02638a977dfb74251c9f95f66">   64</a></span>&#160;    <a class="code" href="classacfd_1_1LinElastP2.html#ab04c23e02638a977dfb74251c9f95f66">LinElastP2</a>(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">double</span> mu, <span class="keywordtype">double</span> lambd)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        m = mesh;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        ngeoel = 7;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        ngeofa = 3;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        muE = mu; lambdaE = lambd;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        geoel.setup(m-&gt;gnelem(), ngeoel, ROWMAJOR);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        geofa.setup(m-&gt;gnface(), ngeofa, ROWMAJOR);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        K.setup(m-&gt;gndim()*m-&gt;gnpoin(), m-&gt;gndim()*m-&gt;gnpoin());</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        f.setup(m-&gt;gndim()*m-&gt;gnpoin(),1);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        cbig = 1e40;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment">//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnelem(); i++)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            geoel(i,0) = m-&gt;gcoords(m-&gt;ginpoel(i,0),0)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),1)) - m-&gt;gcoords(m-&gt;ginpoel(i,0),1)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),0)-m-&gt;gcoords(m-&gt;ginpoel(i,2),0)) + m-&gt;gcoords(m-&gt;ginpoel(i,1),0)*m-&gt;gcoords(m-&gt;ginpoel(i,2),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),0)*m-&gt;gcoords(m-&gt;ginpoel(i,1),1);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordtype">double</span> D = geoel(i,0);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="comment">//a1 = (y2 - y3) :</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            geoel(i,1) = (m-&gt;gcoords(m-&gt;ginpoel(i,1), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 1));</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            <span class="comment">//a2 = (y3 - y1):</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            geoel(i,2) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,0), 1));</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="comment">//a3 = (y1 - y2) :</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            geoel(i,3) = -geoel(i,1)-geoel(i,2);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="comment">//b1 = (x3 - x2) :</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            geoel(i,4) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,1), 0));</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="comment">//b2 = (x1 - x3) :</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            geoel(i,5) = (m-&gt;gcoords(m-&gt;ginpoel(i,0), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 0));</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="comment">//b3 = (x2 - x1) :</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            geoel(i,6) = -geoel(i,5) - geoel(i,4);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnface(); i++)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        {</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="comment">//n_x = y_2 - y_1</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            geofa(i,0) = m-&gt;gcoords(m-&gt;gbface(i,2), 1) - m-&gt;gcoords(m-&gt;gbface(i,0), 1);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="comment">//n_y = x_1 - x_2</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            geofa(i,1) = m-&gt;gcoords(m-&gt;gbface(i,0), 0) - m-&gt;gcoords(m-&gt;gbface(i,2), 0);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="comment">//l = sqrt(n_x^2 + n_y^2)</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            geofa(i,2) = sqrt(geofa(i,0)*geofa(i,0) + geofa(i,1)*geofa(i,1));</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="comment">//geofa(i,2) = sqrt((m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1))*(m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1)) + (m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0))*(m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0)));</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n&quot;</span>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ac6f577f313fde9a36c9252a946883e8d">  113</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classacfd_1_1LinElastP2.html#ac6f577f313fde9a36c9252a946883e8d">setup</a>(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">double</span> mu, <span class="keywordtype">double</span> lambd)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        m = mesh;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        ngeoel = 7;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        ngeofa = 3;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        muE = mu; lambdaE = lambd;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        geoel.setup(m-&gt;gnelem(), ngeoel, ROWMAJOR);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        geofa.setup(m-&gt;gnface(), ngeofa, ROWMAJOR);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        K.setup(m-&gt;gndim()*m-&gt;gnpoin(), m-&gt;gndim()*m-&gt;gnpoin());</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        f.setup(m-&gt;gndim()*m-&gt;gnpoin(),1);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        cbig = 1e30;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="comment">//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="comment">//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnelem(); i++)</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            geoel(i,0) = m-&gt;gcoords(m-&gt;ginpoel(i,0),0)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),1)) - m-&gt;gcoords(m-&gt;ginpoel(i,0),1)*(m-&gt;gcoords(m-&gt;ginpoel(i,1),0)-m-&gt;gcoords(m-&gt;ginpoel(i,2),0)) + m-&gt;gcoords(m-&gt;ginpoel(i,1),0)*m-&gt;gcoords(m-&gt;ginpoel(i,2),1) - m-&gt;gcoords(m-&gt;ginpoel(i,2),0)*m-&gt;gcoords(m-&gt;ginpoel(i,1),1);</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordtype">double</span> D = geoel(i,0);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="comment">//a1 = (y2 - y3) :</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            geoel(i,1) = (m-&gt;gcoords(m-&gt;ginpoel(i,1), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 1));</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="comment">//a2 = (y3 - y1):</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            geoel(i,2) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 1) - m-&gt;gcoords(m-&gt;ginpoel(i,0), 1));</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="comment">//a3 = (y1 - y2) :</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            geoel(i,3) = -geoel(i,1)-geoel(i,2);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="comment">//b1 = (x3 - x2) :</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            geoel(i,4) = (m-&gt;gcoords(m-&gt;ginpoel(i,2), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,1), 0));</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="comment">//b2 = (x1 - x3) :</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            geoel(i,5) = (m-&gt;gcoords(m-&gt;ginpoel(i,0), 0) - m-&gt;gcoords(m-&gt;ginpoel(i,2), 0));</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="comment">//b3 = (x2 - x1) :</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            geoel(i,6) = -geoel(i,5) - geoel(i,4);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnface(); i++)</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="comment">//n_x = y_2 - y_1</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            geofa(i,0) = m-&gt;gcoords(m-&gt;gbface(i,2), 1) - m-&gt;gcoords(m-&gt;gbface(i,0), 1);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="comment">//n_y = x_1 - x_2</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            geofa(i,1) = m-&gt;gcoords(m-&gt;gbface(i,0), 0) - m-&gt;gcoords(m-&gt;gbface(i,2), 0);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="comment">//l = sqrt(n_x^2 + n_y^2)</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            geofa(i,2) = sqrt(geofa(i,0)*geofa(i,0) + geofa(i,1)*geofa(i,1));</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="comment">//geofa(i,2) = sqrt((m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1))*(m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1)) + (m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0))*(m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0)));</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        }</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n&quot;</span>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> elementstiffnessK11(<span class="keywordtype">int</span> iel)</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K11(6,6);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordtype">double</span> coeff = 2*muE+lambdaE;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 3; i++)</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; 3; j++)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <span class="keywordflow">if</span>(i==j)</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                    K11(i,i) = (coeff*geoel(iel,i+1)*geoel(iel,i+1) + muE*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0));  <span class="comment">// ai^2 / 2D</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                    K11(i,j) = -1.0*(coeff*geoel(iel,i+1)*geoel(iel,j+1) + muE*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0));     <span class="comment">// (c*ai*aj + mu*bi*bj) / 6D</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            }</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        K11(0,3) = (coeff*2*geoel(iel,1)*geoel(iel,2) + muE*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        K11(0,4) = 0.0;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        K11(0,5) = (coeff*2*geoel(iel,1)*geoel(iel,3) + muE*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        K11(1,3) = (coeff*2*geoel(iel,2)*geoel(iel,1) + muE*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        K11(1,4) = (coeff*2*geoel(iel,2)*geoel(iel,3) + muE*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        K11(1,5) = 0.0;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        K11(2,3) = 0.0;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        K11(2,4) = (coeff*2*geoel(iel,3)*geoel(iel,2) + muE*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        K11(2,5) = (coeff*2*geoel(iel,3)*geoel(iel,1) + muE*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0));</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="comment">//K11 is symmetric</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 5; i++)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = i+1; j &lt; 6; j++)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                K11(j,i) = K11(i,j);</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">return</span> K11;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        K11(3,3) = 4/(3*geoel(iel,0))*( coeff*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + muE*(geoel(iel,5)*geoel(iel,5)+geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) );</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        K11(4,4) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + muE*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) );</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        K11(5,5) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        K11(3,4) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + muE*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) );</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        K11(3,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        K11(4,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + muE*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) );</div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> elementstiffnessK22(<span class="keywordtype">int</span> iel)</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    {</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K22(6,6);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keywordtype">double</span> coeff = 2*muE+lambdaE;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 3; i++)</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; 3; j++)</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="keywordflow">if</span>(i==j)</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                    K22(i,i) = (muE*geoel(iel,i+1)*geoel(iel,i+1) + coeff*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0));  <span class="comment">// ai^2 / 2D</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    K22(i,j) = -1.0*(muE*geoel(iel,i+1)*geoel(iel,j+1) + coeff*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0));     <span class="comment">// -(mu*ai*aj + c*bi*bj) / 6D</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        K22(0,3) = (muE*2*geoel(iel,1)*geoel(iel,2) + coeff*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        K22(0,4) = 0.0;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        K22(0,5) = (muE*2*geoel(iel,1)*geoel(iel,3) + coeff*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        K22(1,3) = (muE*2*geoel(iel,2)*geoel(iel,1) + coeff*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        K22(1,4) = (muE*2*geoel(iel,2)*geoel(iel,3) + coeff*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        K22(1,5) = 0.0;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        K22(2,3) = 0.0;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        K22(2,4) = (muE*2*geoel(iel,3)*geoel(iel,2) + coeff*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        K22(2,5) = (muE*2*geoel(iel,3)*geoel(iel,1) + coeff*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        K22(3,3) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + coeff*(geoel(iel,5)*geoel(iel,5) + geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) );</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        K22(4,4) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + coeff*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) );</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        K22(5,5) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        K22(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + coeff*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) );</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        K22(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        K22(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + coeff*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="comment">//K11 is symmetric</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 5; i++)</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = i+1; j &lt; 6; j++)</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                K11(j,i) = K11(i,j);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">return</span> K11;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> elementstiffnessK22(<span class="keywordtype">int</span> iel)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    {</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K22(6,6);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordtype">double</span> coeff = 2*muE+lambdaE;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 3; i++)</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; 3; j++)</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                <span class="keywordflow">if</span>(i==j)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    K22(i,i) = (muE*geoel(iel,i+1)*geoel(iel,i+1) + coeff*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0));  <span class="comment">// ai^2 / 2D</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                    K22(i,j) = -1.0*(muE*geoel(iel,i+1)*geoel(iel,j+1) + coeff*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0));     <span class="comment">// -(mu*ai*aj + c*bi*bj) / 6D</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            }</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        K22(0,3) = (muE*2*geoel(iel,1)*geoel(iel,2) + coeff*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        K22(0,4) = 0.0;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        K22(0,5) = (muE*2*geoel(iel,1)*geoel(iel,3) + coeff*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        K22(1,3) = (muE*2*geoel(iel,2)*geoel(iel,1) + coeff*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        K22(1,4) = (muE*2*geoel(iel,2)*geoel(iel,3) + coeff*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        K22(1,5) = 0.0;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        K22(2,3) = 0.0;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        K22(2,4) = (muE*2*geoel(iel,3)*geoel(iel,2) + coeff*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        K22(2,5) = (muE*2*geoel(iel,3)*geoel(iel,1) + coeff*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0));</div>
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="comment">//K22 is symmetric</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 5; i++)</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = i+1; j &lt; 6; j++)</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                K22(j,i) = K22(i,j);</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">return</span> K22;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    }</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        K22(3,3) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + coeff*(geoel(iel,5)*geoel(iel,5) + geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) );</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        K22(4,4) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + coeff*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) );</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        K22(5,5) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        K22(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + coeff*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) );</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        K22(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        K22(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + coeff*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) );</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> elementstiffnessK12(<span class="keywordtype">int</span> iel)</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    {</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K12(6,6);</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 3; i++)</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; 3; j++)</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                <span class="keywordflow">if</span>(i==j)</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                    K12(i,i) = (lambdaE*geoel(iel,i+1)*geoel(iel,i+4) + muE*geoel(iel,i+1)*geoel(iel,i+4))/(2*geoel(iel,0));    <span class="comment">// ai^2 / 2D</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                    K12(i,j) = -1.0*(lambdaE*geoel(iel,i+4)*geoel(iel,j+1) + muE*geoel(iel,i+1)*geoel(iel,j+4))/(6*geoel(iel,0));       <span class="comment">// -(c*bi*aj + mu*ai*bj) / 6D</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            }</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        K12(0,3) = (muE*2*geoel(iel,4)*geoel(iel,2) + lambdaE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        K12(0,4) = 0.0;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        K12(0,5) = (muE*2*geoel(iel,4)*geoel(iel,3) + lambdaE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        K12(1,3) = (muE*2*geoel(iel,5)*geoel(iel,1) + lambdaE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        K12(1,4) = (muE*2*geoel(iel,5)*geoel(iel,3) + lambdaE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        K12(1,5) = 0.0;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        K12(2,3) = 0.0;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        K12(2,4) = (muE*2*geoel(iel,6)*geoel(iel,2) + lambdaE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        K12(2,5) = (muE*2*geoel(iel,6)*geoel(iel,1) + lambdaE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        K12(3,3) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) + lambdaE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) );</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        K12(4,4) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) + lambdaE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) );</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        K12(5,5) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) + lambdaE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        K12(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + lambdaE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) );</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        K12(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + lambdaE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        K12(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + lambdaE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="comment">//K22 is symmetric</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 5; i++)</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = i+1; j &lt; 6; j++)</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                K22(j,i) = K22(i,j);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">return</span> K22;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    }</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> elementstiffnessK12(<span class="keywordtype">int</span> iel)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    {</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K12(6,6);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 3; i++)</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; 3; j++)</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            {</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                <span class="keywordflow">if</span>(i==j)</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                    K12(i,i) = (lambdaE*geoel(iel,i+1)*geoel(iel,i+4) + muE*geoel(iel,i+1)*geoel(iel,i+4))/(2*geoel(iel,0));    <span class="comment">// ai^2 / 2D</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                    K12(i,j) = -1.0*(lambdaE*geoel(iel,i+4)*geoel(iel,j+1) + muE*geoel(iel,i+1)*geoel(iel,j+4))/(6*geoel(iel,0));       <span class="comment">// -(c*bi*aj + mu*ai*bj) / 6D</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            }</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        K12(0,3) = (muE*2*geoel(iel,4)*geoel(iel,2) + lambdaE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        K12(0,4) = 0.0;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        K12(0,5) = (muE*2*geoel(iel,4)*geoel(iel,3) + lambdaE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        K12(1,3) = (muE*2*geoel(iel,5)*geoel(iel,1) + lambdaE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        K12(1,4) = (muE*2*geoel(iel,5)*geoel(iel,3) + lambdaE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        K12(1,5) = 0.0;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        K12(2,3) = 0.0;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        K12(2,4) = (muE*2*geoel(iel,6)*geoel(iel,2) + lambdaE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        K12(2,5) = (muE*2*geoel(iel,6)*geoel(iel,1) + lambdaE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0));</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="comment">// K12 is not symmetric</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        K12(3,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,2) + muE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        K12(4,0) = 0.0;</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        K12(5,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,3) + muE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        K12(3,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,1) + muE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        K12(4,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,3) + muE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        K12(5,1) = 0.0;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        K12(3,2) = 0.0;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        K12(4,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,2) + muE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        K12(5,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,1) + muE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0));</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        K12(4,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + muE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) );</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        K12(5,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + muE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        K12(5,4) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + muE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) );</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="keywordflow">return</span> K12;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keywordtype">void</span> assembleStiffnessMatrix()</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    {</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> K11, K22, K12;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        K11.setup(m-&gt;gnpoin(),m-&gt;gnpoin()); K22.setup(m-&gt;gnpoin(), m-&gt;gnpoin()); K12.setup(m-&gt;gnpoin(), m-&gt;gnpoin());</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="comment">//K11.zeros(); K22.zeros(); K12.zeros();</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        vector&lt;int&gt; ip(m-&gt;gnnode());</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> iel = 0; iel &lt; m-&gt;gnelem(); iel++)</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        {</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            <span class="comment">// get element stiffness matrices</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K11e = elementstiffnessK11(iel);</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K22e = elementstiffnessK22(iel);</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K12e = elementstiffnessK12(iel);</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnnode(); i++)</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                ip[i] = m-&gt;ginpoel(iel,i);</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;            <span class="keywordtype">double</span> temp;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnnode(); i++)</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; m-&gt;gnnode(); j++)</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                {</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                    temp = K11.get(ip[i],ip[j]);</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                    K11.set(ip[i],ip[j], temp+K11e(i,j));</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                    temp = K22.get(ip[i],ip[j]);</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                    K22.set(ip[i],ip[j], temp+K22e(i,j));</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    temp = K12.get(ip[i],ip[j]);</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                    K12.set(ip[i],ip[j], temp+K12e(i,j));</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                }</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        }</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;LinElastP2: assembleStiffnessMatrix(): Assembling final 2N by 2N matrix\n&quot;</span>;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="comment">/*K11.trim();</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">        K12.trim();</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment">        K22.trim();*/</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> K21(m-&gt;gnpoin(), m-&gt;gnpoin());</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        K21 = K12.transpose();</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        K.combine_sparse_matrices(K11,K12,K21,K22);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    }</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keywordtype">void</span> assembleLoadVector()</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    {</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <span class="comment">//Matrix&lt;double&gt; load(m-&gt;gndim()*m-&gt;gnpoin(),1);</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        f.zeros();</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    }</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> stiffnessMatrix()</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">return</span> K;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    }</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> loadVector()</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    {</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="keywordflow">return</span> f;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    }</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
-<div class="line"><a name="l00335"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">  335</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">dirichletBC_onAllBface</a>(<span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; bdata, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a>&amp; bflags)</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    {</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="keywordtype">double</span> temp; <span class="keywordtype">int</span> p;</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="keywordflow">for</span>(p = 0; p &lt; m-&gt;gnpoin(); p++)</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        {   </div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;            <span class="keywordflow">if</span>(bflags.get(p) == 1)</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            {</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                <span class="comment">//x disp</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;                temp = K.get(p,p);</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;                K.set(p,p, temp*cbig);</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;                <span class="comment">//if(ip == m-&gt;gnnofa()-1)       // when we encounter the high-order node, set its displacement</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;                f(p) = temp*cbig*bdata.get(p,0);</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                </div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                <span class="comment">//y disp</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                temp = K.get(m-&gt;gnpoin()+p,m-&gt;gnpoin()+p);</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                K.set(m-&gt;gnpoin()+p, m-&gt;gnpoin()+p, temp*cbig);</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                <span class="comment">//if(ip == m-&gt;gnnofa()-1)</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                f(m-&gt;gnpoin()+p) = temp*cbig*bdata.get(p,1);</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;            }</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;            <span class="comment">/*if(m-&gt;gbface(iface,m-&gt;gnnofa()) == 1)     // if non-homog BC is to be applied</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">                f(m-&gt;gbface(iface,1)) = K(m-&gt;gbface(iface,1),m-&gt;gbface(iface,1)) * bdata(iface);</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">                f(m-&gt;gnpoin() + m-&gt;gbface(iface,1)) = K(m-&gt;gnpoin() + m-&gt;gbface(iface,1), m-&gt;gnpoin() + m-&gt;gbface(iface,1)) * bdata(m-&gt;gnface()+iface);</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">            }*/</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        }</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        <span class="comment">/*for(int i = 0; i &lt; m-&gt;gnpoin(); i++)</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">        {</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">            if(extra(i) == 1)</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment">            {</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment">                //x disp</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">                K(i,i) *= cbig;</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment">                f(i) = 0;       // homogeneous BC by default</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment">                //y disp</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment">                K(m-&gt;gnpoin()+i, m-&gt;gnpoin()+i) *= cbig;</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment">                f(m-&gt;gnpoin()+i) = 0;</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">            }</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">        }*/</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    }</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;};</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;} <span class="comment">// end namespace</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        K12(3,3) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) + lambdaE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) );</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        K12(4,4) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) + lambdaE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) );</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        K12(5,5) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) + lambdaE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        K12(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + lambdaE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) );</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        K12(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + lambdaE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        K12(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + lambdaE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="comment">// K12 is not symmetric</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        K12(3,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,2) + muE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        K12(4,0) = 0.0;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        K12(5,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,3) + muE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        K12(3,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,1) + muE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        K12(4,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,3) + muE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        K12(5,1) = 0.0;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        K12(3,2) = 0.0;</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        K12(4,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,2) + muE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        K12(5,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,1) + muE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0));</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        K12(4,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + muE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) );</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        K12(5,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + muE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        K12(5,4) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + muE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) );</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="keywordflow">return</span> K12;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    }</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">void</span> assembleStiffnessMatrix()</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    {</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> K11, K22, K12;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        K11.setup(m-&gt;gnpoin(),m-&gt;gnpoin()); K22.setup(m-&gt;gnpoin(), m-&gt;gnpoin()); K12.setup(m-&gt;gnpoin(), m-&gt;gnpoin());</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="comment">//K11.zeros(); K22.zeros(); K12.zeros();</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        vector&lt;int&gt; ip(m-&gt;gnnode());</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> iel = 0; iel &lt; m-&gt;gnelem(); iel++)</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        {</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;            <span class="comment">// get element stiffness matrices</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K11e = elementstiffnessK11(iel);</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K22e = elementstiffnessK22(iel);</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;            <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> K12e = elementstiffnessK12(iel);</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnnode(); i++)</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                ip[i] = m-&gt;ginpoel(iel,i);</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            <span class="keywordtype">double</span> temp;</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnnode(); i++)</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; m-&gt;gnnode(); j++)</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                {</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                    temp = K11.get(ip[i],ip[j]);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                    K11.set(ip[i],ip[j], temp+K11e(i,j));</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                    temp = K22.get(ip[i],ip[j]);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                    K22.set(ip[i],ip[j], temp+K22e(i,j));</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                    temp = K12.get(ip[i],ip[j]);</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                    K12.set(ip[i],ip[j], temp+K12e(i,j));</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                }</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        }</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;LinElastP2: assembleStiffnessMatrix(): Assembling final 2N by 2N matrix\n&quot;</span>;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="comment">/*K11.trim();</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">        K12.trim();</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">        K22.trim();*/</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> K21(m-&gt;gnpoin(), m-&gt;gnpoin());</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        K21 = K12.transpose();</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        K.combine_sparse_matrices(K11,K12,K21,K22);</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    }</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keywordtype">void</span> assembleLoadVector()</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    {</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="comment">//Matrix&lt;double&gt; load(m-&gt;gndim()*m-&gt;gnpoin(),1);</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        f.zeros();</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    }</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> stiffnessMatrix()</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    {</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <span class="keywordflow">return</span> K;</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    }</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> loadVector()</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    {</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <span class="keywordflow">return</span> f;</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    }</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;</div>
+<div class="line"><a name="l00344"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">  344</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">dirichletBC_onAllBface</a>(<span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; bdata, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a>&amp; bflags)</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    {</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="keywordtype">double</span> temp; <span class="keywordtype">int</span> p;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        <span class="keywordflow">for</span>(p = 0; p &lt; m-&gt;gnpoin(); p++)</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        {   </div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;            <span class="keywordflow">if</span>(bflags.get(p) == 1)</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;            {</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;                <span class="comment">//x disp</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                temp = K.get(p,p);</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;                K.set(p,p, temp*cbig);</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                <span class="comment">//if(ip == m-&gt;gnnofa()-1)       // when we encounter the high-order node, set its displacement</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;                f(p) = temp*cbig*bdata.get(p,0);</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;                </div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;                <span class="comment">//y disp</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;                temp = K.get(m-&gt;gnpoin()+p,m-&gt;gnpoin()+p);</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                K.set(m-&gt;gnpoin()+p, m-&gt;gnpoin()+p, temp*cbig);</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                <span class="comment">//if(ip == m-&gt;gnnofa()-1)</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;                f(m-&gt;gnpoin()+p) = temp*cbig*bdata.get(p,1);</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;            }</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;            <span class="comment">/*if(m-&gt;gbface(iface,m-&gt;gnnofa()) == 1)     // if non-homog BC is to be applied</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">                f(m-&gt;gbface(iface,1)) = K(m-&gt;gbface(iface,1),m-&gt;gbface(iface,1)) * bdata(iface);</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment">                f(m-&gt;gnpoin() + m-&gt;gbface(iface,1)) = K(m-&gt;gnpoin() + m-&gt;gbface(iface,1), m-&gt;gnpoin() + m-&gt;gbface(iface,1)) * bdata(m-&gt;gnface()+iface);</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment">            }*/</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        }</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <span class="comment">/*for(int i = 0; i &lt; m-&gt;gnpoin(); i++)</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">        {</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">            if(extra(i) == 1)</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment">            {</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">                //x disp</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">                K(i,i) *= cbig;</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">                f(i) = 0;       // homogeneous BC by default</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">                //y disp</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">                K(m-&gt;gnpoin()+i, m-&gt;gnpoin()+i) *= cbig;</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">                f(m-&gt;gnpoin()+i) = 0;</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">            }</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">        }*/</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    }</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;};</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;} <span class="comment">// end namespace</span></div>
 <div class="ttc" id="classamat_1_1MatrixCOO_html"><div class="ttname"><a href="classamat_1_1MatrixCOO.html">amat::MatrixCOO</a></div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:76</div></div>
-<div class="ttc" id="classacfd_1_1UMesh2d_html"><div class="ttname"><a href="classacfd_1_1UMesh2d.html">acfd::UMesh2d</a></div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:63</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a842d212644a1fbf7979c81a30baeb1f2"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">acfd::LinElastP2::geoel</a></div><div class="ttdeci">Matrix&lt; double &gt; geoel</div><div class="ttdoc">holds 2*area of element, and derivatives of barycentric coordinate functions lambdas ...</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:48</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html"><div class="ttname"><a href="classacfd_1_1LinElastP2.html">acfd::LinElastP2</a></div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:42</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a5fd5246407c87ffa0eba8b5918e49a06"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">acfd::LinElastP2::K</a></div><div class="ttdeci">SpMatrix K</div><div class="ttdoc">global stiffness matrix </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:50</div></div>
+<div class="ttc" id="classacfd_1_1UMesh2d_html"><div class="ttname"><a href="classacfd_1_1UMesh2d.html">acfd::UMesh2d</a></div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:64</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_ab04c23e02638a977dfb74251c9f95f66"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ab04c23e02638a977dfb74251c9f95f66">acfd::LinElastP2::LinElastP2</a></div><div class="ttdeci">LinElastP2(UMesh2d *mesh, double mu, double lambd)</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:64</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html"><div class="ttname"><a href="classacfd_1_1LinElastP2.html">acfd::LinElastP2</a></div><div class="ttdoc">Class implementing solution of linear elasticity system by P2 Lagrange finite elements. </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:43</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a5fd5246407c87ffa0eba8b5918e49a06"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">acfd::LinElastP2::K</a></div><div class="ttdeci">SpMatrix K</div><div class="ttdoc">global stiffness matrix </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:51</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a3302bea218e86ab6ceecb09ec318d067"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067">acfd::LinElastP2::lambdaE</a></div><div class="ttdeci">double lambdaE</div><div class="ttdoc">isotropic elasticity constant lambda </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:55</div></div>
 <div class="ttc" id="amatrix2_8hpp_html"><div class="ttname"><a href="amatrix2_8hpp.html">amatrix2.hpp</a></div><div class="ttdoc">Defines a class to manipulate matrices. </div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a97d2d32d1c4bce92517c9ad606a070b2"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">acfd::LinElastP2::dirichletBC_onAllBface</a></div><div class="ttdeci">void dirichletBC_onAllBface(const Matrix&lt; double &gt; &amp;bdata, const Matrix&lt; int &gt; &amp;bflags)</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:335</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a287c4e5724037941c2ac8ee223b3b9d4"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">acfd::LinElastP2::geoel</a></div><div class="ttdeci">Matrix&lt; double &gt; geoel</div><div class="ttdoc">holds 2*area of element, and derivatives of barycentric coordinate functions lambdas ...</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:49</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_ac6f577f313fde9a36c9252a946883e8d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ac6f577f313fde9a36c9252a946883e8d">acfd::LinElastP2::setup</a></div><div class="ttdeci">void setup(UMesh2d *mesh, double mu, double lambd)</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:113</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a97d2d32d1c4bce92517c9ad606a070b2"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">acfd::LinElastP2::dirichletBC_onAllBface</a></div><div class="ttdeci">void dirichletBC_onAllBface(const Matrix&lt; double &gt; &amp;bdata, const Matrix&lt; int &gt; &amp;bflags)</div><div class="ttdoc">Applies Dirichlet BC on high-order nodes of all boundary faces. </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:344</div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; double &gt;</a></div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_ac89b93ce1ca26c595aa66e7b8e955251"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">acfd::LinElastP2::geofa</a></div><div class="ttdeci">Matrix&lt; double &gt; geofa</div><div class="ttdoc">holds normals to and length of boundary faces </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:49</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a562b257ebe00346cdb5fa79766759d4d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">acfd::LinElastP2::muE</a></div><div class="ttdeci">double muE</div><div class="ttdoc">isotropic elasticity constants </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:53</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a4fec90fbbbda051888a2f56ae048fc5d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">acfd::LinElastP2::ndofe</a></div><div class="ttdeci">int ndofe</div><div class="ttdoc">Number of DOFs per element. </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:47</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_aad8276ca77d303df9b46d08680c41425"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#aad8276ca77d303df9b46d08680c41425">acfd::LinElastP2::f</a></div><div class="ttdeci">Matrix&lt; double &gt; f</div><div class="ttdoc">global load vector </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:51</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_ab8e650d1575837d08207fcc50bdb1168"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">acfd::LinElastP2::cbig</a></div><div class="ttdeci">double cbig</div><div class="ttdoc">for Dirichlet BCs </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:55</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a64d9a39d033ae32355379de78c089edc"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">acfd::LinElastP2::geofa</a></div><div class="ttdeci">Matrix&lt; double &gt; geofa</div><div class="ttdoc">holds normals to and length of boundary faces </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:50</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_ab691e7c8d5372f8c6b4316ec434f100e"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ab691e7c8d5372f8c6b4316ec434f100e">acfd::LinElastP2::f</a></div><div class="ttdeci">Matrix&lt; double &gt; f</div><div class="ttdoc">global load vector </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:52</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a562b257ebe00346cdb5fa79766759d4d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">acfd::LinElastP2::muE</a></div><div class="ttdeci">double muE</div><div class="ttdoc">isotropic elasticity constants </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:54</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a4fec90fbbbda051888a2f56ae048fc5d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">acfd::LinElastP2::ndofe</a></div><div class="ttdeci">int ndofe</div><div class="ttdoc">Number of DOFs per element. </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:48</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_ab8e650d1575837d08207fcc50bdb1168"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">acfd::LinElastP2::cbig</a></div><div class="ttdeci">double cbig</div><div class="ttdoc">for Dirichlet BCs </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:56</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

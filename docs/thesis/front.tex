@@ -1,7 +1,7 @@
 %% ------------------------------ Abstract ---------------------------------- %%
 \begin{abstract}
 
-This report describes methods of mesh movement for computational fluid dynamics (CFD) problems. The methods described can be classified into two families - elasticity-based methods and interpolation methods. The former class includes lineal and torsional spring analogy methods and linear elasticity method and its variants. Interpolation methods described here include the `Delaunay graph' mapping, interpolation by radial basis functions, and a combination of Delaunay graph mapping and radial basis function interpolation. The merits and disadvantages of these methods have been discussed, and some two-dimensional test cases have been presented.
+This report describes methods of mesh movement for computational fluid dynamics (CFD) problems. The methods described can be classified into two families - elasticity-based methods and interpolation methods. The former class includes lineal and torsional spring analogy methods and linear elasticity method and its variants. Interpolation methods described here include the `Delaunay graph' mapping, interpolation by radial basis functions, and a combination of Delaunay graph mapping and radial basis function interpolation. The merits and disadvantages of these methods have been discussed, and some two-dimensional test cases have been presented. Further, a method for generating curved meshes from linear meshes is presented in this work. The method is designed to generate a curved mesh for any type of grid in a computationally inexpensive and numerically robust manner. In this method, high-order nodes are first placed in the linear mesh, the high-order boundary nodes are then relocated to the true boundary, and finally, the high-order interior nodes are moved using one of the mesh-movement methods, based on the motion of the high-order boundary nodes. The developed method is used to generate curved meshes for a number of complex geometries. The numerical experiments indicate that the RBF-interpolation method is much better than the prevalent linear-elasticity methods for generating high-order curved meshes judging by curved-mesh quality, computing cost, and ease of implementation.
 \end{abstract}
 
 
@@ -19,7 +19,7 @@ This report describes methods of mesh movement for computational fluid dynamics 
 
 %% -------------------------------- Biography ------------------------------- %%
 \begin{biography}
-The author was born in a small town \ldots
+The author was born in Kasauli, HP, India and lived throughout his childhood in Delhi, India. He completed his Bachelor degree in Mechancial Engineering and integrated Masters degree in Biological sciences from Birla Institute of Technology and Science, Pilani, India. During this time, he completed internships related to computational engineering in Indian Institute of Science, Bangalore, and Centre for Fuel Cell Technology, International Advanced Research Centre for Powder Metallurgy and New Materials, Chennai, India. In August 2014, he began the MS Mechanical Engineering program at NC State University, and went on to start work at the Computational Fluid Dynamics Laboratory under the guidance of Professor Hong Luo.
 \end{biography}
 
 %% ----------------------------- Acknowledgements --------------------------- %%

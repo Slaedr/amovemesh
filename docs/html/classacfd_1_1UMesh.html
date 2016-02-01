@@ -211,13 +211,18 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>gnbedge</b> ()</td></t
 <tr class="memitem:a6c9026e57cdfa1cff08d5c920c3c585e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c9026e57cdfa1cff08d5c920c3c585e"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>printmeshstats</b> ()</td></tr>
 <tr class="separator:a6c9026e57cdfa1cff08d5c920c3c585e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a064fd94c757b899511c841df1c3c8fe0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh.html#a064fd94c757b899511c841df1c3c8fe0">mapinpoelXiaodongToGmsh</a> ()</td></tr>
+<tr class="memitem:a064fd94c757b899511c841df1c3c8fe0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a064fd94c757b899511c841df1c3c8fe0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh.html#a064fd94c757b899511c841df1c3c8fe0">mapinpoelXiaodongToGmsh</a> ()</td></tr>
+<tr class="memdesc:a064fd94c757b899511c841df1c3c8fe0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes node ordering. Use only for hex mesh!! <br/></td></tr>
 <tr class="separator:a064fd94c757b899511c841df1c3c8fe0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade0f32c14ed05ac37ac1e81ab5e0659f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh.html#ade0f32c14ed05ac37ac1e81ab5e0659f">writeGmsh2</a> (string mfile)</td></tr>
 <tr class="separator:ade0f32c14ed05ac37ac1e81ab5e0659f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:accebd0043c5951c91ce92e7c058870d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh.html#accebd0043c5951c91ce92e7c058870d7">compute_topological</a> ()</td></tr>
+<tr class="memdesc:accebd0043c5951c91ce92e7c058870d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes various connectivity data structures for the mesh.  <a href="#accebd0043c5951c91ce92e7c058870d7">More...</a><br/></td></tr>
 <tr class="separator:accebd0043c5951c91ce92e7c058870d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2c2f7e043bff97dbd92468c610e301f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classacfd_1_1UMesh.html">UMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh.html#ad2c2f7e043bff97dbd92468c610e301f">convertLinearToQuadratic</a> ()</td></tr>
+<tr class="memitem:ad2c2f7e043bff97dbd92468c610e301f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad2c2f7e043bff97dbd92468c610e301f"></a>
+<a class="el" href="classacfd_1_1UMesh.html">UMesh</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh.html#ad2c2f7e043bff97dbd92468c610e301f">convertLinearToQuadratic</a> ()</td></tr>
+<tr class="memdesc:ad2c2f7e043bff97dbd92468c610e301f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classacfd_1_1UMesh.html">UMesh</a> object by adding one extra node at each edge centre, and also, in case of a hex mesh, one extra node at each face centre and cell centre. <br/></td></tr>
 <tr class="separator:ad2c2f7e043bff97dbd92468c610e301f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
@@ -384,58 +389,12 @@ vector&lt; int &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a clas
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Computes various connectivity data structures for the mesh. These include (1) Elements surrounding points (esup and esup_p) (2) Points surrounding points (psup) (3) Elements surrounding elements (esuel) (4) Elements surrounding edge (elsed) (5) Edge data structure (intedge) (6) <a class="el" href="structFace.html" title="Structure for triangular face. ">Face</a> data structure (intfac) </p>
+
+<p>Computes various connectivity data structures for the mesh. </p>
+<p>These include (1) Elements surrounding points (esup and esup_p) (2) Points surrounding points (psup) (3) Elements surrounding elements (esuel) (4) Elements surrounding edge (elsed) (5) Edge data structure (intedge) (6) <a class="el" href="structFace.html" title="Structure for triangular face. ">Face</a> data structure (intfac) </p>
 <p>NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh </p>
 <pre class="fragment">Computes, for each face, the elements on either side, the starting node and the ending node of the face. This is stored in intfac.
 </pre><p> The orientation of the face is such that the face points towards the element with larger index. NOTE: After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before. </p>
-
-</div>
-</div>
-<a class="anchor" id="ad2c2f7e043bff97dbd92468c610e301f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classacfd_1_1UMesh.html">UMesh</a> acfd::UMesh::convertLinearToQuadratic </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Creates a <a class="el" href="classacfd_1_1UMesh.html">UMesh</a> object by adding one extra node at each edge centre, and also, in case of a hex mesh, one extra node at each face centre and cell centre. </p>
-
-</div>
-</div>
-<a class="anchor" id="a064fd94c757b899511c841df1c3c8fe0"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void acfd::UMesh::mapinpoelXiaodongToGmsh </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Changes node ordering. Use only for hex mesh!! </p>
 
 </div>
 </div>

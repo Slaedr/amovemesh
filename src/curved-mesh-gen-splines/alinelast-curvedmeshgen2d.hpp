@@ -50,6 +50,9 @@ class Curvedmeshgen2d
 	Matrix<int> bflagg;				///< This flag is true if the corresponding mesh node lies on a boundary.
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
+	/// Stiffening factors
+	Matrix<double> stiff;
+
 public:
 	void setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double tolg, double tole, double maxitera, double youngsmodulus, double poissonsratio, double xchi, string sscheme); 
 
@@ -73,6 +76,41 @@ void Curvedmeshgen2d::setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, in
 	stiffscheme = sscheme;
 	lambda = nu*young/((1+nu)*(1-2*nu));
 	mu = young/(2*(1+nu));
+		
+	// stiffening factor
+	stiff.setup(m->gnelem(), 1);
+	m->compute_jacobians();
+	double j0 = 0;
+	for(int i = 0; i < m->gnelem(); i++)
+		j0 += m->gjacobians(i);
+	j0 /= m->gnelem();
+
+	if(stiffscheme == "size")
+	{
+		for(int iel = 0; iel < m->gnelem(); iel++)
+			stiff(iel) = pow(j0/m->gjacobians(iel),chi);
+	}
+	else
+	{
+		m->compute_metric_quantities();
+		if(stiffscheme == "shape")
+		{
+			m->linearmetric_shape(&stiff);
+			
+			// if we have zero metric, we're toast
+			//for(int iel = 0; iel < m->gnelem(); iel++)
+			//	if(stiff.get(iel) < ZERO_TOL) stiff(iel) = ZERO_TOL;
+
+			for(int iel = 0; iel < m->gnelem(); iel++)
+				stiff(iel) = pow(1.0/stiff.get(iel),chi);
+		}
+		else if(stiffscheme == "shapesize")
+		{
+			m->linearmetric_shapesize(&stiff);
+			for(int iel = 0; iel < m->gnelem(); iel++)
+				stiff(iel) = pow(1.0/stiff.get(iel),chi);
+		}
+	}
 
 	disps.setup(m->gnface(),m->gndim());
 	disps.zeros();
@@ -143,7 +181,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 			allpoint_disps(mq->gbface(iface,mq->gnnofa()-1), idim) = disps(iface,idim);
 	}
 
-	mmv->setup(mq, mu, lambda, chi, stiffscheme);
+	mmv->setup(mq, mu, lambda, chi, &stiff);
 	cout << "Cuvedmeshgen2d: generate_curved_mesh(): Assembling stiffness matrix and load vector." << endl;
 	mmv->assembleStiffnessMatrix();
 	mmv->assembleLoadVector();

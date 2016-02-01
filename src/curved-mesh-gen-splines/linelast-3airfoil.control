@@ -11,9 +11,9 @@
 -PoissonsRatio
 0.4
 -stiffening-exponent
-2.50
+5.00
 -stiffening-scheme
-shapesize
+shape
 -Tolerance-for-spline
 1e-8
 -Tolerance-for-elasticity

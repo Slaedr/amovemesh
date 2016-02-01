@@ -107,7 +107,7 @@
  \begin{equation}
  \mathbf{A}\mathbf{a}_k = \mathbf{s}_k
  \end{equation}
- where the $(i,j)$ component of $\mathbf{A}$ is $\phi(\lVert\mathbf{x}_{bi} - \mathbf{x}_{bj} \rVert)$, $\bld{a}_k \in \mathbb{R}^{n_b}$ is the coefficient vector in the $k$th direction and $\bld{s}_k \in \mathbb{R}^{n_b}$ is the vector of boundary displacements in the $k$th coordinate direction.
+ where the $(i,j)$ component of $\mathbf{A}$ is $\phi(\lVert\mathbf{x}_{bi} - \mathbf{x}_{bj} \rVert)$, $ \bld{a}_k \in \mathbb{R}^{n_b}$ is the coefficient vector in the $k$th direction and $\bld{s}_k \in \mathbb{R}^{n_b}$ is the vector of boundary displacements in the $k$th coordinate direction.
  
  In our implementation, we assemble $\mathbf{A}$ as a sparse matrix by evaluating the radial basis function between every pair of boundary points. This process can be parallelized easily.
  
@@ -156,43 +156,3 @@
  
  All metrics are normalized so that they are 1.0 for ideal elements with regard to the characteristic they measure, and they are 0.0 for degenerate elements. 
  
- \chapter{Results}
- We present a case of rotation of an interior object inside a far-field boundary using interpolation methods. We show results for a 60-degree rotation in case of DGM (fig. \ref{fig:qin-60-dgm}), RBF (fig. \ref{fig:qin-60-rbf}) and DG-RBF2 (fig. \ref{fig:qin-60-dgrbf2}) methods. Note that DGRBF2 refers to the interpolation of rotation angles by DGRBF. The case has been referred from Wang \emph{et. al.} \cite{mm:dgrbf}. Figure \ref{fig:qin-orig} shows the un-deformed mesh.
- 
- \begin{figure}
- 	\centering
- 	\includegraphics[scale=0.25]{qin-orig-mesh.pdf}
- 	\caption{Original mesh}
- 	\label{fig:qin-orig}
- \end{figure}
- 
- \begin{figure}
- 	\centering
- 	\includegraphics[scale=0.25]{qin-60-dgm-quality.pdf}
- 	\caption{60 degrees rotation by DGM}
- 	\label{fig:qin-60-dgm}
- \end{figure}
- 
- \begin{figure}
- 	\centering
- 	\includegraphics[scale=0.25]{qin-60-rbf-quality.pdf}
- 	\caption{60 degrees rotation by RBF}
- 	\label{fig:qin-60-rbf}
- \end{figure}
- 
- \begin{figure}
- 	\centering
- 	\includegraphics[scale=0.25]{qin-60-dgrbf2-quality.pdf}
- 	\caption{60 degrees rotation by DGRBF2}
- 	\label{fig:qin-60-dgrbf2}
- \end{figure}
- 
- We note that the RBF and DGRBF2 methods can handle the rotation case quite well. The stretched, fine elements near the inner boundaries are well-preserved, while the elements further in the interior, which are larger and can thus take more deformation, are distorted somewhat. Though RBF gives slightly better mesh quality than DGRBF2 for this amount of rotation, RBF takes 1.926 seconds of total CPU time (using conjugate gradient solver), while DGRBF2 takes only 0.08 seconds of total CPU time. Further, shown in figure \ref{fig:qin-dgrbf2-120} is a case of extreme rotation of 120 degrees, which DGRBF2 solves while maintaining mesh validity. None of the other methods are able to do this. RBF has been found to give valid meshes upto about 110 degrees of rotation.
- \begin{figure}
- 	\centering
- 	\includegraphics[scale=0.25]{qin-120-quality-withmesh.pdf}
- 	\caption{Large rotational motion carried out by DGRBF2}
- 	\label{fig:qin-dgrbf2-120}
- \end{figure}
- 
- While solving certain problems with the pure RBF method, we find that the linear system to be solved is sometimes quite ill-conditioned, depending upon the mesh. However, in some of the cases that we worked on (such as curved mesh generation of hybrid meshes for viscous simulations of airfoils), sparse direct methods are capable of solving the system efficiently and effectively. This is likely to hold true in general as the systems to be solved will usually not be very large (having size of the number of boundary nodes).

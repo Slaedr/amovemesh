@@ -7,6 +7,5 @@ var searchData=
   ['matrixcoo',['MatrixCOO',['../classamat_1_1MatrixCOO.html',1,'amat']]],
   ['matrixcoo2',['MatrixCOO2',['../classamat_1_1MatrixCOO2.html',1,'amat']]],
   ['matrixcrs',['MatrixCRS',['../classamat_1_1MatrixCRS.html',1,'amat']]],
-  ['mergesort',['MergeSort',['../classMergeSort.html',1,'']]],
   ['mrotation2d',['MRotation2d',['../classMRotation2d.html',1,'']]]
 ];

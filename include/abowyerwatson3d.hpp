@@ -365,7 +365,7 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	for(j = 0; j < ndim; j++)
 		elem.radius += (rc[j]-nodes[elem.p[0]][j])*(rc[j]-nodes[elem.p[0]][j]);
 
-	elem.radius = sqrt(elem.radius);
+	//elem.radius = sqrt(elem.radius);
 
 	// check
 	/*Matrix<double> rhstest(ndim,1); rhstest.zeros();
@@ -454,7 +454,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 	for(k = 0; k < ndim; k++)
 		elem.radius += (elem.centre[k] - nodes[elem.p[0]][k])*(elem.centre[k] - nodes[elem.p[0]][k]);
 
-	elem.radius = sqrt(elem.radius);
+	//elem.radius = sqrt(elem.radius);
 	
 	//cout << "Circumsphere data : centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius^2 " << elem.radius << endl;
 	//cout << "Delaunay3d: compute_circumsphere_contra(): Element jacobian = " << elem.D << endl;
@@ -483,11 +483,11 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 
 /// Locates the Delaunay graph (DG) element which contains the input point.
 /** \param xx is the point which needs to be located in the DG.
-* \param startelement is the index of the element from which to start the search.
-*
-* For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered. 
-* If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. If one of these is negative, the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the negative value.
-*/
+ * \param startelement is the index of the element from which to start the search.
+ *
+ * For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered. 
+   If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. If one of these is negative, the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the negative value.
+ */
 int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) const
 {
 	if(xx.size() < ndim) {
@@ -526,7 +526,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 		// if all 4 area-ratios are positive, we've found our element
 		if(found) break;
 	}
-	cout << "Delaunay2D:   Containing triangle found as " << ielem << endl;
+	cout << "Delaunay3D:   Containing tet found as " << ielem << endl;
 	return ielem;
 }
 
@@ -536,7 +536,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 {
 	// iterate over each face of elem
-	for(int i = 0; i < 4; i++)
+	/*for(int i = 0; i < 4; i++)
 	{
 		// check all 6 permutations by which elem's ith face could be same as the input face.
 		if(face.p[0]==elem.p[(0+i)%4] && face.p[1]==elem.p[(1+i)%4] && face.p[2]==elem.p[(2+i)%4]) return (3+i)%4;
@@ -546,9 +546,9 @@ inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 		if(face.p[0]==elem.p[(2+i)%4] && face.p[1]==elem.p[(0+i)%4] && face.p[2]==elem.p[(1+i)%4]) return (3+i)%4;
 		if(face.p[0]==elem.p[(2+i)%4] && face.p[1]==elem.p[(1+i)%4] && face.p[2]==elem.p[(0+i)%4]) return (3+i)%4;
 	}
-	return -1;
+	return -1;*/
 	
-	/*int i,j,k;
+	int i,j,k;
 
 	// iterate over local faces of the element
 	for(i = 0; i < nnode; i++)
@@ -580,7 +580,7 @@ inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 		if(foundf) return i;
 	}
 
-	return -1;*/
+	return -1;
 }
 
 /// Computes the Delaunay triangulation (tetrahedralization, in this case).
@@ -731,7 +731,7 @@ void Delaunay3d::bowyer_watson()
 			for(int idim = 0; idim < ndim; idim++)
 				//dist += (newpoin.at(idim) - elems.at(curelem).centre[idim]) * (newpoin.at(idim) - elems.at(curelem).centre[idim]);
 				dist += (newpoin[idim]-elems[curelem].centre[idim]) * (newpoin[idim]-elems[curelem].centre[idim]);
-			dist = sqrt(dist);
+			//dist = sqrt(dist);
 
 			#if DEBUGBW==1
 			//if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay3D: Degenerate case (type 2)!!\n";

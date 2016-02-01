@@ -2,7 +2,7 @@ var searchData=
 [
   ['mapinpoelxiaodongtogmsh',['mapinpoelXiaodongToGmsh',['../classacfd_1_1UMesh.html#a064fd94c757b899511c841df1c3c8fe0',1,'acfd::UMesh']]],
   ['matrix',['Matrix',['../classamat_1_1Matrix.html#aa380b82bbcded402cbafaaced7649186',1,'amat::Matrix']]],
-  ['move',['move',['../classacfd_1_1RBFmove.html#a0557799304f86713ed8918977c124599',1,'acfd::RBFmove']]],
+  ['move',['move',['../classacfd_1_1DGmove.html#a060071ab8efb00707feba460fa1698bc',1,'acfd::DGmove::move()'],['../classacfd_1_1RBFmove.html#a0557799304f86713ed8918977c124599',1,'acfd::RBFmove::move()']]],
   ['move_5fstep',['move_step',['../classacfd_1_1RBFmove.html#a73953bb7f598d97183beb93e827b3a77',1,'acfd::RBFmove']]],
   ['movemesh_5fbasicspring',['movemesh_basicspring',['../classacfd_1_1UTriMesh.html#aebb4a92572194c2d7c4d41d82eb11da6',1,'acfd::UTriMesh']]],
   ['mprint',['mprint',['../classamat_1_1Matrix.html#a34926ef1f7155db946970420174d9a99',1,'amat::Matrix']]],

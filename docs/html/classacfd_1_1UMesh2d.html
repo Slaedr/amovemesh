@@ -199,7 +199,12 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>gndtag</b> () const </
 <tr class="memitem:af4050265a862ec7088143dc9b0e5c61e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4050265a862ec7088143dc9b0e5c61e"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>gnbpoin</b> () const </td></tr>
 <tr class="separator:af4050265a862ec7088143dc9b0e5c61e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d5480ff91901433cceae86ced42ef3c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a6d5480ff91901433cceae86ced42ef3c">setcoords</a> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *c)</td></tr>
+<tr class="memitem:ab716bcdfa3222c02aadf974c8bf9ff35"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab716bcdfa3222c02aadf974c8bf9ff35"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>garea</b> () const </td></tr>
+<tr class="separator:ab716bcdfa3222c02aadf974c8bf9ff35"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d5480ff91901433cceae86ced42ef3c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6d5480ff91901433cceae86ced42ef3c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a6d5480ff91901433cceae86ced42ef3c">setcoords</a> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *c)</td></tr>
+<tr class="memdesc:a6d5480ff91901433cceae86ced42ef3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets coords array. Note that a deep copy is performed. <br/></td></tr>
 <tr class="separator:a6d5480ff91901433cceae86ced42ef3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0a1ca056a27419b9326d154b2af75b7a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a1ca056a27419b9326d154b2af75b7a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setinpoel</b> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt; *inp)</td></tr>
@@ -217,16 +222,20 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>modify_bface_marker</
 <tr class="separator:a09e6392727c0a3c153b9caf7202c324b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c19d0f3d7b74df6218e293a4c4d0fbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a7c19d0f3d7b74df6218e293a4c4d0fbd">readYibinMesh</a> (string meshn)</td></tr>
 <tr class="separator:a7c19d0f3d7b74df6218e293a4c4d0fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af210f83d323172fa9868114640b9762e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#af210f83d323172fa9868114640b9762e">compute_boundary_points</a> ()</td></tr>
+<tr class="memitem:af210f83d323172fa9868114640b9762e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af210f83d323172fa9868114640b9762e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#af210f83d323172fa9868114640b9762e">compute_boundary_points</a> ()</td></tr>
+<tr class="memdesc:af210f83d323172fa9868114640b9762e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it. <br/></td></tr>
 <tr class="separator:af210f83d323172fa9868114640b9762e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24601f44a5bd986c3976e2bee6b266d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a24601f44a5bd986c3976e2bee6b266d1">compute_mesh_stats</a> ()</td></tr>
+<tr class="memdesc:a24601f44a5bd986c3976e2bee6b266d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">TODO: Computes various properties of the mesh.  <a href="#a24601f44a5bd986c3976e2bee6b266d1">More...</a><br/></td></tr>
+<tr class="separator:a24601f44a5bd986c3976e2bee6b266d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4dc991614723a543dafe1ad887c2c07"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af4dc991614723a543dafe1ad887c2c07"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>printmeshstats</b> ()</td></tr>
 <tr class="separator:af4dc991614723a543dafe1ad887c2c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93f449ba50caeb22c5f28efa58102ea6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a93f449ba50caeb22c5f28efa58102ea6"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>writeGmsh2</b> (string mfile)</td></tr>
 <tr class="separator:a93f449ba50caeb22c5f28efa58102ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e0d808ba15f28439458adce22f50c09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4e0d808ba15f28439458adce22f50c09"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>compute_jacobians</b> ()</td></tr>
+<tr class="memitem:a4e0d808ba15f28439458adce22f50c09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a4e0d808ba15f28439458adce22f50c09">compute_jacobians</a> ()</td></tr>
 <tr class="separator:a4e0d808ba15f28439458adce22f50c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f8342b04e28c28d967424a9e21424b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f8342b04e28c28d967424a9e21424b0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>detect_negative_jacobians</b> (ofstream &amp;out)</td></tr>
@@ -248,12 +257,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>readBoundaryMapsFromF
 <tr class="separator:ad10b23612708d5b792a5652394c54c11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55dfab17d6a97e112140b5a7b5e2363c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a55dfab17d6a97e112140b5a7b5e2363c">compute_metric_quantities</a> ()</td></tr>
 <tr class="separator:a55dfab17d6a97e112140b5a7b5e2363c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aae46dd577a5c1b5f9c93cd0e707039d8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#aae46dd577a5c1b5f9c93cd0e707039d8">linearmetric_skew</a> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *skew)</td></tr>
+<tr class="memitem:ad75618f1d1dd8757bde97c87b807e2e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#ad75618f1d1dd8757bde97c87b807e2e9">linearmetric_shape</a> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *shape)</td></tr>
+<tr class="memdesc:ad75618f1d1dd8757bde97c87b807e2e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the shape metric for triangles and quadrilaterals.  <a href="#ad75618f1d1dd8757bde97c87b807e2e9">More...</a><br/></td></tr>
+<tr class="separator:ad75618f1d1dd8757bde97c87b807e2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae46dd577a5c1b5f9c93cd0e707039d8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae46dd577a5c1b5f9c93cd0e707039d8"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#aae46dd577a5c1b5f9c93cd0e707039d8">linearmetric_skew</a> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *skew)</td></tr>
+<tr class="memdesc:aae46dd577a5c1b5f9c93cd0e707039d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes skew metric of each element of a quad mesh and stores it in skew. <br/></td></tr>
 <tr class="separator:aae46dd577a5c1b5f9c93cd0e707039d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff8b9dad984e5e66eb348c9a464a9274"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#aff8b9dad984e5e66eb348c9a464a9274">linearmetric_size</a> (double w, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *size)</td></tr>
+<tr class="memitem:aff8b9dad984e5e66eb348c9a464a9274"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff8b9dad984e5e66eb348c9a464a9274"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#aff8b9dad984e5e66eb348c9a464a9274">linearmetric_size</a> (double w, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *size)</td></tr>
+<tr class="memdesc:aff8b9dad984e5e66eb348c9a464a9274"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes size metric of each element of a mesh with respect to reference area w, and stores it in size. <br/></td></tr>
 <tr class="separator:aff8b9dad984e5e66eb348c9a464a9274"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d9ae9a6405fb6d9d541da95721f4ce2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a4d9ae9a6405fb6d9d541da95721f4ce2">linearmetric_skewsize</a> (double w, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *ss)</td></tr>
+<tr class="memitem:a4d9ae9a6405fb6d9d541da95721f4ce2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d9ae9a6405fb6d9d541da95721f4ce2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a4d9ae9a6405fb6d9d541da95721f4ce2">linearmetric_skewsize</a> (double w, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *ss)</td></tr>
+<tr class="memdesc:a4d9ae9a6405fb6d9d541da95721f4ce2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the skew-size metric, which is the product of the skew and size metrics. The reference area needs to be supplied. <br/></td></tr>
 <tr class="separator:a4d9ae9a6405fb6d9d541da95721f4ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af64e82acb65b58f1d4da50e8ca3c11e3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af64e82acb65b58f1d4da50e8ca3c11e3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#af64e82acb65b58f1d4da50e8ca3c11e3">linearmetric_shapesize</a> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *ss)</td></tr>
+<tr class="memdesc:af64e82acb65b58f1d4da50e8ca3c11e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the shape-size metric. Uses total_area for calculating the average area, to use as the reference area. <br/></td></tr>
+<tr class="separator:af64e82acb65b58f1d4da50e8ca3c11e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7aa4a678a26e6d636b7e72c81dd66fba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7aa4a678a26e6d636b7e72c81dd66fba"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>UMesh2d</b> (const <a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> &amp;other)</td></tr>
 <tr class="separator:a7aa4a678a26e6d636b7e72c81dd66fba"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -425,71 +447,61 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ndtag</b></td></tr>
 <tr class="memitem:ab5f4a8df4497d7dc3d0ba13fa7f93d1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5f4a8df4497d7dc3d0ba13fa7f93d1d"></a>
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>intfacbtags</b></td></tr>
 <tr class="separator:ab5f4a8df4497d7dc3d0ba13fa7f93d1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa634c337a48d05497df96f62775e74d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa634c337a48d05497df96f62775e74d3"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>bpoints</b></td></tr>
+<tr class="memitem:aa634c337a48d05497df96f62775e74d3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#aa634c337a48d05497df96f62775e74d3">bpoints</a></td></tr>
 <tr class="separator:aa634c337a48d05497df96f62775e74d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae1b2b07b55a5bbfa80ec30d95844753"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aae1b2b07b55a5bbfa80ec30d95844753"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>bpointsb</b></td></tr>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#aae1b2b07b55a5bbfa80ec30d95844753">bpointsb</a></td></tr>
+<tr class="memdesc:aae1b2b07b55a5bbfa80ec30d95844753"><td class="mdescLeft">&#160;</td><td class="mdescRight">Like bpoints, but stores bface numbers corresponding to each face, rather than intfac faces. <br/></td></tr>
 <tr class="separator:aae1b2b07b55a5bbfa80ec30d95844753"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d98043b8cb3857befe6bdeea77fbb04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d98043b8cb3857befe6bdeea77fbb04"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>bfacebp</b></td></tr>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a8d98043b8cb3857befe6bdeea77fbb04">bfacebp</a></td></tr>
+<tr class="memdesc:a8d98043b8cb3857befe6bdeea77fbb04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores boundary-points numbers (defined by bpointsb) of the two points making up a particular bface. <br/></td></tr>
 <tr class="separator:a8d98043b8cb3857befe6bdeea77fbb04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a512f9ce9687233a8525fdb44a137b63a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a512f9ce9687233a8525fdb44a137b63a"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>bifmap</b></td></tr>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a512f9ce9687233a8525fdb44a137b63a">bifmap</a></td></tr>
+<tr class="memdesc:a512f9ce9687233a8525fdb44a137b63a"><td class="mdescLeft">&#160;</td><td class="mdescRight">relates boundary faces in intfac with bface, ie, bifmap(intfac no.) = bface no. <br/></td></tr>
 <tr class="separator:a512f9ce9687233a8525fdb44a137b63a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0310cd9440fa07a6eb11f8a379cca244"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0310cd9440fa07a6eb11f8a379cca244"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>ifbmap</b></td></tr>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a0310cd9440fa07a6eb11f8a379cca244">ifbmap</a></td></tr>
+<tr class="memdesc:a0310cd9440fa07a6eb11f8a379cca244"><td class="mdescLeft">&#160;</td><td class="mdescRight">relates boundary faces in bface with intfac, ie, ifbmap(bface no.) = intfac no. <br/></td></tr>
 <tr class="separator:a0310cd9440fa07a6eb11f8a379cca244"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae72a6fca993b5ba5988e5ce3e0fc369b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae72a6fca993b5ba5988e5ce3e0fc369b"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>isBoundaryMaps</b></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#ae72a6fca993b5ba5988e5ce3e0fc369b">isBoundaryMaps</a></td></tr>
+<tr class="memdesc:ae72a6fca993b5ba5988e5ce3e0fc369b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies whether bface-intfac maps have been created. <br/></td></tr>
 <tr class="separator:ae72a6fca993b5ba5988e5ce3e0fc369b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68edf3683d3ebbdf8c5e50d664efc09d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68edf3683d3ebbdf8c5e50d664efc09d"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_jacobians</b></td></tr>
 <tr class="separator:a68edf3683d3ebbdf8c5e50d664efc09d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe6680c6cefb2b5b8d7d55373755be59"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe6680c6cefb2b5b8d7d55373755be59"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>jacobians</b></td></tr>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#abe6680c6cefb2b5b8d7d55373755be59">jacobians</a></td></tr>
+<tr class="memdesc:abe6680c6cefb2b5b8d7d55373755be59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains jacobians of each (linear) element. <br/></td></tr>
 <tr class="separator:abe6680c6cefb2b5b8d7d55373755be59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6aaf213002652c2231392aa32e580bdb"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a6aaf213002652c2231392aa32e580bdb">alpha</a></td></tr>
+<tr class="memdesc:a6aaf213002652c2231392aa32e580bdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains Knupp's node-local areas for each node of each element.  <a href="#a6aaf213002652c2231392aa32e580bdb">More...</a><br/></td></tr>
 <tr class="separator:a6aaf213002652c2231392aa32e580bdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae67206059490fec1efbd8ba008312738"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#ae67206059490fec1efbd8ba008312738">lambda</a></td></tr>
+<tr class="memdesc:ae67206059490fec1efbd8ba008312738"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains Knupp's 3 coeffs of metric tensor for each node of each element.  <a href="#ae67206059490fec1efbd8ba008312738">More...</a><br/></td></tr>
 <tr class="separator:ae67206059490fec1efbd8ba008312738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c46fd8d85771b3111101da0abd8bb7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4c46fd8d85771b3111101da0abd8bb7"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>nmtens</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#aa4c46fd8d85771b3111101da0abd8bb7">nmtens</a></td></tr>
+<tr class="memdesc:aa4c46fd8d85771b3111101da0abd8bb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of metric tensors required for each element - 1 for triangles and 4 for quads. <br/></td></tr>
 <tr class="separator:aa4c46fd8d85771b3111101da0abd8bb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2340119fa035fb5c7f17dc8d8d301930"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2340119fa035fb5c7f17dc8d8d301930"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>neleminlambda</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a2340119fa035fb5c7f17dc8d8d301930">neleminlambda</a></td></tr>
+<tr class="memdesc:a2340119fa035fb5c7f17dc8d8d301930"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of coeffs in lambda per element per node. <br/></td></tr>
 <tr class="separator:a2340119fa035fb5c7f17dc8d8d301930"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4c909c906db87db4b88827698350205a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c909c906db87db4b88827698350205a"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td></tr>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a4c909c906db87db4b88827698350205a">alloc_lambda</a></td></tr>
+<tr class="memdesc:a4c909c906db87db4b88827698350205a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains true if alpha and lambda have been allocated. <br/></td></tr>
 <tr class="separator:a4c909c906db87db4b88827698350205a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a162fada36ab61edcad1a711634972b70"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a162fada36ab61edcad1a711634972b70"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2d.html#a162fada36ab61edcad1a711634972b70">total_area</a></td></tr>
+<tr class="memdesc:a162fada36ab61edcad1a711634972b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Total area of the meshed domain. <br/></td></tr>
+<tr class="separator:a162fada36ab61edcad1a711634972b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Class <a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> is a general mesh class for unstructured mesh (with 1 kind of element throughout - hybrid mesh is NOT supported) </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="af210f83d323172fa9868114640b9762e"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void acfd::UMesh2d::compute_boundary_points </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it. </p>
-
-</div>
-</div>
 <a class="anchor" id="aafe8f70d6fce7d2b0768c41dab41ad1b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -511,6 +523,61 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td>
 </table>
 </div><div class="memdoc">
 <p>Populate intfacbtags with boundary markers of corresponding bfaces </p>
+
+</div>
+</div>
+<a class="anchor" id="a4e0d808ba15f28439458adce22f50c09"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void acfd::UMesh2d::compute_jacobians </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Computes element jacobians. </p>
+<dl class="section note"><dt>Note</dt><dd>Does not work for quads!! </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a24601f44a5bd986c3976e2bee6b266d1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void acfd::UMesh2d::compute_mesh_stats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>TODO: Computes various properties of the mesh. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd><ol type="1">
+<li>largest and smallest aspect ratio of cells</li>
+<li>distance of nearest mesh point from a boundary point (perhaps average of this for all boundary points? </li>
+</ol>
+</dd></dl>
 
 </div>
 </div>
@@ -630,7 +697,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td>
 
 </div>
 </div>
-<a class="anchor" id="aff8b9dad984e5e66eb348c9a464a9274"></a>
+<a class="anchor" id="ad75618f1d1dd8757bde97c87b807e2e9"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -638,21 +705,11 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void acfd::UMesh2d::linearmetric_size </td>
+          <td class="memname">void acfd::UMesh2d::linearmetric_shape </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>w</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
           <td class="paramtype"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *&#160;</td>
-          <td class="paramname"><em>size</em>&#160;</td>
-        </tr>
-        <tr>
+          <td class="paramname"><em>shape</em></td><td>)</td>
           <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -661,67 +718,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Computes size metric of each element of a mesh with respect to reference area w, and stores it in size. </p>
 
-</div>
-</div>
-<a class="anchor" id="aae46dd577a5c1b5f9c93cd0e707039d8"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void acfd::UMesh2d::linearmetric_skew </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *&#160;</td>
-          <td class="paramname"><em>skew</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Computes skew metric of each element of a quad mesh and stores it in skew. </p>
-
-</div>
-</div>
-<a class="anchor" id="a4d9ae9a6405fb6d9d541da95721f4ce2"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void acfd::UMesh2d::linearmetric_skewsize </td>
-          <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>w</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *&#160;</td>
-          <td class="paramname"><em>ss</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Computes the skew-size metric, which is the product of the skew and size metrics. </p>
+<p>Computes the shape metric for triangles and quadrilaterals. </p>
+<p>This metric depends on both the ratio of sides of the element and on angles formed by the sides of the element. For triangles, this is as good as a skew metric, as the element angles cannot change without changing the ratio of the lengths of the sides. For quads, this metric depends both on the aspect ratio of the sides and element angles, unlike the skew metric that depends only on angles. </p>
 
 </div>
 </div>
@@ -813,31 +812,6 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td>
 
 </div>
 </div>
-<a class="anchor" id="a6d5480ff91901433cceae86ced42ef3c"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void acfd::UMesh2d::setcoords </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>Functions to set some mesh data structures. </p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a class="anchor" id="a6aaf213002652c2231392aa32e580bdb"></a>
 <div class="memitem">
@@ -856,8 +830,30 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td>
   </tr>
 </table>
 </div><div class="memdoc">
-<pre class="fragment"> Contains Knupp's node-local areas for each node of each element. If the elements are triangles, it contains just 1 value for each element.
-</pre><p> If elements are quads, there are 4 values for each element, one associated with each node. </p>
+
+<p>Contains Knupp's node-local areas for each node of each element. </p>
+<p>If the elements are triangles, it contains just 1 value for each element. If elements are quads, there are 4 values for each element, one associated with each node. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa634c337a48d05497df96f62775e74d3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt;int&gt; acfd::UMesh2d::bpoints</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>bpoints contains: bpoints(0) = global point number, bpoints(1) = first containing intfac face (face with intfac's second point as this point), bpoints(2) = second containing intfac face (face with intfac's first point as this point) </p>
 
 </div>
 </div>
@@ -878,8 +874,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>alloc_lambda</b></td>
   </tr>
 </table>
 </div><div class="memdoc">
-<pre class="fragment"> Contains Knupp's 3 coeffs of metric tensor for each node of each element. In case of triangles, it just contains 3 coeffs for each element.
-</pre><p> In case of quads, we need to store 3 coeffs for each node of each element. </p>
+
+<p>Contains Knupp's 3 coeffs of metric tensor for each node of each element. </p>
+<p>In case of triangles, it just contains 3 coeffs for each element. In case of quads, we need to store 3 coeffs for each node of each element. lambda[*](*,0) is Knupp's lambda_11, lambda[*](*,1) is Knupp's lambda_12 and lambda[*](*,2) is Knupp's lambda_22. </p>
 
 </div>
 </div>

@@ -95,21 +95,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">acfd::LinElastP2 Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class implementing solution of linear elasticity system by P2 Lagrange finite elements.  
+ <a href="classacfd_1_1LinElastP2.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="alinelast__p2__sparse_8hpp_source.html">alinelast_p2_sparse.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for acfd::LinElastP2:</div>
 <div class="dyncontent">
 <div class="center"><img src="classacfd_1_1LinElastP2__coll__graph.png" border="0" usemap="#acfd_1_1LinElastP2_coll__map" alt="Collaboration graph"/></div>
 <map name="acfd_1_1LinElastP2_coll__map" id="acfd_1_1LinElastP2_coll__map">
-<area shape="rect" id="node2" href="classacfd_1_1UMesh2d.html" title="acfd::UMesh2d" alt="" coords="177,252,289,279"/><area shape="rect" id="node4" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="5,5,165,32"/><area shape="rect" id="node6" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="191,5,324,32"/><area shape="rect" id="node9" href="classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="354,252,480,279"/><area shape="rect" id="node11" href="classamat_1_1SparseMatrix.html" title="amat::SparseMatrix" alt="" coords="348,5,487,32"/></map>
+<area shape="rect" id="node2" href="classacfd_1_1UMesh2d.html" title="acfd::UMesh2d" alt="" coords="177,259,289,285"/><area shape="rect" id="node4" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="5,5,165,32"/><area shape="rect" id="node6" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="191,5,324,32"/><area shape="rect" id="node9" href="classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="354,259,480,285"/><area shape="rect" id="node11" href="classamat_1_1SparseMatrix.html" title="amat::SparseMatrix" alt="" coords="348,5,487,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab04c23e02638a977dfb74251c9f95f66"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab04c23e02638a977dfb74251c9f95f66"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>LinElastP2</b> (<a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *mesh, double mu, double lambd)</td></tr>
+<tr class="memitem:ab04c23e02638a977dfb74251c9f95f66"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ab04c23e02638a977dfb74251c9f95f66">LinElastP2</a> (<a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *mesh, double mu, double lambd)</td></tr>
 <tr class="separator:ab04c23e02638a977dfb74251c9f95f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6f577f313fde9a36c9252a946883e8d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6f577f313fde9a36c9252a946883e8d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setup</b> (<a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *mesh, double mu, double lambd)</td></tr>
+<tr class="memitem:ac6f577f313fde9a36c9252a946883e8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ac6f577f313fde9a36c9252a946883e8d">setup</a> (<a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *mesh, double mu, double lambd)</td></tr>
 <tr class="separator:ac6f577f313fde9a36c9252a946883e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6b8078c241e79fca52d72aae6e85096"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6b8078c241e79fca52d72aae6e85096"></a>
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>elementstiffnessK11</b> (int iel)</td></tr>
@@ -133,13 +136,41 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>assembleLoadVector</b
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>loadVector</b> ()</td></tr>
 <tr class="separator:a3a46047813a54e80e0417eb599c6ff11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97d2d32d1c4bce92517c9ad606a070b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">dirichletBC_onAllBface</a> (const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; &amp;bdata, const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt; &amp;bflags)</td></tr>
+<tr class="memdesc:a97d2d32d1c4bce92517c9ad606a070b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies Dirichlet BC on high-order nodes of all boundary faces.  <a href="#a97d2d32d1c4bce92517c9ad606a070b2">More...</a><br/></td></tr>
+<tr class="separator:a97d2d32d1c4bce92517c9ad606a070b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31640e4aecf6be7c596281dc4e7daeb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a31640e4aecf6be7c596281dc4e7daeb8">setup</a> (<a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *mesh, double mu, double lambd, double xch, string stiffscheme)</td></tr>
+<tr class="memdesc:a31640e4aecf6be7c596281dc4e7daeb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets inputs and computes derivatives of basis functions and face-normals.  <a href="#a31640e4aecf6be7c596281dc4e7daeb8">More...</a><br/></td></tr>
+<tr class="separator:a31640e4aecf6be7c596281dc4e7daeb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6b8078c241e79fca52d72aae6e85096"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6b8078c241e79fca52d72aae6e85096"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>elementstiffnessK11</b> (int iel)</td></tr>
+<tr class="separator:aa6b8078c241e79fca52d72aae6e85096"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6b72c5d2f03795a828ef9c235b7f890"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6b72c5d2f03795a828ef9c235b7f890"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>elementstiffnessK22</b> (int iel)</td></tr>
+<tr class="separator:af6b72c5d2f03795a828ef9c235b7f890"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a809db58e0f3d9068c29629ae3cc3da30"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a809db58e0f3d9068c29629ae3cc3da30"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>elementstiffnessK12</b> (int iel)</td></tr>
+<tr class="separator:a809db58e0f3d9068c29629ae3cc3da30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad073cd83206385bcf94eecda2f0ad5fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad073cd83206385bcf94eecda2f0ad5fe"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>assembleStiffnessMatrix</b> ()</td></tr>
+<tr class="separator:ad073cd83206385bcf94eecda2f0ad5fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9bf687d5c29bb43870945b315cd6272"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac9bf687d5c29bb43870945b315cd6272"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>assembleLoadVector</b> ()</td></tr>
+<tr class="separator:ac9bf687d5c29bb43870945b315cd6272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a414373ebd22bb4de1a3555b82ef5f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8a414373ebd22bb4de1a3555b82ef5f8"></a>
+<a class="el" href="classamat_1_1MatrixCOO.html">SpMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><b>stiffnessMatrix</b> ()</td></tr>
+<tr class="separator:a8a414373ebd22bb4de1a3555b82ef5f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a46047813a54e80e0417eb599c6ff11"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a46047813a54e80e0417eb599c6ff11"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>loadVector</b> ()</td></tr>
+<tr class="separator:a3a46047813a54e80e0417eb599c6ff11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97d2d32d1c4bce92517c9ad606a070b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">dirichletBC_onAllBface</a> (const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; &amp;bdata, const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt; &amp;bflags)</td></tr>
+<tr class="memdesc:a97d2d32d1c4bce92517c9ad606a070b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies Dirichlet BC on high-order nodes of all boundary faces.  <a href="#a97d2d32d1c4bce92517c9ad606a070b2">More...</a><br/></td></tr>
 <tr class="separator:a97d2d32d1c4bce92517c9ad606a070b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:a876e8fccd351d9d67e68bc986eca5b0e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a876e8fccd351d9d67e68bc986eca5b0e"></a>
+<tr class="memitem:af0394c2714eb9c3978325297d8ea1e0b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0394c2714eb9c3978325297d8ea1e0b"></a>
 <a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>m</b></td></tr>
-<tr class="separator:a876e8fccd351d9d67e68bc986eca5b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:af0394c2714eb9c3978325297d8ea1e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3dfad0168d2abcb5d34e99da463985d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad3dfad0168d2abcb5d34e99da463985d"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>ngeoel</b></td></tr>
 <tr class="separator:ad3dfad0168d2abcb5d34e99da463985d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -150,34 +181,91 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ngeofa</b></td></tr>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">ndofe</a></td></tr>
 <tr class="memdesc:a4fec90fbbbda051888a2f56ae048fc5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of DOFs per element. <br/></td></tr>
 <tr class="separator:a4fec90fbbbda051888a2f56ae048fc5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a842d212644a1fbf7979c81a30baeb1f2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a842d212644a1fbf7979c81a30baeb1f2"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">geoel</a></td></tr>
-<tr class="memdesc:a842d212644a1fbf7979c81a30baeb1f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">holds 2*area of element, and derivatives of barycentric coordinate functions lambdas <br/></td></tr>
-<tr class="separator:a842d212644a1fbf7979c81a30baeb1f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac89b93ce1ca26c595aa66e7b8e955251"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac89b93ce1ca26c595aa66e7b8e955251"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">geofa</a></td></tr>
-<tr class="memdesc:ac89b93ce1ca26c595aa66e7b8e955251"><td class="mdescLeft">&#160;</td><td class="mdescRight">holds normals to and length of boundary faces <br/></td></tr>
-<tr class="separator:ac89b93ce1ca26c595aa66e7b8e955251"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287c4e5724037941c2ac8ee223b3b9d4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a287c4e5724037941c2ac8ee223b3b9d4"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">geoel</a></td></tr>
+<tr class="memdesc:a287c4e5724037941c2ac8ee223b3b9d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">holds 2*area of element, and derivatives of barycentric coordinate functions lambdas <br/></td></tr>
+<tr class="separator:a287c4e5724037941c2ac8ee223b3b9d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d9a39d033ae32355379de78c089edc"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a64d9a39d033ae32355379de78c089edc"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">geofa</a></td></tr>
+<tr class="memdesc:a64d9a39d033ae32355379de78c089edc"><td class="mdescLeft">&#160;</td><td class="mdescRight">holds normals to and length of boundary faces <br/></td></tr>
+<tr class="separator:a64d9a39d033ae32355379de78c089edc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5fd5246407c87ffa0eba8b5918e49a06"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5fd5246407c87ffa0eba8b5918e49a06"></a>
 <a class="el" href="classamat_1_1MatrixCOO.html">SpMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">K</a></td></tr>
 <tr class="memdesc:a5fd5246407c87ffa0eba8b5918e49a06"><td class="mdescLeft">&#160;</td><td class="mdescRight">global stiffness matrix <br/></td></tr>
 <tr class="separator:a5fd5246407c87ffa0eba8b5918e49a06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad8276ca77d303df9b46d08680c41425"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad8276ca77d303df9b46d08680c41425"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#aad8276ca77d303df9b46d08680c41425">f</a></td></tr>
-<tr class="memdesc:aad8276ca77d303df9b46d08680c41425"><td class="mdescLeft">&#160;</td><td class="mdescRight">global load vector <br/></td></tr>
-<tr class="separator:aad8276ca77d303df9b46d08680c41425"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a562b257ebe00346cdb5fa79766759d4d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a562b257ebe00346cdb5fa79766759d4d"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">muE</a></td></tr>
-<tr class="memdesc:a562b257ebe00346cdb5fa79766759d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">isotropic elasticity constants <br/></td></tr>
+<tr class="memitem:ab691e7c8d5372f8c6b4316ec434f100e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab691e7c8d5372f8c6b4316ec434f100e"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ab691e7c8d5372f8c6b4316ec434f100e">f</a></td></tr>
+<tr class="memdesc:ab691e7c8d5372f8c6b4316ec434f100e"><td class="mdescLeft">&#160;</td><td class="mdescRight">global load vector <br/></td></tr>
+<tr class="separator:ab691e7c8d5372f8c6b4316ec434f100e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a562b257ebe00346cdb5fa79766759d4d"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">muE</a></td></tr>
+<tr class="memdesc:a562b257ebe00346cdb5fa79766759d4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">isotropic elasticity constants  <a href="#a562b257ebe00346cdb5fa79766759d4d">More...</a><br/></td></tr>
 <tr class="separator:a562b257ebe00346cdb5fa79766759d4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3302bea218e86ab6ceecb09ec318d067"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3302bea218e86ab6ceecb09ec318d067"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>lambdaE</b></td></tr>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067">lambdaE</a></td></tr>
+<tr class="memdesc:a3302bea218e86ab6ceecb09ec318d067"><td class="mdescLeft">&#160;</td><td class="mdescRight">isotropic elasticity constant lambda <br/></td></tr>
 <tr class="separator:a3302bea218e86ab6ceecb09ec318d067"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab8e650d1575837d08207fcc50bdb1168"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8e650d1575837d08207fcc50bdb1168"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">cbig</a></td></tr>
 <tr class="memdesc:ab8e650d1575837d08207fcc50bdb1168"><td class="mdescLeft">&#160;</td><td class="mdescRight">for Dirichlet BCs <br/></td></tr>
 <tr class="separator:ab8e650d1575837d08207fcc50bdb1168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08b42d7e9addc9f21f33398c18bbd996"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08b42d7e9addc9f21f33398c18bbd996"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a08b42d7e9addc9f21f33398c18bbd996">stiff</a></td></tr>
+<tr class="memdesc:a08b42d7e9addc9f21f33398c18bbd996"><td class="mdescLeft">&#160;</td><td class="mdescRight">stiffening factor for each element <br/></td></tr>
+<tr class="separator:a08b42d7e9addc9f21f33398c18bbd996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6">j0</a></td></tr>
+<tr class="memdesc:ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">scaling constant for the jacobian-based stiffening <br/></td></tr>
+<tr class="separator:ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaac9639df286200b6cfd4831b177174c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaac9639df286200b6cfd4831b177174c"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#aaac9639df286200b6cfd4831b177174c">chi</a></td></tr>
+<tr class="memdesc:aaac9639df286200b6cfd4831b177174c"><td class="mdescLeft">&#160;</td><td class="mdescRight">exponent for jacobian-based stiffening <br/></td></tr>
+<tr class="separator:aaac9639df286200b6cfd4831b177174c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class implementing solution of linear elasticity system by P2 Lagrange finite elements. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ab04c23e02638a977dfb74251c9f95f66"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">acfd::LinElastP2::LinElastP2 </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *&#160;</td>
+          <td class="paramname"><em>mesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>mu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lambd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets inputs and computes derivatives of basis functions and face-normals </p>
+<dl class="section note"><dt>Note</dt><dd>The computations are only for straight-sided P2 elements! </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a97d2d32d1c4bce92517c9ad606a070b2"></a>
 <div class="memitem">
@@ -210,12 +298,180 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Applies Dirichlet BC on high-order nodes of all boundary faces. bdata is a npoin-by-2 vector, containing x- and y-displacements of all mesh points to be imposed as Dirichlet BCs (zero for interior points). bglags is a npoin x 1 vector that contains 1 for boundary points and 0 for interior points, ie, it's a boundary boolean vector for nodes. IGNORE:extra is a npoin-by-1 vector storing a flag (0 or 1) for each mesh point; if extra(ipoin) == 1, then ipoin is to be kept fixed </p>
+
+<p>Applies Dirichlet BC on high-order nodes of all boundary faces. </p>
+<p>bdata is a npoin-by-2 vector, containing x- and y-displacements of all mesh points to be imposed as Dirichlet BCs (zero for interior points). The first npoin entries are x-displacements. bglags is a npoin x 1 vector that contains 1 for boundary points and 0 for interior points, ie, it's a boundary boolean vector for nodes. IGNORE:extra is a npoin-by-1 vector storing a flag (0 or 1) for each mesh point; if extra(ipoin) == 1, then ipoin is to be kept fixed </p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<a class="anchor" id="a97d2d32d1c4bce92517c9ad606a070b2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void acfd::LinElastP2::dirichletBC_onAllBface </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; &amp;&#160;</td>
+          <td class="paramname"><em>bdata</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>bflags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Applies Dirichlet BC on high-order nodes of all boundary faces. </p>
+<p>bdata is a npoin-by-2 vector, containing x- and y-displacements of all mesh points to be imposed as Dirichlet BCs (zero for interior points). The first npoin entries are x-displacements. bglags is a npoin x 1 vector that contains 1 for boundary points and 0 for interior points, ie, it's a boundary boolean vector for nodes. IGNORE:extra is a npoin-by-1 vector storing a flag (0 or 1) for each mesh point; if extra(ipoin) == 1, then ipoin is to be kept fixed </p>
+
+</div>
+</div>
+<a class="anchor" id="a31640e4aecf6be7c596281dc4e7daeb8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void acfd::LinElastP2::setup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *&#160;</td>
+          <td class="paramname"><em>mesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>mu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lambd</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>xch</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>stiffscheme</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Sets inputs and computes derivatives of basis functions and face-normals. </p>
+<dl class="section note"><dt>Note</dt><dd>The computations are only for straight-sided P2 elements! </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xch</td><td>Exponent to which the stiffening factor is raised in each element stiffness entry. </td></tr>
+    <tr><td class="paramname">stiffscheme</td><td>A string, either 'size', 'shape' or 'shapesize', describing the kind of stiffening to be used. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="ac6f577f313fde9a36c9252a946883e8d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void acfd::LinElastP2::setup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *&#160;</td>
+          <td class="paramname"><em>mesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>mu</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>lambd</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Sets inputs and computes derivatives of basis functions and face-normals </p>
+<dl class="section note"><dt>Note</dt><dd>The computations are only for straight-sided P2 elements! </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a562b257ebe00346cdb5fa79766759d4d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double acfd::LinElastP2::muE</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>isotropic elasticity constants </p>
+<p>isotropic elasticity constant mu </p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="alinelast__p2__sparse_8hpp_source.html">alinelast_p2_sparse.hpp</a></li>
+<li><a class="el" href="alinelast__p2__stiffened_8hpp_source.html">alinelast_p2_stiffened.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

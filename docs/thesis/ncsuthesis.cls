@@ -82,7 +82,6 @@
 \RequirePackage[includefoot,
                 margin=1in,
                 lmargin=1.25in,
-				bmargin=1.04in,
                 footskip=\ncsu@footskip]{geometry}
 
 %% -------------------------------------------------------------------------- %%
@@ -198,7 +197,7 @@
    \singlespacing
    \titlepage
    \chapter*{\abstractname}
-   \noindent \MakeUppercase{\ncsu@authorlast{}, \ncsu@authorfirstmiddle{}}%
+   \MakeUppercase{\ncsu@authorlast{}, \ncsu@authorfirstmiddle{}}%
    \ifthenelse{\boolean{@ncsu@needsperiod}}{\@. }{~}%
     \nohyphens{\nolbreaks{\ncsu@thesistitle}.
    (Under the direction of
@@ -480,11 +479,11 @@
 }
 %% tocloft typesets ToC title, so we must give it our heading formats
 \renewcommand{\cfttoctitlefont}{\hfill\ncsu@headingformat}
-\renewcommand{\cftaftertoctitle}{\hspace*{\fill}}
+\renewcommand{\cftaftertoctitle}{\hfill}
 
 %\renewcommand{\listfigurename}{List of Figures}
 \renewcommand{\listfigurename}{LIST OF FIGURES} %SPB
-\settowidth{\cftfignumwidth}{Figure 00.000}
+\settowidth{\cftfignumwidth}{Figure 00.00}
 
 \renewcommand{\cftfigpresnum}{Figure }
 \newcommand{\thesislistoffigures}{%
@@ -503,7 +502,7 @@
 
 %\renewcommand{\listtablename}{List of Tables} SPB
 \renewcommand{\listtablename}{LIST OF TABLES} %SPB
-\settowidth{\cfttabnumwidth}{Table 00.000}
+\settowidth{\cfttabnumwidth}{Table 00.00}
 \renewcommand{\cfttabpresnum}{Table }
 \newcommand{\thesislistoftables}{%
     \singlespacing%
@@ -605,7 +604,7 @@
 %% -------------------------------------------------------------------------- %%
 %% -------------------------  References ------------------------------------ %%
 %% -------------------------------------------------------------------------- %%
-\renewcommand{\bibname}{REFERENCES}
+\renewcommand{\bibname}{References}
 %% natbib redefines \thebibliography, so we add our own requirements
 %% at \begin{document} time.
 \AtBeginDocument{
@@ -655,9 +654,9 @@
     {
         \ifthenelse{\totvalue{chapter} = 1 }%
         %% number of appendices = 1
-        {\newcommand{\ncsu@appendixheader}{APPENDIX}}
+        {\newcommand{\ncsu@appendixheader}{Appendix}}
         %% number of appendices > 1
-        {\newcommand{\ncsu@appendixheader}{APPENDICES}}
+        {\newcommand{\ncsu@appendixheader}{Appendices}}
     }
     % Appendix title page heading already defined, do nothing
     {}

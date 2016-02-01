@@ -51,7 +51,7 @@ class LinElastP2
 	Matrix<double> geofa;		///< holds normals to and length of boundary faces
 	SpMatrix K;					///< global stiffness matrix
 	Matrix<double> f;			///< global load vector
-	Matrix<double> stiff;		///< stiffening factor for each element
+	Matrix<double>* stiff;		///< stiffening factor for each element
 
 	double muE;					///< isotropic elasticity constant mu
 	double lambdaE;				///< isotropic elasticity constant lambda
@@ -64,9 +64,9 @@ public:
 	/// Sets inputs and computes derivatives of basis functions and face-normals
 	/** \note The computations are only for straight-sided P2 elements!
 	 * \param xch Exponent to which the stiffening factor is raised in each element stiffness entry.
-	 * \param stiffscheme A string, either 'size', 'shape' or 'shapesize', describing the kind of stiffening to be used.
+	 * \param stiffm An array containing the stiffening factor to be used for each element.
 	 */
-	void setup(UMesh2d* mesh, double mu, double lambd, double xch, string stiffscheme)
+	void setup(UMesh2d* mesh, double mu, double lambd, double xch, Matrix<double>* stiffm)
 	{
 		m = mesh;
 		ngeoel = 7;
@@ -77,7 +77,7 @@ public:
 		geofa.setup(m->gnface(), ngeofa, ROWMAJOR);
 		K.setup(m->gndim()*m->gnpoin(), m->gndim()*m->gnpoin());
 		f.setup(m->gndim()*m->gnpoin(),1);
-		stiff.setup(m->gnelem(),1);
+		stiff = stiffm;
 		cbig = 1e30;
 		//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);
 		//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);
@@ -105,34 +105,6 @@ public:
 		
 		// set j0 as the average jacobian
 		j0 /= m->gnelem();
-
-		// stiffening factor
-		if(stiffscheme == "size")
-		{
-			for(int iel = 0; iel < m->gnelem(); iel++)
-				stiff(iel) = pow(j0/geoel.get(iel,0),chi);
-		}
-		else
-		{
-			m->compute_metric_quantities();
-			if(stiffscheme == "shape")
-			{
-				m->linearmetric_shape(&stiff);
-				
-				// if we have zero metric, we're toast
-				for(int iel = 0; iel < m->gnelem(); iel++)
-					if(stiff.get(iel) < ZERO_TOL) stiff(iel) = ZERO_TOL;
-
-				for(int iel = 0; iel < m->gnelem(); iel++)
-					stiff(iel) = pow(1.0/stiff.get(iel),chi);
-			}
-			else if(stiffscheme == "shapesize")
-			{
-				m->linearmetric_shapesize(&stiff);
-				for(int iel = 0; iel < m->gnelem(); iel++)
-					stiff(iel) = pow(1.0/stiff.get(iel),chi);
-			}
-		}
 		
 		for(int i = 0; i < m->gnface(); i++)
 		{
@@ -156,27 +128,27 @@ public:
 			for(int j = 0; j < 3; j++)
 			{
 				if(i==j)
-					K11(i,i) = (coeff*geoel(iel,i+1)*geoel(iel,i+1) + muE*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0)) * stiff.get(iel);	// ai^2 / 2D
+					K11(i,i) = (coeff*geoel(iel,i+1)*geoel(iel,i+1) + muE*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0)) * stiff->get(iel);	// ai^2 / 2D
 				else
-					K11(i,j) = -1.0*(coeff*geoel(iel,i+1)*geoel(iel,j+1) + muE*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0)) * stiff.get(iel);		// (c*ai*aj + mu*bi*bj) / 6D
+					K11(i,j) = -1.0*(coeff*geoel(iel,i+1)*geoel(iel,j+1) + muE*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0)) * stiff->get(iel);		// (c*ai*aj + mu*bi*bj) / 6D
 			}
-		K11(0,3) = (coeff*2*geoel(iel,1)*geoel(iel,2) + muE*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
+		K11(0,3) = (coeff*2*geoel(iel,1)*geoel(iel,2) + muE*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
 		K11(0,4) = 0.0;
-		K11(0,5) = (coeff*2*geoel(iel,1)*geoel(iel,3) + muE*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
-		K11(1,3) = (coeff*2*geoel(iel,2)*geoel(iel,1) + muE*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
-		K11(1,4) = (coeff*2*geoel(iel,2)*geoel(iel,3) + muE*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
+		K11(0,5) = (coeff*2*geoel(iel,1)*geoel(iel,3) + muE*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
+		K11(1,3) = (coeff*2*geoel(iel,2)*geoel(iel,1) + muE*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
+		K11(1,4) = (coeff*2*geoel(iel,2)*geoel(iel,3) + muE*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
 		K11(1,5) = 0.0;
 		K11(2,3) = 0.0;
-		K11(2,4) = (coeff*2*geoel(iel,3)*geoel(iel,2) + muE*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
-		K11(2,5) = (coeff*2*geoel(iel,3)*geoel(iel,1) + muE*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
+		K11(2,4) = (coeff*2*geoel(iel,3)*geoel(iel,2) + muE*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
+		K11(2,5) = (coeff*2*geoel(iel,3)*geoel(iel,1) + muE*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
 
-		K11(3,3) = 4/(3*geoel(iel,0))*( coeff*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + muE*(geoel(iel,5)*geoel(iel,5)+geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) ) * stiff.get(iel);
-		K11(4,4) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + muE*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) ) * stiff.get(iel);
-		K11(5,5) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) ) * stiff.get(iel);
+		K11(3,3) = 4/(3*geoel(iel,0))*( coeff*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + muE*(geoel(iel,5)*geoel(iel,5)+geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) ) * stiff->get(iel);
+		K11(4,4) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + muE*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) ) * stiff->get(iel);
+		K11(5,5) = 4/(3*geoel(iel,0))* ( coeff*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) ) * stiff->get(iel);
 
-		K11(3,4) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + muE*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) ) * stiff.get(iel);
-		K11(3,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) ) * stiff.get(iel);
-		K11(4,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + muE*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) ) * stiff.get(iel);
+		K11(3,4) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + muE*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) ) * stiff->get(iel);
+		K11(3,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + muE*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) ) * stiff->get(iel);
+		K11(4,5) = 2/(3*geoel(iel,0))* ( coeff*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + muE*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) ) * stiff->get(iel);
 
 		//K11 is symmetric
 		for(int i = 0; i < 5; i++)
@@ -194,27 +166,27 @@ public:
 			for(int j = 0; j < 3; j++)
 			{
 				if(i==j)
-					K22(i,i) = (muE*geoel(iel,i+1)*geoel(iel,i+1) + coeff*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0)) * stiff.get(iel);	// ai^2 / 2D
+					K22(i,i) = (muE*geoel(iel,i+1)*geoel(iel,i+1) + coeff*geoel(iel,i+4)*geoel(iel,i+4))/(2*geoel(iel,0)) * stiff->get(iel);	// ai^2 / 2D
 				else
-					K22(i,j) = -1.0*(muE*geoel(iel,i+1)*geoel(iel,j+1) + coeff*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0)) * stiff.get(iel);		// -(mu*ai*aj + c*bi*bj) / 6D
+					K22(i,j) = -1.0*(muE*geoel(iel,i+1)*geoel(iel,j+1) + coeff*geoel(iel,i+4)*geoel(iel,j+4))/(6*geoel(iel,0)) * stiff->get(iel);		// -(mu*ai*aj + c*bi*bj) / 6D
 			}
-		K22(0,3) = (muE*2*geoel(iel,1)*geoel(iel,2) + coeff*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
+		K22(0,3) = (muE*2*geoel(iel,1)*geoel(iel,2) + coeff*2*geoel(iel,4)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
 		K22(0,4) = 0.0;
-		K22(0,5) = (muE*2*geoel(iel,1)*geoel(iel,3) + coeff*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
-		K22(1,3) = (muE*2*geoel(iel,2)*geoel(iel,1) + coeff*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
-		K22(1,4) = (muE*2*geoel(iel,2)*geoel(iel,3) + coeff*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
+		K22(0,5) = (muE*2*geoel(iel,1)*geoel(iel,3) + coeff*2*geoel(iel,4)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
+		K22(1,3) = (muE*2*geoel(iel,2)*geoel(iel,1) + coeff*2*geoel(iel,5)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
+		K22(1,4) = (muE*2*geoel(iel,2)*geoel(iel,3) + coeff*2*geoel(iel,5)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
 		K22(1,5) = 0.0;
 		K22(2,3) = 0.0;
-		K22(2,4) = (muE*2*geoel(iel,3)*geoel(iel,2) + coeff*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
-		K22(2,5) = (muE*2*geoel(iel,3)*geoel(iel,1) + coeff*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
+		K22(2,4) = (muE*2*geoel(iel,3)*geoel(iel,2) + coeff*2*geoel(iel,6)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
+		K22(2,5) = (muE*2*geoel(iel,3)*geoel(iel,1) + coeff*2*geoel(iel,6)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
 
-		K22(3,3) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + coeff*(geoel(iel,5)*geoel(iel,5) + geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) ) * stiff.get(iel);
-		K22(4,4) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + coeff*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) ) * stiff.get(iel);
-		K22(5,5) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) ) * stiff.get(iel);
+		K22(3,3) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,2) + geoel(iel,1)*geoel(iel,1) + geoel(iel,2)*geoel(iel,1)) + coeff*(geoel(iel,5)*geoel(iel,5) + geoel(iel,4)*geoel(iel,4) + geoel(iel,5)*geoel(iel,4)) ) * stiff->get(iel);
+		K22(4,4) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + geoel(iel,3)*geoel(iel,2)) + coeff*(geoel(iel,6)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + geoel(iel,6)*geoel(iel,5)) ) * stiff->get(iel);
+		K22(5,5) = 4/(3*geoel(iel,0))* ( muE*(geoel(iel,1)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,4)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + geoel(iel,4)*geoel(iel,6)) ) * stiff->get(iel);
 
-		K22(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + coeff*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) ) * stiff.get(iel);
-		K22(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) ) * stiff.get(iel);
-		K22(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + coeff*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) ) * stiff.get(iel);
+		K22(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,3) + geoel(iel,2)*geoel(iel,2) + 2*geoel(iel,1)*geoel(iel,3) + geoel(iel,1)*geoel(iel,2)) + coeff*(geoel(iel,5)*geoel(iel,6) + geoel(iel,5)*geoel(iel,5) + 2*geoel(iel,4)*geoel(iel,6) + geoel(iel,4)*geoel(iel,5)) ) * stiff->get(iel);
+		K22(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,2)*geoel(iel,1) + 2*geoel(iel,2)*geoel(iel,3) + geoel(iel,1)*geoel(iel,1) + geoel(iel,1)*geoel(iel,3)) + coeff*(geoel(iel,5)*geoel(iel,4) + 2*geoel(iel,5)*geoel(iel,6) + geoel(iel,4)*geoel(iel,4) + geoel(iel,4)*geoel(iel,6)) ) * stiff->get(iel);
+		K22(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,3)*geoel(iel,1) + geoel(iel,3)*geoel(iel,3) + 2*geoel(iel,2)*geoel(iel,1) + geoel(iel,2)*geoel(iel,3)) + coeff*(geoel(iel,6)*geoel(iel,4) + geoel(iel,6)*geoel(iel,6) + 2*geoel(iel,5)*geoel(iel,4) + geoel(iel,5)*geoel(iel,6)) ) * stiff->get(iel);
 
 		//K22 is symmetric
 		for(int i = 0; i < 5; i++)
@@ -231,43 +203,43 @@ public:
 			for(int j = 0; j < 3; j++)
 			{
 				if(i==j)
-					K12(i,i) = (lambdaE*geoel(iel,i+1)*geoel(iel,i+4) + muE*geoel(iel,i+1)*geoel(iel,i+4))/(2*geoel(iel,0)) * stiff.get(iel);	// ai^2 / 2D
+					K12(i,i) = (lambdaE*geoel(iel,i+1)*geoel(iel,i+4) + muE*geoel(iel,i+1)*geoel(iel,i+4))/(2*geoel(iel,0)) * stiff->get(iel);	// ai^2 / 2D
 				else
-					K12(i,j) = -1.0*(lambdaE*geoel(iel,i+4)*geoel(iel,j+1) + muE*geoel(iel,i+1)*geoel(iel,j+4))/(6*geoel(iel,0)) * stiff.get(iel);		// -(c*bi*aj + mu*ai*bj) / 6D
+					K12(i,j) = -1.0*(lambdaE*geoel(iel,i+4)*geoel(iel,j+1) + muE*geoel(iel,i+1)*geoel(iel,j+4))/(6*geoel(iel,0)) * stiff->get(iel);		// -(c*bi*aj + mu*ai*bj) / 6D
 			}
 
-		K12(0,3) = (muE*2*geoel(iel,4)*geoel(iel,2) + lambdaE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
+		K12(0,3) = (muE*2*geoel(iel,4)*geoel(iel,2) + lambdaE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
 		K12(0,4) = 0.0;
-		K12(0,5) = (muE*2*geoel(iel,4)*geoel(iel,3) + lambdaE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
-		K12(1,3) = (muE*2*geoel(iel,5)*geoel(iel,1) + lambdaE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
-		K12(1,4) = (muE*2*geoel(iel,5)*geoel(iel,3) + lambdaE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
+		K12(0,5) = (muE*2*geoel(iel,4)*geoel(iel,3) + lambdaE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
+		K12(1,3) = (muE*2*geoel(iel,5)*geoel(iel,1) + lambdaE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
+		K12(1,4) = (muE*2*geoel(iel,5)*geoel(iel,3) + lambdaE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
 		K12(1,5) = 0.0;
 		K12(2,3) = 0.0;
-		K12(2,4) = (muE*2*geoel(iel,6)*geoel(iel,2) + lambdaE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
-		K12(2,5) = (muE*2*geoel(iel,6)*geoel(iel,1) + lambdaE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
+		K12(2,4) = (muE*2*geoel(iel,6)*geoel(iel,2) + lambdaE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
+		K12(2,5) = (muE*2*geoel(iel,6)*geoel(iel,1) + lambdaE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
 
-		K12(3,3) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) + lambdaE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) ) * stiff.get(iel);
-		K12(4,4) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) + lambdaE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) ) * stiff.get(iel);
-		K12(5,5) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) + lambdaE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) ) * stiff.get(iel);
+		K12(3,3) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) + lambdaE*(2*geoel(iel,2)*geoel(iel,5) + geoel(iel,2)*geoel(iel,4) + geoel(iel,1)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,4)) ) * stiff->get(iel);
+		K12(4,4) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) + lambdaE*(2*geoel(iel,3)*geoel(iel,6) + geoel(iel,3)*geoel(iel,5) + geoel(iel,2)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,5)) ) * stiff->get(iel);
+		K12(5,5) = 2/(3*geoel(iel,0))* ( muE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) + lambdaE*(2*geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6) + geoel(iel,3)*geoel(iel,4) + 2*geoel(iel,3)*geoel(iel,6)) ) * stiff->get(iel);
 
-		K12(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + lambdaE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) ) * stiff.get(iel);
-		K12(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + lambdaE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) ) * stiff.get(iel);
-		K12(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + lambdaE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) ) * stiff.get(iel);
+		K12(3,4) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + lambdaE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) ) * stiff->get(iel);
+		K12(3,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + lambdaE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) ) * stiff->get(iel);
+		K12(4,5) = 2/(3*geoel(iel,0))* ( muE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + lambdaE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) ) * stiff->get(iel);
 
 		// K12 is not symmetric
-		K12(3,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,2) + muE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
+		K12(3,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,2) + muE*2*geoel(iel,1)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
 		K12(4,0) = 0.0;
-		K12(5,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,3) + muE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
-		K12(3,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,1) + muE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
-		K12(4,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,3) + muE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0)) * stiff.get(iel);
+		K12(5,0) = (lambdaE*2*geoel(iel,4)*geoel(iel,3) + muE*2*geoel(iel,1)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
+		K12(3,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,1) + muE*2*geoel(iel,2)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
+		K12(4,1) = (lambdaE*2*geoel(iel,5)*geoel(iel,3) + muE*2*geoel(iel,2)*geoel(iel,6))/(3*geoel(iel,0)) * stiff->get(iel);
 		K12(5,1) = 0.0;
 		K12(3,2) = 0.0;
-		K12(4,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,2) + muE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0)) * stiff.get(iel);
-		K12(5,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,1) + muE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0)) * stiff.get(iel);
+		K12(4,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,2) + muE*2*geoel(iel,3)*geoel(iel,5))/(3*geoel(iel,0)) * stiff->get(iel);
+		K12(5,2) = (lambdaE*2*geoel(iel,6)*geoel(iel,1) + muE*2*geoel(iel,3)*geoel(iel,4))/(3*geoel(iel,0)) * stiff->get(iel);
 
-		K12(4,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + muE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) ) * stiff.get(iel);
-		K12(5,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + muE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) ) * stiff.get(iel);
-		K12(5,4) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + muE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) ) * stiff.get(iel);
+		K12(4,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,3) + geoel(iel,5)*geoel(iel,2) + 2*geoel(iel,4)*geoel(iel,3) + geoel(iel,4)*geoel(iel,2)) + muE*(geoel(iel,2)*geoel(iel,6) + geoel(iel,2)*geoel(iel,5) + 2*geoel(iel,1)*geoel(iel,6) + geoel(iel,1)*geoel(iel,5)) ) * stiff->get(iel);
+		K12(5,3) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,5)*geoel(iel,1) + 2*geoel(iel,5)*geoel(iel,3) + geoel(iel,4)*geoel(iel,1) + geoel(iel,4)*geoel(iel,3)) + muE*(geoel(iel,2)*geoel(iel,4) + 2*geoel(iel,2)*geoel(iel,6) + geoel(iel,1)*geoel(iel,4) + geoel(iel,1)*geoel(iel,6)) ) * stiff->get(iel);
+		K12(5,4) = 2/(3*geoel(iel,0))* ( lambdaE*(geoel(iel,6)*geoel(iel,1) + geoel(iel,6)*geoel(iel,3) + 2*geoel(iel,5)*geoel(iel,1) + geoel(iel,5)*geoel(iel,3)) + muE*(geoel(iel,3)*geoel(iel,4) + geoel(iel,3)*geoel(iel,6) + 2*geoel(iel,2)*geoel(iel,4) + geoel(iel,2)*geoel(iel,6)) ) * stiff->get(iel);
 
 		return K12;
 	}

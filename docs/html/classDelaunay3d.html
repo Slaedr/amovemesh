@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="classDelaunay3d-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -93,7 +94,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>A class for Delaunay tetrahedralization of a given set of points based loosely on Bowyer-Watson algorithm.  
+<p>A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm.  
  <a href="classDelaunay3d.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="abowyerwatson3d_8hpp_source.html">abowyerwatson3d.hpp</a>&gt;</code></p>
@@ -119,6 +120,78 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af28bf31d5febf051c9a2d1a6c421b090"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af28bf31d5febf051c9a2d1a6c421b090"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>setup</b> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *_points, int num_points)</td></tr>
 <tr class="separator:af28bf31d5febf051c9a2d1a6c421b090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e5372b14b21c65de51388d2551d7f68"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9e5372b14b21c65de51388d2551d7f68"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a9e5372b14b21c65de51388d2551d7f68">l2norm</a> (const vector&lt; double &gt; &amp;a) const </td></tr>
+<tr class="memdesc:a9e5372b14b21c65de51388d2551d7f68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <img class="formulaInl" alt="$ l^2 $" src="form_2.png"/> norm of a vector. <br/></td></tr>
+<tr class="separator:a9e5372b14b21c65de51388d2551d7f68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af87e9ce75e735e325bfde3c6df5b91a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af87e9ce75e735e325bfde3c6df5b91a3"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#af87e9ce75e735e325bfde3c6df5b91a3">dot</a> (const vector&lt; double &gt; &amp;a, const vector&lt; double &gt; &amp;b) const </td></tr>
+<tr class="memdesc:af87e9ce75e735e325bfde3c6df5b91a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the dot product of two vectors. <br/></td></tr>
+<tr class="separator:af87e9ce75e735e325bfde3c6df5b91a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a757ff79c60a75b78b7441c585252cc0a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a757ff79c60a75b78b7441c585252cc0a">det4</a> (int ielem, int i, const vector&lt; double &gt; &amp;r) const </td></tr>
+<tr class="memdesc:a757ff79c60a75b78b7441c585252cc0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the jacobian of a tet formed from a point and a face of a tetrahedron.  <a href="#a757ff79c60a75b78b7441c585252cc0a">More...</a><br/></td></tr>
+<tr class="separator:a757ff79c60a75b78b7441c585252cc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a096cf0a463d63b968018a2c22f9f99cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a096cf0a463d63b968018a2c22f9f99cb"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a096cf0a463d63b968018a2c22f9f99cb">compute_jacobian</a> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
+<tr class="memdesc:a096cf0a463d63b968018a2c22f9f99cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes 6*volume, ie the Jacobian of any tetrahedron. <br/></td></tr>
+<tr class="separator:a096cf0a463d63b968018a2c22f9f99cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0c09e767b2fff2d909a80b37bb57ca4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0c09e767b2fff2d909a80b37bb57ca4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#af0c09e767b2fff2d909a80b37bb57ca4">cross_product3</a> (vector&lt; double &gt; &amp;c, const vector&lt; double &gt; &amp;a, const vector&lt; double &gt; &amp;b) const </td></tr>
+<tr class="memdesc:af0c09e767b2fff2d909a80b37bb57ca4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes cross product c of two 3-vectors a and b; c = a x b. <br/></td></tr>
+<tr class="separator:af0c09e767b2fff2d909a80b37bb57ca4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29fcc2ab4187bcdee2a9b0481cfee87b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a29fcc2ab4187bcdee2a9b0481cfee87b">compute_circumsphere</a> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
+<tr class="memdesc:a29fcc2ab4187bcdee2a9b0481cfee87b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes circumcentre and circumradius of a tet.  <a href="#a29fcc2ab4187bcdee2a9b0481cfee87b">More...</a><br/></td></tr>
+<tr class="separator:a29fcc2ab4187bcdee2a9b0481cfee87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d13cd646601a900cc3340e40a349e2e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d13cd646601a900cc3340e40a349e2e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>compute_circumsphere_contra</b> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
+<tr class="separator:a7d13cd646601a900cc3340e40a349e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c231a91c2ecf486f41c65ff7e6dd8c7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c231a91c2ecf486f41c65ff7e6dd8c7"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a2c231a91c2ecf486f41c65ff7e6dd8c7">tetvol</a> (const vector&lt; double &gt; &amp;a, const vector&lt; double &gt; &amp;b, const vector&lt; double &gt; &amp;c, const vector&lt; double &gt; &amp;d) const </td></tr>
+<tr class="memdesc:a2c231a91c2ecf486f41c65ff7e6dd8c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returs the Jacobian (6 * volume) of a tetrahedron formed by 4 points taken as arguments. <br/></td></tr>
+<tr class="separator:a2c231a91c2ecf486f41c65ff7e6dd8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceecd74eb976c65e5b2fbe6a03e88e1d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#aceecd74eb976c65e5b2fbe6a03e88e1d">find_containing_tet</a> (const vector&lt; double &gt; &amp;r, int startelement) const </td></tr>
+<tr class="memdesc:aceecd74eb976c65e5b2fbe6a03e88e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locates the Delaunay graph (DG) element which contains the input point.  <a href="#aceecd74eb976c65e5b2fbe6a03e88e1d">More...</a><br/></td></tr>
+<tr class="separator:aceecd74eb976c65e5b2fbe6a03e88e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab9796c1c3cf7aafb89fdcb407695923"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#aab9796c1c3cf7aafb89fdcb407695923">check_face_tet</a> (const <a class="el" href="classTet.html">Tet</a> &amp;elem, const <a class="el" href="structFace.html">Face</a> &amp;face) const </td></tr>
+<tr class="memdesc:aab9796c1c3cf7aafb89fdcb407695923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the local face number (number of node opposite to the face) of elem's face that is the same as the second argument.  <a href="#aab9796c1c3cf7aafb89fdcb407695923">More...</a><br/></td></tr>
+<tr class="separator:aab9796c1c3cf7aafb89fdcb407695923"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bee4058767627eccd7b1e400ed69f92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a7bee4058767627eccd7b1e400ed69f92">bowyer_watson</a> ()</td></tr>
+<tr class="memdesc:a7bee4058767627eccd7b1e400ed69f92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Delaunay triangulation (tetrahedralization, in this case).  <a href="#a7bee4058767627eccd7b1e400ed69f92">More...</a><br/></td></tr>
+<tr class="separator:a7bee4058767627eccd7b1e400ed69f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ae73ad17b71066c3c6d2dfd94cf9921"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ae73ad17b71066c3c6d2dfd94cf9921"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a9ae73ad17b71066c3c6d2dfd94cf9921">clear</a> ()</td></tr>
+<tr class="memdesc:a9ae73ad17b71066c3c6d2dfd94cf9921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the <a class="el" href="classDelaunay3d.html" title="A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm...">Delaunay3d</a> object, except for input data. <br/></td></tr>
+<tr class="separator:a9ae73ad17b71066c3c6d2dfd94cf9921"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a568ca3a1c886d869fbb1c1ff07a27f09"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a568ca3a1c886d869fbb1c1ff07a27f09"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a568ca3a1c886d869fbb1c1ff07a27f09">writeGmsh2</a> (string mfile) const </td></tr>
+<tr class="memdesc:a568ca3a1c886d869fbb1c1ff07a27f09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the Delaunay graph to a Gmsh file. <br/></td></tr>
+<tr class="separator:a568ca3a1c886d869fbb1c1ff07a27f09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6557b81e00a71b8990974c0a5ad1a20"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af6557b81e00a71b8990974c0a5ad1a20"></a>
+<a class="el" href="structWalkdata.html">Walkdata</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#af6557b81e00a71b8990974c0a5ad1a20">find_containing_tet_and_barycentric_coords</a> (const vector&lt; double &gt; &amp;rr, int startelement) const </td></tr>
+<tr class="memdesc:af6557b81e00a71b8990974c0a5ad1a20"><td class="mdescLeft">&#160;</td><td class="mdescRight">Finds the DG element containing a given point. <br/></td></tr>
+<tr class="separator:af6557b81e00a71b8990974c0a5ad1a20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4751319429c34ae060834a9942b28f5e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4751319429c34ae060834a9942b28f5e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a4751319429c34ae060834a9942b28f5e">compute_jacobians</a> ()</td></tr>
+<tr class="memdesc:a4751319429c34ae060834a9942b28f5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the jacobian of all elements in the triangulation using cross products. <br/></td></tr>
+<tr class="separator:a4751319429c34ae060834a9942b28f5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2c595128a16dcdc725a8fe10f44fc47"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae2c595128a16dcdc725a8fe10f44fc47"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>detect_negative_jacobians</b> ()</td></tr>
+<tr class="separator:ae2c595128a16dcdc725a8fe10f44fc47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97e151f27eb39a5e379162501278c4f9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97e151f27eb39a5e379162501278c4f9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>write_jacobians</b> (string fname)</td></tr>
+<tr class="separator:a97e151f27eb39a5e379162501278c4f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe712c140487218604eafa7b5699a82b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abe712c140487218604eafa7b5699a82b"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Delaunay3d</b> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *_points, int num_points)</td></tr>
+<tr class="separator:abe712c140487218604eafa7b5699a82b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ba9360ae73bc4be8e1bf10b0bd71e0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a53ba9360ae73bc4be8e1bf10b0bd71e0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Delaunay3d</b> (const <a class="el" href="classDelaunay3d.html">Delaunay3d</a> &amp;other)</td></tr>
+<tr class="separator:a53ba9360ae73bc4be8e1bf10b0bd71e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a258a5b5b60454a9fd3ff884e6fcef000"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a258a5b5b60454a9fd3ff884e6fcef000"></a>
+<a class="el" href="classDelaunay3d.html">Delaunay3d</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classDelaunay3d.html">Delaunay3d</a> &amp;other)</td></tr>
+<tr class="separator:a258a5b5b60454a9fd3ff884e6fcef000"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af28bf31d5febf051c9a2d1a6c421b090"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af28bf31d5febf051c9a2d1a6c421b090"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setup</b> (<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *_points, int num_points)</td></tr>
+<tr class="separator:af28bf31d5febf051c9a2d1a6c421b090"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a66361bf4bb01c8851333d1e37d9a439d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a66361bf4bb01c8851333d1e37d9a439d"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a66361bf4bb01c8851333d1e37d9a439d">l2norm</a> (const vector&lt; double &gt; &amp;a)</td></tr>
 <tr class="memdesc:a66361bf4bb01c8851333d1e37d9a439d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the <img class="formulaInl" alt="$ l^2 $" src="form_2.png"/> norm of a vector. <br/></td></tr>
@@ -127,36 +200,39 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a71612b6b61b2128a699d5c5513879a07">dot</a> (const vector&lt; double &gt; &amp;a, const vector&lt; double &gt; &amp;b)</td></tr>
 <tr class="memdesc:a71612b6b61b2128a699d5c5513879a07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the dot product of two vectors. <br/></td></tr>
 <tr class="separator:a71612b6b61b2128a699d5c5513879a07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a757ff79c60a75b78b7441c585252cc0a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a757ff79c60a75b78b7441c585252cc0a"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a757ff79c60a75b78b7441c585252cc0a">det4</a> (int ielem, int i, const vector&lt; double &gt; &amp;r) const </td></tr>
+<tr class="memdesc:a757ff79c60a75b78b7441c585252cc0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the jacobian of a tet formed from a point and a face of a tetrahedron. <br/></td></tr>
+<tr class="separator:a757ff79c60a75b78b7441c585252cc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a096cf0a463d63b968018a2c22f9f99cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a096cf0a463d63b968018a2c22f9f99cb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a096cf0a463d63b968018a2c22f9f99cb">compute_jacobian</a> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
-<tr class="memdesc:a096cf0a463d63b968018a2c22f9f99cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes 6*volume, ie the Jacobian of any tetrahedron. <br/></td></tr>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>compute_jacobian</b> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
 <tr class="separator:a096cf0a463d63b968018a2c22f9f99cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70437b8f7fe094a42b1383c12dff999c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a70437b8f7fe094a42b1383c12dff999c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a70437b8f7fe094a42b1383c12dff999c">cross_product3</a> (vector&lt; double &gt; &amp;c, const vector&lt; double &gt; &amp;a, const vector&lt; double &gt; &amp;b)</td></tr>
 <tr class="memdesc:a70437b8f7fe094a42b1383c12dff999c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes cross product c of two 3-vectors a and b. <br/></td></tr>
 <tr class="separator:a70437b8f7fe094a42b1383c12dff999c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29fcc2ab4187bcdee2a9b0481cfee87b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a29fcc2ab4187bcdee2a9b0481cfee87b">compute_circumsphere</a> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
-<tr class="memdesc:a29fcc2ab4187bcdee2a9b0481cfee87b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes circumcentre and circumradius of a <a class="el" href="classTet.html">tetrahedron</a>.  <a href="#a29fcc2ab4187bcdee2a9b0481cfee87b">More...</a><br/></td></tr>
+<tr class="memitem:a29fcc2ab4187bcdee2a9b0481cfee87b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29fcc2ab4187bcdee2a9b0481cfee87b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>compute_circumsphere</b> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
 <tr class="separator:a29fcc2ab4187bcdee2a9b0481cfee87b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2009db3ee30a8a49e8220af8d4cd3592"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a2009db3ee30a8a49e8220af8d4cd3592">compute_circumsphere2</a> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
-<tr class="memdesc:a2009db3ee30a8a49e8220af8d4cd3592"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes circumcentre and circumradius of a <a class="el" href="classTet.html">tetrahedron</a>.  <a href="#a2009db3ee30a8a49e8220af8d4cd3592">More...</a><br/></td></tr>
-<tr class="separator:a2009db3ee30a8a49e8220af8d4cd3592"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a757ff79c60a75b78b7441c585252cc0a"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a757ff79c60a75b78b7441c585252cc0a">det4</a> (int ielem, int i, const vector&lt; double &gt; &amp;r) const </td></tr>
-<tr class="memdesc:a757ff79c60a75b78b7441c585252cc0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the jacobian of a tet formed from a point and a face of a tetrahedron.  <a href="#a757ff79c60a75b78b7441c585252cc0a">More...</a><br/></td></tr>
-<tr class="separator:a757ff79c60a75b78b7441c585252cc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aceecd74eb976c65e5b2fbe6a03e88e1d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#aceecd74eb976c65e5b2fbe6a03e88e1d">find_containing_tet</a> (const vector&lt; double &gt; &amp;r, int startelement) const </td></tr>
-<tr class="memdesc:aceecd74eb976c65e5b2fbe6a03e88e1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Locates the Delaunay graph (DG) element which contains the input point.  <a href="#aceecd74eb976c65e5b2fbe6a03e88e1d">More...</a><br/></td></tr>
+<tr class="memitem:a7d13cd646601a900cc3340e40a349e2e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7d13cd646601a900cc3340e40a349e2e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>compute_circumsphere_contra</b> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
+<tr class="separator:a7d13cd646601a900cc3340e40a349e2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c231a91c2ecf486f41c65ff7e6dd8c7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c231a91c2ecf486f41c65ff7e6dd8c7"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a2c231a91c2ecf486f41c65ff7e6dd8c7">tetvol</a> (const vector&lt; double &gt; &amp;a, const vector&lt; double &gt; &amp;b, const vector&lt; double &gt; &amp;c, const vector&lt; double &gt; &amp;d) const </td></tr>
+<tr class="memdesc:a2c231a91c2ecf486f41c65ff7e6dd8c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returs the Jacobian (6 * volume) of a tetrahedron formed by 4 points taken as arguments. <br/></td></tr>
+<tr class="separator:a2c231a91c2ecf486f41c65ff7e6dd8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceecd74eb976c65e5b2fbe6a03e88e1d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aceecd74eb976c65e5b2fbe6a03e88e1d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>find_containing_tet</b> (const vector&lt; double &gt; &amp;r, int startelement) const </td></tr>
 <tr class="separator:aceecd74eb976c65e5b2fbe6a03e88e1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aab9796c1c3cf7aafb89fdcb407695923"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#aab9796c1c3cf7aafb89fdcb407695923">check_face_tet</a> (const <a class="el" href="classTet.html">Tet</a> &amp;elem, const <a class="el" href="structFace.html">Face</a> &amp;face) const </td></tr>
-<tr class="memdesc:aab9796c1c3cf7aafb89fdcb407695923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the local face number (number of node opposite to the face) of elem's face that is the same as the second argument.  <a href="#aab9796c1c3cf7aafb89fdcb407695923">More...</a><br/></td></tr>
+<tr class="memitem:aab9796c1c3cf7aafb89fdcb407695923"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab9796c1c3cf7aafb89fdcb407695923"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>check_face_tet</b> (const <a class="el" href="classTet.html">Tet</a> &amp;elem, const <a class="el" href="structFace.html">Face</a> &amp;face) const </td></tr>
 <tr class="separator:aab9796c1c3cf7aafb89fdcb407695923"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b400eb3465cefeccc300f497eb0616b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b400eb3465cefeccc300f497eb0616b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>compute_circumcircle</b> (<a class="el" href="classTet.html">Tet</a> &amp;elem)</td></tr>
-<tr class="separator:a1b400eb3465cefeccc300f497eb0616b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7bee4058767627eccd7b1e400ed69f92"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a7bee4058767627eccd7b1e400ed69f92">bowyer_watson</a> ()</td></tr>
-<tr class="memdesc:a7bee4058767627eccd7b1e400ed69f92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the Delaunay triangulation (tetrahedralization, in this case).  <a href="#a7bee4058767627eccd7b1e400ed69f92">More...</a><br/></td></tr>
+<tr class="memitem:a7bee4058767627eccd7b1e400ed69f92"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7bee4058767627eccd7b1e400ed69f92"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>bowyer_watson</b> ()</td></tr>
 <tr class="separator:a7bee4058767627eccd7b1e400ed69f92"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ae73ad17b71066c3c6d2dfd94cf9921"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a9ae73ad17b71066c3c6d2dfd94cf9921">clear</a> ()</td></tr>
+<tr class="memitem:a9ae73ad17b71066c3c6d2dfd94cf9921"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9ae73ad17b71066c3c6d2dfd94cf9921"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a9ae73ad17b71066c3c6d2dfd94cf9921">clear</a> ()</td></tr>
+<tr class="memdesc:a9ae73ad17b71066c3c6d2dfd94cf9921"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the <a class="el" href="classDelaunay3d.html" title="A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm...">Delaunay3d</a> object, except for input data. <br/></td></tr>
 <tr class="separator:a9ae73ad17b71066c3c6d2dfd94cf9921"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cece1786c45c77d43bade6d1f081c6a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8cece1786c45c77d43bade6d1f081c6a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a8cece1786c45c77d43bade6d1f081c6a">writeGmsh2</a> (string mfile)</td></tr>
@@ -175,35 +251,44 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>detect_negative_jacob
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a938f34fc5d7b0ef177092389226b3620"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a938f34fc5d7b0ef177092389226b3620"></a>
+<tr class="memitem:a39ce0802ea64a6b91f7500b5c8c91db8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a39ce0802ea64a6b91f7500b5c8c91db8"></a>
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>points</b></td></tr>
-<tr class="separator:a938f34fc5d7b0ef177092389226b3620"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f767d7975fdd85a5a326999eb04f557"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f767d7975fdd85a5a326999eb04f557"></a>
-std::vector&lt; <a class="el" href="classPoint.html">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a4f767d7975fdd85a5a326999eb04f557">nodes</a></td></tr>
-<tr class="memdesc:a4f767d7975fdd85a5a326999eb04f557"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of nodes in the Delaunay graph. <br/></td></tr>
-<tr class="separator:a4f767d7975fdd85a5a326999eb04f557"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab97f146049daef3d7a79939fa6bdc629"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab97f146049daef3d7a79939fa6bdc629"></a>
-std::vector&lt; <a class="el" href="classTet.html">Tet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#ab97f146049daef3d7a79939fa6bdc629">elems</a></td></tr>
-<tr class="memdesc:ab97f146049daef3d7a79939fa6bdc629"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all elements (<a class="el" href="classTet.html">tetrahedra</a>) in the Delaunay graph. <br/></td></tr>
-<tr class="separator:ab97f146049daef3d7a79939fa6bdc629"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a49a8bff2fcbe3adfbdaacbafc8abf34a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a49a8bff2fcbe3adfbdaacbafc8abf34a"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a49a8bff2fcbe3adfbdaacbafc8abf34a">badelems</a></td></tr>
-<tr class="memdesc:a49a8bff2fcbe3adfbdaacbafc8abf34a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of 'bad elements', that are to be removed while adding a point; its are integers that index members index <a class="el" href="classDelaunay3d.html#ab97f146049daef3d7a79939fa6bdc629">elems</a>. <br/></td></tr>
-<tr class="separator:a49a8bff2fcbe3adfbdaacbafc8abf34a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52099509435e33e359a20e6da2ff9bfa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a52099509435e33e359a20e6da2ff9bfa"></a>
-std::vector&lt; <a class="el" href="structFace.html">Face</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a52099509435e33e359a20e6da2ff9bfa">faces</a></td></tr>
-<tr class="memdesc:a52099509435e33e359a20e6da2ff9bfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all <a class="el" href="structFace.html">faces</a> in the Delaunay graph. <br/></td></tr>
-<tr class="separator:a52099509435e33e359a20e6da2ff9bfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acae7eb79f62b26d6176c0f92e190490f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acae7eb79f62b26d6176c0f92e190490f"></a>
-std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#acae7eb79f62b26d6176c0f92e190490f">voidpoly</a></td></tr>
-<tr class="memdesc:acae7eb79f62b26d6176c0f92e190490f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of faces that bounds the void obtained after removing bad elements while adding a point; its members are integers that index <a class="el" href="classDelaunay3d.html#a52099509435e33e359a20e6da2ff9bfa">faces</a>. <br/></td></tr>
-<tr class="separator:acae7eb79f62b26d6176c0f92e190490f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a612475276e0fa983028c19cb0f22d316"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a612475276e0fa983028c19cb0f22d316"></a>
+<tr class="separator:a39ce0802ea64a6b91f7500b5c8c91db8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1da70ba1af9166f5ac574f6d3b19e9b1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1da70ba1af9166f5ac574f6d3b19e9b1"></a>
+std::vector&lt; <a class="el" href="classPoint.html">Point</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a1da70ba1af9166f5ac574f6d3b19e9b1">nodes</a></td></tr>
+<tr class="memdesc:a1da70ba1af9166f5ac574f6d3b19e9b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of nodes in the Delaunay graph. <br/></td></tr>
+<tr class="separator:a1da70ba1af9166f5ac574f6d3b19e9b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36f4df408209d826aeaadf1c3740406e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36f4df408209d826aeaadf1c3740406e"></a>
+std::vector&lt; <a class="el" href="classTet.html">Tet</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a36f4df408209d826aeaadf1c3740406e">elems</a></td></tr>
+<tr class="memdesc:a36f4df408209d826aeaadf1c3740406e"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all elements (<a class="el" href="classTet.html">tetrahedra</a>) in the Delaunay graph. <br/></td></tr>
+<tr class="separator:a36f4df408209d826aeaadf1c3740406e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7b8a0611c2018eaf7c4ca1d2fe71504"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab7b8a0611c2018eaf7c4ca1d2fe71504"></a>
+std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#ab7b8a0611c2018eaf7c4ca1d2fe71504">badelems</a></td></tr>
+<tr class="memdesc:ab7b8a0611c2018eaf7c4ca1d2fe71504"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of 'bad elements', that are to be removed while adding a point; its are integers that index members index <a class="el" href="classDelaunay3d.html#a36f4df408209d826aeaadf1c3740406e">elems</a>. <br/></td></tr>
+<tr class="separator:ab7b8a0611c2018eaf7c4ca1d2fe71504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb961e7a75291b04c4542a984d8812ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb961e7a75291b04c4542a984d8812ba"></a>
+std::vector&lt; <a class="el" href="structFace.html">Face</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#aeb961e7a75291b04c4542a984d8812ba">faces</a></td></tr>
+<tr class="memdesc:aeb961e7a75291b04c4542a984d8812ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">List of all <a class="el" href="structFace.html">faces</a> in the Delaunay graph. <br/></td></tr>
+<tr class="separator:aeb961e7a75291b04c4542a984d8812ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecc133c027972c6093f625ec0e8242d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aecc133c027972c6093f625ec0e8242d2"></a>
+std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#aecc133c027972c6093f625ec0e8242d2">voidpoly</a></td></tr>
+<tr class="memdesc:aecc133c027972c6093f625ec0e8242d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Collection of faces that bounds the void obtained after removing bad elements while adding a point; its members are integers that index <a class="el" href="classDelaunay3d.html#aeb961e7a75291b04c4542a984d8812ba">faces</a>. <br/></td></tr>
+<tr class="separator:aecc133c027972c6093f625ec0e8242d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb9dbf7d118ebb2e18960ffcc404e54a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adb9dbf7d118ebb2e18960ffcc404e54a"></a>
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>jacobians</b></td></tr>
-<tr class="separator:a612475276e0fa983028c19cb0f22d316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:adb9dbf7d118ebb2e18960ffcc404e54a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4cbd7a4e470643e9e5ab884869eb90e8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4cbd7a4e470643e9e5ab884869eb90e8"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>npoints</b></td></tr>
 <tr class="separator:a4cbd7a4e470643e9e5ab884869eb90e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a06edd1cfe3c10c51f9e7602fb01d4bb0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06edd1cfe3c10c51f9e7602fb01d4bb0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setlpofa</b> ()</td></tr>
+<tr class="separator:a06edd1cfe3c10c51f9e7602fb01d4bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06edd1cfe3c10c51f9e7602fb01d4bb0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a06edd1cfe3c10c51f9e7602fb01d4bb0"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>setlpofa</b> ()</td></tr>
+<tr class="separator:a06edd1cfe3c10c51f9e7602fb01d4bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -222,15 +307,25 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>nnode</b></td></tr>
 <tr class="memitem:a770868df176d38e49dc4bfbc37c3eed8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a770868df176d38e49dc4bfbc37c3eed8"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>ndim</b></td></tr>
 <tr class="separator:a770868df176d38e49dc4bfbc37c3eed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30dfd21231e65035cc3ebae293cd9068"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a30dfd21231e65035cc3ebae293cd9068">lpofa</a></td></tr>
-<tr class="memdesc:a30dfd21231e65035cc3ebae293cd9068"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the face-point relationship of a tetrahedron.  <a href="#a30dfd21231e65035cc3ebae293cd9068">More...</a><br/></td></tr>
-<tr class="separator:a30dfd21231e65035cc3ebae293cd9068"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa12fca6f5f1fef721e11f5e87db8cd5f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa12fca6f5f1fef721e11f5e87db8cd5f"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><b>zero_scale</b></td></tr>
+<tr class="separator:aa12fca6f5f1fef721e11f5e87db8cd5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a136aede2d375d95773f5156ca3307a12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classDelaunay3d.html#a136aede2d375d95773f5156ca3307a12">lpofa</a></td></tr>
+<tr class="memdesc:a136aede2d375d95773f5156ca3307a12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores the face-point relationship of a tetrahedron.  <a href="#a136aede2d375d95773f5156ca3307a12">More...</a><br/></td></tr>
+<tr class="separator:a136aede2d375d95773f5156ca3307a12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A class for Delaunay tetrahedralization of a given set of points based loosely on Bowyer-Watson algorithm. </p>
+<div class="textblock"><p>A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm. </p>
 <p>It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.</p>
-<p>Notes: Currently uses a std::vector to store elements, faces etc. It might be better to use a std::list or std::forward_list instead. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon. </dd></dl>
+<p>Notes: Currently uses a std::vector to store elements, faces etc. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).</dd></dl>
+<p>It might be better to use a std::list or std::forward_list instead. </p>
+<dl class="section note"><dt>Note</dt><dd>A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.</dd></dl>
+<p>It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.</p>
+<p>Notes: Currently uses a std::vector to store elements, faces etc. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>TODO: Change the deletion and insertion of faces and elements such that we're not moving entire lists.</dd></dl>
+<p>It might be better to use a std::list or std::forward_list instead. </p>
+<dl class="section note"><dt>Note</dt><dd>A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon. </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a7bee4058767627eccd7b1e400ed69f92"></a>
 <div class="memitem">
@@ -249,10 +344,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ndim</b></td></tr>
 <p>Make sure 'points' has space for three more points when passing to this sub. 'N' is the actual number of real points. </p>
 <p>First, find the element containing the new point</p>
 <p>Second, search among neighbors for other triangles whose circumcircles contain this point</p>
-<p>Third, store the faces that will be obtained after removal of bad triangles</p>
+<p>Third, we store the faces that will be obtained after removal of bad elements</p>
 <p>Delete faces which are between two bad elements. NOTE: This is one place that is ineffecient because of use of array stacks (std::vectors) as it needs deletion of arbitrary members.</p>
 <p>Fourth, delete bad elements. This is another place where array stacks (vectors) of elems, badelems etc make the program slower.</p>
-<p>Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'. </p>
+<p>Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'.</p>
+<dl class="section note"><dt>Note</dt><dd>Perhaps we should readjust the two elems of each face while deleting elements containing the super nodes. </dd></dl>
 
 </div>
 </div>
@@ -293,22 +389,6 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ndim</b></td></tr>
 
 </div>
 </div>
-<a class="anchor" id="a9ae73ad17b71066c3c6d2dfd94cf9921"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Delaunay3d::clear </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Reset the <a class="el" href="classDelaunay3d.html" title="A class for Delaunay tetrahedralization of a given set of points based loosely on Bowyer-Watson algor...">Delaunay3d</a> object, except for input data </p>
-
-</div>
-</div>
 <a class="anchor" id="a29fcc2ab4187bcdee2a9b0481cfee87b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -323,31 +403,8 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ndim</b></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Computes circumcentre and circumradius of a <a class="el" href="classTet.html">tetrahedron</a>. </p>
-<p>NOTE: The tetrahedron's jacobian (6*volume) should be stored in elem.D beforehand. Reference: Weisstein, Eric W. "Circumsphere." From MathWorld&ndash;A Wolfram Web Resource. <a href="http://mathworld.wolfram.com/Circumsphere.html">http://mathworld.wolfram.com/Circumsphere.html</a> </p>
-
-</div>
-</div>
-<a class="anchor" id="a2009db3ee30a8a49e8220af8d4cd3592"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Delaunay3d::compute_circumsphere2 </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classTet.html">Tet</a> &amp;&#160;</td>
-          <td class="paramname"><em>elem</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Computes circumcentre and circumradius of a <a class="el" href="classTet.html">tetrahedron</a>. </p>
-<p>NOTE: The tetrahedron's jacobian (2*volume) should be stored in [elem.D](&amp;ref D) beforehand. The center and radius of the circumsphere are calculated as follows. The circumcenter is </p>
-<p class="formulaDsp">
-<img class="formulaDsp" alt="\[ \mathbf{O} = \frac{|\mathbf{a}^2(\mathbf{b}\times \mathbf{c}) + \mathbf{b}^2(\mathbf{c}\times \mathbf{a}) + \mathbf{c}^2(\mathbf{a}\times \mathbf{b})|}{12 V} \]" src="form_0.png"/>
-</p>
-<p> and the radius <img class="formulaInl" alt="$ R = |\mathbf{O}|$" src="form_1.png"/>. </p>
+<p>Computes circumcentre and circumradius of a tet. </p>
+<p>Cmoputes circumcentre and circumradius of a tet. </p>
 
 </div>
 </div>
@@ -424,7 +481,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ndim</b></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
-<a class="anchor" id="a30dfd21231e65035cc3ebae293cd9068"></a>
+<a class="anchor" id="a136aede2d375d95773f5156ca3307a12"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -432,7 +489,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ndim</b></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt;int&gt; Delaunay3d::lpofa</td>
+          <td class="memname"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt; Delaunay3d::lpofa</td>
         </tr>
       </table>
   </td>
@@ -447,8 +504,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>ndim</b></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="abowyerwatson3d_8hpp_source.html">abowyerwatson3d.hpp</a></li>
+<li><a class="el" href="abowyerwatson3d__2_8hpp_source.html">abowyerwatson3d_2.hpp</a></li>
+<li><a class="el" href="extra__code_8hpp_source.html">extra_code.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
