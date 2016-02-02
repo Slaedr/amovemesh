@@ -633,7 +633,7 @@ public:
 		bface.zeros();
 		Matrix<int> trav(npoin,1);
 		trav.zeros();
-		int k = 0, l = 0;
+		int k = 0;
 
 		for(int ielem = 0; ielem < nelem; ielem++)
 		{

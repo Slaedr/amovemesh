@@ -142,6 +142,7 @@ public:
 	/// Returs the Jacobian (6 * volume) of a tetrahedron formed by 4 points taken as arguments
 	double tetvol(const vector<double>& a, const vector<double>& b, const vector<double>& c, const vector<double>& d) const;
 	
+	int find_containing_tet_old(const vector<double>& r, int startelement) const;
 	int find_containing_tet(const vector<double>& r, int startelement) const;
 	
 	int check_face_tet(const Tet& elem, const Face& face) const;
@@ -488,7 +489,7 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
  * For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered. 
    If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. If one of these is negative, the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the negative value.
  */
-int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) const
+int Delaunay3d::find_containing_tet_old(const vector<double>& xx, int startelement) const
 {
 	if(xx.size() < ndim) {
 		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
@@ -526,7 +527,52 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 		// if all 4 area-ratios are positive, we've found our element
 		if(found) break;
 	}
-	cout << "Delaunay3D:   Containing tet found as " << ielem << endl;
+	//cout << "Delaunay3D:   Containing tet found as " << ielem << endl;
+	return ielem;
+}
+
+/// Locates the Delaunay graph (DG) element which contains the input point (improved).
+/** \param xx is the point which needs to be located in the DG.
+ * \param startelement is the index of the element from which to start the search.
+ *
+ * For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered.
+ * If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. The minimum of the 4 ratios is found. If the minimum is negative, then the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the minimum value.
+ */
+int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) const
+{
+	if(xx.size() < ndim) {
+		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
+		return -1;
+	}
+	int ielem = startelement;
+	Tet super;
+	double l, minl; int minln;
+	bool found = false;
+	
+	for(int ii = 0; ii < elems.size()+3; ii++)
+	{
+		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; return ielem; }
+		super = elems[ielem];
+		minl = 1.0;
+
+		for(int inode = 0; inode < nnode; inode++)
+		{
+			// get jacobian ratio
+			l = det4(ielem,inode,xx)/super.D;
+			if(minl > l)
+			{
+				minl = l;
+				minln = inode;
+			}
+		}
+
+		if(minl >= 0)
+			break;
+
+		ielem = super.surr[minln];
+	}
+
+	//cout << "Delaunay3D:   Containing tet found as " << ielem << endl;
 	return ielem;
 }
 
@@ -584,13 +630,15 @@ inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 }
 
 /// Computes the Delaunay triangulation (tetrahedralization, in this case).
-/** Make sure 'points' has space for three more points when passing to this sub. 'N' is the actual number of real points.
-*/
+/** We first scale the point set by the largest coordinate magnitudes in each direction, so as to non-dimensionalize it.
+ */
 void Delaunay3d::bowyer_watson()
 {
-	// add super triangle
+	// first, add super triangle
+	
 	//	find minimum and maximum x and y of the point set
-	vector<double> rmin(ndim,0), rmax(ndim,0);
+	//	scalef contains scaling factors for each direction
+	vector<double> rmin(ndim,0), rmax(ndim,0), scalef(ndim);
 	for(int i = 0; i < npoints; i++)
 	{
 		for(int idim = 0; idim < ndim; idim++) 
@@ -605,6 +653,32 @@ void Delaunay3d::bowyer_watson()
 		cout << " " << rmin[idim] << " " << rmax[idim] << endl;
 	cout << "**\n";
 
+	// scale the point coordinates
+	
+	for(int idim = 0; idim < ndim; idim++)
+	{
+		scalef[idim] = (fabs(rmax[idim]) > fabs(rmin[idim])) ? rmax[idim] : rmin[idim];
+	}
+
+	cout << "Scaling factors\n";
+	for(int idim = 0; idim < ndim; idim++)
+		cout << " " << scalef[idim];
+	cout << endl;
+
+	for(int i = 0; i < npoints; i++)
+		for(int idim = 0; idim < ndim; idim++)
+			points(i,idim) /= scalef[idim];
+
+	// now re-compute limits
+	for(int i = 0; i < npoints; i++)
+	{
+		for(int idim = 0; idim < ndim; idim++) 
+		{
+			if(points(i,idim) > rmax[idim]) rmax[idim] = points(i,idim);
+			if(points(i,idim) < rmin[idim]) rmin[idim] = points(i,idim);
+		}
+	}
+
 	// factor by which to scale rdelt, for providing a factor of safety.
 	double factor = 0.5;
 	
@@ -615,7 +689,7 @@ void Delaunay3d::bowyer_watson()
 		rmin[idim] -= rdelt[idim];
 	}
 
-	cout << "Bounds of the extended cuboid are ";
+	cout << "Bounds of the extended cuboid (after scaling) are ";
 	for(int idim = 0; idim < ndim; idim++)
 		cout << " " << rmin[idim] << " " << rmax[idim] << endl;
 	cout << "**\n";
@@ -688,7 +762,7 @@ void Delaunay3d::bowyer_watson()
 	int newpoinnum, contelem;
 	vector<double> newpoin(ndim);
 
-	zero_scale = 10;
+	zero_scale = 1000;
 
 	// iterate through points
 	cout << "Delaunay3d: Starting iteration over points\n";
@@ -1030,17 +1104,11 @@ void Delaunay3d::bowyer_watson()
 	}
 	// remove super faces - not needed
 	cout << "Delaunay3d: Triangulation done.\n";
-	
-	// print surrounding elements
-	/*for(int i = 0; i < elems.size(); i++)
-	{
-		cout << "Element " << i << ": ";
-		for(int j = 0; j < 3; j++)
-		{
-			cout << elems[i].surr[j] << " ";
-		}
-		cout << endl;
-	}*/
+
+	// re-scale points
+	for(int ip = 0; ip < nodes.size(); ip++)
+		for(int idim = 0; idim < ndim; idim++)
+			nodes[ip][idim] *= scalef[idim];
 }
 
 void Delaunay3d::clear()					// reset the Delaunay2D object, except for input data

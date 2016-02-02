@@ -1,9 +1,9 @@
 -input-file
-../input/sd7003.domn
+../input/naca0012-coarse.domn
 -input-format
 domn
 -output-file
-../input/sd7003.msh
+../input/naca0012-coarse.msh
 -output-format
 msh
 

@@ -1,0 +1,5 @@
+-input-file
+../../input/naca0012-coarse-all.points
+-output-file
+../../output/t_naca0012-coarse.msh
+

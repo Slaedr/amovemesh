@@ -247,7 +247,7 @@ public:
 					elems[i*ncols+j] = A[i*ncols+j];
 	}
 
-	T get(int i, int j=0) const
+	T get(const int i, const int j=0) const
 	{
 #ifdef DEBUG
 		if(i>=nrows || j>=ncols) { std::cout << "Matrix: get(): Index beyond array size(s)\n"; return 0; }
@@ -336,7 +336,7 @@ public:
 	}
 
 	/// Getter/setter function for expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141
-	T& operator()(int x, int y=0)
+	T& operator()(const int x, const int y=0)
 	{
 #ifdef DEBUG
 		if(x>=nrows || y>=ncols) { std::cout << "Matrix (): Index beyond array size(s)\n"; return elems[0]; }
