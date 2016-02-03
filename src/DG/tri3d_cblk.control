@@ -1,0 +1,5 @@
+-input-file
+../../input/cblock.points
+-output-file
+../../output/t_cblock.msh
+

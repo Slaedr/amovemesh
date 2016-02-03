@@ -7,3 +7,5 @@ Moving meshes are required in various problems in computational fluid dynamics (
 \item It should be computationally inexpensive. Many applications need very fast mesh movement schemes as they require the mesh to be moved many times during the simulation, sometimes every time step.
 \end{enumerate}
 Some mesh movement schemes that we present here satisfy only one or two of the above criteria. Our aim is to find a scheme that satisfies all three criteria well.
+
+With the rising popularity of high-order computational methods in the aerospace community, robust techniques to obtain a high-order representation of the boundary have become important. One such technique is to produce high-order meshes, otherwise called curvilinear or curved meshes. Another technique in this regard is isogeometric analysis \cite{isogeometric} where CAD data is directly used in analysis. In this work, we deal with curved unstructured mesh generation, using either CAD data if available, or only the linear mesh data.

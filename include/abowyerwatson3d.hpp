@@ -93,6 +93,7 @@ struct Walkdata
 	double areacoords[4];
 };
 
+/// Implements the "Delaunay kernel" for generating the tetrahedral Delaunay tessellation of the convex hull of a set of points.
 class Delaunay3d
 {
 	int cap;
@@ -100,6 +101,10 @@ class Delaunay3d
 	double tol;
 	int nnode;
 	int ndim;
+
+	/// Value used to provide tolerance for the Delaunay criterion.
+	/** This value is multiplied by machine epsilon (approx. 2e-16), and the resulting value is used as a tolerance for the Delaunay criterion in \ref bowyer_watson .
+	 */
 	double zero_scale;
 
 	/// Stores the face-point relationship of a tetrahedron.
@@ -546,10 +551,10 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 	}
 	int ielem = startelement;
 	Tet super;
-	double l, minl; int minln;
+	double l, minl; int minln, ii;
 	bool found = false;
 	
-	for(int ii = 0; ii < elems.size()+3; ii++)
+	for(ii = 0; ii < elems.size()+3; ii++)
 	{
 		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; return ielem; }
 		super = elems[ielem];
@@ -571,6 +576,11 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 
 		ielem = super.surr[minln];
 	}
+
+#if DEBUGBW==1
+	if(ii == elems.size()+3)
+		cout << "Delaunay3d: find_containing_tet(): !! Could not find host element!" << endl;
+#endif
 
 	//cout << "Delaunay3D:   Containing tet found as " << ielem << endl;
 	return ielem;
@@ -657,7 +667,7 @@ void Delaunay3d::bowyer_watson()
 	
 	for(int idim = 0; idim < ndim; idim++)
 	{
-		scalef[idim] = (fabs(rmax[idim]) > fabs(rmin[idim])) ? rmax[idim] : rmin[idim];
+		scalef[idim] = (fabs(rmax[idim]) > fabs(rmin[idim])) ? fabs(rmax[idim]) : fabs(rmin[idim]);
 	}
 
 	cout << "Scaling factors\n";
@@ -762,7 +772,7 @@ void Delaunay3d::bowyer_watson()
 	int newpoinnum, contelem;
 	vector<double> newpoin(ndim);
 
-	zero_scale = 1000;
+	zero_scale = 1e5;
 
 	// iterate through points
 	cout << "Delaunay3d: Starting iteration over points\n";

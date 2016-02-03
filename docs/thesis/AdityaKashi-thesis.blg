@@ -1,0 +1,84 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/TeX Live for SUSE Linux)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: AdityaKashi-thesis.aux
+A level-1 auxiliary file: front.aux
+A level-1 auxiliary file: Chapter-1/Chapter-1.aux
+A level-1 auxiliary file: Chapter-2/Chapter-2.aux
+A level-1 auxiliary file: Chapter-3/Chapter-3.aux
+A level-1 auxiliary file: Chapter-4/ch-results.aux
+A level-1 auxiliary file: Chapter-5/ch-conclusion.aux
+The style file: plain.bst
+A level-1 auxiliary file: Appendix-A/Appendix-A.aux
+Database file #1: AdityaKashi-thesis.bib
+You're missing a field name---line 56 of file AdityaKashi-thesis.bib
+ :     
+ :     %month    = "",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 67 of file AdityaKashi-thesis.bib
+ :     
+ :     %month    = "",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 89 of file AdityaKashi-thesis.bib
+ :     
+ :     %month    = "",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 106 of file AdityaKashi-thesis.bib
+ :     
+ :     %month    = "",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 118 of file AdityaKashi-thesis.bib
+ :     
+ :     %month    = "",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You're missing a field name---line 130 of file AdityaKashi-thesis.bib
+ :     
+ :     %month    = "",
+(Error may have been on previous line)
+I'm skipping whatever remains of this entry
+You've used 17 entries,
+            2118 wiz_defined-function locations,
+            607 strings with 6796 characters,
+and the built_in function-call counts, 5546 in all, are:
+= -- 542
+> -- 247
+< -- 2
++ -- 98
+- -- 80
+* -- 391
+:= -- 938
+add.period$ -- 51
+call.type$ -- 17
+change.case$ -- 89
+chr.to.int$ -- 0
+cite$ -- 17
+duplicate$ -- 198
+empty$ -- 449
+format.name$ -- 80
+if$ -- 1157
+int.to.chr$ -- 0
+int.to.str$ -- 17
+missing$ -- 18
+newline$ -- 88
+num.names$ -- 34
+pop$ -- 82
+preamble$ -- 1
+purify$ -- 74
+quote$ -- 0
+skip$ -- 134
+stack$ -- 0
+substring$ -- 391
+swap$ -- 28
+text.length$ -- 2
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 64
+warning$ -- 0
+while$ -- 52
+width$ -- 19
+write$ -- 186
+(There were 6 error messages)
