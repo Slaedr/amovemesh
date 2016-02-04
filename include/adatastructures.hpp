@@ -11,41 +11,60 @@
 using namespace std;
 
 template <class T>
+/// Iterator for [PList](@ref PList)
+class PListIterator;
+
+template <class T>
 /// Class implementing a stack which is not compressed after arbitrary element deletion. New data can be written to unused entries rather than pushed back.
 /** Uses the std::vector class as the underlying stack implementation.
  */
 class PList
 {
+	/// Actual number of elements in the list
 	int size;
+	/// Number of "empty" spaces
+	int ngaps;
+	/// Contains data and empty spaces
 	vector<T> data;
+	/// Indices of empty spaces
 	vector<int> freed;
+	/// Indices of used elements of data
+	vector<int> used;
+
 public:
+	friend class PListIterator<T>;
+
+	PList()
+	{
+		ngaps = 0;
+		size = 0;
+	}
 	
-	void reserve(int sze)
+	void reserve(const int sze)
 	{
 		data.reserve(sze);
 	}
 	
-	void resize(int sze)
+	void resize(const int sze)
 	{
 		data.resize(sze);
 		size = sze;
 	}
 
 	/// element access
-	T& operator[](int index)
+	T& operator[](const int index)
 	{
 		return data[index];
 	}
 
 	/// getter
-	T at(int index)
+	T at(const int index) const
 	{
 		return data.at(index);
 	}
 
 	/// insert at end of stack
-	void push_back(T dat)
+	void push_back(const T dat)
 	{
 		data.push_back(dat);
 		size++;
@@ -58,38 +77,87 @@ public:
 		size--;
 	}
 	/// delete from arbitrary location in stack
-	void delete_element(int index)
+	void delete_element(const int index)
 	{
 		freed.push_back(index);
+		ngaps++;
 		size--;
 	}
 	
 	/// insert at first free location (as given by freed )
-	void insert_element(T val)
+	void insert_element(const T val)
 	{
 		if(!freed.empty())
 		{
 			data[freed.back()] = val;
 			freed.pop_back();
+			ngaps--;
 		}
 		else
 			data.push_back(val);
 	}
 
-	/// output contents
-	void print()
+	/// Actually remove all deleted members
+	void compress()
 	{
-		for(int i = 0; i < data.size(); i++)
+		int j;
+		for(int i = 0; i < freed.size(); i++)
 		{
-			if(freed.empty()) cout << data[i] << " ";
-			else for(int j = 0; j < freed.size(); j++)
+			data.erase(data.begin()+freed[i]);
+
+			for(j = i+1; j < freed.size(); j++)
+				if(freed[j] > freed[i])
+					freed[j]--;
+		}
+
+		freed.clear();
+	}
+
+	/// output contents
+	void print() const
+	{
+		bool toprint;
+		if(freed.empty()) 
+			for(int i = 0; i < data.size(); i++)
+				cout << data[i] << " ";
+		else
+			for(int i = 0; i < data.size(); i++)
 			{
-				if(i != freed[j])
+				toprint = true;
+				for(int j = 0; j < freed.size(); j++)
+				{
+					if(i == freed[j])
+						toprint = false;
+				}
+				if(toprint)
 					cout << data[i] << " ";
 			}
-		}
 		cout << endl;
 	}
+
+	/// Returns an iterator pointing to the first element
+	PListIterator begin() const
+	{
+		// first look for the first un-freed index
+		int firstpos = 0;
+		for(int i = 0; i < freed.size(); i++)
+			if(freed[i] == firstpos)
+				firstpos++;
+
+		PListIterator itb(*this);
+	}
+};
+
+template class<T>
+/// Iterator for [PList](@ref PList)
+class PListIterator
+{
+	PList<T>& list;
+	int pos;
+
+public:
+	PListIterator(PList<T>& pl, int position) : list(pl), pos(position)
+	{}
 };
 
 template <class T>
@@ -212,24 +280,17 @@ int perm(int start, int end, int n, int off)
 	return cur->data;
 }
 
-/*template <class T>
-class MergeSort
+template <class T>
+/// Node structure for the graph data structure
+struct TNode
 {
-	T** arrs;
-	int length;
-	int num_arr;
-	int nsort;
-public:
-	MergeSort(T** arrays, int length_arrays, int num_arrays, int index_of_sorting_array)
-		: arrs(arrays), length(length_arrays), num_arr(num_arrays), nsort(index_of_sorting_array)
-	{  }
+	T data;
 
-	void merge(T** a, T** b, T** fin, int len)
-	{
-		int i = 0, j = 0;
-	}
+	/// Stores pointers to neighbors
+	TNode** next;
+};
 
-	void mergesort()
-	{
-	}
-};*/
+class AGraph
+{
+	TNode start;
+};

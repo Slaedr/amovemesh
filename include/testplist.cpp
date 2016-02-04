@@ -9,7 +9,11 @@ int main()
 	list.push_back(2.478);
 	cout << list[0] << endl;
 	list[0] = 5.67;
-	cout << list[0] << " " << list[1] << endl;
+	list.push_back(9.99);
+	list.print();
+	cout << "*\n";
+	
+	list.delete_element(1);
 	list.print();
 
 	cout << endl;

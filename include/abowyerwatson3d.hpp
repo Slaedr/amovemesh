@@ -134,7 +134,7 @@ public:
 	double dot(const vector<double>& a, const vector<double>& b) const;
 	
 	/// Computes the jacobian of a tet formed from a point and a face of a tetrahedron.
-	double det4(int ielem, int i, const vector<double>& r) const;
+	double det4(const int ielem, const int i, const vector<double>& r) const;
 	
 	void compute_jacobian(Tet& elem);
 	
@@ -147,8 +147,8 @@ public:
 	/// Returs the Jacobian (6 * volume) of a tetrahedron formed by 4 points taken as arguments
 	double tetvol(const vector<double>& a, const vector<double>& b, const vector<double>& c, const vector<double>& d) const;
 	
-	int find_containing_tet_old(const vector<double>& r, int startelement) const;
-	int find_containing_tet(const vector<double>& r, int startelement) const;
+	int find_containing_tet_old(const vector<double>& r, const int startelement) const;
+	int find_containing_tet(const vector<double>& r, const int startelement) const;
 	
 	int check_face_tet(const Tet& elem, const Face& face) const;
 
@@ -157,17 +157,19 @@ public:
 	void clear();					///< Reset the Delaunay3d object, except for input data
 	
 	/// Writes the Delaunay graph to a Gmsh file.
-	void writeGmsh2(string mfile) const;
+	void writeGmsh2(const string mfile) const;
 	
 	/// Finds the DG element containing a given point.
-	Walkdata find_containing_tet_and_barycentric_coords(const vector<double>& rr, int startelement) const;
+	Walkdata find_containing_tet_and_barycentric_coords(const vector<double>& rr, const int startelement) const;
 	
 	/// Computes the jacobian of all elements in the triangulation using cross products
 	void compute_jacobians();
 	
-	bool detect_negative_jacobians();
+	bool detect_negative_jacobians() const;
 
-	void write_jacobians(string fname);
+	void write_jacobians(const string fname) const;
+
+	void check();
 };
 
 void Delaunay3d::setlpofa()
@@ -469,7 +471,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 ///	Calculates the jacobian of the tetrahedron formed by point r and a face of tetrahedron ielem.
 /** The face is selected by i between 0 and 3. Face i is the face opposite to local node i of the tetrahedron.
 */
-double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
+double Delaunay3d::det4(const int ielem, const int i, const vector<double>& r) const
 {
 	#if DEBUGBW==1
 	if(i > 3) {
@@ -494,7 +496,7 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
  * For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered. 
    If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. If one of these is negative, the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the negative value.
  */
-int Delaunay3d::find_containing_tet_old(const vector<double>& xx, int startelement) const
+int Delaunay3d::find_containing_tet_old(const vector<double>& xx, const int startelement) const
 {
 	if(xx.size() < ndim) {
 		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
@@ -543,7 +545,7 @@ int Delaunay3d::find_containing_tet_old(const vector<double>& xx, int starteleme
  * For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered.
  * If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. The minimum of the 4 ratios is found. If the minimum is negative, then the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the minimum value.
  */
-int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) const
+int Delaunay3d::find_containing_tet(const vector<double>& xx, const int startelement) const
 {
 	if(xx.size() < ndim) {
 		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
@@ -1130,7 +1132,7 @@ void Delaunay3d::clear()					// reset the Delaunay2D object, except for input da
 	voidpoly.clear();
 }
 
-void Delaunay3d::writeGmsh2(string mfile) const
+void Delaunay3d::writeGmsh2(const string mfile) const
 {
 	ofstream outf(mfile);
 
@@ -1153,7 +1155,7 @@ void Delaunay3d::writeGmsh2(string mfile) const
 	outf.close();
 }
 
-Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<double>& xx, int startelement) const
+Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<double>& xx, const int startelement) const
 /* Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
    Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
 {
@@ -1222,7 +1224,7 @@ void Delaunay3d::compute_jacobians()
 	}
 }
 
-void Delaunay3d::write_jacobians(string fname)
+void Delaunay3d::write_jacobians(const string fname) const
 {
 	ofstream fout(fname);
 	for(int i = 0; i < elems.size(); i++)
@@ -1230,7 +1232,7 @@ void Delaunay3d::write_jacobians(string fname)
 	fout.close();
 }
 
-bool Delaunay3d::detect_negative_jacobians()
+bool Delaunay3d::detect_negative_jacobians() const
 {
 	cout << "Delaunay3D: Looking for invalid elements...\n";
 	bool flagj = false;
@@ -1245,4 +1247,27 @@ bool Delaunay3d::detect_negative_jacobians()
 	}
 	if(flagj == true) cout << "Delaunay3D: detect_negative_jacobians(): There exist " << numneg << " element(s) with negative jacobian!!" << endl;
 	return flagj;
+}
+
+/// Carry out checks on the mesh produced
+void Delaunay3d::check()
+{
+	cout << "Delaunay3d: check(): Computing jacobians..." << endl;
+	compute_jacobians();
+	bool bad = detect_negative_jacobians();
+	Matrix<int> ispresent(nodes.size(),1);
+	ispresent.zeros();
+
+	for(int ielem = 0; ielem < elems.size(); ielem++)
+	{
+		for(int j = 0; j < nnode; j++)
+			ispresent(elems[ielem].p[j]) = 1;
+	}
+
+	int totpoints = 0;
+	for(int i = 0; i < nodes.size(); i++)
+		totpoints += ispresent.get(i);
+
+	cout << "Delaunay3d: check(): Initial number of points = " << npoints << endl;
+	cout << "Delaunay3d: check(): Number of points = " << nodes.size() << ", number of points present in elements = " << totpoints << endl;
 }

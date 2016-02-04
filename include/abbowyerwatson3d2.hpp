@@ -1,9 +1,9 @@
-/**
-@file abowyerwatson3d_2.hpp
-@brief This file contains a class that implements the Bowyer-Watson algorithm for Delaunay tesselation in 3D.
-
-@author Aditya Kashi
-@date January 25, 2016
+/** @file abowyerwatson3d2.hpp
+ * @brief This file contains a class that implements the Bowyer-Watson algorithm for Delaunay tesselation in 3D.
+ * @author Aditya Kashi
+ * @date November 3, 2015
+ *
+ * This version uses PList to store face and element lists, instead of using std::vector.
 */
 
 /**
@@ -14,7 +14,7 @@ It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
 
 Notes:
   Currently uses a std::vector to store elements, faces etc. 
-  \todo TODO: Change the deletion and insertion of faces and elements such that we're not moving entire lists.
+  \todo Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
 
   It might be better to use a std::list or std::forward_list instead.
   \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
@@ -37,6 +37,10 @@ Notes:
 #endif
 #ifndef __AMATRIX2_H
 #include <amatrix2.hpp>
+#endif
+
+#ifndef __ADATASTRUCTURES_H
+#include <adatastructures.hpp>
 #endif
 
 #define __ABOWYERWATSON3D_H 1
@@ -93,6 +97,7 @@ struct Walkdata
 	double areacoords[4];
 };
 
+/// Implements the "Delaunay kernel" for generating the tetrahedral Delaunay tessellation of the convex hull of a set of points.
 class Delaunay3d
 {
 	int cap;
@@ -100,6 +105,11 @@ class Delaunay3d
 	double tol;
 	int nnode;
 	int ndim;
+
+	/// Value used to provide tolerance for the Delaunay criterion.
+	/** This value is multiplied by machine epsilon (approx. 2e-16), and the resulting value is used as a tolerance for the Delaunay criterion in \ref bowyer_watson .
+	 */
+	double zero_scale;
 
 	/// Stores the face-point relationship of a tetrahedron.
 	/** Row i contains the local node numbers of the face opposite to node i. The local node numbers are ordered so that the face points outwards. */
@@ -109,9 +119,9 @@ class Delaunay3d
 public:
 	Matrix<double> points;
 	std::vector<Point> nodes;		///< List of nodes in the Delaunay graph.
-	std::vector<Tet> elems;			///< List of all elements ([tetrahedra](@ref Tet)) in the Delaunay graph.
+	PList<Tet> elems;			///< List of all [elements](@ref Tet) in the Delaunay graph.
 	std::vector<int> badelems;		///< Collection of 'bad elements', that are to be removed while adding a point; its are integers that index members index [elems](@ref elems).
-	std::vector<Face> faces;		///< List of all [faces](@ref Face) in the Delaunay graph.
+	PList<Face> faces;		///< List of all [faces](@ref Face) in the Delaunay graph.
 	std::vector<int> voidpoly;		///< Collection of faces that bounds the void obtained after removing bad elements while adding a point; its members are integers that index [faces](@ref faces).
 	Matrix<double> jacobians;
 
@@ -123,16 +133,16 @@ public:
 	Delaunay3d& operator=(const Delaunay3d& other);
 	void setup(Matrix<double>* _points, int num_points);
 	
-	double l2norm(const vector<double>& a);
+	double l2norm(const vector<double>& a) const;
 	
-	double dot(const vector<double>& a, const vector<double>& b);
+	double dot(const vector<double>& a, const vector<double>& b) const;
 	
 	/// Computes the jacobian of a tet formed from a point and a face of a tetrahedron.
-	double det4(int ielem, int i, const vector<double>& r) const;
+	double det4(const int ielem, const int i, const vector<double>& r) const;
 	
 	void compute_jacobian(Tet& elem);
 	
-	void cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b);
+	void cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b) const;
 	
 	void compute_circumsphere(Tet& elem);
 
@@ -141,7 +151,8 @@ public:
 	/// Returs the Jacobian (6 * volume) of a tetrahedron formed by 4 points taken as arguments
 	double tetvol(const vector<double>& a, const vector<double>& b, const vector<double>& c, const vector<double>& d) const;
 	
-	int find_containing_tet(const vector<double>& r, int startelement) const;
+	int find_containing_tet_old(const vector<double>& r, const int startelement) const;
+	int find_containing_tet(const vector<double>& r, const int startelement) const;
 	
 	int check_face_tet(const Tet& elem, const Face& face) const;
 
@@ -150,14 +161,17 @@ public:
 	void clear();					///< Reset the Delaunay3d object, except for input data
 	
 	/// Writes the Delaunay graph to a Gmsh file.
-	void writeGmsh2(string mfile);
+	void writeGmsh2(const string mfile) const;
 	
 	/// Finds the DG element containing a given point.
-	Walkdata find_containing_tet_and_barycentric_coords(const vector<double>& rr, int startelement) const;
+	Walkdata find_containing_tet_and_barycentric_coords(const vector<double>& rr, const int startelement) const;
 	
+	/// Computes the jacobian of all elements in the triangulation using cross products
 	void compute_jacobians();
 	
-	bool detect_negative_jacobians();
+	bool detect_negative_jacobians() const;
+
+	void write_jacobians(const string fname) const;
 };
 
 void Delaunay3d::setlpofa()
@@ -251,12 +265,6 @@ void Delaunay3d::setup(Matrix<double>* _points, int num_points)
 
 double Delaunay3d::tetvol(const vector<double>& a, const vector<double>& b, const vector<double>& c, const vector<double>& d) const
 {
-	/*Matrix<double> vold(ndim,ndim);
-	vold(0,0) = a[0]-b[0]; vold(0,1) = b[0]-c[0]; vold(0,2) = c[0]-d[0];
-	vold(1,0) = a[1]-b[1]; vold(1,1) = b[1]-c[1]; vold(1,2) = c[1]-d[1];
-	vold(2,0) = a[2]-b[2]; vold(2,1) = b[2]-c[2]; vold(2,2) = c[2]-d[2];
-	return determinant(vold);*/
-
 	double x1, y1, z1, x21, y21, z21, x31, y31, z31, x41, y41, z41;
 	x1 = a[0]; y1 = a[1]; z1 = a[2];
 
@@ -278,19 +286,11 @@ double Delaunay3d::tetvol(const vector<double>& a, const vector<double>& b, cons
 /// Computes 6*volume, ie the Jacobian of any tetrahedron.
 void Delaunay3d::compute_jacobian(Tet& elem)
 {	
-	/*double ret;
-	ret = nodes[elem.p[0]][0] * ( nodes[elem.p[1]][1]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) + nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] );
-	ret -= nodes[elem.p[0]][1] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][2]-nodes[elem.p[3]][2]) -nodes[elem.p[1]][2]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] );
-	ret += nodes[elem.p[0]][2] * (nodes[elem.p[1]][0]*(nodes[elem.p[2]][1]-nodes[elem.p[3]][1]) -nodes[elem.p[1]][1]*(nodes[elem.p[2]][0]-nodes[elem.p[3]][0]) + nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-	ret -= nodes[elem.p[1]][0]*( nodes[elem.p[2]][1]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][1] ) -nodes[elem.p[1]][1]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][2] - nodes[elem.p[2]][2]*nodes[elem.p[3]][0] ) +nodes[elem.p[1]][2]*( nodes[elem.p[2]][0]*nodes[elem.p[3]][1] - nodes[elem.p[2]][1]*nodes[elem.p[3]][0] );
-	
-	elem.D = ret;*/
-
 	elem.D = tetvol(nodes[elem.p[0]],nodes[elem.p[1]],nodes[elem.p[2]],nodes[elem.p[3]]);
 }
 
-/// Computes cross product c of two 3-vectors a and b.
-inline void Delaunay3d::cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b)
+/// Computes cross product c of two 3-vectors a and b; c = a x b
+inline void Delaunay3d::cross_product3(vector<double>& c, const vector<double>& a, const vector<double>& b) const
 {
 	c[0] = a[1]*b[2]-a[2]*b[1];
 	c[1] = a[2]*b[0]-a[0]*b[2];
@@ -298,7 +298,7 @@ inline void Delaunay3d::cross_product3(vector<double>& c, const vector<double>& 
 }
 
 /// Returns the dot product of two vectors.
-inline double Delaunay3d::dot(const vector<double>& a, const vector<double>& b)
+inline double Delaunay3d::dot(const vector<double>& a, const vector<double>& b) const
 {
 	double val = 0;
 	for(int i = 0; i < ndim; i++)
@@ -307,7 +307,7 @@ inline double Delaunay3d::dot(const vector<double>& a, const vector<double>& b)
 }
 
 /// Returns the \f$ l^2 \f$ norm of a vector.
-inline double Delaunay3d::l2norm(const vector<double>& a)
+inline double Delaunay3d::l2norm(const vector<double>& a) const
 {
 	// a.size() should ideally equal ndim
 	double norm = 0;
@@ -317,7 +317,7 @@ inline double Delaunay3d::l2norm(const vector<double>& a)
 	return norm;
 }
 
-/// Cmoputes circumcentre and circumradius of a tet
+/// Computes circumcentre and circumradius of a tet
 void Delaunay3d::compute_circumsphere(Tet& elem)
 {
 	// normals to the perp bisectors of 3 non-coplanar edges of the tet
@@ -345,8 +345,12 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	double detnum;
 	//double detdenom = determinant(normal);
 	double detdenom = 0;
-	detdenom = normal(0,0)*( normal(1,1)*normal(2,2)-normal(1,2)*normal(2,1) ) -normal(0,1)*( normal(1,0)*normal(2,2)-normal(1,2)*normal(2,0)) +normal(0,2)*( normal(1,0)*normal(2,1)-normal(1,1)*normal(2,0));
-	if(fabs(detdenom) <= ZERO_TOL) cout << "Delaunay3d: compute_circumsphere(): ! System is inconsistent!! Jacobian of elem is " << elem.D << endl;
+	detdenom = normal(0,0)*( normal(1,1)*normal(2,2)-normal(1,2)*normal(2,1) ) -normal(0,1)*( normal(1,0)*normal(2,2)-normal(1,2)*normal(2,0)) 
+		+normal(0,2)*( normal(1,0)*normal(2,1)-normal(1,1)*normal(2,0));
+
+#if DEBUGBW==1
+	if(fabs(detdenom) < ZERO_TOL) cout << "Delaunay3d: compute_circumsphere(): ! System is inconsistent!! Jacobian of elem is " << elem.D << endl;
+#endif
 	
 	for(k = 0; k < ndim; k++)
 	{
@@ -371,6 +375,8 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	for(j = 0; j < ndim; j++)
 		elem.radius += (rc[j]-nodes[elem.p[0]][j])*(rc[j]-nodes[elem.p[0]][j]);
 
+	//elem.radius = sqrt(elem.radius);
+
 	// check
 	/*Matrix<double> rhstest(ndim,1); rhstest.zeros();
 	for(i = 0; i < ndim; i++)
@@ -387,7 +393,7 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 {
 	vector<double> g1(ndim), g2(ndim), nrm(ndim),  g2co(ndim), cold(ndim), rdiff(ndim), rave(ndim);
-	double tp;
+	double tp, tpd;
 	int k;
 	
 	for(k = 0; k < ndim; k++)
@@ -420,7 +426,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 	g2co[2] = nrm[0]*g1[1] - nrm[1]*g1[0];
 
 	// compute "factor t for base", ie, tp
-	double tpd = 0;
+	tpd = 0;
 	tp = 0;
 	for(k = 0; k < ndim; k++)
 	{
@@ -457,6 +463,8 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 	elem.radius = 0;
 	for(k = 0; k < ndim; k++)
 		elem.radius += (elem.centre[k] - nodes[elem.p[0]][k])*(elem.centre[k] - nodes[elem.p[0]][k]);
+
+	//elem.radius = sqrt(elem.radius);
 	
 	//cout << "Circumsphere data : centre " << elem.centre[0] << "," << elem.centre[1] << "," << elem.centre[2] << ", radius^2 " << elem.radius << endl;
 	//cout << "Delaunay3d: compute_circumsphere_contra(): Element jacobian = " << elem.D << endl;
@@ -465,7 +473,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 ///	Calculates the jacobian of the tetrahedron formed by point r and a face of tetrahedron ielem.
 /** The face is selected by i between 0 and 3. Face i is the face opposite to local node i of the tetrahedron.
 */
-double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
+double Delaunay3d::det4(const int ielem, const int i, const vector<double>& r) const
 {
 	#if DEBUGBW==1
 	if(i > 3) {
@@ -485,12 +493,12 @@ double Delaunay3d::det4(int ielem, int i, const vector<double>& r) const
 
 /// Locates the Delaunay graph (DG) element which contains the input point.
 /** \param xx is the point which needs to be located in the DG.
-* \param startelement is the index of the element from which to start the search.
-*
-* For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered. 
-* If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. If one of these is negative, the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the negative value.
-*/
-int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) const
+ * \param startelement is the index of the element from which to start the search.
+ *
+ * For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered. 
+   If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. If one of these is negative, the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the negative value.
+ */
+int Delaunay3d::find_containing_tet_old(const vector<double>& xx, const int startelement) const
 {
 	if(xx.size() < ndim) {
 		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
@@ -504,7 +512,7 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 	//while(1)
 	for(int ii = 0; ii < elems.size()+3; ii++)
 	{
-		//cout << " " << ielem;
+		//cout << " +" << ielem;
 		found = true;
 
 		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; return ielem; }
@@ -528,7 +536,57 @@ int Delaunay3d::find_containing_tet(const vector<double>& xx, int startelement) 
 		// if all 4 area-ratios are positive, we've found our element
 		if(found) break;
 	}
-	//cout << "Delaunay2D:   Containing triangle found as " << ielem << endl;
+	//cout << "Delaunay3D:   Containing tet found as " << ielem << endl;
+	return ielem;
+}
+
+/// Locates the Delaunay graph (DG) element which contains the input point (improved).
+/** \param xx is the point which needs to be located in the DG.
+ * \param startelement is the index of the element from which to start the search.
+ *
+ * For each DG element encountered, the 4 tetrahedra formed by the point and each of the 4 faces of the current element are considered.
+ * If the ratios of the Jacobians of all 4 of these new tetrahedra to the Jacobian of the current DG tetrahedron are positive, the current element is the containing element. The minimum of the 4 ratios is found. If the minimum is negative, then the new element to be checked is taken as the DG element adjacent to the face (of the current element) corresponding to the minimum value.
+ */
+int Delaunay3d::find_containing_tet(const vector<double>& xx, const int startelement) const
+{
+	if(xx.size() < ndim) {
+		std::cout << "Delaunau3D: find_containing_triangle(): ! Input vector is not long enough!\n";
+		return -1;
+	}
+	int ielem = startelement;
+	Tet super;
+	double l, minl; int minln, ii;
+	bool found = false;
+	
+	for(ii = 0; ii < elems.size()+3; ii++)
+	{
+		if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay3d:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; return ielem; }
+		super = elems[ielem];
+		minl = 1.0;
+
+		for(int inode = 0; inode < nnode; inode++)
+		{
+			// get jacobian ratio
+			l = det4(ielem,inode,xx)/super.D;
+			if(minl > l)
+			{
+				minl = l;
+				minln = inode;
+			}
+		}
+
+		if(minl >= 0)
+			break;
+
+		ielem = super.surr[minln];
+	}
+
+#if DEBUGBW==1
+	if(ii == elems.size()+3)
+		cout << "Delaunay3d: find_containing_tet(): !! Could not find host element!" << endl;
+#endif
+
+	//cout << "Delaunay3D:   Containing tet found as " << ielem << endl;
 	return ielem;
 }
 
@@ -586,13 +644,15 @@ inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 }
 
 /// Computes the Delaunay triangulation (tetrahedralization, in this case).
-/** Make sure 'points' has space for three more points when passing to this sub. 'N' is the actual number of real points.
-*/
+/** We first scale the point set by the largest coordinate magnitudes in each direction, so as to non-dimensionalize it.
+ */
 void Delaunay3d::bowyer_watson()
 {
-	// add super triangle
+	// first, add super triangle
+	
 	//	find minimum and maximum x and y of the point set
-	vector<double> rmin(ndim,0), rmax(ndim,0);
+	//	scalef contains scaling factors for each direction
+	vector<double> rmin(ndim,0), rmax(ndim,0), scalef(ndim);
 	for(int i = 0; i < npoints; i++)
 	{
 		for(int idim = 0; idim < ndim; idim++) 
@@ -607,6 +667,32 @@ void Delaunay3d::bowyer_watson()
 		cout << " " << rmin[idim] << " " << rmax[idim] << endl;
 	cout << "**\n";
 
+	// scale the point coordinates
+	
+	for(int idim = 0; idim < ndim; idim++)
+	{
+		scalef[idim] = (fabs(rmax[idim]) > fabs(rmin[idim])) ? fabs(rmax[idim]) : fabs(rmin[idim]);
+	}
+
+	cout << "Scaling factors\n";
+	for(int idim = 0; idim < ndim; idim++)
+		cout << " " << scalef[idim];
+	cout << endl;
+
+	for(int i = 0; i < npoints; i++)
+		for(int idim = 0; idim < ndim; idim++)
+			points(i,idim) /= scalef[idim];
+
+	// now re-compute limits
+	for(int i = 0; i < npoints; i++)
+	{
+		for(int idim = 0; idim < ndim; idim++) 
+		{
+			if(points(i,idim) > rmax[idim]) rmax[idim] = points(i,idim);
+			if(points(i,idim) < rmin[idim]) rmin[idim] = points(i,idim);
+		}
+	}
+
 	// factor by which to scale rdelt, for providing a factor of safety.
 	double factor = 0.5;
 	
@@ -617,7 +703,7 @@ void Delaunay3d::bowyer_watson()
 		rmin[idim] -= rdelt[idim];
 	}
 
-	cout << "Bounds of the extended cuboid are ";
+	cout << "Bounds of the extended cuboid (after scaling) are ";
 	for(int idim = 0; idim < ndim; idim++)
 		cout << " " << rmin[idim] << " " << rmax[idim] << endl;
 	cout << "**\n";
@@ -668,8 +754,8 @@ void Delaunay3d::bowyer_watson()
 
 	compute_jacobian(super);
 	if(super.D < ZERO_TOL) cout << "Delaunay3d: !!Error: super triangle has negative Jacobian!" << endl;
-	compute_circumsphere_contra(super);
-	//compute_circumsphere(super);
+	//compute_circumsphere_contra(super);
+	compute_circumsphere(super);
 
 	elems.push_back(super);			// add super to elems list
 
@@ -690,6 +776,8 @@ void Delaunay3d::bowyer_watson()
 	int newpoinnum, contelem;
 	vector<double> newpoin(ndim);
 
+	zero_scale = 1e5;
+
 	// iterate through points
 	cout << "Delaunay3d: Starting iteration over points\n";
 	for(int ipoin = 0; ipoin < npoints; ipoin++)
@@ -709,9 +797,8 @@ void Delaunay3d::bowyer_watson()
 		double dist;						// square of distance from point to circumcentre
 		stk.push_back(contelem);			// add the containing element to the list of bad elements
 		vector<int> flags(elems.size(),0);	// stores 1 at an index if the corresponding element has been checked for the Delaunay criterion
-		//for(int i = 0; i < elems.size(); i++) 
-		//	flags[i] = 0;
-
+		//cout << "No. of elements = " << elems.size() << endl;
+		
 		while(stk.empty() == false)
 		{
 			curelem = stk.back();			// access last element in stack of elements to be checked
@@ -722,22 +809,25 @@ void Delaunay3d::bowyer_watson()
 				stk.pop_back();
 				continue;
 			}
+			
+			//cout << ">" << curelem << " " << flush;
 
 			flags[curelem] = 1;				// curelem will now be checked
 
 			// calculate square of distance between circumcentre and the point
 			dist = 0;
 			for(int idim = 0; idim < ndim; idim++)
-				dist += (newpoin[idim] - elems[curelem].centre[idim])*(newpoin[idim] - elems[curelem].centre[idim]);
+				//dist += (newpoin.at(idim) - elems.at(curelem).centre[idim]) * (newpoin.at(idim) - elems.at(curelem).centre[idim]);
+				dist += (newpoin[idim]-elems[curelem].centre[idim]) * (newpoin[idim]-elems[curelem].centre[idim]);
+			//dist = sqrt(dist);
 
 			#if DEBUGBW==1
-			if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay3D: Degenerate case (type 2)!!\n";
+			//if(dabs(dist - elems[curelem].radius) < ZERO_TOL) cout << "Delaunay3D: Degenerate case (type 2)!!\n";
 			#endif
 			
-			// FOR DEBUG
 			//cout << "Delaunay3d: bowyer_watson(): Dist^2 and radius^2 are " << dist << ", " << elems[curelem].radius << endl;
 
-			if(dist < elems[curelem].radius)		// if point lies inside circumsphere (or on it), ie, Delaunay criterion is violated
+			if(dist < elems[curelem].radius - zero_scale*ZERO_TOL)		// if point lies inside circumsphere, ie, Delaunay criterion is violated
 			{
 				badelems.push_back(curelem);
 				stk.pop_back();
@@ -750,6 +840,7 @@ void Delaunay3d::bowyer_watson()
 				stk.pop_back();
 			}
 		}
+		//cout << endl;
 
 		// Output badelems for debug purpose
 		/*cout << "Delaunay3d:  Badelems: ";
@@ -881,27 +972,33 @@ void Delaunay3d::bowyer_watson()
 			// After the above, the right element of the current void face has the new element.
 
 			compute_jacobian(nw);
+			
+			//compute_circumsphere_contra(nw);
+			compute_circumsphere(nw);
 
-			compute_circumsphere_contra(nw);
-			//compute_circumsphere(nw);
 			//cout << "Delaunay3d: bowyer_watson(): New element jacobian and radius^2 : " << nw.D << " " << nw.radius << endl;
 
 			if(nw.D < ZERO_TOL)
+			{
 				cout << "Delaunay3d: bowyer_watson(): New elem is degenerate or inverted! Points are " << nw.p[0] << " " << nw.p[1] << " " << nw.p[2] << " " << nw.p[3] << ", " << nw.D << endl;
+				//elems.push_back(nw);
+				//return;
+			}
+
+			for(int i = 0; i < nnode; i++)
+				nw.surr[i] = -5;
 
 			// Push new element into the elements' list
 			elems.push_back(nw);
 
-			Face fc;
-
-			vector<bool> val(ndim+1, false);	
-			//^ flag for each face face of the new element - but we actually only need it for those faces that include the new point 0, ie faces 1, 2 and 3.
+			vector<bool> val(ndim+1, false);
+			//^ flag for each face of the new element - but we actually only need it for those faces that include the new point 0, ie faces 1, 2 and 3.
 			//^ val[i] contains true if a newface corresponding to the ith local face of nw has been found.
 
 			int localface, jface;
 			for(int jfa = 0; jfa < newfaces.size(); jfa++)
 			{
-				//Instead of separately comparing each face of nw, use the function to test whether a face is part of a tet.
+				// test whether the newface is part of the new tet.
 				localface = check_face_tet(nw, faces[newfaces[jfa]]);
 				
 				// If this newface does not match any face of the new element, go to the next newface.
@@ -919,7 +1016,7 @@ void Delaunay3d::bowyer_watson()
 				elems.back().surr[localface] = faces[newfaces[jfa]].elem[0];
 
 				// Also, find which local face of newfaces[jfa]'s left element is the same as newfaces[jfa].
-				// Set the new element as a surrounding element of of the left element of newfaces[jfa].
+				// Set the new element as a surrounding element of the left element of newfaces[jfa].
 				jface = check_face_tet(elems[faces[newfaces[jfa]].elem[0]], faces[newfaces[jfa]]);
 				if(jface == -1) { cout << "Delaunay3d: bowyer_watson(): ! Error while setting surrounding element of a new element!" << endl; }
 				elems[faces[newfaces[jfa]].elem[0]].surr[jface] = elems.size()-1;
@@ -927,11 +1024,13 @@ void Delaunay3d::bowyer_watson()
 				val[localface] = true;
 				
 				// if faces corresponding to all 3 new faces of the new element have been found, quit the jfa loop
-				bool brk = true;
+				/*bool brk = true;
 				for(int i = 1; i < ndim+1; i++)
 					if(!val[i]) brk = false;
-				if(brk) break;
+				if(brk) break;*/
 			}
+
+			Face fc;
 
 			for(int iface = 1; iface < ndim+1; iface++)
 			{
@@ -951,8 +1050,8 @@ void Delaunay3d::bowyer_watson()
 			}
 
 			// Surrounding element of this new element - across pre-existing face
-			//elems.back().surr[0] = (faces[voidpoly[ifa]].elem[0] != elems.size()-1) ? faces[voidpoly[ifa]].elem[1] : faces[voidpoly[ifa]].elem[0];
-			elems.back().surr[0] = faces[voidpoly[ifa]].elem[0];
+			elems.back().surr[0] = (faces[voidpoly[ifa]].elem[0] == elems.size()-1) ? faces[voidpoly[ifa]].elem[1] : faces[voidpoly[ifa]].elem[0];
+			//elems.back().surr[0] = faces[voidpoly[ifa]].elem[0];
 
 			// Now to set the new element as a surrounding element of the element neighboring this void face
 			int nbor = elems.back().surr[0];
@@ -1019,17 +1118,11 @@ void Delaunay3d::bowyer_watson()
 	}
 	// remove super faces - not needed
 	cout << "Delaunay3d: Triangulation done.\n";
-	
-	// print surrounding elements
-	/*for(int i = 0; i < elems.size(); i++)
-	{
-		cout << "Element " << i << ": ";
-		for(int j = 0; j < 3; j++)
-		{
-			cout << elems[i].surr[j] << " ";
-		}
-		cout << endl;
-	}*/
+
+	// re-scale points
+	for(int ip = 0; ip < nodes.size(); ip++)
+		for(int idim = 0; idim < ndim; idim++)
+			nodes[ip][idim] *= scalef[idim];
 }
 
 void Delaunay3d::clear()					// reset the Delaunay2D object, except for input data
@@ -1041,7 +1134,7 @@ void Delaunay3d::clear()					// reset the Delaunay2D object, except for input da
 	voidpoly.clear();
 }
 
-void Delaunay3d::writeGmsh2(string mfile)
+void Delaunay3d::writeGmsh2(const string mfile) const
 {
 	ofstream outf(mfile);
 
@@ -1064,7 +1157,7 @@ void Delaunay3d::writeGmsh2(string mfile)
 	outf.close();
 }
 
-Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<double>& xx, int startelement) const
+Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<double>& xx, const int startelement) const
 /* Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
    Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
 {
@@ -1113,26 +1206,47 @@ Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const vector<dou
 
 void Delaunay3d::compute_jacobians()
 {
+	//cout << "Delaunay3D: Jacobians: ";
 	jacobians.setup(elems.size(),1);
+	vector<double> a(ndim), b(ndim), c(ndim), base(ndim);
+	double val;
+
 	for(int i = 0; i < elems.size(); i++)
 	{
-		//compute_jacobian(elems[i]);
-		jacobians(i) = elems[i].D;
+		//jacobians(i) = elems[i].D;
+		for(int idim = 0; idim < ndim; idim++)
+		{
+			a[idim] = nodes[elems[i].p[1]][idim] - nodes[elems[i].p[0]][idim];
+			b[idim] = nodes[elems[i].p[2]][idim] - nodes[elems[i].p[0]][idim];
+			c[idim] = nodes[elems[i].p[3]][idim] - nodes[elems[i].p[0]][idim];
+		}
+		cross_product3(base, a, b);
+		val = dot(base,c);
+		jacobians(i) = val;
 	}
 }
 
-bool Delaunay3d::detect_negative_jacobians()
+void Delaunay3d::write_jacobians(const string fname) const
 {
+	ofstream fout(fname);
+	for(int i = 0; i < elems.size(); i++)
+		fout << jacobians.get(i) << " " << elems[i].D << '\n';
+	fout.close();
+}
+
+bool Delaunay3d::detect_negative_jacobians() const
+{
+	cout << "Delaunay3D: Looking for invalid elements...\n";
 	bool flagj = false;
 	int numneg = 0;
 	for(int i = 0; i < elems.size(); i++)
 	{
-		if(jacobians(i,0) <= 0.0) {
-			//out << i << " " << jacobians(i,0) << '\n';
+		if(jacobians.get(i) < 0.0+ZERO_TOL) {
+			cout << i << " " << jacobians.get(i) << endl;
 			flagj = true;
 			numneg++;
 		}
 	}
-	if(flagj == true) cout << "Delaunay3D: detect_negative_jacobians(): There exist " << numneg << " element(s) with negative jacobian!!\n";
+	if(flagj == true) cout << "Delaunay3D: detect_negative_jacobians(): There exist " << numneg << " element(s) with negative jacobian!!" << endl;
 	return flagj;
 }
