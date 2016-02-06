@@ -7,18 +7,13 @@
 */
 
 /**
-\class Delaunay3d
-\brief A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm.
-
-It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
-
-Notes:
-  Currently uses a std::vector to store elements, faces etc. 
-  \todo Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
-
-  It might be better to use a std::list or std::forward_list instead.
-  \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
-*/
+ * \class Delaunay3d
+ * \brief Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm.
+ *
+ * It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
+ * Uses std::forward_list for faces and elements.
+ * \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
+ */
 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
@@ -35,6 +30,10 @@ Notes:
 #ifndef _GLIBCXX_VECTOR
 #include <vector>
 #endif
+#ifndef _GLIBCXX_FORWARD_LIST
+#include <forward_list>
+#endif
+
 #ifndef __AMATRIX2_H
 #include <amatrix2.hpp>
 #endif
@@ -782,7 +781,7 @@ void Delaunay3d::bowyer_watson()
 	cout << "Delaunay3d: Starting iteration over points\n";
 	for(int ipoin = 0; ipoin < npoints; ipoin++)
 	{
-		cout << "New point : " << ipoin  << "  " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
+		//cout << "New point : " << ipoin  << "  " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
 		for(int idim = 0; idim < ndim; idim++)
 			newpoin[idim] = points.get(ipoin,idim);
 		nodes.push_back(newpoin);

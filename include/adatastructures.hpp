@@ -6,9 +6,11 @@
 #include <vector>
 #endif
 
-#define __ADATASTRUCTURES_H
+#ifndef _GLIBCXX_FORWARD_LIST
+#include <forward_list>
+#endif
 
-using namespace std;
+#define __ADATASTRUCTURES_H
 
 template <class T>
 /// Iterator for [PList](@ref PList)
@@ -25,11 +27,11 @@ class PList
 	/// Number of "empty" spaces
 	int ngaps;
 	/// Contains data and empty spaces
-	vector<T> data;
+	std::vector<T> data;
 	/// Indices of empty spaces
-	vector<int> freed;
+	std::vector<int> freed;
 	/// Indices of used elements of data
-	vector<int> used;
+	std::forward_list<int> used;
 
 public:
 	friend class PListIterator<T>;
@@ -48,6 +50,7 @@ public:
 	void resize(const int sze)
 	{
 		data.resize(sze);
+		used.resize(sze);
 		size = sze;
 	}
 
@@ -67,6 +70,7 @@ public:
 	void push_back(const T dat)
 	{
 		data.push_back(dat);
+		used.insert_after(used.end(), data.size()-1);
 		size++;
 	}
 	
@@ -79,7 +83,9 @@ public:
 	/// delete from arbitrary location in stack
 	void delete_element(const int index)
 	{
-		freed.push_back(index);
+		auto todelete = used.begin()+index;
+		freed.push_back(*todelete);
+		used.erase_after(todelete-1);
 		ngaps++;
 		size--;
 	}
@@ -119,7 +125,7 @@ public:
 		bool toprint;
 		if(freed.empty()) 
 			for(int i = 0; i < data.size(); i++)
-				cout << data[i] << " ";
+				std::cout << data[i] << " ";
 		else
 			for(int i = 0; i < data.size(); i++)
 			{
@@ -130,9 +136,9 @@ public:
 						toprint = false;
 				}
 				if(toprint)
-					cout << data[i] << " ";
+					std::cout << data[i] << " ";
 			}
-		cout << endl;
+		std::cout << endl;
 	}
 
 	/// Returns an iterator pointing to the first element

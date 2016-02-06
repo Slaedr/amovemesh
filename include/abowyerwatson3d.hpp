@@ -780,7 +780,7 @@ void Delaunay3d::bowyer_watson()
 	cout << "Delaunay3d: Starting iteration over points\n";
 	for(int ipoin = 0; ipoin < npoints; ipoin++)
 	{
-		cout << "New point : " << ipoin  << "  " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
+		//cout << "New point : " << ipoin  << "  " << points.get(ipoin,0) << " " << points.get(ipoin,1) << " " << points.get(ipoin,2) << endl;
 		for(int idim = 0; idim < ndim; idim++)
 			newpoin[idim] = points.get(ipoin,idim);
 		nodes.push_back(newpoin);
