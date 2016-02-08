@@ -214,6 +214,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>setbface</b> (<a clas
 void&#160;</td><td class="memItemRight" valign="bottom"><b>modify_bface_marker</b> (int iface, int pos, int number)</td></tr>
 <tr class="separator:a0537f8269dff24f71aeb3dfbf873854c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3607e8d193461f03042d25be7a932e89"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2dh.html#a3607e8d193461f03042d25be7a932e89">readDomn</a> (string mfile)</td></tr>
+<tr class="memdesc:a3607e8d193461f03042d25be7a932e89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads Professor Luo's mesh file, which I call the 'domn' format.  <a href="#a3607e8d193461f03042d25be7a932e89">More...</a><br/></td></tr>
 <tr class="separator:a3607e8d193461f03042d25be7a932e89"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45182327c8f2b5ade0676da68555a9f4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2dh.html#a45182327c8f2b5ade0676da68555a9f4">readGmsh2</a> (string mfile, int dimensions)</td></tr>
 <tr class="memdesc:a45182327c8f2b5ade0676da68555a9f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads mesh from Gmsh 2 format file.  <a href="#a45182327c8f2b5ade0676da68555a9f4">More...</a><br/></td></tr>
@@ -353,6 +354,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memdesc:a821d2211850fb6a5594a8fb7fe87f180"><td class="mdescLeft">&#160;</td><td class="mdescRight">Holds boundary tags (markers) corresponding to intfac. <br/></td></tr>
 <tr class="separator:a821d2211850fb6a5594a8fb7fe87f180"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab876f513209aa8ecf4d1bb86453016a6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2dh.html#ab876f513209aa8ecf4d1bb86453016a6">bpoints</a></td></tr>
+<tr class="memdesc:ab876f513209aa8ecf4d1bb86453016a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Boundary points list.  <a href="#ab876f513209aa8ecf4d1bb86453016a6">More...</a><br/></td></tr>
 <tr class="separator:ab876f513209aa8ecf4d1bb86453016a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abaa4fd673ea49aa3a55fd18fbec1346e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abaa4fd673ea49aa3a55fd18fbec1346e"></a>
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2dh.html#abaa4fd673ea49aa3a55fd18fbec1346e">bpointsb</a></td></tr>
@@ -471,7 +473,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>Computes area of linear triangular elements. So it can't be used for hybrid meshes. </p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>TODO: Generalize so that it works for quadrilateral meshes also </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>TODO: Generalize so that it works for quadrilateral meshes also </dd></dl>
 
 </div>
 </div>
@@ -493,7 +495,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <li>Currently only works for linear mesh</li>
 </ul>
 </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>: TODO: There is an issue with psup for some boundary nodes belonging to elements of different types. Correct this. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>: TODO: There is an issue with psup for some boundary nodes belonging to elements of different types. Correct this. </dd></dl>
 <ol type="1">
 <li>Elements surrounding points</li>
 <li>Points surrounding points</li>
@@ -584,6 +586,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Reads Professor Luo's mesh file, which I call the 'domn' format. </p>
+<dl class="section note"><dt>Note</dt><dd>NOTE: Make sure nfael and nnofa are mentioned after ndim and nnode in the mesh file.</dd></dl>
 <p>Reads Professor Luo's mesh file, which I call the 'domn' format. NOTE: Make sure nnofa is mentioned after ndim and ntype in the mesh file. ntype makes no sense for us now. Can only be used for linear mesh for now. </p>
 
 </div>
@@ -676,6 +681,8 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Boundary points list. </p>
 <p>bpoints contains: bpoints(0) = global point number, bpoints(1) = first containing intfac face (face with intfac's second point as this point), bpoints(2) = second containing intfac face (face with intfac's first point as this point) </p>
 
 </div>
@@ -745,7 +752,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div><div class="memdoc">
 
 <p>List of nodes surrounding nodes. </p>
-<p>Integers pointing to particular nodes' node lists are stored in <a class="el" href="classacfd_1_1UMesh2dh.html#a18264b8296918b9f42879cef98f9c1af">psup_p</a>. </p>
+<p>Integers pointing to particular nodes' node lists are stored in <a class="el" href="classacfd_1_1UMesh2dh.html#a18264b8296918b9f42879cef98f9c1af">psup_p</a> </p>
 
 </div>
 </div>

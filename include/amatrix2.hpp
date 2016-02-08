@@ -8,16 +8,20 @@ Part of Amocurve.
 */
 
 /**
-\class Matrix
-\brief Stores a dense matrix.
+ * \namespace amat
+ * \brief Includes all array and matrix storage classes.
+ */
 
-Notes:
-If A is a column-major matrix, A[i][j] == A[j * nrows + i] where i is the row-index and j is the column index.
-
-\todo
-TODO: Make 'storage' a template parameter rather than class member, OR, eliminate storage order choice - make everything rowmajor
-TODO: (Not really needed) Make a Vector class, maybe as a sub-class of Matrix
-*/
+/**
+ * \class Matrix
+ * \brief Stores a dense matrix.
+ * 
+ * Notes:
+ * If A is a column-major matrix, A[i][j] == A[j * nrows + i] where i is the row-index and j is the column index.
+ * 
+ * \todo
+ * Make 'storage' a template parameter rather than class member, OR, eliminate storage order choice - make everything rowmajor
+ */
 
 // Comment out the following line for removing array index-range checks and thus improving performance
 #define DEBUG 1
@@ -615,6 +619,7 @@ public:
 /// Recursively computes the determinant of a matrix.
 /** Note that the algorithm used here is inefficient - by my estimate, it takes O(n!) operations to compute, where n is the size of the matrix.
 * However, for small matrices, say n < 6, this naive method is probably better than some other method such as LU decomposition. The latter is O(n^3).
+* \note NOTE: This function does not work (as of 8 February 2016)!!
 */
 template <typename T>
 T determinant(const Matrix<T>& mat)
@@ -660,4 +665,5 @@ T determinant(const Matrix<T>& mat)
 		return det;
 	}
 }
+
 } //end namespace amat

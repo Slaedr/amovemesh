@@ -34,15 +34,15 @@
 
 #define __ALINELAST_P2_STIFFENED_H 1
 
-using namespace std;
-using namespace amat;
-using namespace acfd;
-
 namespace acfd {
+
+//using namespace std;
+//using namespace amat;
 
 /// Class implementing solution of linear elasticity system by P2 Lagrange finite elements.
 class LinElastP2
 {
+
 	UMesh2d* m;
 	int ngeoel;
 	int ngeofa;
@@ -79,7 +79,7 @@ public:
 		f.setup(m->gndim()*m->gnpoin(),1);
 		stiff = stiffm;
 		cbig = 1e30;
-		//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);
+		
 		//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);
 
 		for(int i = 0; i < m->gnelem(); i++)
@@ -117,7 +117,7 @@ public:
 			//geofa(i,2) = sqrt((m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1))*(m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1)) + (m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0))*(m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0)));
 		}
 
-		cout << "LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n";
+		std::cout << "LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n";
 	}
 
 	Matrix<double> elementstiffnessK11(int iel)
@@ -249,7 +249,7 @@ public:
 		SpMatrix K11, K22, K12;
 		K11.setup(m->gnpoin(),m->gnpoin()); K22.setup(m->gnpoin(), m->gnpoin()); K12.setup(m->gnpoin(), m->gnpoin());
 		//K11.zeros(); K22.zeros(); K12.zeros();
-		vector<int> ip(m->gnnode());
+		std::vector<int> ip(m->gnnode());
 		for(int iel = 0; iel < m->gnelem(); iel++)
 		{
 			// get element stiffness matrices
@@ -272,7 +272,7 @@ public:
 					K12.set(ip[i],ip[j], temp+K12e(i,j));
 				}
 		}
-		cout << "LinElastP2: assembleStiffnessMatrix(): Assembling final 2N by 2N matrix\n";
+		std::cout << "LinElastP2: assembleStiffnessMatrix(): Assembling final 2N by 2N matrix\n";
 		/*K11.trim();
 		K12.trim();
 		K22.trim();*/

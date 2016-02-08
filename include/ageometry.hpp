@@ -13,11 +13,10 @@
 
 #define __AGEOMETRY_H 1
 
+namespace acfd {
+
 using namespace std;
 using namespace amat;
-using namespace acfd;
-
-namespace acfd {
 
 /** Class CSpline constructs a piecewise cubic C^2 spline curve interpolating the boundary points contained by the boundary faces either (a) having marker in rfl,
 	or (b) listed in facelist. An overloaded setup() function is provided to distinguish the two situations.

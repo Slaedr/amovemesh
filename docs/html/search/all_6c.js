@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['l2norm',['l2norm',['../classDelaunay3d.html#a9e5372b14b21c65de51388d2551d7f68',1,'Delaunay3d::l2norm(const vector&lt; double &gt; &amp;a) const '],['../classDelaunay3d.html#a66361bf4bb01c8851333d1e37d9a439d',1,'Delaunay3d::l2norm(const vector&lt; double &gt; &amp;a)']]],
+  ['l2norm',['l2norm',['../classDelaunay3d.html#a9e5372b14b21c65de51388d2551d7f68',1,'Delaunay3d']]],
   ['lambda',['lambda',['../classacfd_1_1UMesh2d.html#ae67206059490fec1efbd8ba008312738',1,'acfd::UMesh2d::lambda()'],['../classacfd_1_1UMesh2dh.html#a51b49ead4901382c55f413e88cba2ff2',1,'acfd::UMesh2dh::lambda()']]],
   ['lambdae',['lambdaE',['../classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067',1,'acfd::LinElastP2']]],
   ['laplacefespacep1',['LaplaceFEspaceP1',['../classacfd_1_1LaplaceFEspaceP1.html',1,'acfd']]],

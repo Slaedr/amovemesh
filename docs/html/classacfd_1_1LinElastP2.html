@@ -138,9 +138,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>assembleLoadVector</b
 <tr class="memitem:a97d2d32d1c4bce92517c9ad606a070b2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">dirichletBC_onAllBface</a> (const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; &amp;bdata, const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; int &gt; &amp;bflags)</td></tr>
 <tr class="memdesc:a97d2d32d1c4bce92517c9ad606a070b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies Dirichlet BC on high-order nodes of all boundary faces.  <a href="#a97d2d32d1c4bce92517c9ad606a070b2">More...</a><br/></td></tr>
 <tr class="separator:a97d2d32d1c4bce92517c9ad606a070b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31640e4aecf6be7c596281dc4e7daeb8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a31640e4aecf6be7c596281dc4e7daeb8">setup</a> (<a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *mesh, double mu, double lambd, double xch, string stiffscheme)</td></tr>
-<tr class="memdesc:a31640e4aecf6be7c596281dc4e7daeb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets inputs and computes derivatives of basis functions and face-normals.  <a href="#a31640e4aecf6be7c596281dc4e7daeb8">More...</a><br/></td></tr>
-<tr class="separator:a31640e4aecf6be7c596281dc4e7daeb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69f79bd7266344d1a78fc0421e70fa1d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a69f79bd7266344d1a78fc0421e70fa1d">setup</a> (<a class="el" href="classacfd_1_1UMesh2d.html">UMesh2d</a> *mesh, double mu, double lambd, double xch, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *stiffm)</td></tr>
+<tr class="memdesc:a69f79bd7266344d1a78fc0421e70fa1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets inputs and computes derivatives of basis functions and face-normals.  <a href="#a69f79bd7266344d1a78fc0421e70fa1d">More...</a><br/></td></tr>
+<tr class="separator:a69f79bd7266344d1a78fc0421e70fa1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6b8078c241e79fca52d72aae6e85096"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6b8078c241e79fca52d72aae6e85096"></a>
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>elementstiffnessK11</b> (int iel)</td></tr>
 <tr class="separator:aa6b8078c241e79fca52d72aae6e85096"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,10 +208,10 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">cbig</a></td></tr>
 <tr class="memdesc:ab8e650d1575837d08207fcc50bdb1168"><td class="mdescLeft">&#160;</td><td class="mdescRight">for Dirichlet BCs <br/></td></tr>
 <tr class="separator:ab8e650d1575837d08207fcc50bdb1168"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08b42d7e9addc9f21f33398c18bbd996"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a08b42d7e9addc9f21f33398c18bbd996"></a>
-<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#a08b42d7e9addc9f21f33398c18bbd996">stiff</a></td></tr>
-<tr class="memdesc:a08b42d7e9addc9f21f33398c18bbd996"><td class="mdescLeft">&#160;</td><td class="mdescRight">stiffening factor for each element <br/></td></tr>
-<tr class="separator:a08b42d7e9addc9f21f33398c18bbd996"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab424d3ec560830d130d2857469cbf88c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab424d3ec560830d130d2857469cbf88c"></a>
+<a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ab424d3ec560830d130d2857469cbf88c">stiff</a></td></tr>
+<tr class="memdesc:ab424d3ec560830d130d2857469cbf88c"><td class="mdescLeft">&#160;</td><td class="mdescRight">stiffening factor for each element <br/></td></tr>
+<tr class="separator:ab424d3ec560830d130d2857469cbf88c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6"></a>
 double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1LinElastP2.html#ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6">j0</a></td></tr>
 <tr class="memdesc:ab1d0f9dec71b2b5c9d9ea0bd0bcf3cb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">scaling constant for the jacobian-based stiffening <br/></td></tr>
@@ -341,7 +341,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 
 </div>
 </div>
-<a class="anchor" id="a31640e4aecf6be7c596281dc4e7daeb8"></a>
+<a class="anchor" id="a69f79bd7266344d1a78fc0421e70fa1d"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -375,8 +375,8 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>stiffscheme</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; *&#160;</td>
+          <td class="paramname"><em>stiffm</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -396,7 +396,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xch</td><td>Exponent to which the stiffening factor is raised in each element stiffness entry. </td></tr>
-    <tr><td class="paramname">stiffscheme</td><td>A string, either 'size', 'shape' or 'shapesize', describing the kind of stiffening to be used. </td></tr>
+    <tr><td class="paramname">stiffm</td><td>An array containing the stiffening factor to be used for each element. </td></tr>
   </table>
   </dd>
 </dl>

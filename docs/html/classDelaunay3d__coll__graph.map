@@ -1,4 +1,6 @@
 <map id="Delaunay3d" name="Delaunay3d">
 <area shape="rect" id="node2" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="5,5,165,32"/>
-<area shape="rect" id="node4" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="191,5,324,32"/>
+<area shape="rect" id="node4" href="$classPList.html" title="PList\&lt; Face \&gt;" alt="" coords="191,5,297,32"/>
+<area shape="rect" id="node6" href="$classPList.html" title="PList\&lt; Tet \&gt;" alt="" coords="321,5,417,32"/>
+<area shape="rect" id="node8" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="441,5,575,32"/>
 </map>

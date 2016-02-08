@@ -1519,4 +1519,4 @@ typedef MatrixCOO2<double> SpMatrix;
 #define SPARSE_MATRIX_TO_USE 1
 #endif
 
-}
+}	// end namespace

@@ -86,6 +86,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
 <a href="classPList-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">PList&lt; T &gt; Class Template Reference</div>  </div>
@@ -99,52 +100,77 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a36bf65f0a998042c34f2d019248ecfe7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36bf65f0a998042c34f2d019248ecfe7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>reserve</b> (int sze)</td></tr>
-<tr class="separator:a36bf65f0a998042c34f2d019248ecfe7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a112746f0a7f885f1f0bf1795148e3694"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a112746f0a7f885f1f0bf1795148e3694"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>resize</b> (int sze)</td></tr>
-<tr class="separator:a112746f0a7f885f1f0bf1795148e3694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ade90575c169476af274ec4026400454d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ade90575c169476af274ec4026400454d"></a>
-T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#ade90575c169476af274ec4026400454d">operator[]</a> (int index)</td></tr>
-<tr class="memdesc:ade90575c169476af274ec4026400454d"><td class="mdescLeft">&#160;</td><td class="mdescRight">element access <br/></td></tr>
-<tr class="separator:ade90575c169476af274ec4026400454d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aadf16d2e26330c5c8f5378e023a0f268"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aadf16d2e26330c5c8f5378e023a0f268"></a>
-T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#aadf16d2e26330c5c8f5378e023a0f268">at</a> (int index)</td></tr>
-<tr class="memdesc:aadf16d2e26330c5c8f5378e023a0f268"><td class="mdescLeft">&#160;</td><td class="mdescRight">getter <br/></td></tr>
-<tr class="separator:aadf16d2e26330c5c8f5378e023a0f268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0f4ba03cee13548e5b08704af37eae96"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0f4ba03cee13548e5b08704af37eae96"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a0f4ba03cee13548e5b08704af37eae96">push_back</a> (T dat)</td></tr>
-<tr class="memdesc:a0f4ba03cee13548e5b08704af37eae96"><td class="mdescLeft">&#160;</td><td class="mdescRight">insert at end of stack <br/></td></tr>
-<tr class="separator:a0f4ba03cee13548e5b08704af37eae96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9938f6c5cfbcb7ce98227009de9bdae4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9938f6c5cfbcb7ce98227009de9bdae4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>reserve</b> (const int sze)</td></tr>
+<tr class="separator:a9938f6c5cfbcb7ce98227009de9bdae4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25b11037b232a649e8a1a5214fded202"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25b11037b232a649e8a1a5214fded202"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>resize</b> (const int sze)</td></tr>
+<tr class="separator:a25b11037b232a649e8a1a5214fded202"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4d9e14a1511b644e11dde4238445b11"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad4d9e14a1511b644e11dde4238445b11"></a>
+T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#ad4d9e14a1511b644e11dde4238445b11">operator[]</a> (const int index)</td></tr>
+<tr class="memdesc:ad4d9e14a1511b644e11dde4238445b11"><td class="mdescLeft">&#160;</td><td class="mdescRight">element access <br/></td></tr>
+<tr class="separator:ad4d9e14a1511b644e11dde4238445b11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b0254a1be64683e656ff203026e781f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b0254a1be64683e656ff203026e781f"></a>
+T&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a8b0254a1be64683e656ff203026e781f">at</a> (const int index) const </td></tr>
+<tr class="memdesc:a8b0254a1be64683e656ff203026e781f"><td class="mdescLeft">&#160;</td><td class="mdescRight">getter <br/></td></tr>
+<tr class="separator:a8b0254a1be64683e656ff203026e781f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d4763f866590653359ef2016f865ab9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d4763f866590653359ef2016f865ab9"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a5d4763f866590653359ef2016f865ab9">push_back</a> (const T dat)</td></tr>
+<tr class="memdesc:a5d4763f866590653359ef2016f865ab9"><td class="mdescLeft">&#160;</td><td class="mdescRight">insert at end of stack <br/></td></tr>
+<tr class="separator:a5d4763f866590653359ef2016f865ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6caaea636c70191914603021bf3155b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6caaea636c70191914603021bf3155b0"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a6caaea636c70191914603021bf3155b0">pop_back</a> ()</td></tr>
 <tr class="memdesc:a6caaea636c70191914603021bf3155b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete from end of stack <br/></td></tr>
 <tr class="separator:a6caaea636c70191914603021bf3155b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab00fba22eb5a38726765017a3944d14b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab00fba22eb5a38726765017a3944d14b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#ab00fba22eb5a38726765017a3944d14b">delete_element</a> (int index)</td></tr>
-<tr class="memdesc:ab00fba22eb5a38726765017a3944d14b"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete from arbitrary location in stack <br/></td></tr>
-<tr class="separator:ab00fba22eb5a38726765017a3944d14b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03f4d2de5caf70b39dee0e714b99ecb4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a03f4d2de5caf70b39dee0e714b99ecb4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a03f4d2de5caf70b39dee0e714b99ecb4">insert_element</a> (T val)</td></tr>
-<tr class="memdesc:a03f4d2de5caf70b39dee0e714b99ecb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">insert at first free location (as given by freed ) <br/></td></tr>
-<tr class="separator:a03f4d2de5caf70b39dee0e714b99ecb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7a19ab49d5aa980e4cb2b8c72c98b608"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7a19ab49d5aa980e4cb2b8c72c98b608"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a7a19ab49d5aa980e4cb2b8c72c98b608">print</a> ()</td></tr>
-<tr class="memdesc:a7a19ab49d5aa980e4cb2b8c72c98b608"><td class="mdescLeft">&#160;</td><td class="mdescRight">output contents <br/></td></tr>
-<tr class="separator:a7a19ab49d5aa980e4cb2b8c72c98b608"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a971f082eda7a755263b4ae685bb72d7f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a971f082eda7a755263b4ae685bb72d7f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a971f082eda7a755263b4ae685bb72d7f">delete_element</a> (const int index)</td></tr>
+<tr class="memdesc:a971f082eda7a755263b4ae685bb72d7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">delete from arbitrary location in stack <br/></td></tr>
+<tr class="separator:a971f082eda7a755263b4ae685bb72d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84cb8d1f20d9dfa25d6bde6138b7e117"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84cb8d1f20d9dfa25d6bde6138b7e117"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a84cb8d1f20d9dfa25d6bde6138b7e117">insert_element</a> (const T val)</td></tr>
+<tr class="memdesc:a84cb8d1f20d9dfa25d6bde6138b7e117"><td class="mdescLeft">&#160;</td><td class="mdescRight">insert at first free location (as given by freed ) <br/></td></tr>
+<tr class="separator:a84cb8d1f20d9dfa25d6bde6138b7e117"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf8c17274f2f6427a97eca77a88b979a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf8c17274f2f6427a97eca77a88b979a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#aaf8c17274f2f6427a97eca77a88b979a">compress</a> ()</td></tr>
+<tr class="memdesc:aaf8c17274f2f6427a97eca77a88b979a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actually remove all deleted members. <br/></td></tr>
+<tr class="separator:aaf8c17274f2f6427a97eca77a88b979a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aeabdd7d09c117c5d645475bd054968"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4aeabdd7d09c117c5d645475bd054968"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a4aeabdd7d09c117c5d645475bd054968">print</a> () const </td></tr>
+<tr class="memdesc:a4aeabdd7d09c117c5d645475bd054968"><td class="mdescLeft">&#160;</td><td class="mdescRight">output contents <br/></td></tr>
+<tr class="separator:a4aeabdd7d09c117c5d645475bd054968"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9c09d16c8447ab33a41c8849a4dcc7f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af9c09d16c8447ab33a41c8849a4dcc7f"></a>
+<a class="el" href="classPListIterator.html">PListIterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#af9c09d16c8447ab33a41c8849a4dcc7f">begin</a> () const </td></tr>
+<tr class="memdesc:af9c09d16c8447ab33a41c8849a4dcc7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an iterator pointing to the first element. <br/></td></tr>
+<tr class="separator:af9c09d16c8447ab33a41c8849a4dcc7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a88d32d28728babec5946b7cad4704a04"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a88d32d28728babec5946b7cad4704a04"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a88d32d28728babec5946b7cad4704a04">size</a></td></tr>
+<tr class="memdesc:a88d32d28728babec5946b7cad4704a04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Actual number of elements in the list. <br/></td></tr>
 <tr class="separator:a88d32d28728babec5946b7cad4704a04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac70701fae18156c23ce921465b85e23b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac70701fae18156c23ce921465b85e23b"></a>
-vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>data</b></td></tr>
-<tr class="separator:ac70701fae18156c23ce921465b85e23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4d387be7a138ac0f69c8b0504fe00639"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d387be7a138ac0f69c8b0504fe00639"></a>
-vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>freed</b></td></tr>
-<tr class="separator:a4d387be7a138ac0f69c8b0504fe00639"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9fc7574bcf50acf32521871db489f4d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9fc7574bcf50acf32521871db489f4d"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#aa9fc7574bcf50acf32521871db489f4d">ngaps</a></td></tr>
+<tr class="memdesc:aa9fc7574bcf50acf32521871db489f4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Number of "empty" spaces. <br/></td></tr>
+<tr class="separator:aa9fc7574bcf50acf32521871db489f4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7d8137299a56d085b86d97ca5bbf6bf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa7d8137299a56d085b86d97ca5bbf6bf"></a>
+std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#aa7d8137299a56d085b86d97ca5bbf6bf">data</a></td></tr>
+<tr class="memdesc:aa7d8137299a56d085b86d97ca5bbf6bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains data and empty spaces. <br/></td></tr>
+<tr class="separator:aa7d8137299a56d085b86d97ca5bbf6bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73988284563a28b35d4666728f4a4006"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a73988284563a28b35d4666728f4a4006"></a>
+std::vector&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a73988284563a28b35d4666728f4a4006">freed</a></td></tr>
+<tr class="memdesc:a73988284563a28b35d4666728f4a4006"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indices of empty spaces. <br/></td></tr>
+<tr class="separator:a73988284563a28b35d4666728f4a4006"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bdac730057e76759e10cbf09a873077"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9bdac730057e76759e10cbf09a873077"></a>
+std::forward_list&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPList.html#a9bdac730057e76759e10cbf09a873077">used</a></td></tr>
+<tr class="memdesc:a9bdac730057e76759e10cbf09a873077"><td class="mdescLeft">&#160;</td><td class="mdescRight">Indices of used elements of data. <br/></td></tr>
+<tr class="separator:a9bdac730057e76759e10cbf09a873077"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a1f590a9b43f73bdc0a7f75c73d103145"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f590a9b43f73bdc0a7f75c73d103145"></a>
+class&#160;</td><td class="memItemRight" valign="bottom"><b>PListIterator&lt; T &gt;</b></td></tr>
+<tr class="separator:a1f590a9b43f73bdc0a7f75c73d103145"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;class T&gt;<br/>

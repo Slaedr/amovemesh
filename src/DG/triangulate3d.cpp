@@ -7,6 +7,7 @@
 
 using namespace std;
 using namespace amat;
+using namespace amc;
 
 void read_points(string finname, Delaunay3d& d3d)
 {

@@ -10,10 +10,7 @@
 
 #define __ADGM_H 1
 
-using namespace std;
-using namespace amat;
-
-namespace acfd {
+namespace amc {
 
 /// Class to carry out mesh-movement using Delaunay graph mapping.
 class DGmove
@@ -21,28 +18,28 @@ class DGmove
 	int ndim;
 	int npoin;
 	int ninpoin;
-	Matrix<double> points;
+	amat::Matrix<double> points;
 	int ndgpoin;
-	Matrix<double> dgpoints;
+	amat::Matrix<double> dgpoints;
 	int ndgelem;
-	Matrix<int> dginpoel;
-	Matrix<int> dgesuel;
-	Matrix<double> dgintfac;
-	Matrix<double>* bmotion;
-	Matrix<int> bflag;
+	amat::Matrix<int> dginpoel;
+	amat::Matrix<int> dgesuel;
+	amat::Matrix<double> dgintfac;
+	amat::Matrix<double>* bmotion;
+	amat::Matrix<int> bflag;
 
 public:
 	Delaunay2D dg;
-	Matrix<double> newcoords;
+	amat::Matrix<double> newcoords;
 
 	DGmove() {}
 
-	DGmove(int num_dimn, Matrix<double>* incoords, Matrix<double>* bouncoords, Matrix<double>* boundary_motion)
+	DGmove(int num_dimn, amat::Matrix<double>* incoords, amat::Matrix<double>* bouncoords, amat::Matrix<double>* boundary_motion)
 	{
 		// boundary_motion has as many rows as bouncoords and contains x and y displacement values for each boun point
 		bmotion = boundary_motion;
 		if(bmotion->rows() != bouncoords->rows() || bmotion->cols() != bouncoords->cols())
-			cout << "! DGmove: Dimensions of boundary point coordinate array and boundary displacement array do not match!!" << endl;
+			std::cout << "! DGmove: Dimensions of boundary point coordinate array and boundary displacement array do not match!!" << std::endl;
 		ndim = incoords->cols();
 		ndgpoin = bouncoords->rows();
 		ninpoin = incoords->rows();
@@ -57,12 +54,12 @@ public:
 		dg.setup(&dgpoints, ndgpoin);
 	}
 
-	void setup(int num_dimn, Matrix<double>* incoords, Matrix<double>* bouncoords, Matrix<double>* boundary_motion)
+	void setup(int num_dimn, amat::Matrix<double>* incoords, amat::Matrix<double>* bouncoords, amat::Matrix<double>* boundary_motion)
 	{
 		// boundary_motion has as many rows as bouncoords and contains x and y displacement values for each boun point
 		bmotion = boundary_motion;
 		if(bmotion->rows() != bouncoords->rows() || bmotion->cols() != bouncoords->cols())
-			cout << "! DGmove: Dimensions of boundary point coordinate array and boundary displacement array do not match!!" << endl;
+			std::cout << "! DGmove: Dimensions of boundary point coordinate array and boundary displacement array do not match!!" << std::endl;
 		ndim = incoords->cols();
 		ndgpoin = bouncoords->rows();
 		ninpoin = incoords->rows();
@@ -84,7 +81,7 @@ public:
 		dg.bowyer_watson();
 
 		ndgelem = dg.elems.size();
-		cout << "DGmove: generateDG(): No. of DG elements: " << ndgelem << endl;
+		std::cout << "DGmove: generateDG(): No. of DG elements: " << ndgelem << std::endl;
 		dginpoel.setup(ndgelem,ndim+1);
 		dgesuel.setup(ndgelem,ndim+1);
 
@@ -98,18 +95,18 @@ public:
 			}
 		}
 
-		/*cout << "DGmove: generateDG(): Checking DG.\n";
+		/*std::cout << "DGmove: generateDG(): Checking DG.\n";
 		dg.compute_jacobians();
 		dg.detect_negative_jacobians();*/
 
 		// for debugging
-		/*cout << "DGmove: generateDG(): Checking\n";
+		/*std::cout << "DGmove: generateDG(): Checking\n";
 		for(int iel = 0; iel < dg.elems.size(); iel++)
 		{
 			for(int j = 0; j < ndim+1; j++)
 			{
 				if(dgesuel(iel,j) >= ndgpoin)
-					cout << "DGmove: generateDG(): esuel contains out-of-bounds entry at (" << iel << ", " << j << "), with entry " << dgesuel(iel,j) << endl;
+					std::cout << "DGmove: generateDG(): esuel contains out-of-bounds entry at (" << iel << ", " << j << "), with entry " << dgesuel(iel,j) << std::endl;
 			}
 		}*/
 	}
@@ -118,17 +115,17 @@ public:
 	{
 		// cycle over interior points
 		Walkdata dat;
-		cout << "DGmove: movemesh(): Calculating containing elements and area coordinates for each interior point\n";
+		std::cout << "DGmove: movemesh(): Calculating containing elements and area coordinates for each interior point\n";
 		for(int ipoin = 0; ipoin < ninpoin; ipoin++)
 		{
-			//cout << ipoin << endl;
+			//std::cout << ipoin << std::endl;
 			// first find containing DG element by "walking-through" the DG
-			//cout << "DGmove: movemesh(): Point " << ipoin << endl;
+			//std::cout << "DGmove: movemesh(): Point " << ipoin << std::endl;
 			dat = dg.find_containing_triangle_and_area_coords(points(ipoin,0), points(ipoin,1), dg.elems.size()/2);
 			
 			if(dat.elem < 0 || dat.elem >= dg.elems.size())
 			{
-				cout << "DGmove: movemesh(): Error in locating point " << ipoin << "!!" << endl;
+				std::cout << "DGmove: movemesh(): Error in locating point " << ipoin << "!!" << std::endl;
 				return;
 			}
 
@@ -139,7 +136,7 @@ public:
 		}
 
 		// update coordinates in dgpoints using bmotion
-		cout << "DGmove: movemesh(): Moving the Delaunay graph\n";
+		std::cout << "DGmove: movemesh(): Moving the Delaunay graph\n";
 		int  k = 0;
 		for(int i = 0; i < bmotion->rows(); i++)
 		{
@@ -148,7 +145,7 @@ public:
 		}
 
 		// calculate new positions of interior points by mapping them to deformed DG elements using area coordinates calculated before
-		cout << "DGmove: movemesh(): Moving the interior points\n";
+		std::cout << "DGmove: movemesh(): Moving the interior points\n";
 		int elem;
 		for(int ipoin = 0; ipoin < ninpoin; ipoin++)
 		{
@@ -170,7 +167,7 @@ public:
 			dg.nodes[i].x = dgpoints(i,0);
 			dg.nodes[i].y = dgpoints(i,1);
 		}
-		cout << "DGmove: movedg(): Checking jacobians of the DG\n";
+		std::cout << "DGmove: movedg(): Checking jacobians of the DG\n";
 		dg.compute_jacobians();
 		dg.detect_negative_jacobians();
 	}
@@ -183,13 +180,13 @@ public:
 		movedg();
 	}
 
-	Matrix<double> getInteriorPoints()
+	amat::Matrix<double> getInteriorPoints()
 	{ return points; }
 
-	Matrix<double> getBoundaryPoints()
+	amat::Matrix<double> getBoundaryPoints()
 	{ return dgpoints; }
 
-	Matrix<double> getcoords()
+	amat::Matrix<double> getcoords()
 	{
 		// create a coords matrix with same point numbering as initial matrix and return it
 		int a = 0, b = 0, k = 0;
@@ -214,4 +211,4 @@ public:
 	}
 };
 
-} // end namespace acfd
+} // end namespace amc

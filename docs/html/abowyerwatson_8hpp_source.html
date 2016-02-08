@@ -123,10 +123,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">double</span> y;</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;};</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="structFace.html">   48</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structFace.html">Face</a></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">struct </span><a class="code" href="structFace.html">Face</a></div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;{</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">   50</a></span>&#160;    <span class="keywordtype">int</span> p[2];           <span class="comment">// indices of endpoints of the face</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">   51</a></span>&#160;    <span class="keywordtype">int</span> elem[2];        <span class="comment">// elements on either side of the face</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> p[2];           <span class="comment">// indices of endpoints of the face</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> elem[2];        <span class="comment">// elements on either side of the face</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="structTriangle.html">   54</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structTriangle.html">Triangle</a></div>
@@ -138,7 +138,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">double</span> radius;      <span class="comment">// radius of circumcircle of triangle</span></div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="structWalkdata.html">   63</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structWalkdata.html">Walkdata</a>         <span class="comment">// not needed for mesh generation, but in independent application of the walk-through subroutine find_containing_triangle_and_area_coords()</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">struct </span><a class="code" href="structWalkdata.html">Walkdata</a>         <span class="comment">// not needed for mesh generation, but in independent application of the walk-through subroutine find_containing_triangle_and_area_coords()</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;{</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">int</span> elem;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">double</span> areacoords[3];</div>
@@ -313,9 +313,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="comment">// set up initial face list</span></div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="comment">//cout &lt;&lt; &quot;Delaunay2D: set up initial face list\n&quot;;</span></div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <a class="code" href="structFace.html">Face</a> f[3];</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        f[0].<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[0] = super.p[1]; f[0].<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[1] = super.p[2];</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        f[1].<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[0] = super.p[2]; f[1].<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[1] = super.p[0];</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        f[2].<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[0] = super.p[0]; f[2].<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[1] = super.p[1];</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        f[0].<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[0] = super.p[1]; f[0].<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[1] = super.p[2];</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        f[1].<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[0] = super.p[2]; f[1].<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[1] = super.p[0];</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        f[2].<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[0] = super.p[0]; f[2].<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[1] = super.p[1];</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; 3; i++)</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        {</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            f[i].<a class="code" href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">elem</a>[0] = 0;</div>
@@ -538,7 +538,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;</div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                <span class="keywordflow">if</span>(val1==<span class="keyword">false</span>)         <span class="comment">// face formed by nw.p[0] and nw.p[1] does not exist in newfaces (or newfaces is empty)</span></div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;                {</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                    f1.<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[0] = nw.p[0]; f1.<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[1] = nw.p[1];</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;                    f1.<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[0] = nw.p[0]; f1.<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[1] = nw.p[1];</div>
 <div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                    f1.<a class="code" href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">elem</a>[0] = elems.size()-1; f1.<a class="code" href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">elem</a>[1] = -4;</div>
 <div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                    faces.push_back(f1);</div>
 <div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                    val1 = <span class="keyword">true</span>;</div>
@@ -547,7 +547,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;                }</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;                <span class="keywordflow">if</span>(val2==<span class="keyword">false</span>)         <span class="comment">// face formed by nw.p[0] and nw.p[2] does not exist in newfaces</span></div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;                {</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                    f2.<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[0] = nw.p[2]; f2.<a class="code" href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">p</a>[1] = nw.p[0];</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;                    f2.<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[0] = nw.p[2]; f2.<a class="code" href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">p</a>[1] = nw.p[0];</div>
 <div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;                    f2.<a class="code" href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">elem</a>[0] = elems.size()-1; f2.<a class="code" href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">elem</a>[1] = -4;</div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;                    faces.push_back(f2);</div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;                    val2 = <span class="keyword">true</span>;</div>
@@ -743,14 +743,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="ttc" id="classDelaunay2D_html_a847567f12d40553ea0225ae60eca0ff5"><div class="ttname"><a href="classDelaunay2D.html#a847567f12d40553ea0225ae60eca0ff5">Delaunay2D::find_containing_triangle</a></div><div class="ttdeci">int find_containing_triangle(double xx, double yy, int startelement)</div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:145</div></div>
 <div class="ttc" id="structTriangle_html"><div class="ttname"><a href="structTriangle.html">Triangle</a></div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:54</div></div>
 <div class="ttc" id="structPoint2_html"><div class="ttname"><a href="structPoint2.html">Point2</a></div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:42</div></div>
-<div class="ttc" id="structFace_html"><div class="ttname"><a href="structFace.html">Face</a></div><div class="ttdoc">Structure for triangular face. </div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:48</div></div>
+<div class="ttc" id="structFace_html"><div class="ttname"><a href="structFace.html">Face</a></div><div class="ttdoc">Structure for triangular face. </div><div class="ttdef"><b>Definition:</b> abbowyerwatson3d2.hpp:57</div></div>
 <div class="ttc" id="classDelaunay2D_html"><div class="ttname"><a href="classDelaunay2D.html">Delaunay2D</a></div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:69</div></div>
-<div class="ttc" id="structFace_html_accd8f2dbe3de7e28386f1b850e88dd66"><div class="ttname"><a href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">Face::elem</a></div><div class="ttdeci">int elem[2]</div><div class="ttdoc">elements on either side of the face </div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:51</div></div>
-<div class="ttc" id="structFace_html_a2c13b9b4f5d584e93b6609543b2b6885"><div class="ttname"><a href="structFace.html#a2c13b9b4f5d584e93b6609543b2b6885">Face::p</a></div><div class="ttdeci">int p[2]</div><div class="ttdoc">indices of endpoints of the face </div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:50</div></div>
+<div class="ttc" id="structFace_html_accd8f2dbe3de7e28386f1b850e88dd66"><div class="ttname"><a href="structFace.html#accd8f2dbe3de7e28386f1b850e88dd66">Face::elem</a></div><div class="ttdeci">int elem[2]</div><div class="ttdoc">elements on either side of the face </div><div class="ttdef"><b>Definition:</b> abbowyerwatson3d2.hpp:60</div></div>
 <div class="ttc" id="amatrix2_8hpp_html"><div class="ttname"><a href="amatrix2_8hpp.html">amatrix2.hpp</a></div><div class="ttdoc">Defines a class to manipulate matrices. </div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; double &gt;</a></div></div>
-<div class="ttc" id="structWalkdata_html"><div class="ttname"><a href="structWalkdata.html">Walkdata</a></div><div class="ttdoc">Intended to encapsulate data required by &amp;#39;walk-through&amp;#39; algorithms. </div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:63</div></div>
+<div class="ttc" id="structWalkdata_html"><div class="ttname"><a href="structWalkdata.html">Walkdata</a></div><div class="ttdoc">Intended to encapsulate data required by &amp;#39;walk-through&amp;#39; algorithms. </div><div class="ttdef"><b>Definition:</b> abbowyerwatson3d2.hpp:93</div></div>
 <div class="ttc" id="classDelaunay2D_html_a95f7ae4e92d0f7c1bff055f969ffb907"><div class="ttname"><a href="classDelaunay2D.html#a95f7ae4e92d0f7c1bff055f969ffb907">Delaunay2D::bowyer_watson</a></div><div class="ttdeci">void bowyer_watson()</div><div class="ttdef"><b>Definition:</b> abowyerwatson.hpp:195</div></div>
+<div class="ttc" id="structFace_html_a6bf70d054e14f8ee8468b86055f9dadc"><div class="ttname"><a href="structFace.html#a6bf70d054e14f8ee8468b86055f9dadc">Face::p</a></div><div class="ttdeci">int p[3]</div><div class="ttdoc">indices of endpoints of the face </div><div class="ttdef"><b>Definition:</b> abbowyerwatson3d2.hpp:59</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

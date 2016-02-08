@@ -1,5 +1,5 @@
 -input-linear-mesh-filename
-../../input/30P30N_luo_1st_tri.msh
+../../input/30P30N_3airfoil_tri.msh
 -input-quadratic-mesh-filename
 ../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_quadratic.msh
 -output-curved-mesh-filename

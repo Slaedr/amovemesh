@@ -24,9 +24,6 @@
 
 #define __ALINALG_H 1
 
-using namespace std;
-using namespace amat;
-
 namespace amat
 {
 
@@ -40,8 +37,8 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 {
 	Matrix<double> B;
 
-	cout << "\ncholesky: Input LHS matrix is " << A.rows() << " x " << A.cols() << endl;
-	if(A.rows() != b.rows()) { cout << "\nInvalid dimensions of A and b!"; return B; }
+	std::cout << "\ncholesky: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
+	if(A.rows() != b.rows()) { std::cout << "\nInvalid dimensions of A and b!"; return B; }
 	int N = A.rows();
 
 	//Part 1: Cholesky decomposition
@@ -62,7 +59,7 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 		}
 		while(k <= j-1);
 
-		if(bjk_sum >= A(j,j)) cout << "\n! cholesky: Negative argument to sqrt at ("<<j<<","<<j<<")\n";
+		if(bjk_sum >= A(j,j)) std::cout << "\n! cholesky: Negative argument to sqrt at ("<<j<<","<<j<<")\n";
 		B(j,j) = sqrt(A(j,j) - bjk_sum);
 
 		for(int i = j+1; i < N; i++)
@@ -83,7 +80,7 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 	for(int i = 0; i < N; i++)
 		if(abs(B(i,i)) < 1e-10)
 		{
-			cout << "\ncholesky: Element (" << i <<"," << i << ") of lower triangular matrix is near zero!";
+			std::cout << "\ncholesky: Element (" << i <<"," << i << ") of lower triangular matrix is near zero!";
 			return B;
 		}
 
@@ -125,8 +122,8 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 
 Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 {
-	//cout << "gausselim: Input LHS matrix is " << A.rows() << " x " << A.cols() << endl;
-	if(A.rows() != b.rows()) { cout << "gausselim: Invalid dimensions of A and b!\n"; return A; }
+	//std::cout << "gausselim: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
+	if(A.rows() != b.rows()) { std::cout << "gausselim: Invalid dimensions of A and b!\n"; return A; }
 	int N = A.rows();
 
 	Matrix<double> x(N,b.cols());
@@ -164,7 +161,7 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 				b(maxr,k) = temp;
 			}
 		}
-		else { cout << "! gausselim: Pivot not found!!\n"; return x; }
+		else { std::cout << "! gausselim: Pivot not found!!\n"; return x; }
 
 		for(int j = i+1; j < N; j++)
 		{
@@ -202,9 +199,9 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 
 Matrix<double> pointjacobi(Matrix<double> A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter, char check)
 {
-	cout << "\npointjacobi: Input LHS matrix is " << A.rows() << " x " << A.cols() << endl;
-	if(A.rows() != b.rows()) { cout << "! pointjacobi: Invalid dimensions of A and b!\n"; return b; }
-	if(xold.rows() != b.rows()) { cout << "! pointjacobi: Invalid dimensions on xold !\n"; return b; }
+	std::cout << "\npointjacobi: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
+	if(A.rows() != b.rows()) { std::cout << "! pointjacobi: Invalid dimensions of A and b!\n"; return b; }
+	if(xold.rows() != b.rows()) { std::cout << "! pointjacobi: Invalid dimensions on xold !\n"; return b; }
 	int N = A.rows();
 
 	if(check == 'y')
@@ -216,7 +213,7 @@ Matrix<double> pointjacobi(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 			{
 				if(i != j) sum += dabs(A(i,j));
 			}
-			if(dabs(A(i,i)) <= sum) cout << "* pointjacobi(): LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
+			if(dabs(A(i,i)) <= sum) std::cout << "* pointjacobi(): LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
 		}
 	}
 
@@ -236,7 +233,7 @@ Matrix<double> pointjacobi(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 		M(i,i) = 1.0/M(i,i);
 
 	//x.zeros();
-	//cout << "pointjacobi: Initial error = " << (xold-x).dabsmax() << endl;
+	//std::cout << "pointjacobi: Initial error = " << (xold-x).dabsmax() << std::endl;
 
 	x = xold;
 	int c = 0;
@@ -246,19 +243,19 @@ Matrix<double> pointjacobi(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 		xold = x;
 		x = M * (b - (A*xold));
 		c++;
-		if(c > maxiter) { cout << "pointjacobi: Max iterations exceeded!\n"; break; }
+		if(c > maxiter) { std::cout << "pointjacobi: Max iterations exceeded!\n"; break; }
 	} while((x-xold).dabsmax() >= tol);
 	
-	cout << "pointjacobi: No. of iterations = " << c << endl;
+	std::cout << "pointjacobi: No. of iterations = " << c << std::endl;
 
 	return x;
 }
 
 Matrix<double> gaussseidel(Matrix<double> A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter, char check='n')
 {
-	//cout << "\ngaussseidel: Input LHS matrix is " << A.rows() << " x " << A.cols() << endl;
-	if(A.rows() != b.rows()) { cout << "! gaussseidel: Invalid dimensions of A and b!\n"; return b; }
-	if(xold.rows() != b.rows()) { cout << "! gaussseidel: Invalid dimensions on xold !\n"; return b; }
+	//std::cout << "\ngaussseidel: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
+	if(A.rows() != b.rows()) { std::cout << "! gaussseidel: Invalid dimensions of A and b!\n"; return b; }
+	if(xold.rows() != b.rows()) { std::cout << "! gaussseidel: Invalid dimensions on xold !\n"; return b; }
 	int N = A.rows();
 
 	if(check == 'y')
@@ -270,7 +267,7 @@ Matrix<double> gaussseidel(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 			{
 				if(i != j) sum += dabs(A(i,j));
 			}
-			if(dabs(A(i,i)) <= sum) cout << "* gaussseidel: LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
+			if(dabs(A(i,i)) <= sum) std::cout << "* gaussseidel: LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
 		}
 	}
 
@@ -290,7 +287,7 @@ Matrix<double> gaussseidel(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 		M(i,i) = 1.0/M(i,i);
 
 	//x.zeros();
-	//cout << "gaussseidel: Initial error = " << (xold-x).dabsmax() << endl;
+	//std::cout << "gaussseidel: Initial error = " << (xold-x).dabsmax() << std::endl;
 
 	x = xold;
 	int c = 0;
@@ -317,34 +314,34 @@ Matrix<double> gaussseidel(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 		// NOTE: The above results in FORWARD Gauss-Seidel
 
 		c++;
-		if(c > maxiter) { cout << "gaussseidel: Max iterations exceeded!\n"; break; }
+		if(c > maxiter) { std::cout << "gaussseidel: Max iterations exceeded!\n"; break; }
 		for(int i = 0; i < N; i++)
 			diff(i,0) = x(i,0) - xold(i,0);
 
 		error = dabs(diff(0,0));
 		for(int i = 1; i < N; i++)
 			if(dabs(diff(i,0)) > error) error = dabs(diff(i,0));
-		//cout << "gaussseidel: error = " << error << endl;
+		//std::cout << "gaussseidel: error = " << error << std::endl;
 		if(first == true)
 		{	initres = error;
-			//cout << "gaussseidel: Initial residue = " << initres << endl;
+			//std::cout << "gaussseidel: Initial residue = " << initres << std::endl;
 			first = false;
 		}
 
-		//if(c%20 == 0) cout << "gaussseidel(): Step " << c << ", Relative error = " << error/initres << endl;
+		//if(c%20 == 0) std::cout << "gaussseidel(): Step " << c << ", Relative error = " << error/initres << std::endl;
 
 	} while(error/initres >= tol);
-	//cout << "gaussseidel: No. of iterations = " << c << endl;
+	//std::cout << "gaussseidel: No. of iterations = " << c << std::endl;
 
 	return x;
 }
 
 Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter, char check='n')
 {
-	cout << "sparsegaussseidel(): Input LHS matrix is " << A->rows() << " x " << A->cols() << endl;
-	cout << "sparsegaussseidel(): b is " << b.rows() << ", and xold is " << xold.rows() << endl;
-	if(A->rows() != b.rows()) { cout << "! gaussseidel: Invalid dimensions of A and b!\n"; return b; }
-	if(xold.rows() != b.rows()) { cout << "! gaussseidel: Invalid dimensions on xold !\n"; return b; }
+	std::cout << "sparsegaussseidel(): Input LHS matrix is " << A->rows() << " x " << A->cols() << std::endl;
+	std::cout << "sparsegaussseidel(): b is " << b.rows() << ", and xold is " << xold.rows() << std::endl;
+	if(A->rows() != b.rows()) { std::cout << "! gaussseidel: Invalid dimensions of A and b!\n"; return b; }
+	if(xold.rows() != b.rows()) { std::cout << "! gaussseidel: Invalid dimensions on xold !\n"; return b; }
 	int N = A->rows();
 
 	if(check == 'y')
@@ -356,7 +353,7 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 			{
 				if(i != j) sum += dabs(A->get(i,j));
 			}
-			if(dabs(A->get(i,i)) <= sum) cout << "* gaussseidel: LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
+			if(dabs(A->get(i,i)) <= sum) std::cout << "* gaussseidel: LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
 		}
 	}
 
@@ -366,7 +363,7 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 	M.zeros();
 
 	// diagonal matrix M
-	//cout << "sparsegaussseidel(): Getting diagonal of sparse matrix\n";
+	//std::cout << "sparsegaussseidel(): Getting diagonal of sparse matrix\n";
 	A->get_diagonal(&M);
 
 	//invert M
@@ -374,7 +371,7 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 		M(i) = 1.0/M(i);
 
 	//x.zeros();
-	//cout << "gaussseidel: Initial error = " << (xold-x).dabsmax() << endl;
+	//std::cout << "gaussseidel: Initial error = " << (xold-x).dabsmax() << std::endl;
 
 	for(int i = 0; i < x.rows(); i++)
 		x(i) = xold(i);
@@ -386,7 +383,7 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 	Matrix<double> inter(N,1);
 	Matrix<double> diff(N,1);	// diff = x - xold
 	double error = 1.0;
-	//cout << "sparsegaussseidel(): Starting iterations\n";
+	//std::cout << "sparsegaussseidel(): Starting iterations\n";
 	do
 	{
 		xold = x;
@@ -396,37 +393,37 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 		//#pragma omp parallel for default(none) private(i) shared(A,b,Axold,x,xold,inter,M,N) num_threads(nthreads_linalg)
 		for(i = 0; i < N; i++)
 		{
-			//cout << "  Calling sparse getelem_multiply_parts\n";
+			//std::cout << "  Calling sparse getelem_multiply_parts\n";
 			Axold(i) = A->getelem_multiply_parts(i, &x, &xold, i, xold.get(i));
-			//cout << "  Setting inter\n";
+			//std::cout << "  Setting inter\n";
 			inter(i,0) = b(i,0) - Axold(i,0);
 			x(i,0) = M(i) * inter(i,0);
 		}
 		// NOTE: The above results in FORWARD Gauss-Seidel
 
-		//if(c > maxiter) { cout << "gaussseidel: Max iterations exceeded!\n"; break; }
+		//if(c > maxiter) { std::cout << "gaussseidel: Max iterations exceeded!\n"; break; }
 		for(int i = 0; i < N; i++)
 			diff(i,0) = x(i,0) - xold(i,0);
 
 		error = dabs(diff(0,0));
 		for(int i = 1; i < N; i++)
 			if(dabs(diff(i,0)) > error) error = dabs(diff(i,0));
-		//cout << "gaussseidel: error = " << error << endl;
+		//std::cout << "gaussseidel: error = " << error << std::endl;
 		if(first == true)
 		{	initres = error;
 			if(dabs(initres) < tol*tol)
 			{
-				cout << "sparsegaussseidel(): Initial residue = " << initres << endl;
+				std::cout << "sparsegaussseidel(): Initial residue = " << initres << std::endl;
 				break;
 			}
 			first = false;
 		}
 
-		if(c%10 == 0 || c == 1) cout << "gaussseidel(): Step " << c << ", Relative error = " << error/initres << endl;
+		if(c%10 == 0 || c == 1) std::cout << "gaussseidel(): Step " << c << ", Relative error = " << error/initres << std::endl;
 		c++;
 
 	} while(error/initres >= tol && c <= maxiter);
-	cout << "gaussseidel: No. of iterations = " << c << ", final error " << error/initres << endl;
+	std::cout << "gaussseidel: No. of iterations = " << c << ", final error " << error/initres << std::endl;
 
 	return x;
 }
@@ -434,9 +431,9 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter, double w=1.25, char check='n')
 // CAUTION: does not work in parallel due to some reason
 {
-	cout << "sparseSOR(): Input LHS matrix is " << A->rows() << " x " << A->cols() << endl;
-	if(A->rows() != b.rows()) { cout << "! sparseSOR(): Invalid dimensions of A and b!\n"; return b; }
-	if(xold.rows() != b.rows()) { cout << "! sparseSOR(): Invalid dimensions on xold !\n"; return b; }
+	std::cout << "sparseSOR(): Input LHS matrix is " << A->rows() << " x " << A->cols() << std::endl;
+	if(A->rows() != b.rows()) { std::cout << "! sparseSOR(): Invalid dimensions of A and b!\n"; return b; }
+	if(xold.rows() != b.rows()) { std::cout << "! sparseSOR(): Invalid dimensions on xold !\n"; return b; }
 	int N = A->rows();
 
 	if(check == 'y')
@@ -448,7 +445,7 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 			{
 				if(i != j) sum += dabs(A->get(i,j));
 			}
-			if(dabs(A->get(i,i)) <= sum) cout << "* sparseSOR(): LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
+			if(dabs(A->get(i,i)) <= sum) std::cout << "* sparseSOR(): LHS Matrix is NOT strictly diagonally dominant in row " << i << "!!\n";
 		}
 	}
 
@@ -458,7 +455,7 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 	M.zeros();
 
 	// diagonal matrix M
-	//cout << "sparsegaussseidel(): Getting diagonal of sparse matrix\n";
+	//std::cout << "sparsegaussseidel(): Getting diagonal of sparse matrix\n";
 	A->get_diagonal(&M);
 
 	//invert M
@@ -466,7 +463,7 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 		M(i) = 1.0/M(i);
 
 	//x.zeros();
-	//cout << "gaussseidel: Initial error = " << (xold-x).dabsmax() << endl;
+	//std::cout << "gaussseidel: Initial error = " << (xold-x).dabsmax() << std::endl;
 
 	x = xold;
 	int c = 0;
@@ -477,7 +474,7 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 	Matrix<double> inter(N,1);
 	Matrix<double> diff(N,1);	// diff = x - xold
 	double error = 1.0;
-	//cout << "sparsegaussseidel(): Starting iterations\n";
+	//std::cout << "sparsegaussseidel(): Starting iterations\n";
 	do
 	{
 		xold = x;
@@ -487,37 +484,37 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 		//#pragma omp parallel for default(none) private(i) shared(A,b,Axold,x,xold,inter,M,N,w) num_threads(nthreads_linalg)
 		for(i = 0; i < N; i++)
 		{
-			//cout << "  Calling sparse getelem_multiply_parts\n";
+			//std::cout << "  Calling sparse getelem_multiply_parts\n";
 			Axold(i) = A->getelem_multiply_parts(i, &x, &xold, i, xold.get(i));
-			//cout << "  Setting inter\n";
+			//std::cout << "  Setting inter\n";
 			inter(i,0) = w*(b(i,0) - Axold(i,0));
 			x(i,0) = (1-w)*xold(i,0) + M(i) * inter(i,0);
 		}
 		// NOTE: The above results in FORWARD Gauss-Seidel
 
-		//if(c > maxiter) { cout << "gaussseidel: Max iterations exceeded!\n"; break; }
+		//if(c > maxiter) { std::cout << "gaussseidel: Max iterations exceeded!\n"; break; }
 		for(int i = 0; i < N; i++)
 			diff(i,0) = x(i,0) - xold(i,0);
 
 		error = dabs(diff(0,0));
 		for(int i = 1; i < N; i++)
 			if(dabs(diff(i,0)) > error) error = dabs(diff(i,0));
-		//cout << "gaussseidel: error = " << error << endl;
+		//std::cout << "gaussseidel: error = " << error << std::endl;
 		if(first == true)
 		{	initres = error;
 			if(dabs(initres) < tol*tol)
 			{
-				cout << "sparseSOR(): Initial residue = " << initres << endl;
+				std::cout << "sparseSOR(): Initial residue = " << initres << std::endl;
 				break;
 			}
 			first = false;
 		}
 
-		if(c%10 == 0 || c == 1) cout << "sparseSOR(): Step " << c << ", Relative error = " << error/initres << endl;
+		if(c%10 == 0 || c == 1) std::cout << "sparseSOR(): Step " << c << ", Relative error = " << error/initres << std::endl;
 		c++;
 
 	} while(error/initres >= tol && c <= maxiter);
-	cout << "sparseSOR(): No. of iterations = " << c << ", final error " << error/initres << endl;
+	std::cout << "sparseSOR(): No. of iterations = " << c << ", final error " << error/initres << std::endl;
 
 	return x;
 }
@@ -527,10 +524,10 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 */
 Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter)
 {
-	cout << "sparseCG_d(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with diagonal preconditioner\n";
+	std::cout << "sparseCG_d(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with diagonal preconditioner\n";
 
 	// check
-	if(A->rows() != b.rows() || A->rows() != xold.rows()) cout << "sparseCG_d(): ! Mismatch in number of rows!!" << endl;
+	if(A->rows() != b.rows() || A->rows() != xold.rows()) std::cout << "sparseCG_d(): ! Mismatch in number of rows!!" << std::endl;
 
 	Matrix<double> x(A->rows(),1);		// solution vector
 	Matrix<double> M(A->rows(), 1);		// diagonal preconditioner, or soon, inverse of preconditioner
@@ -549,7 +546,7 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 	double initres;
 	double normalizer = b.l2norm();
 
-	//cout << "sparseCG_d(): Declared everything" << endl;
+	//std::cout << "sparseCG_d(): Declared everything" << std::endl;
 
 	M.zeros();
 	A->get_diagonal(&M);
@@ -560,14 +557,14 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 	}
 
 	//M.ones();		// disable preconditioner
-	//cout << "sparseCG_d(): preconditioner enabled" << endl;
+	//std::cout << "sparseCG_d(): preconditioner enabled" << std::endl;
 
 	A->multiply(xold, &temp);		// temp := A*xold
 	rold = b - temp;
 	error  = rold.l2norm();		// initial residue
 	if(error < tol)
 	{
-		cout << "sparseCG_d(): Initial residual is very small. Nothing to do." << endl;
+		std::cout << "sparseCG_d(): Initial residual is very small. Nothing to do." << std::endl;
 		//x.zeros();
 		return xold;
 	}
@@ -580,11 +577,11 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 
 	int steps = 0;
 
-	cout << "SparseCG_d: Starting loop" << endl;
+	std::cout << "SparseCG_d: Starting loop" << std::endl;
 	do
 	{
 		if(steps % 10 == 0 || steps == 1)
-			cout << "sparseCG_d(): Iteration " << steps << ", relative residual = " << error/normalizer << endl;
+			std::cout << "sparseCG_d(): Iteration " << steps << ", relative residual = " << error/normalizer << std::endl;
 		int i;
 
 		temp1 = rold.dot_product(zold);
@@ -594,8 +591,8 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 
 		temp2 = pold.dot_product(temp);
 		if(temp2 <= ZERO_TOL) { 
-			cout << "sparseCG_d: Matrix A may not be positive-definite!! temp2 is " << temp2 << "\n";
-			cout << "sparseCG_D: Magnitude of pold in this iteration is " << pold.l2norm() << endl;
+			std::cout << "sparseCG_d: Matrix A may not be positive-definite!! temp2 is " << temp2 << "\n";
+			std::cout << "sparseCG_D: Magnitude of pold in this iteration is " << pold.l2norm() << std::endl;
 		}
 		theta = temp1/temp2;
 
@@ -636,13 +633,13 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 
 		if(steps > maxiter)
 		{
-			cout << "! sparseCG_d(): Max iterations reached!\n";
+			std::cout << "! sparseCG_d(): Max iterations reached!\n";
 			break;
 		}
 		steps++;
 	} while(error/normalizer > tol);
 
-	cout << "sparseCG_d(): Done. Number of iterations: " << steps << "; final residual " << error/normalizer << ".\n";
+	std::cout << "sparseCG_d(): Done. Number of iterations: " << steps << "; final residual " << error/normalizer << ".\n";
 	return x;
 }
 
@@ -684,10 +681,10 @@ void precon_lusgs(SpMatrix* A, const Matrix<double>& r, Matrix<double>& z)
 	
 }
 
-Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, string precon, double tol, int maxiter)
+Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, std::string precon, double tol, int maxiter)
 /* Calculates solution of Ax=b where A is a SPD matrix in sparse format. The preconditioner is supplied by a function pointer.*/
 {
-	cout << "sparsePCG(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with diagonal preconditioner\n";
+	std::cout << "sparsePCG(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with diagonal preconditioner\n";
 	
 	void (*precond)(SpMatrix* lhs, const Matrix<double>& r, Matrix<double>& z);
 	//const Matrix<double>& z_initial,
@@ -696,7 +693,7 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 	else if(precon == "lusgs") precond = &precon_lusgs;
 	
 	// check
-	//if(A->rows() != b.rows() || A->rows() != xold.rows()) cout << "sparseCG_d(): ! Mismatch in number of rows!!" << endl;
+	//if(A->rows() != b.rows() || A->rows() != xold.rows()) std::cout << "sparseCG_d(): ! Mismatch in number of rows!!" << std::endl;
 
 	Matrix<double> x(A->rows(),1);		// solution vector
 	Matrix<double> M(A->rows(), 1);		// diagonal preconditioner, or soon, inverse of preconditioner
@@ -714,17 +711,17 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 	double error = 1.0;
 	double initres;
 
-	//cout << "sparseCG_d(): Declared everything" << endl;
+	//std::cout << "sparseCG_d(): Declared everything" << std::endl;
 
 	M.ones();		// disable preconditioner
-	//cout << "sparseCG_d(): preconditioner enabled" << endl;
+	//std::cout << "sparseCG_d(): preconditioner enabled" << std::endl;
 
 	A->multiply(xold, &temp);		// temp := A*xold
 	rold = b - temp;
 	error = initres = rold.l2norm();		// initial residue
 	if(error < tol)
 	{
-		cout << "sparsePCG(): Initial residual is very small. Nothing to do." << endl;
+		std::cout << "sparsePCG(): Initial residual is very small. Nothing to do." << std::endl;
 		//x.zeros();
 		return xold;
 	}
@@ -740,7 +737,7 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 	do
 	{
 		if(steps % 10 == 0 || steps == 1)
-			cout << "sparsePCG(): Iteration " << steps << ", relative residual = " << error << endl;
+			std::cout << "sparsePCG(): Iteration " << steps << ", relative residual = " << error << std::endl;
 		int i;
 
 		temp1 = rold.dot_product(zold);
@@ -749,19 +746,19 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 		//temp.mprint();
 
 		temp2 = pold.dot_product(temp);
-		if(temp2 <= 0) cout << "sparsePCG: ! Matrix A is not positive-definite!! temp2 is " << temp2 << "\n";
+		if(temp2 <= 0) std::cout << "sparsePCG: ! Matrix A is not positive-definite!! temp2 is " << temp2 << "\n";
 		theta = temp1/temp2;
 
 		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta) //num_threads(nthreads_linalg)
 		for(i = 0; i < x.rows(); i++)
 		{
-			//cout << "Number of threads " << omp_get_num_threads();
+			//std::cout << "Number of threads " << omp_get_num_threads();
 			x(i) = xold.get(i) + pold.get(i)*theta;
 			rold(i) = rold.get(i) - temp.get(i)*theta;
 			//diff(i) = x(i) - xold(i);
 		}
-		//cout << "x:\n"; x.mprint();
-		//cout << "r:\n"; r.mprint();
+		//std::cout << "x:\n"; x.mprint();
+		//std::cout << "r:\n"; r.mprint();
 
 		if(steps > 5)
 		{
@@ -792,13 +789,13 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, str
 
 		if(steps > maxiter)
 		{
-			cout << "! sparsePCG(): Max iterations reached!\n";
+			std::cout << "! sparsePCG(): Max iterations reached!\n";
 			break;
 		}
 		steps++;
 	} while(error > tol);
 
-	cout << "sparsePCG(): Done. Number of iterations: " << steps << "; final residual " << error << ".\n";
+	std::cout << "sparsePCG(): Done. Number of iterations: " << steps << "; final residual " << error << ".\n";
 	return xold;
 }
 
@@ -811,7 +808,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 	Matrix<double> x(b.rows(), 1);
 	// checks
 	if(!(A->rows() == A->cols() && A->rows() == b.rows() && b.rows() == xold.rows())) {
-		cout << "sparse_bicgstab(): ! Input size error!!" << endl;
+		std::cout << "sparse_bicgstab(): ! Input size error!!" << std::endl;
 		return x;
 	}
 	
@@ -843,13 +840,13 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 	resnorm = rold.l2norm();
 	
 	if(resnorm < A_SMALL_NUMBER) {
-		cout << "sparse_bicgstab(): Initial residual is very small. Exiting." << endl;
+		std::cout << "sparse_bicgstab(): Initial residual is very small. Exiting." << std::endl;
 		return x;
 	}
 
 	normalizer = b.l2norm();
 	if(normalizer < ZERO_TOL) {
-		cout << "sparse_bicgstab(): RHS has zero norm. Exiting." << endl;
+		std::cout << "sparse_bicgstab(): RHS has zero norm. Exiting." << std::endl;
 		return x;
 	}
 	resnormrel = resnorm/normalizer;
@@ -865,7 +862,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 	while(resnormrel > tol && steps <= maxiter)
 	{
 		if(steps % 10 == 0 || steps == 1)
-			cout << "sparse_bicgstab(): Iteration " << steps << ": rel residual norm = " << resnormrel << endl;
+			std::cout << "sparse_bicgstab(): Iteration " << steps << ": rel residual norm = " << resnormrel << std::endl;
 
 		rho = rhat.dot_product(rold);
 		beta = rho*alpha/(rhoold*wold);
@@ -910,7 +907,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 		steps++;
 	}
 
-	cout << "sparse_bicgstab(): Done. Iterations: " << steps << ", final relative residual norm: " << resnormrel << endl;
+	std::cout << "sparse_bicgstab(): Done. Iterations: " << steps << ", final relative residual norm: " << resnormrel << std::endl;
 
 	return x;
 }

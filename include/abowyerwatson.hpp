@@ -1,15 +1,14 @@
-/**
-A class for Delaunay triangulation of a given set of points based loosely on Bowyer-Watson algorithm; also referenced from Wikipedia's Bowyer-Watson algorithm page.
-Aditya Kashi
-June 22, 2015
-
-Notes:
-  In the mesh formed, orientation of triangles is not consistent! (**rectified**)
-  Currently uses a std::vector to store elements. It is probably better to use a std::list std::forward_list instead.
-
-Changelog:
-  June 26, 2015: Orientation is now preserved.
-*/
+/** \file abowyerwatson.hpp
+ * \brief A class for Delaunay triangulation of a given set of points based loosely on Bowyer-Watson algorithm; also referenced from Wikipedia's Bowyer-Watson algorithm page.
+ * \author Aditya Kashi
+ * \date June 22, 2015
+ * 
+ * Notes: \note
+ * Currently uses a std::std::vector to store elements. It is probably better to use a std::list std::forward_list instead.
+ * 
+ * Changelog:
+ * June 26, 2015: Orientation is now preserved.
+ */
 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
@@ -36,8 +35,7 @@ Changelog:
 #define DEBUGBW 0
 #endif
 
-using namespace std;
-using namespace amat;
+namespace amc {
 
 struct Point2
 {
@@ -73,20 +71,20 @@ class Delaunay2D
 	double tol;
 	int nnode;
 public:
-	Matrix<double> points;
-	std::vector<Point2> nodes;
-	std::vector<Triangle> elems;
-	std::vector<int> badelems;		// collection of 'bad elements', that are to be removed while adding a point; members index 'elems'
-	std::vector<Face> faces;
-	std::vector<int> voidpoly;		// collection of faces that bounds the void obtained after removing bad elements while adding a point; members index 'faces'
-	Matrix<double> jacobians;
+	amat::Matrix<double> points;
+	std::std::vector<Point2> nodes;
+	std::std::vector<Triangle> elems;
+	std::std::vector<int> badelems;		// collection of 'bad elements', that are to be removed while adding a point; members index 'elems'
+	std::std::vector<Face> faces;
+	std::std::vector<int> voidpoly;		// collection of faces that bounds the void obtained after removing bad elements while adding a point; members index 'faces'
+	amat::Matrix<double> jacobians;
 
 	int npoints;
 	//int nelem;
 
 	Delaunay2D() {}
 
-	Delaunay2D(Matrix<double>* _points, int num_points)
+	Delaunay2D(amat::Matrix<double>* _points, int num_points)
 	{
 		nnode = 3;
 		cap = 1000;
@@ -129,7 +127,7 @@ public:
 		return *this;
 	}
 
-	void setup(Matrix<double>* _points, int num_points)
+	void setup(amat::Matrix<double>* _points, int num_points)
 	{
 		nnode = 3;
 		cap = 1000;
@@ -149,16 +147,16 @@ public:
 		int ielem = startelement;
 		//int p1, p2;
 		double l1, l2, l3;
-		//cout << "Delaunay2D:   Finding containing triangle...\n";
+		//std::cout << "Delaunay2D:   Finding containing triangle...\n";
 		while(1)
 		{
-			if(ielem < 0 || ielem >= elems.size()) { cout << "Delaunay2D:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; }
+			if(ielem < 0 || ielem >= elems.size()) { std::cout << "Delaunay2D:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; }
 			Triangle super = elems[ielem];
 
 			//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];
 			l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;
 			#if DEBUGBW==1
-			if(dabs(l3) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
+			if(fabs(l3) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
 			#endif
 			if(l3/super.D < 0)
 			{
@@ -169,7 +167,7 @@ public:
 			//p1 = elems[ielem].p[1]; p2 = elems[ielem].p[2];
 			l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;
 			#if DEBUGBW==1
-			if(dabs(l1) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
+			if(fabs(l1) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
 			#endif
 			if(l1/super.D < 0)
 			{
@@ -179,7 +177,7 @@ public:
 
 			l2 = xx*(nodes[super.p[2]].y - nodes[super.p[0]].y) - yy*(nodes[super.p[2]].x - nodes[super.p[0]].x) + nodes[super.p[2]].x*nodes[super.p[0]].y - nodes[super.p[0]].x*nodes[super.p[2]].y;
 			#if DEBUGBW==1
-			if(dabs(l2) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l2!!\n";
+			if(fabs(l2) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l2!!\n";
 			#endif
 			if(l2/super.D < 0)
 			{
@@ -188,7 +186,7 @@ public:
 			}
 			break;		// if all three area-ratios are positive, we've found our element
 		}
-		//cout << "Delaunay2D:   Containing triangle found.\n";
+		//std::cout << "Delaunay2D:   Containing triangle found.\n";
 		return ielem;
 	}
 
@@ -205,7 +203,7 @@ public:
 			if(points(i,1) > ymax) ymax = points(i,1);
 			if(points(i,1) < ymin) ymin = points(i,1);
 		}
-		//cout << "Delaunay2D: bowyer_watson(): xmax, xmin, ymax, ymin " << xmax << " " << xmin << " " << ymax << " " << ymin << '\n';
+		//std::cout << "Delaunay2D: bowyer_watson(): xmax, xmin, ymax, ymin " << xmax << " " << xmin << " " << ymax << " " << ymin << '\n';
 
 		double xdelt = 1+(xmax-xmin), ydelt = 1+(ymax-ymin);
 		double delt = (xdelt >= ydelt) ? xdelt : ydelt;
@@ -235,7 +233,7 @@ public:
 		elems.push_back(super);			// add super to elems list
 
 		// set up initial face list
-		//cout << "Delaunay2D: set up initial face list\n";
+		//std::cout << "Delaunay2D: set up initial face list\n";
 		Face f[3];
 		f[0].p[0] = super.p[1]; f[0].p[1] = super.p[2];
 		f[1].p[0] = super.p[2]; f[1].p[1] = super.p[0];
@@ -251,7 +249,7 @@ public:
 			points(N+i,0) = super.p[i].x; points(N+i,1) = super.p[i].y;			// add super coords to points matrix*/
 
 		// iterate through points
-		cout << "Delaunay2D: Starting iteration over points\n";
+		std::cout << "Delaunay2D: Starting iteration over points\n";
 		for(int ipoin = 0; ipoin < npoints; ipoin++)
 		{
 			Point2 newpoin; newpoin.x = points(ipoin,0); newpoin.y = points(ipoin,1);
@@ -260,15 +258,15 @@ public:
 
 			/// First, find the element containing the new point
 			int contelem = find_containing_triangle(points(ipoin,0),points(ipoin,1),0);
-			//cout << "Delaunay2D:  Containing element is " << contelem << endl;
+			//std::cout << "Delaunay2D:  Containing element is " << contelem << std::endl;
 
 			/// Second, search among neighbors for other triangles whose circumcircles contain this point
-			//cout << "Delaunay2D:  Second, search among neighbors for other triangles whose circumcircles contain this point\n";
+			//std::cout << "Delaunay2D:  Second, search among neighbors for other triangles whose circumcircles contain this point\n";
 			int curelem;
-			vector<int> stk;					// stack to hold the indices of triangles to be checked
+			std::vector<int> stk;					// stack to hold the indices of triangles to be checked
 			double dist;						// square of distance from point to circumcentre
 			stk.push_back(contelem);			// add the containing element to the list of bad elements
-			vector<int> flags(elems.size());	// stores 1 at an index if the corresponding element has been checked for the Delaunay criterion
+			std::vector<int> flags(elems.size());	// stores 1 at an index if the corresponding element has been checked for the Delaunay criterion
 			for(int i = 0; i < elems.size(); i++) flags[i] = 0;
 
 			while(stk.empty() == false)
@@ -280,7 +278,7 @@ public:
 				dist = (points(ipoin,0) - elems[curelem].centre.x)*(points(ipoin,0) - elems[curelem].centre.x) + (points(ipoin,1) - elems[curelem].centre.y)*(points(ipoin,1) - elems[curelem].centre.y);
 
 				#if DEBUGBW==1
-				if(dabs(dist - elems[curelem].radius*elems[curelem].radius) < tol) cout << "Delaunay2D: Degenerate case (type 2)!!\n";
+				if(fabs(dist - elems[curelem].radius*elems[curelem].radius) < tol) std::cout << "Delaunay2D: Degenerate case (type 2)!!\n";
 				#endif
 				if(dist < elems[curelem].radius*elems[curelem].radius)		// if point lies inside circumcircle, ie, Delaunay criterion is violated
 				{
@@ -298,7 +296,7 @@ public:
 
 			// Output badelems for debug purpose
 			/// Third, store the faces that will be obtained after removal of bad triangles
-			//cout << "Delaunay2D:  Third, store the faces that will be obtained after removal of bad triangles\n";
+			//std::cout << "Delaunay2D:  Third, store the faces that will be obtained after removal of bad triangles\n";
 			flags.assign(faces.size(),-1);
 
 			for(int ifa = 0; ifa < faces.size(); ifa++)
@@ -348,7 +346,7 @@ public:
 			}
 
 			// Fourth, delete bad elements
-			//cout << "Delaunay2D:  Fourth, delete bad elements\n";
+			//std::cout << "Delaunay2D:  Fourth, delete bad elements\n";
 			for(int ibe = 0; ibe < badelems.size(); ibe++)
 			{
 				elems.erase(elems.begin()+badelems[ibe]);
@@ -376,8 +374,8 @@ public:
 			}
 
 			// Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'.
-			//cout << "Delaunay2D:  Fifth, add new elements; Also correspondingly update 'faces'\n";
-			vector<int> newfaces;				// new faces formed from new elements created
+			//std::cout << "Delaunay2D:  Fifth, add new elements; Also correspondingly update 'faces'\n";
+			std::vector<int> newfaces;				// new faces formed from new elements created
 			for(int ifa = 0; ifa < voidpoly.size(); ifa++)		// for each face in void polygon
 			{
 				Triangle nw;
@@ -394,7 +392,7 @@ public:
 					nw.p[2] = faces[voidpoly[ifa]].p[0];
 					faces[voidpoly[ifa]].elem[1] = elems.size();
 				}
-				else cout << "Delaunay2D: !! Error while creating new element - face " << voidpoly[ifa] << " in voidpoly does not have -2 as either left elem or right elem.\n";
+				else std::cout << "Delaunay2D: !! Error while creating new element - face " << voidpoly[ifa] << " in voidpoly does not have -2 as either left elem or right elem.\n";
 
 				nw.D = nodes[nw.p[0]].x*(nodes[nw.p[1]].y - nodes[nw.p[2]].y) - nodes[nw.p[0]].y*(nodes[nw.p[1]].x - nodes[nw.p[2]].x) + nodes[nw.p[1]].x*nodes[nw.p[2]].y - nodes[nw.p[2]].x*nodes[nw.p[1]].y;
 
@@ -406,7 +404,7 @@ public:
 				double b2 = (nodes[nw.p[1]].x-nodes[nw.p[2]].x)*(nodes[nw.p[1]].x-nodes[nw.p[2]].x) + (nodes[nw.p[1]].y-nodes[nw.p[2]].y)*(nodes[nw.p[1]].y-nodes[nw.p[2]].y);
 				double c2 = (nodes[nw.p[2]].x-nodes[nw.p[0]].x)*(nodes[nw.p[2]].x-nodes[nw.p[0]].x) + (nodes[nw.p[2]].y-nodes[nw.p[0]].y)*(nodes[nw.p[2]].y-nodes[nw.p[0]].y);
 				nw.radius = sqrt(a2*b2*c2)/(2*nw.D);
-				//cout << "Delaunay2D:  New element circumcentre and radius: " << nw.centre.x << ", " << nw.centre.y << "; " << nw.radius << endl;
+				//std::cout << "Delaunay2D:  New element circumcentre and radius: " << nw.centre.x << ", " << nw.centre.y << "; " << nw.radius << std::endl;
 
 				elems.push_back(nw);
 
@@ -456,7 +454,7 @@ public:
 								if( (elems[faces[newfaces[jfa]].elem[0]].p[0]==faces[newfaces[jfa]].p[0] && elems[faces[newfaces[jfa]].elem[0]].p[1]==faces[newfaces[jfa]].p[1]) || (elems[faces[newfaces[jfa]].elem[0]].p[0]==faces[newfaces[jfa]].p[1] && elems[faces[newfaces[jfa]].elem[0]].p[1]==faces[newfaces[jfa]].p[0]) )
 									elems[faces[newfaces[jfa]].elem[0]].surr[2] = elems.size()-1;		// set the new element as an element surrounding the neighboring element
 						}
-						else cout << "Delaunay2D: !! Error!\n";
+						else std::cout << "Delaunay2D: !! Error!\n";
 						val2 = true;
 					}
 
@@ -487,7 +485,7 @@ public:
 
 				// Now to set the new element as a surrounding element of the element neighboring this void face
 				int nbor = elems.back().surr[0];
-				//cout << "**" << nbor << endl;
+				//std::cout << "**" << nbor << std::endl;
 				if(nbor >= 0)
 				{
 					if( (elems[nbor].p[0] == faces[voidpoly[ifa]].p[0] && elems[nbor].p[1] == faces[voidpoly[ifa]].p[1]) || (elems[nbor].p[0] == faces[voidpoly[ifa]].p[1] && elems[nbor].p[1] == faces[voidpoly[ifa]].p[0]) )	// if the neighbor's face 2 matches the current void face
@@ -505,18 +503,18 @@ public:
 						//if(elems[nbor].surr[1] == -2)
 							elems[nbor].surr[1] = elems.size()-1;
 					}
-					else cout << "Delaunay2D:  !! No match for -3 face!\n";
+					else std::cout << "Delaunay2D:  !! No match for -3 face!\n";
 				}
 			}
 
-			//cout << "Delaunay2D:  Added point " << ipoin << ".\n";
+			//std::cout << "Delaunay2D:  Added point " << ipoin << ".\n";
 			//empty badelems and voidpoly
 			badelems.clear();
 			voidpoly.clear();
 		} // end iteration over points
 
 		// Remove super triangle
-		//cout << "Delaunay2D:  Remove super triangle\n";
+		//std::cout << "Delaunay2D:  Remove super triangle\n";
 		for(int ielem = 0; ielem < elems.size(); ielem++)
 		{
 			for(int i = 0; i < 3; i++)
@@ -548,7 +546,7 @@ public:
 			}
 		}
 		// remove super faces - not needed
-		cout << "Delaunay2D: Triangulation done.\n";
+		std::cout << "Delaunay2D: Triangulation done.\n";
 	}
 
 	void clear()					// reset the Delaunay2D object, except for input data
@@ -560,7 +558,7 @@ public:
 		voidpoly.clear();
 	}
 
-	void writeGmsh2(string mfile)
+	void writeGmsh2(std::string mfile)
 	{
 		ofstream outf(mfile);
 
@@ -581,7 +579,7 @@ public:
 		outf << "$EndElements\n";
 
 		outf.close();
-		//cout << "Delaunay2D: Number of faces finally = " << faces.size() << endl;
+		//std::cout << "Delaunay2D: Number of faces finally = " << faces.size() << std::endl;
 	}
 
 	Walkdata find_containing_triangle_and_area_coords(double xx, double yy, int startelement)
@@ -592,13 +590,13 @@ public:
 		int ielem = startelement;
 		//int p1, p2;
 		double l1, l2, l3;
-		//cout << "Delaunay2D:   Finding containing triangle...\n";
+		//std::cout << "Delaunay2D:   Finding containing triangle...\n";
 		Triangle super;
 		while(1)
 		{
-			//cout << "  Iteration of walk-through\n";
+			//std::cout << "  Iteration of walk-through\n";
 			if(ielem < 0 || ielem >= elems.size()) { 
-				cout << "Delaunay2D: find_containing_triangle..(): !!Reached an element index that is out of bounds!! Index is " << ielem << "\n";
+				std::cout << "Delaunay2D: find_containing_triangle..(): !!Reached an element index that is out of bounds!! Index is " << ielem << "\n";
 				break;
 			}
 			//super = elems[ielem];
@@ -607,7 +605,7 @@ public:
 			//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];
 			l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;
 			#if DEBUGBW==1
-			if(dabs(l3) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
+			if(fabs(l3) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
 			#endif
 			if(l3/super.D < 0)
 			{
@@ -617,7 +615,7 @@ public:
 
 			l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;
 			#if DEBUGBW==1
-			if(dabs(l1) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
+			if(fabs(l1) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
 			#endif
 			if(l1/super.D < 0)
 			{
@@ -627,7 +625,7 @@ public:
 
 			l2 = xx*(nodes[super.p[2]].y - nodes[super.p[0]].y) - yy*(nodes[super.p[2]].x - nodes[super.p[0]].x) + nodes[super.p[2]].x*nodes[super.p[0]].y - nodes[super.p[0]].x*nodes[super.p[2]].y;
 			#if DEBUGBW==1
-			if(dabs(l2) < tol) cout << "Delaunay2D:   Degenerate case (type 1) l2!!\n";
+			if(fabs(l2) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l2!!\n";
 			#endif
 			if(l2/super.D < 0)
 			{
@@ -636,7 +634,7 @@ public:
 			}
 			break;		// if all three area-ratios are positive, we've found our element
 		}
-		//cout << "Delaunay2D:   Containing triangle found: " << ielem << ".\n";
+		//std::cout << "Delaunay2D:   Containing triangle found: " << ielem << ".\n";
 		dat.elem = ielem; dat.areacoords[0] = l1/super.D; dat.areacoords[1] = l2/super.D; dat.areacoords[2] = l3/super.D;
 		return dat;
 	}
@@ -662,8 +660,10 @@ public:
 				flagj = true;
 			}
 		}
-		if(flagj == true) cout << "Delaunay2D: detect_negative_jacobians(): There exist element(s) with negative jacobian!!\n";
-		else cout << "Delaunay2d: detect_negative_jacobians(): DG is fine." << endl;
+		if(flagj == true) std::cout << "Delaunay2D: detect_negative_jacobians(): There exist element(s) with negative jacobian!!\n";
+		else std::cout << "Delaunay2d: detect_negative_jacobians(): DG is fine." << std::endl;
 		return flagj;
 	}
 };
+
+} // end namespace amc

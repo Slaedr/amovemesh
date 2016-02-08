@@ -15,7 +15,7 @@
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
 typedef DGmove Meshmove;
 

@@ -17,10 +17,11 @@
 
 #define __ALINELAST_CURVEDMESHGEN2D_H 1
 
-using namespace std;
-using namespace amat;
-using namespace acfd;
+//using namespace std;
+//using namespace amat;
+//using namespace acfd;
 
+namespace acfd {
 
 /** Class to generate curved mesh from a linear mesh using cubic spline reconstruction and one of the mesh movement techniques. */
 
@@ -230,3 +231,4 @@ void Curvedmeshgen2d::generate_curved_mesh()
 }
 
 // ------------ end --------------------
+} // end namespace
