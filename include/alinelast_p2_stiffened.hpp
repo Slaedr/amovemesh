@@ -34,7 +34,7 @@
 
 #define __ALINELAST_P2_STIFFENED_H 1
 
-namespace acfd {
+namespace amc {
 
 //using namespace std;
 //using namespace amat;
@@ -47,11 +47,11 @@ class LinElastP2
 	int ngeoel;
 	int ngeofa;
 	int ndofe;					///< Number of DOFs per element
-	Matrix<double> geoel;		///< holds 2*area of element, and derivatives of barycentric coordinate functions lambdas
-	Matrix<double> geofa;		///< holds normals to and length of boundary faces
-	SpMatrix K;					///< global stiffness matrix
-	Matrix<double> f;			///< global load vector
-	Matrix<double>* stiff;		///< stiffening factor for each element
+	amat::Matrix<double> geoel;		///< holds 2*area of element, and derivatives of barycentric coordinate functions lambdas
+	amat::Matrix<double> geofa;		///< holds normals to and length of boundary faces
+	amat::SpMatrix K;					///< global stiffness matrix
+	amat::Matrix<double> f;			///< global load vector
+	amat::Matrix<double>* stiff;		///< stiffening factor for each element
 
 	double muE;					///< isotropic elasticity constant mu
 	double lambdaE;				///< isotropic elasticity constant lambda
@@ -66,15 +66,15 @@ public:
 	 * \param xch Exponent to which the stiffening factor is raised in each element stiffness entry.
 	 * \param stiffm An array containing the stiffening factor to be used for each element.
 	 */
-	void setup(UMesh2d* mesh, double mu, double lambd, double xch, Matrix<double>* stiffm)
+	void setup(UMesh2d* mesh, double mu, double lambd, double xch, amat::Matrix<double>* stiffm)
 	{
 		m = mesh;
 		ngeoel = 7;
 		ngeofa = 3;
 		muE = mu; lambdaE = lambd;
 		chi = xch;
-		geoel.setup(m->gnelem(), ngeoel, ROWMAJOR);
-		geofa.setup(m->gnface(), ngeofa, ROWMAJOR);
+		geoel.setup(m->gnelem(), ngeoel);
+		geofa.setup(m->gnface(), ngeofa);
 		K.setup(m->gndim()*m->gnpoin(), m->gndim()*m->gnpoin());
 		f.setup(m->gndim()*m->gnpoin(),1);
 		stiff = stiffm;
@@ -120,9 +120,9 @@ public:
 		std::cout << "LinElastP2: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n";
 	}
 
-	Matrix<double> elementstiffnessK11(int iel)
+	amat::Matrix<double> elementstiffnessK11(int iel)
 	{
-		Matrix<double> K11(6,6);
+		amat::Matrix<double> K11(6,6);
 		double coeff = 2*muE+lambdaE;
 		for(int i = 0; i < 3; i++)
 			for(int j = 0; j < 3; j++)
@@ -158,9 +158,9 @@ public:
 		return K11;
 	}
 
-	Matrix<double> elementstiffnessK22(int iel)
+	amat::Matrix<double> elementstiffnessK22(int iel)
 	{
-		Matrix<double> K22(6,6);
+		amat::Matrix<double> K22(6,6);
 		double coeff = 2*muE+lambdaE;
 		for(int i = 0; i < 3; i++)
 			for(int j = 0; j < 3; j++)
@@ -196,9 +196,9 @@ public:
 		return K22;
 	}
 
-	Matrix<double> elementstiffnessK12(int iel)
+	amat::Matrix<double> elementstiffnessK12(int iel)
 	{
-		Matrix<double> K12(6,6);
+		amat::Matrix<double> K12(6,6);
 		for(int i = 0; i < 3; i++)
 			for(int j = 0; j < 3; j++)
 			{
@@ -246,16 +246,16 @@ public:
 
 	void assembleStiffnessMatrix()
 	{
-		SpMatrix K11, K22, K12;
+		amat::SpMatrix K11, K22, K12;
 		K11.setup(m->gnpoin(),m->gnpoin()); K22.setup(m->gnpoin(), m->gnpoin()); K12.setup(m->gnpoin(), m->gnpoin());
 		//K11.zeros(); K22.zeros(); K12.zeros();
 		std::vector<int> ip(m->gnnode());
 		for(int iel = 0; iel < m->gnelem(); iel++)
 		{
 			// get element stiffness matrices
-			Matrix<double> K11e = elementstiffnessK11(iel);
-			Matrix<double> K22e = elementstiffnessK22(iel);
-			Matrix<double> K12e = elementstiffnessK12(iel);
+			amat::Matrix<double> K11e = elementstiffnessK11(iel);
+			amat::Matrix<double> K22e = elementstiffnessK22(iel);
+			amat::Matrix<double> K12e = elementstiffnessK12(iel);
 
 			for(int i = 0; i < m->gnnode(); i++)
 				ip[i] = m->ginpoel(iel,i);
@@ -272,12 +272,12 @@ public:
 					K12.set(ip[i],ip[j], temp+K12e(i,j));
 				}
 		}
-		std::cout << "LinElastP2: assembleStiffnessMatrix(): Assembling final 2N by 2N matrix\n";
+		std::cout << "LinElastP2: assembleStiffnessamat::Matrix(): Assembling final 2N by 2N matrix\n";
 		/*K11.trim();
 		K12.trim();
 		K22.trim();*/
 
-		SpMatrix K21(m->gnpoin(), m->gnpoin());
+		amat::SpMatrix K21(m->gnpoin(), m->gnpoin());
 		K21 = K12.transpose();
 
 		K.combine_sparse_matrices(K11,K12,K21,K22);
@@ -285,16 +285,16 @@ public:
 
 	void assembleLoadVector()
 	{
-		//Matrix<double> load(m->gndim()*m->gnpoin(),1);
+		//amat::Matrix<double> load(m->gndim()*m->gnpoin(),1);
 		f.zeros();
 	}
 
-	SpMatrix stiffnessMatrix()
+	amat::SpMatrix stiffnessMatrix()
 	{
 		return K;
 	}
 
-	Matrix<double> loadVector()
+	amat::Matrix<double> loadVector()
 	{
 		return f;
 	}
@@ -305,7 +305,7 @@ public:
 	 * bglags is a npoin x 1 vector that contains 1 for boundary points and 0 for interior points, ie, it's a boundary boolean vector for nodes.
 	 * IGNORE:extra is a npoin-by-1 vector storing a flag (0 or 1) for each mesh point; if extra(ipoin) == 1, then ipoin is to be kept fixed
 	 */
-	void dirichletBC_onAllBface(const Matrix<double>& bdata, const Matrix<int>& bflags)
+	void dirichletBC_onAllBface(const amat::Matrix<double>& bdata, const amat::Matrix<int>& bflags)
 	{
 		double temp; int p;
 		for(p = 0; p < m->gnpoin(); p++)

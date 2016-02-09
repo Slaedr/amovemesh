@@ -1,10 +1,10 @@
-/** Class to convert hybrid linear mesh into quadratic mesh.
-	Aditya Kashi
-	November 2, 2015
-
-	Notes:
-	We could set the support radius automatically based on some function of the curvature of the boundary.
-*/
+/** @brief Class to convert hybrid linear mesh into quadratic mesh.
+ * @author Aditya Kashi
+ * @date November 2, 2015
+ * 
+ * Notes:
+ * \todo We could set the support radius automatically based on some function of the curvature of the boundary.
+ */
 
 #ifndef __AGEOMETRYH_H
 	#include <ageometryh.hpp>
@@ -18,7 +18,7 @@
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
 typedef RBFmove Meshmove;
 

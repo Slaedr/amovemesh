@@ -268,7 +268,8 @@ public:
 	void setbface(amat::Matrix<int>* bf)
 	{ bface = *bf; }
 
-	void modify_bface_marker(int iface, int pos, int number)
+	/// Allows modification of a member of [bface](@ref bface), intended for changing boundary markers if needed
+	void modify_bface_marker(const int iface, const int pos, const int number)
 	{ bface(iface, pos) = number; }
 
 

@@ -36,13 +36,8 @@
 #include "amesh2b.hpp"
 #endif
 
-#ifndef __ALINALG_H
-typedef MatrixCOO SpMatrix;
-#endif
-
 using namespace std;
 using namespace amat;
-using namespace acfd;
 
 namespace acfd {
 

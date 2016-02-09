@@ -1,10 +1,10 @@
 /** \file abowyerwatson.hpp
- * \brief A class for Delaunay triangulation of a given set of points based loosely on Bowyer-Watson algorithm; also referenced from Wikipedia's Bowyer-Watson algorithm page.
+ * \brief Delaunay triangulation of a given set of points, based on Bowyer-Watson algorithm; also referenced from Wikipedia's Bowyer-Watson algorithm page.
  * \author Aditya Kashi
  * \date June 22, 2015
  * 
  * Notes: \note
- * Currently uses a std::std::vector to store elements. It is probably better to use a std::list std::forward_list instead.
+ * Currently uses a std::vector to store elements. It is probably better to use a std::list or std::forward_list instead.
  * 
  * Changelog:
  * June 26, 2015: Orientation is now preserved.
@@ -72,11 +72,11 @@ class Delaunay2D
 	int nnode;
 public:
 	amat::Matrix<double> points;
-	std::std::vector<Point2> nodes;
-	std::std::vector<Triangle> elems;
-	std::std::vector<int> badelems;		// collection of 'bad elements', that are to be removed while adding a point; members index 'elems'
-	std::std::vector<Face> faces;
-	std::std::vector<int> voidpoly;		// collection of faces that bounds the void obtained after removing bad elements while adding a point; members index 'faces'
+	std::vector<Point2> nodes;
+	std::vector<Triangle> elems;
+	std::vector<int> badelems;		// collection of 'bad elements', that are to be removed while adding a point; members index 'elems'
+	std::vector<Face> faces;
+	std::vector<int> voidpoly;		// collection of faces that bounds the void obtained after removing bad elements while adding a point; members index 'faces'
 	amat::Matrix<double> jacobians;
 
 	int npoints;
@@ -98,7 +98,7 @@ public:
 		nodes.reserve(num_points+3);
 	}
 
-	Delaunay2D(Delaunay2D& other)
+	Delaunay2D(const Delaunay2D& other)
 	{
 		cap = other.cap;
 		badcap = other.badcap;
@@ -112,7 +112,7 @@ public:
 		npoints = other.npoints;
 	}
 
-	Delaunay2D& operator=(Delaunay2D& other)
+	Delaunay2D& operator=(const Delaunay2D& other)
 	{
 		cap = other.cap;
 		badcap = other.badcap;
@@ -127,7 +127,7 @@ public:
 		return *this;
 	}
 
-	void setup(amat::Matrix<double>* _points, int num_points)
+	void setup(const amat::Matrix<double>* _points, const int num_points)
 	{
 		nnode = 3;
 		cap = 1000;
@@ -560,7 +560,7 @@ public:
 
 	void writeGmsh2(std::string mfile)
 	{
-		ofstream outf(mfile);
+		std::ofstream outf(mfile);
 
 		outf << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n";
 		outf << "$Nodes\n" << npoints << '\n';

@@ -209,6 +209,15 @@ public:
 		}
 		return newcoords;
 	}
+	
+	/// Return the DG as a mesh
+	UMesh2d getDelaunayGraph()
+	{
+		UMesh2d dgmesh;
+		dgmesh.setcoords(dgpoints);
+		dgmesh.setinpoel(&dginpoel);
+		return dgmesh;
+	}
 };
 
 } // end namespace amc

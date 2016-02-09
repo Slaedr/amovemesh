@@ -46,7 +46,7 @@
 #define MESHDATA_DOUBLE_PRECISION 20
 #endif
 
-namespace acfd {
+namespace amc {
 
 /// General hybrid unstructured mesh class supporting triangular and quadrangular elements
 class UMesh2dh
@@ -696,11 +696,11 @@ void UMesh2dh::readGmsh2(std::string mfile, int dimensions)
 	}*/
 }
 
-void UMesh2dh::compute_boundary_points()
 /**	Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
-	Also calculates bfacebp, which is like inpoel for boundary faces - it gives the boundary node number (according to bpointsb) of each local node of a bface.
-	\note Only for linear meshes.
-*/
+ * Also calculates bfacebp, which is like inpoel for boundary faces - it gives the boundary node number (according to bpointsb) of each local node of a bface.
+ * \note Only for linear meshes.
+ */
+void UMesh2dh::compute_boundary_points()
 {
 	std::cout << "UMesh2dh: compute_boundary_points(): Calculating bpointsb structure"<< std::endl;
 
