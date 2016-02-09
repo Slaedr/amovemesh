@@ -15,9 +15,9 @@
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
-typedef RBFmove Meshmove;
+typedef amc::RBFmove Meshmove;
 
 /** Class to generate curved mesh from a linear mesh using cubic spline reconstruction and one of the mesh movement techniques. */
 

@@ -13,48 +13,44 @@
 
 #define __AGEOMETRYH_H 1
 
-using namespace std;
-using namespace amat;
-using namespace acfd;
-
-namespace acfd {
+namespace amc {
 
 /** Class CSpline constructs a piecewise cubic C^2 spline curve interpolating the boundary points contained by the boundary faces either (a) having marker in rfl,
-	or (b) listed in facelist. An overloaded setup() function is provided to distinguish the two situations.
-	Whether the curve is open or closed needs to be specified in isClosed.
-	NOTE: The boundary markers specified must form a continuous boundary.
-*/
+ * or (b) listed in facelist. An overloaded setup() function is provided to distinguish the two situations.
+ * Whether the curve is open or closed needs to be specified in isClosed.
+ * \note NOTE: The boundary markers specified must form a continuous boundary.
+ */
 
 class CSpline
 {
 	UMesh2dh* m;
-	Matrix<int> rfl;					//< Contains boundary markers to be reconstructed to a spline
-	vector<int> facelist;				//< Alternative to rfl; stores an ordered list of faces to be reconstructed
+	amat::Matrix<int> rfl;					//< Contains boundary markers to be reconstructed to a spline
+	std::vector<int> facelist;				//< Alternative to rfl; stores an ordered list of faces to be reconstructed
 	int ndf;							//< number of degrees of freedom per spline - for cubic this is 4
 	int dim;
 	int nseg;							//< number of spline pieces
 	int nspoin;							//< number of control points
-	Matrix<int> seq_spoin;				//< stores sequence of global point numbers for use in spline construction
-	Matrix<int> seq_bface;				//< for each bface, stores an order number indicating its occurrence order according to contiguity
-	Matrix<int> segface;				//< inverse of seq_bface; stores bface number for each segment
-	Matrix<double>* scf;
-	Matrix<int> toRec;					//< stores for each bface face whether that face is to be reconstricted
+	amat::Matrix<int> seq_spoin;				//< stores sequence of global point numbers for use in spline construction
+	amat::Matrix<int> seq_bface;				//< for each bface, stores an order number indicating its occurrence order according to contiguity
+	amat::Matrix<int> segface;				//< inverse of seq_bface; stores bface number for each segment
+	amat::Matrix<double>* scf;
+	amat::Matrix<int> toRec;					//< stores for each bface face whether that face is to be reconstricted
 	bool isClosed;						//< is the spline curve open or closed?
 	bool issequenced;					//< is the list of faces already in sequence?
 	bool face_list_available;			//< true if face list is available, false if rfl is available
 	double tol;
 	int maxiter;
 
-	Matrix<double>* D;					//< D[idim](i) will contain the slope at point 0 of the ith spline piece
-	SpMatrix slhs;						//< LHS of the system which is solved for D
-	Matrix<double>* srhs;				//< RHS for each dimention
+	amat::Matrix<double>* D;					//< D[idim](i) will contain the slope at point 0 of the ith spline piece
+	amat::SpMatrix slhs;						//< LHS of the system which is solved for D
+	amat::Matrix<double>* srhs;				//< RHS for each dimention
 
 public:
 	
-	void setup(UMesh2dh* mesh, Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
+	void setup(UMesh2dh* mesh, amat::Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
 	/**< Use if you want to supply boundary markers for faces to reconstruct. */
 
-	void setup(UMesh2dh* mesh, vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
+	void setup(UMesh2dh* mesh, std::vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
 	/**< Use if you provide a pre-ordered list of faces to reconstruct. */
 
 	~CSpline();
@@ -73,7 +69,7 @@ public:
 
 // --- CSpline implementation ---
 
-void CSpline::setup(UMesh2dh* mesh, Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
+void CSpline::setup(UMesh2dh* mesh, amat::Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
 {
 	face_list_available = false;
 	
@@ -113,15 +109,15 @@ void CSpline::setup(UMesh2dh* mesh, Matrix<int> recmarkers, bool closed, bool se
 		else nspoin = nseg+1;
 	
 	if(isClosed)
-		cout << "CSpline: setup(): Closed curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << endl;
+		std::cout << "CSpline: setup(): Closed curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << std::endl;
 	else
-		cout << "CSpline: setup(): Open curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << endl;
+		std::cout << "CSpline: setup(): Open curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << std::endl;
 
 	// allocate stuff
 	
-	scf = new Matrix<double>[dim];
-	D = new Matrix<double>[dim];
-	srhs = new Matrix<double>[dim];
+	scf = new amat::Matrix<double>[dim];
+	D = new amat::Matrix<double>[dim];
+	srhs = new amat::Matrix<double>[dim];
 	for(int idim = 0; idim < dim; idim++) {
 		scf[idim].setup(nseg,ndf);
 		D[idim].setup(nseg+1,1);
@@ -138,7 +134,7 @@ void CSpline::setup(UMesh2dh* mesh, Matrix<int> recmarkers, bool closed, bool se
 		seq_spoin(i) = -1;
 }
 
-void CSpline::setup(UMesh2dh* mesh, vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
+void CSpline::setup(UMesh2dh* mesh, std::vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
 {
 	face_list_available = true;
 	
@@ -165,15 +161,15 @@ void CSpline::setup(UMesh2dh* mesh, vector<int> recmarkers, bool closed, bool se
 		else nspoin = nseg+1;
 	
 	if(isClosed)
-		cout << "CSpline: setup(): Closed curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << endl;
+		std::cout << "CSpline: setup(): Closed curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << std::endl;
 	else
-		cout << "CSpline: setup(): Open curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << endl;
+		std::cout << "CSpline: setup(): Open curve. Number of pieces = " << nseg << ", number of control points = " << nspoin << std::endl;
 
 	// allocate stuff
 	
-	scf = new Matrix<double>[dim];
-	D = new Matrix<double>[dim];
-	srhs = new Matrix<double>[dim];
+	scf = new amat::Matrix<double>[dim];
+	D = new amat::Matrix<double>[dim];
+	srhs = new amat::Matrix<double>[dim];
 	for(int idim = 0; idim < dim; idim++) {
 		scf[idim].setup(nseg,ndf);
 		D[idim].setup(nseg+1,1);
@@ -226,7 +222,7 @@ void CSpline::sequence()
 				nextface = -1;
 				for(int iface = 0; iface < m->gnface(); iface++)
 					if(toRec(iface) == 1 && m->gbface(iface,0) == nextpoin) nextface = iface;
-				if(nextface == -1) cout << "UMesh2d: sequence(): ! Point not found!" << endl;
+				if(nextface == -1) std::cout << "UMesh2d: sequence(): ! Point not found!" << std::endl;
 				if(nextface == startface) break;
 			}
 			seq_spoin(np) = seq_spoin(0);		// close the point list
@@ -236,7 +232,7 @@ void CSpline::sequence()
 			nextface = startface;
 
 			//first find the last element
-			cout << "UMesh2d: sequence(): Finding first face of open boundary." << endl;
+			std::cout << "UMesh2d: sequence(): Finding first face of open boundary." << std::endl;
 			while(true)
 			{
 				curface = nextface;
@@ -248,7 +244,7 @@ void CSpline::sequence()
 					if(toRec(iface) == 1 && m->gbface(iface,1) == nextpoin) nextface = iface;
 				
 				if(nextface == -1) {
-					cout << "UMesh2d: sequence(): Reached start of boundary to be reconstructed." << endl;
+					std::cout << "UMesh2d: sequence(): Reached start of boundary to be reconstructed." << std::endl;
 					break;
 				}
 			}
@@ -272,8 +268,8 @@ void CSpline::sequence()
 					if(toRec(iface) == 1 && m->gbface(iface,0) == nextpoin) nextface = iface;
 				
 				if(nextface == -1) {
-					cout << "UMesh2d: sequence(): " << nf << " boundary faces and " << np << " boundary points sequenced."  << endl;
-					if(nf != nseg) cout << "UMesh2d: sequence(): ! All faces are not accounted for!" << endl;
+					std::cout << "UMesh2d: sequence(): " << nf << " boundary faces and " << np << " boundary points sequenced."  << std::endl;
+					if(nf != nseg) std::cout << "UMesh2d: sequence(): ! All faces are not accounted for!" << std::endl;
 					break;
 				}
 			}
@@ -286,7 +282,7 @@ void CSpline::sequence()
 	else
 	{
 		if(!face_list_available) {
-			cout << "CSpline: sequence(): Boundary part is sequenced, but facelist is not available!!" << endl;
+			std::cout << "CSpline: sequence(): Boundary part is sequenced, but facelist is not available!!" << std::endl;
 			return;
 		}
 		
@@ -307,7 +303,7 @@ void CSpline::compute()
 {
 	if(isClosed)
 	{
-		// Assemble RHS vector for each dimension
+		// Assemble RHS std::vector for each dimension
 		for(int idim = 0; idim < dim; idim++)
 		{
 			srhs[idim](0) = 3.0*(m->gcoords(seq_spoin(1),idim) - m->gcoords(seq_spoin(nseg-1),idim));
@@ -337,7 +333,7 @@ void CSpline::compute()
 
 	else
 	{
-		// Assemble RHS vector for each dimension
+		// Assemble RHS std::vector for each dimension
 		for(int idim = 0; idim < dim; idim++)
 		{
 			srhs[idim](0) = 3.0*(m->gcoords(seq_spoin(1),idim) - m->gcoords(seq_spoin(0),idim));
@@ -364,14 +360,14 @@ void CSpline::compute()
 	}
 
 	// solve
-	cout << "CSpline: compute(): Solving linear systems" << endl;
-	Matrix<double> d0(nseg+1,1);
+	std::cout << "CSpline: compute(): Solving linear systems" << std::endl;
+	amat::Matrix<double> d0(nseg+1,1);
 	d0.zeros();
 	for(int idim = 0; idim < dim; idim++)
 		D[idim] = sparseCG_d(&slhs, srhs[idim], d0, tol, maxiter);
 	
 	// get coeffs
-	//cout << "CSpline: compute(): Getting spline coefficients" << endl;
+	//std::cout << "CSpline: compute(): Getting spline coefficients" << std::endl;
 	double yi, yip;
 	for(int idim = 0; idim < dim; idim++)
 	{
@@ -387,7 +383,7 @@ void CSpline::compute()
 			scf[idim](i,3) = 2*(yi - yip) + D[idim](i) + D[idim].get(i+1);
 		}
 	}
-	cout << "CSpline: compute(): Done." << endl;
+	std::cout << "CSpline: compute(): Done." << std::endl;
 }
 
 double CSpline::getspline(int iface, int idim, double t)
@@ -409,22 +405,22 @@ double CSpline::getspline(int iface, int idim, double t)
 class BoundaryReconstruction2d
 {
 	UMesh2dh* m;								///< NOTE: make sure bpointsb has been computed!
-	vector<vector<int>> marks;				///< to hold boundary markers of all parts
+	std::vector<std::vector<int>> marks;				///< to hold boundary markers of all parts
 	double cangle;							///< minimum corner angle, above which an intersection is considered a corner
 	int nparts;
 	int nnparts;
 	CSpline* sparts;
-	vector<int> ncorners;
-	vector<bool> isClosed;					///< contins true if a (parent) part is closed.
-	vector<bool> isSplitClosed;				///< contains true if a split part is closed.
-	vector<int> startface;
-	Matrix<int> toRec;						///< nparts x nface array that stores 1 if a face belongs to a part.
-	vector<vector<vector<int>>> corners;	///< contains a list of point number and two containing bfaces for each corner point in each part.
-	vector<vector<int>> partfaces;			///< stores a list of ordered faces for each part
-	Matrix<int> facepart;					///< stores part no. and local face number in that part, for each boundary face
+	std::vector<int> ncorners;
+	std::vector<bool> isClosed;					///< contins true if a (parent) part is closed.
+	std::vector<bool> isSplitClosed;				///< contains true if a split part is closed.
+	std::vector<int> startface;
+	amat::Matrix<int> toRec;						///< nparts x nface array that stores 1 if a face belongs to a part.
+	std::vector<std::vector<std::vector<int>>> corners;	///< contains a list of point number and two containing bfaces for each corner point in each part.
+	std::vector<std::vector<int>> partfaces;			///< stores a list of ordered faces for each part
+	amat::Matrix<int> facepart;					///< stores part no. and local face number in that part, for each boundary face
 
 public:
-	void setup(UMesh2dh* mesh, int num_parts, vector<vector<int>> boundary_markers, double angle_threshold);
+	void setup(UMesh2dh* mesh, int num_parts, std::vector<std::vector<int>> boundary_markers, double angle_threshold);
 
 	~BoundaryReconstruction2d();
 	
@@ -435,7 +431,7 @@ public:
 	void detect_corners();
 	/**< Detect corners in each part based on dot-product of normals of adjacent faces becoming too small. */
 
-	void read_corners(string cname);
+	void read_corners(std::string cname);
 	/**< Can accept corners from a file rather than trying to detect them */
 
 	void split_parts();
@@ -449,12 +445,12 @@ public:
 	*/
 	double getcoords(int iface, int idim, double u);
 	
-	//void writeCoeffs(string fname);
+	//void writeCoeffs(std::string fname);
 	
-	//void readCoeffs(string fname);
+	//void readCoeffs(std::string fname);
 };
 
-void BoundaryReconstruction2d::setup(UMesh2dh* mesh, int num_parts, vector<vector<int>> boundary_markers, double angle_threshold)
+void BoundaryReconstruction2d::setup(UMesh2dh* mesh, int num_parts, std::vector<std::vector<int>> boundary_markers, double angle_threshold)
 {
 	m = mesh;
 	nparts = num_parts;
@@ -489,7 +485,7 @@ void BoundaryReconstruction2d::preprocess()
 					toRec(ipart,iface) = 1;
 		}
 	}
-	cout << "BoundaryReconstruction2d: preprocess(): toRec populated." << endl;
+	std::cout << "BoundaryReconstruction2d: preprocess(): toRec populated." << std::endl;
 	for(int ipart = 0; ipart < nparts; ipart++)
 	{
 		int startfac, nextface, curface, nextpoin;
@@ -503,7 +499,7 @@ void BoundaryReconstruction2d::preprocess()
 			}
 
 		//next, determine if this part is open or closed
-		//cout << "BoundaryReconstruction2d: preprocess(): Determining whether part " << ipart << " is open or closed" << endl;
+		//std::cout << "BoundaryReconstruction2d: preprocess(): Determining whether part " << ipart << " is open or closed" << std::endl;
 		nextface = startfac;
 		while(true)
 		{
@@ -538,7 +534,7 @@ void BoundaryReconstruction2d::preprocess()
 			startface[ipart] = curface;
 		}
 	}
-	cout << "BoundaryReconstruction2d: preprocess(): Done." << endl;
+	std::cout << "BoundaryReconstruction2d: preprocess(): Done." << std::endl;
 }
 
 /**	Detects corner points by computing dot-products of normals of the two faces associated with a point and comparing it with cos(theta) for each point,
@@ -556,7 +552,7 @@ void BoundaryReconstruction2d::detect_corners()
 	int p1, p2, p3;
 	double n1x, n1y, n2x, n2y, mag1, mag2, dp;
 
-	cout << "BoundaryReconstruction2d: detect_corners(): Searching each part for corners" << endl;
+	std::cout << "BoundaryReconstruction2d: detect_corners(): Searching each part for corners" << std::endl;
 	
 	// Scan each part. At each boundary point, calculate dot product of the two normals of the two faces containing that point.
 	for(int ipart = 0; ipart < nparts; ipart++)
@@ -587,7 +583,7 @@ void BoundaryReconstruction2d::detect_corners()
 
 				if(dp < cos(cangle))
 				{
-					vector<int> c(4);
+					std::vector<int> c(4);
 					c[0] = p2;						// global point number
 					c[1] = ipoin;					// boundary point number
 					c[2] = m->gbpointsb(ipoin,1);
@@ -597,22 +593,22 @@ void BoundaryReconstruction2d::detect_corners()
 				}
 			}
 		}
-		cout << "BoundaryReconstruction2d: detect_corners(): Part " << ipart << " contains " << ncorners[ipart] << " corner(s)" << endl;
-		cout << "  at points ";
+		std::cout << "BoundaryReconstruction2d: detect_corners(): Part " << ipart << " contains " << ncorners[ipart] << " corner(s)" << std::endl;
+		std::cout << "  at points ";
 		for(int i = 0; i < ncorners[ipart]; i++)
-			cout << corners[ipart][i][0] << ", ";
-		cout << endl;
+			std::cout << corners[ipart][i][0] << ", ";
+		std::cout << std::endl;
 	}
 }
 
-void BoundaryReconstruction2d::read_corners(string cname)
+void BoundaryReconstruction2d::read_corners(std::string cname)
 {
 	// read corner data from file
 	ifstream fin(cname);
 	
-	cout << "BoundaryReconstruction2d: read_corners(): Reading file" << endl;
+	std::cout << "BoundaryReconstruction2d: read_corners(): Reading file" << std::endl;
 	int dum;
-	vector<int> c(4,0);								// vector of 4 ints with value 0
+	std::vector<int> c(4,0);								// std::vector of 4 ints with value 0
 
 	for(int ipart = 0; ipart < nparts; ipart++)
 	{
@@ -627,7 +623,7 @@ void BoundaryReconstruction2d::read_corners(string cname)
 
 	fin.close();
 
-	cout << "BoundaryReconstruction2d: read_corners(): iterating over boundary points" << endl;
+	std::cout << "BoundaryReconstruction2d: read_corners(): iterating over boundary points" << std::endl;
 	
 	// also store bpointsb number by searching in bpointsb for each corner point
 	for(int ipart = 0; ipart < nparts; ipart++)
@@ -644,12 +640,12 @@ void BoundaryReconstruction2d::read_corners(string cname)
 void BoundaryReconstruction2d::split_parts()
 {
 	nnparts = 0;		// update to get total number of parts after all splits
-	cout << "BoundaryReconstruction2d: split_parts(): Splitting parts" << endl;
+	std::cout << "BoundaryReconstruction2d: split_parts(): Splitting parts" << std::endl;
 	
 	// Split parts containing corners
 	for(int ipart = 0; ipart < nparts; ipart++)
 	{
-		vector<int> facelist;
+		std::vector<int> facelist;
 
 		if(ncorners[ipart] == 0)
 		{
@@ -680,23 +676,23 @@ void BoundaryReconstruction2d::split_parts()
 		if(isClosed[ipart])
 		{
 			int nsplits = ncorners[ipart];
-			cout << "BoundaryReconstruction2d: split_parts(): Part " << ipart << " is closed and contains " << nsplits << " corners." << endl;
+			std::cout << "BoundaryReconstruction2d: split_parts(): Part " << ipart << " is closed and contains " << nsplits << " corners." << std::endl;
 
 			// Change startface for this part to get a corner point face as startface
 			// that is, set startface as the face to the right of the first corner point.
 			startface[ipart] = m->gbpointsb(corners[ipart][0][1],2);
 
-			vector<int> startfac(nsplits);
+			std::vector<int> startfac(nsplits);
 			startfac[0] = startface[ipart];
 			for(int i = 1; i < ncorners[ipart]; i++)
 				startfac[i] = m->gbpointsb(corners[ipart][i][1], 2);
 			
 			// now traverse the parent part in order, looking for startfacs
 			int nextface = startface[ipart], curface, nextpoint; 
-			//cout << "Startface is " << nextface << " " << m->gbface(nextface,0)  << endl;
+			//std::cout << "Startface is " << nextface << " " << m->gbface(nextface,0)  << std::endl;
 			int nspl = 0;
 
-			//cout << "BoundaryReconstruction2d: split_parts(): Starting loop" << endl;
+			//std::cout << "BoundaryReconstruction2d: split_parts(): Starting loop" << std::endl;
 
 			while(true)
 			{
@@ -712,13 +708,13 @@ void BoundaryReconstruction2d::split_parts()
 				for(i = 0; i < nsplits; i++)
 					if(nextface == startfac[i])				// if we've reached the beginning of the next part 
 					{	
-						// add the new part to partfces vector
+						// add the new part to partfces std::vector
 						partfaces.push_back(facelist);
 
 						// new split parts are always open
 						isSplitClosed.push_back(false);
 
-						// reset vector facelist
+						// reset std::vector facelist
 						facelist.clear();
 
 						nnparts++;									// new number of parts
@@ -738,7 +734,7 @@ void BoundaryReconstruction2d::split_parts()
 					nspl++;
 
 					// exit from loop
-					cout << "BoundaryReconstruction2d: split_parts(): Part " << ipart << " split into " << nspl << " part(s) (out of " << nsplits << " part(s))."  << endl;
+					std::cout << "BoundaryReconstruction2d: split_parts(): Part " << ipart << " split into " << nspl << " part(s) (out of " << nsplits << " part(s))."  << std::endl;
 					break;
 				}*/
 			}
@@ -749,7 +745,7 @@ void BoundaryReconstruction2d::split_parts()
 			// just split from startface to corner face 1, and then from corner face 2 to end face, etc
 			// Note, however, that the corners are not necessarily in order.
 			int nsplits = ncorners[ipart]+1;
-			vector<int> startfac(nsplits);
+			std::vector<int> startfac(nsplits);
 			startfac[0] = startface[ipart];
 			for(int i = 1; i < ncorners[ipart]+1; i++)
 				startfac[i] = m->gbpointsb(corners[ipart][i-1][1], 2);
@@ -771,11 +767,11 @@ void BoundaryReconstruction2d::split_parts()
 					if(nextface == startfac[i]) 
 					{	// if we've reached the beginning of the next part
 
-						// add the new part to partfces vector
+						// add the new part to partfces std::vector
 						partfaces.push_back(facelist);
 						isSplitClosed.push_back(false);
 
-						// reset vector facelist
+						// reset std::vector facelist
 						facelist.clear();
 
 						nnparts++;					// new number of parts
@@ -793,7 +789,7 @@ void BoundaryReconstruction2d::split_parts()
 					nspl++;
 
 					// exit from loop
-					cout << "BoundaryReconstruction2d: split_parts(): Part " << ipart << "split into " << nspl << "parts (out of " << nsplits << " parts)."  << endl;
+					std::cout << "BoundaryReconstruction2d: split_parts(): Part " << ipart << "split into " << nspl << "parts (out of " << nsplits << " parts)."  << std::endl;
 					break;
 				}
 			}
@@ -811,7 +807,7 @@ void BoundaryReconstruction2d::compute_splines(double tol, int maxiter)
 		sparts[ipart].sequence();
 		sparts[ipart].compute();
 	}
-	cout << "BoundaryReconstruction2d: compute_splines(): Computed all spline pieces." << endl;
+	std::cout << "BoundaryReconstruction2d: compute_splines(): Computed all spline pieces." << std::endl;
 }
 
 double BoundaryReconstruction2d::getcoords(int iface, int idim, double u)

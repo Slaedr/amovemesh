@@ -16,17 +16,14 @@
 
 #define __ARBF_H 1
 
-using namespace std;
-using namespace amat;
-
-namespace acfd {
+namespace amc {
 
 class RBFmove
 {
-	Matrix<double> inpoints;
-	Matrix<double> bpoints;
-	Matrix<double> bmotion;
-	Matrix<int> bflag;
+	amat::Matrix<double> inpoints;
+	amat::Matrix<double> bpoints;
+	amat::Matrix<double> bmotion;
+	amat::Matrix<int> bflag;
 	int npoin;			///< total number of points
 	int ninpoin;		///< number of interior points
 	int nbpoin;			///< number of boundary points
@@ -38,9 +35,9 @@ class RBFmove
 	double tol;
 	int maxiter;
 
-	SpMatrix A;					///< LHS matrix; contains RBF values relative to pairs of boundary points, and coordinates of boundary points
-	Matrix<double>* coeffs;		///< contains coefficients of RBFs and linear polynomial for each boundary point
-	Matrix<double>* b;			///< rhs for each of the dimensions; contains displacements of boundary points
+	amat::SpMatrix A;					///< LHS matrix; contains RBF values relative to pairs of boundary points, and coordinates of boundary points
+	amat::Matrix<double>* coeffs;		///< contains coefficients of RBFs and linear polynomial for each boundary point
+	amat::Matrix<double>* b;			///< rhs for each of the dimensions; contains displacements of boundary points
 	bool isalloc;				///< This flag is true if both [b](@ref b) and [coeffs](@ref coeffs) have been allocated
 
 public:
@@ -48,10 +45,10 @@ public:
 	/// No-arg constructor
 	RBFmove();
 
-	RBFmove(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter);
+	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter);
 	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 
-	void setup(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter);
+	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter);
 	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 
 	~RBFmove();
@@ -62,29 +59,30 @@ public:
 	double rbf_c4(double xi);
 	double gaussian(double xi);
 
-	/** Assembles the LHS matrix. */
+	/// Assembles the LHS matrix.
 	void assembleLHS();
 
-	/** Executes 1 step of the mesh movement.*/
+	/// Executes 1 step of the mesh movement.
 	void move_step();
 
 	/** Uses [move_step](@ref move_step) to execute the total number of steps specified.
-	This function calls all other required functions, so it should be used directly after setup.*/
+	 * This function calls all other required functions, so it should be used directly after setup.
+	 */
 	void move();
 
-	/** Returns new positions of interior points. */
-	Matrix<double> getInteriorPoints();
+	/// Returns new positions of interior points.
+	amat::Matrix<double> getInteriorPoints();
 
-	/** Returns new positions of boundary points.*/
-	Matrix<double> getBoundaryPoints();
+	/// Returns new positions of boundary points.
+	amat::Matrix<double> getBoundaryPoints();
 };
 	
 RBFmove::RBFmove() {isalloc = false; }
 
-RBFmove::RBFmove(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter)
+RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter)
 // boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 {
-	cout << "RBFmove: Storing inputs" << endl;
+	std::cout << "RBFmove: Storing inputs" << std::endl;
 	inpoints = *int_points;
 	bpoints = *boun_points;
 	npoin = int_points->rows() + boun_points->rows();
@@ -108,8 +106,8 @@ RBFmove::RBFmove(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix
 		default: rbf = &RBFmove::rbf_c2_compact;
 	}
 
-	b = new Matrix<double>[ndim];		// RHS vectors of linear system for each coordinate direction
-	coeffs = new Matrix<double>[ndim];
+	b = new amat::Matrix<double>[ndim];		// RHS std::vectors of linear system for each coordinate direction
+	coeffs = new amat::Matrix<double>[ndim];
 	for(i = 0; i < ndim; i++)
 	{
 		b[i].setup(nbpoin,1);
@@ -117,7 +115,7 @@ RBFmove::RBFmove(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix
 	}
 	isalloc = true;
 
-	cout << "RBFmove: Preparing RHS vector of linear system to solve" << endl;
+	std::cout << "RBFmove: Preparing RHS vector of linear system to solve" << std::endl;
 	// Fill the first nbpoin entries of b's with the motion for each step
 	for(i = 0; i < nbpoin; i++)
 	{
@@ -129,16 +127,16 @@ RBFmove::RBFmove(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix
 	srad = support_radius;
 }
 
-void RBFmove::setup(Matrix<double>* int_points, Matrix<double>* boun_points, Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter)
+void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter)
 // boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 {
-	cout << "RBFmove: Storing inputs" << endl;
+	std::cout << "RBFmove: Storing inputs" << std::endl;
 	inpoints = *int_points;
 	bpoints = *boun_points;
 	npoin = int_points->rows() + boun_points->rows();
 	ndim = int_points->cols();
 	nbpoin = bpoints.rows();
-	cout << "RBFmove: Number of boundary points " << nbpoin << endl;
+	std::cout << "RBFmove: Number of boundary points " << nbpoin << std::endl;
 	int i, k;
 	ninpoin = inpoints.rows();
 	bmotion = *boundary_motion;
@@ -156,8 +154,8 @@ void RBFmove::setup(Matrix<double>* int_points, Matrix<double>* boun_points, Mat
 		default: rbf = &RBFmove::gaussian;
 	}
 
-	b = new Matrix<double>[ndim];		// RHS vectors of linear system for each coordinate direction
-	coeffs = new Matrix<double>[ndim];
+	b = new amat::Matrix<double>[ndim];		// RHS std::vectors of linear system for each coordinate direction
+	coeffs = new amat::Matrix<double>[ndim];
 	for(i = 0; i < ndim; i++)
 	{
 		b[i].setup(nbpoin,1);
@@ -165,7 +163,7 @@ void RBFmove::setup(Matrix<double>* int_points, Matrix<double>* boun_points, Mat
 	}
 	isalloc = true;
 
-	cout << "RBFmove: Preparing RHS vector of linear system to solve" << endl;
+	std::cout << "RBFmove: Preparing RHS vector of linear system to solve" << std::endl;
 	// Fill the first nbpoin entries of b's with the motion for each step
 	for(i = 0; i < nbpoin; i++)
 	{
@@ -175,9 +173,9 @@ void RBFmove::setup(Matrix<double>* int_points, Matrix<double>* boun_points, Mat
 	tol = tolerance;
 	maxiter = iter;
 	srad = support_radius;
-	cout << "RBFmove: RBF to use: " << rbf_ch << endl;
-	cout << "RBFmove: Support radius = " << srad << endl;
-	cout << "RBFmove: Number of steps = " << nsteps << endl;
+	std::cout << "RBFmove: RBF to use: " << rbf_ch << std::endl;
+	std::cout << "RBFmove: Support radius = " << srad << std::endl;
+	std::cout << "RBFmove: Number of steps = " << nsteps << std::endl;
 }
 
 RBFmove::~RBFmove()
@@ -210,25 +208,25 @@ double RBFmove::gaussian(double xi)
 
 void RBFmove::assembleLHS()
 {
-	cout << "RBFmove:  assembleLHS(): assembling LHS matrix" << endl;
+	std::cout << "RBFmove:  assembleLHS(): assembling LHS matrix" << std::endl;
 	int i, j;
 	double dist;
 	double temp;
 
-	SpMatrix* A = &(RBFmove::A);
-	Matrix<double>* bpoints = &(RBFmove::bpoints);
+	amat::SpMatrix* A = &(RBFmove::A);
+	amat::Matrix<double>* bpoints = &(RBFmove::bpoints);
 	double (RBFmove::*rbfunc)(double) = rbf;
 	int nbpoin = RBFmove::nbpoin;
 	int ndim = RBFmove::ndim;
 
 	// set the top nbpoin-by-nbpoin elements of A, ie, M_bb
-	//cout << "RBFmove:  assembleLHS(): assembling M_bb" << endl;
+	//std::cout << "RBFmove:  assembleLHS(): assembling M_bb" << std::endl;
 	//#pragma omp parallel for default(none) private(i,j,dist,temp) shared(A,bpoints,rbfunc,nbpoin,ndim)
 	for(i = 0; i < nbpoin; i++)
 	{
 		A->set(i,i, (this->*rbfunc)(0.0));			// set diagonal element in row i
 
-		//cout << "RBF value = " << (this->*rbf)(0.0) << endl;
+		//std::cout << "RBF value = " << (this->*rbf)(0.0) << std::endl;
 		for(j = i+1; j < nbpoin; j++)		// traverse lower triangular matrix
 		{
 			dist = 0;
@@ -248,7 +246,7 @@ void RBFmove::assembleLHS()
 	A->fprint(ofile);
 	ofile.close();*/
 
-	/*cout << "RBFmove:  assembleLHS(): assembling P_b" << endl;
+	/*std::cout << "RBFmove:  assembleLHS(): assembling P_b" << std::endl;
 	// set P_b and P_b transpose
 	for(i = 0; i < nbpoin; i++)
 	{
@@ -265,12 +263,12 @@ void RBFmove::assembleLHS()
 void RBFmove::move_step()
 {
 	// solve for RBF coefficients
-	cout << "RBFmove:  move_step(): Solving linear system" << endl;
-	Matrix<double> xold(nbpoin,1);
+	std::cout << "RBFmove:  move_step(): Solving linear system" << std::endl;
+	amat::Matrix<double> xold(nbpoin,1);
 	xold.zeros();
-	Matrix<double> B = A.toDense();
-	Matrix<double> rhs(nbpoin,ndim);
-	Matrix<double> coeffsm(nbpoin,ndim);
+	amat::Matrix<double> B = A.toDense();
+	amat::Matrix<double> rhs(nbpoin,ndim);
+	amat::Matrix<double> coeffsm(nbpoin,ndim);
 	for(int i = 0; i < nbpoin; i++)
 		for(int j = 0; j < ndim; j++)
 			rhs(i,j) = b[j](i);
@@ -289,12 +287,12 @@ void RBFmove::move_step()
 		for(int j = 0; j < ndim; j++)
 			coeffs[j](i) = coeffsm.get(i,j);
 
-	cout << "RBFmove:  move_step(): Moving interior points" << endl;
+	std::cout << "RBFmove:  move_step(): Moving interior points" << std::endl;
 	// calculate new positions of interior points
 	int i;
-	Matrix<double>* co = coeffs;			// first assign local pointers to class variables for OpenMP etc
-	Matrix<double>* bp = &bpoints;
-	Matrix<double>* ip = &inpoints;
+	amat::Matrix<double>* co = coeffs;			// first assign local pointers to class variables for OpenMP etc
+	amat::Matrix<double>* bp = &bpoints;
+	amat::Matrix<double>* ip = &inpoints;
 	double (RBFmove::*rbfunc)(double) = rbf;
 	int nbpoin = RBFmove::nbpoin;
 	int ninpoin = RBFmove::ninpoin;
@@ -350,7 +348,7 @@ void RBFmove::move()
 
 	for(istep = 0; istep < nsteps; istep++)
 	{
-		cout << "RBFmove: move(): Step " << istep << endl;
+		std::cout << "RBFmove: move(): Step " << istep << std::endl;
 		assembleLHS();
 
 		move_step();
@@ -362,12 +360,12 @@ void RBFmove::move()
 	}
 }
 
-Matrix<double> RBFmove::getInteriorPoints()
+amat::Matrix<double> RBFmove::getInteriorPoints()
 {
 	return inpoints;
 }
 
-Matrix<double> RBFmove::getBoundaryPoints()
+amat::Matrix<double> RBFmove::getBoundaryPoints()
 {
 	return bpoints;
 }
