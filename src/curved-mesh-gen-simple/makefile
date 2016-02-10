@@ -1,4 +1,6 @@
 OPTIONS = -std=c++11 -ggdb
+INCLUDE = -I../../include/
+FOMP = -fopenmp
 
 curvedrbf:
 	g++-5 gencurved-rbf.cpp -o crbf.out -std=c++11 -I/media/aditya/Data/include -ggdb
@@ -13,7 +15,7 @@ compare:
 	g++-5 compare.cpp -o comp.out -std=c++11 -I/media/aditya/Data/include -ggdb
 
 crbf3d:
-	g++-5 gencurved-rbf-3d.cpp -o crbf3d.out -std=c++11 -I/media/aditya/Data/include -ggdb -fopenmp
+	$(GPP) gencurved-rbf-3d.cpp -o crbf3d.out $(OPTIONS) $(INCLUDE) $(FOMP)
 
 getq:
-	g++-5 getquadmesh.cpp -o getq.out -std=c++11 -I/media/aditya/Data/include -ggdb	
+	$(GPP) getquadmesh.cpp -o getq.out $(OPTIONS) $(INCLUDE)

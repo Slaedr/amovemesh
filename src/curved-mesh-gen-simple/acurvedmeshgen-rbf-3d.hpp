@@ -1,38 +1,60 @@
+/** \brief Generation of 3D curved meshes when an analytical expression for the boundary is available.
+ * \author Aditya Kashi
+ */
+
 #ifndef __AMESH3D_H
 #include <amesh3d.hpp>
 #endif
 
-#include "arbf.hpp"
+#include <arbf.hpp>
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
-#define PI 3.1415927
-
+/// Generation of 3D curved meshes when an analytical expression for the boundary is available
+/** RBF mesh movement scheme is used.
+ * RBF support radius, tolerance and maximum iterations for solver need to be provided.
+ */
 class CurvedMeshGeneration
 {
 	UMesh* m;
-	Matrix<double> mipoints;		// interior points to be moved
-	Matrix<double> fipoints;			// fixed interior points
+	/// interior points to be moved
+	Matrix<double> mipoints;
+	/// fixed interior points
+	Matrix<double> fipoints;
+	/// Boundary points
 	Matrix<double> bpoints;
+	/// Boundary motion
 	Matrix<double> bmotion;
+	/// Flag indicating whether or not there are internal (non-boundary) fixed points
 	bool noInternalFixedPoints;
-	int ninpoin;				// number of interior points
-	int npomo;					// number of interior points to be moved
-	int nbpoin;					// number of  boundary points
-	Matrix<int> bflag;			// 1 if corresponding point is a boundary points (npoin-by-1)
-	Matrix<int> hflag;			// 1 if corresponding point is a high-order point (npoin-by-1)
-	Matrix<int> bhflag;			// 1 if corresponding boundary point is a high-order point (nbpoin-by-1)
+	/// number of interior points
+	int ninpoin;
+	/// number of interior points to be moved
+	int npomo;
+	/// number of  boundary points
+	int nbpoin;
+	/// npoin-by-1, 1 if corresponding point is a boundary points
+	Matrix<int> bflag;
+	/// 1 if corresponding point is a high-order point (npoin-by-1)
+	Matrix<int> hflag;
+	/// 1 if corresponding boundary point is a high-order point (nbpoin-by-1)
+	Matrix<int> bhflag;
 	Matrix<int> fixedflag;
+	/// Contains markers of fixed boundary flags
 	Matrix<int> fbf;
 	RBFmove rbfm;
 	int rbf_c;
 	double srad;
 	int rbf_nsteps;
+	double tol;
+	int maxiter;
+	/// linear solver to use for RBFmove
+	std::string rbfsolver;
 
 public:
-	CurvedMeshGeneration(UMesh* mesh, Matrix<int> fixed_boundary_flags, int rbf_steps, int rbf_choice, double support_radius)
+	CurvedMeshGeneration(UMesh* mesh, Matrix<int> fixed_boundary_flags, int rbf_steps, int rbf_choice, double support_radius, double rbf_tol, int rbf_maxiter, std::string rbf_solver)
 	// Note that the input mesh should be quadratic
 	{
 		cout << "CurvedMeshGeneration: Pre-processing..." << endl;
@@ -41,7 +63,12 @@ public:
 		rbf_c = rbf_choice;
 		srad = support_radius;
 		rbf_nsteps = rbf_steps;
+		tol = rbf_tol;
+		maxiter = rbf_maxiter;
+		rbfsolver = rbf_solver;
+		
 		noInternalFixedPoints = false;
+		
 		cout << "CurvedMeshGeneration: Support radius " << srad << endl;
 
 		Matrix<int> pfixedflag(m->gnpoin(),1);
@@ -131,7 +158,7 @@ public:
 					mipoints(k,idim) = m->gcoords(i,idim);
 				k++;
 			}
-			else if(bflag(i)==0 && hflag(i) == 0 && noInternalFixedPoints==false)			// pointis an interior point but not a high order point (fixed)
+			else if(bflag(i)==0 && hflag(i) == 0 && noInternalFixedPoints==false)			// point is an interior point but not a high order point (fixed)
 			{
 				for(int idim = 0; idim < m->gndim(); idim++)
 					fipoints(l,idim) = m->gcoords(i,idim);
@@ -143,10 +170,13 @@ public:
 	double trueboundary(double x0, double y)
 	{
 		// TODO: change this block according to the desired boundary motion
+		
+		// Below, the analytical boundary of the 3D-bump case
 		double x = x0 - 0.3*pow(sin(PI*y),4);
 		if(x >= 0.3 && x <= 1.2)
 			return 0.05*pow(sin(PI*x/0.9-(PI/3.0)),4);
 		else return 0.0;
+		
 		/*if(x0 >= 0.3 && x0 <= 1.2)
 			return 0.05*pow((sin(PI*x0/0.9-(PI/3.0))),4);
 		else return 0.0;*/
@@ -214,7 +244,7 @@ public:
 	{
 		cout << "CurvedMeshGeneration: generate(): Setting up RBF mesh movement" << endl;
 		cout << nbpoin << endl;
-		rbfm.setup(&mipoints, &bpoints, &bmotion, rbf_c, srad, rbf_nsteps, 1e-8, 5000);
+		rbfm.setup(&mipoints, &bpoints, &bmotion, rbf_c, srad, rbf_nsteps, tol, maxiter, rbfsolver);
 		cout << "CurvedMeshGeneration: generate(): Moving the mesh" << endl;
 		rbfm.move();
 		bpoints = rbfm.getBoundaryPoints();

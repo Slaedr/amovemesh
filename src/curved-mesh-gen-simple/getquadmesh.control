@@ -1,7 +1,7 @@
 -input-mesh
-3dbump160000.msh
+../../input/bump3d-coarse.msh
 -Straight-quadratic-mesh
-3dbump160000_quadratic.msh
+../../output/curved-mesh-gen-simple/bump3d-coarse_quadratic.msh
 
 3dbumpl9.msh
 3dbump200000.msh

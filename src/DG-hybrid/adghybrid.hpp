@@ -33,6 +33,8 @@ class DGhybrid
 	
 	/// Background mesh points
 	amat::Matrix<double> backpoints;
+	/// Interior points of the input quadratic mesh
+	amat::Matrix<double> inpoints_q;
 	/// Number of background mesh points
 	int nbackp;
 	/// number of layers at which to take backmesh points
@@ -43,7 +45,7 @@ class DGhybrid
 public:
 	DGhybrid(UMesh2dh& mesh, UMesh2dh& qmesh, const int num_layers);
 	void compute_backmesh_points();
-	void move();
+	void generate_backmesh_and_compute_displacements();
 };
 
 DGhybrid::DGhybrid(UMesh2dh& mesh, UMesh2dh& qmesh, const int num_layers) : m(mesh), mq(qmesh), nlayers(num_layers)
@@ -114,8 +116,34 @@ void DGhybrid::compute_backmesh_points()
 	for(ip = 0; ip < layerpoints.size(); ip++)
 		for(idim = 0; idim < m.gndim(); idim++)
 			backpoints(nbpoin+ip,idim) = m.gcoords(layerpoints[ip],idim);
+}
 
-	// now generate the background mesh
+/// Generates the background mesh and computes displacements of its nodes using linear elasticity
+void DGhybrid::generate_backmesh_and_compute_displacements()
+{
+	// make a list of interior points of the quadratic mesh
+	
+	std::vector<int> onboun(mq.gnpoin(),0);
+	int ipoin, ib, ilp, idim, ninpoin_q = 0, k = 0;
+	
+	for(ib = 0; ib < mq.gnface(); ib++)
+		for(ilp = 0; ilp < mq.gnnofa(); ilp++)
+			onboun[mq.gbface(ib,ilp)] = 1;
+	for(ipoin = 0; ipoin < mq.gnpoin(); ipoin++)
+		ninpoin_q += onboun[ipoin];
+	ninpoin_q = mq.gnpoin() - ninpoin_q;
+
+	inpoints_q.setup(ninpoin_q, mq.gndim());
+	for(ipoin = 0; ipoin < mq.gnpoin(); ipoin++)
+		if(!onboun[ipoin])
+		{
+			for(idim = 0; idim < mq.gndim(); idim++)
+				inpoints_q(k,idim) = mq.gcoords(ipoin,idim);
+			k++;
+		}
+
+	// setup DGM
+	dgm.setup(mq.gndim(), &inpoints_q, &backpoints, &b_motion);
 }
 
 }		// end namespace

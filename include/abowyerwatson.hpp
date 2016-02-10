@@ -245,9 +245,6 @@ public:
 			faces.push_back(f[i]);
 		}
 
-		/*for(int i = 0; i < 3; i++)
-			points(N+i,0) = super.p[i].x; points(N+i,1) = super.p[i].y;			// add super coords to points matrix*/
-
 		// iterate through points
 		std::cout << "Delaunay2D: Starting iteration over points\n";
 		for(int ipoin = 0; ipoin < npoints; ipoin++)

@@ -2,7 +2,7 @@
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
 int main()
 {

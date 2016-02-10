@@ -1,15 +1,21 @@
 -input-mesh
-3dbump160000_quadratic.msh
+../../output/curved-mesh-gen-simple/bump3d-coarse_quadratic.msh
 -Curved-mesh
-3dbump160000_curved.msh
+../../output/curved-mesh-gen-simple/bump3d-coarse_curved.msh
 -Support-radius
-0.011
+0.02
 -Num-steps
 1
+-RBF-solver
+LU
+-RBF-tolerance
+1e-8
+-RBF-max-iterations
+50000
 -Number-of-fixed-boundary-flags
-3
+2
 -Fixed-boundary-flags
-3 31 41
+4 5
 
 tryhex_quadratic.msh
 3d2d_bump_coarse_quadratic.msh

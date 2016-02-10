@@ -1,13 +1,17 @@
 /** A mesh-movement method using radial basis function interpolation based on the 2007 paper by de Boer, van der Schoot and Bijl,
-   but with one major difference - the interpolation is done using only RBFs; the polynomial part is ignored.
-   Aditya Kashi
-   August 6, 2015
-
-   Aug 14, 2015: Modified to work with curved mesh generation. Now requires interior points and boundary points as separate inputs.
+ * but with one major difference - the interpolation is done using only RBFs; the polynomial part is ignored.
+ * @author Aditya Kashi
+ * @date August 6, 2015
+ * 
+ * Aug 14, 2015: Modified to work with curved mesh generation. Now requires interior points and boundary points as separate inputs.
  */
 
 #ifndef __GLIBCXX_CSTDIO
 #include <cstdio>
+#endif
+
+#ifndef __GLIBCXX_STRING
+#include <string>
 #endif
 
 #ifndef __ALINALG_H
@@ -39,16 +43,19 @@ class RBFmove
 	amat::Matrix<double>* coeffs;		///< contains coefficients of RBFs and linear polynomial for each boundary point
 	amat::Matrix<double>* b;			///< rhs for each of the dimensions; contains displacements of boundary points
 	bool isalloc;				///< This flag is true if both [b](@ref b) and [coeffs](@ref coeffs) have been allocated
+	
+	/// string indicating the solver to use - options are 'CG', 'SOR', 'BICGSTAB' or 'LU' (defaults to LU)
+	std::string lsolver;
 
 public:
 
 	/// No-arg constructor
 	RBFmove();
 
-	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter);
+	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver);
 	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 
-	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter);
+	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver);
 	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 
 	~RBFmove();
@@ -79,7 +86,7 @@ public:
 	
 RBFmove::RBFmove() {isalloc = false; }
 
-RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter)
+RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver)
 // boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 {
 	std::cout << "RBFmove: Storing inputs" << std::endl;
@@ -125,9 +132,10 @@ RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_po
 	tol = tolerance;
 	maxiter = iter;
 	srad = support_radius;
+	lsolver = linear_solver;
 }
 
-void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter)
+void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver)
 // boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 {
 	std::cout << "RBFmove: Storing inputs" << std::endl;
@@ -170,9 +178,12 @@ void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun
 		for(int j = 0; j < ndim; j++)
 			b[j](i) = bmotion.get(i,j)/nsteps;
 	}
+	
 	tol = tolerance;
 	maxiter = iter;
 	srad = support_radius;
+	lsolver = linear_solver;
+	
 	std::cout << "RBFmove: RBF to use: " << rbf_ch << std::endl;
 	std::cout << "RBFmove: Support radius = " << srad << std::endl;
 	std::cout << "RBFmove: Number of steps = " << nsteps << std::endl;
@@ -234,7 +245,7 @@ void RBFmove::assembleLHS()
 				dist += (bpoints->get(i,id) - bpoints->get(j,id))*(bpoints->get(i,id) - bpoints->get(j,id));
 			dist = sqrt(dist);
 			temp = (this->*rbfunc)(dist);
-			if(dabs(temp) > tol*tol)
+			if(fabs(temp) > tol*tol)
 			{
 				A->set(i,j, temp);
 				A->set(j,i, temp);
@@ -266,26 +277,37 @@ void RBFmove::move_step()
 	std::cout << "RBFmove:  move_step(): Solving linear system" << std::endl;
 	amat::Matrix<double> xold(nbpoin,1);
 	xold.zeros();
-	amat::Matrix<double> B = A.toDense();
-	amat::Matrix<double> rhs(nbpoin,ndim);
-	amat::Matrix<double> coeffsm(nbpoin,ndim);
-	for(int i = 0; i < nbpoin; i++)
-		for(int j = 0; j < ndim; j++)
-			rhs(i,j) = b[j](i);
+		
+	if(lsolver == "CG")
+		for(int idim = 0; idim < ndim; idim++)
+			coeffs[idim] = sparseCG_d(&A, b[idim], xold, tol, maxiter);
+	else if(lsolver == "SOR")
+		for(int idim = 0; idim < ndim; idim++)
+			coeffs[idim] = sparseSOR(&A, b[idim], xold, tol, maxiter);
+	else if(lsolver == "BICGSTAB")
+		for(int idim = 0; idim < ndim; idim++)
+			coeffs[idim] = sparse_bicgstab(&A, b[idim], xold, tol, maxiter);
+	else
+	{
+		amat::Matrix<double> coeffsm(nbpoin,ndim);
+		amat::Matrix<double> rhs(nbpoin,ndim);
+		amat::Matrix<double> B = A.toDense();
+		
+		for(int i = 0; i < nbpoin; i++)
+			for(int j = 0; j < ndim; j++)
+				rhs(i,j) = b[j](i);
+		
+		coeffsm = gausselim(B, rhs);
+		
+		for(int i = 0; i < nbpoin; i++)
+			for(int j = 0; j < ndim; j++)
+				coeffs[j](i) = coeffsm.get(i,j);
+	}
 	
-	//for(int idim = 0; idim < ndim; idim++)
-		//coeffs[idim] = sparseCG_d(&A, b[idim], xold, tol, maxiter);
-		//coeffs[idim] = sparse_bicgstab(&A, b[idim], xold, tol, maxiter);
+	
 		//coeffs[idim] = sparsePCG(&A, b[idim], xold, "jacobi", tol, maxiter);
 		//coeffs[idim] = sparsegaussseidel(&A, b[idim], xold, tol, maxiter);
-		//coeffs[idim] = sparseSOR(&A, b[idim], xold, tol, maxiter);
 		//coeffs[idim] = gausselim(B, b[idim]);
-	
-	coeffsm = gausselim(B, rhs);
-	
-	for(int i = 0; i < nbpoin; i++)
-		for(int j = 0; j < ndim; j++)
-			coeffs[j](i) = coeffsm.get(i,j);
 
 	std::cout << "RBFmove:  move_step(): Moving interior points" << std::endl;
 	// calculate new positions of interior points
@@ -336,8 +358,8 @@ void RBFmove::move_step()
 		delete [] sum;
 		delete [] psum;
 
-		if(i % 100 == 0)
-			printf(" =");
+		//if(i % 100 == 0)
+			//printf(" =");
 	}
 	printf("\n");
 }

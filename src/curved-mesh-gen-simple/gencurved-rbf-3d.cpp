@@ -2,19 +2,22 @@
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
 int main()
 {
 	string confile = "gencurved-rbf-3d.control";
 	ifstream conf(confile);
-	string inmesh, intermesh, outmesh, dum;
-	double sup_rad; int num_steps, numbflags;
+	string inmesh, intermesh, outmesh, rbf_solver, dum;
+	double sup_rad, rbf_tol; int num_steps, numbflags, rbf_maxiter;
 
 	conf >> dum; conf >> inmesh;
 	conf >> dum; conf >> outmesh;
 	conf >> dum; conf >> sup_rad;
 	conf >> dum; conf >> num_steps;
+	conf >> dum; conf >> rbf_solver;
+	conf >> dum; conf >> rbf_tol;
+	conf >> dum; conf >> rbf_maxiter;
 	conf >> dum; conf >> numbflags;
 	conf >> dum;
 	Matrix<int> bounflags(numbflags,1);
@@ -26,7 +29,7 @@ int main()
 
 	UMesh m;
 	m.readGmsh2(inmesh, 3);
-	CurvedMeshGeneration cmg(&m, bounflags, num_steps, 2, sup_rad);
+	CurvedMeshGeneration cmg(&m, bounflags, num_steps, 2, sup_rad, rbf_tol, rbf_maxiter, rbf_solver);
 	cmg.compute_boundary_displacement();
 	cmg.generate();
 	m.writeGmsh2(outmesh);
