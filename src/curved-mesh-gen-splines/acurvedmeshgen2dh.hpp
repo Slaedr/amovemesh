@@ -36,6 +36,7 @@ class Curvedmeshgen2d
 	int rbfchoice;					///< Parameters for mesh movement - the type of RBF to be used, if applicable
 	double supportradius;			///< Parameters for mesh movement - the support radius to be used, if applicable
 	int nummovesteps;				///< Number of steps in which to accomplish the total mesh movement.
+	string rbfsolver;				///< string describing the method to use for solving the RBF equations
 
 	int nbounpoin;					///< Number if boundary points.
 	int ninpoin;					///< Number of interior points.
@@ -47,14 +48,14 @@ class Curvedmeshgen2d
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 public:
-	void setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler, double maxitera, int rbf_choice, double support_radius, int rbf_steps);
+	void setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler, double maxitera, int rbf_choice, double support_radius, int rbf_steps, string rbf_solver);
 
 	void compute_boundary_displacements();
 
 	void generate_curved_mesh();
 };
 
-void Curvedmeshgen2d::setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler, double maxitera, int rbf_choice, double support_radius, int rbf_steps)
+void Curvedmeshgen2d::setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler, double maxitera, int rbf_choice, double support_radius, int rbf_steps, string rbf_solver)
 {
 	m = mesh;
 	mq = meshq;
@@ -64,6 +65,7 @@ void Curvedmeshgen2d::setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, in
 	maxiter = maxitera;
 	rbfchoice = rbf_choice; supportradius = support_radius;
 	nummovesteps = rbf_steps;
+	rbfsolver = rbf_solver;
 	disps.setup(m->gnface(),m->gndim());
 	disps.zeros();
 	bflagg.setup(mq->gnpoin(),1);
@@ -78,7 +80,7 @@ void Curvedmeshgen2d::setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, in
 					toRec(iface) = 1;
 }
 
-/** Computes displacement of midpoint of each face. */
+/// Computes displacement of midpoint of each face.
 void Curvedmeshgen2d::compute_boundary_displacements()
 {
 	br.preprocess();
@@ -167,7 +169,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	/// We now have all we need to call the mesh-movement functions and generate the curved mesh.
 	//Call RBF functions here
 
-	mmv->setup(&inpoints, &bounpoints, &boundisps, rbfchoice, supportradius, nummovesteps, tol, maxiter);
+	mmv->setup(&inpoints, &bounpoints, &boundisps, rbfchoice, supportradius, nummovesteps, tol, maxiter, rbfsolver);
 	mmv->move();
 
 	bounpoints = mmv->getBoundaryPoints();

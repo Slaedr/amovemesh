@@ -4,7 +4,7 @@
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
 int main(int argc, char* argv[])
 {
@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
 	string confile(argv[1]);
 	ifstream conf(confile);
-	string dum, str_linearmesh, str_qmesh, str_curvedmesh;
+	string dum, str_linearmesh, str_qmesh, str_curvedmesh, rbf_solver;
 	int rbfchoice, maxiter, nrbfsteps, nsplineparts, nflags;
 	double supportradius, tol, cornerangle;
 	vector<vector<int>> splineflags;
@@ -31,6 +31,7 @@ int main(int argc, char* argv[])
 	conf >> dum; conf >> nrbfsteps;
 	conf >> dum; conf >> tol;
 	conf >> dum; conf >> maxiter;
+	conf >> dum; conf >> rbf_solver;
 	conf >> dum; conf >> nsplineparts;
 	conf >> dum;
 	splineflags.reserve(nsplineparts);
@@ -58,7 +59,7 @@ int main(int argc, char* argv[])
 
 	RBFmove rmove;
 	Curvedmeshgen2d cu;
-	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol, maxiter, rbfchoice, supportradius, nrbfsteps);
+	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol, maxiter, rbfchoice, supportradius, nrbfsteps, rbf_solver);
 	cu.compute_boundary_displacements();
 	
 	clock_t begin = clock();

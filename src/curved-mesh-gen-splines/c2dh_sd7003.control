@@ -16,6 +16,8 @@
 1e-6
 -Maximum-iterations
 50000
+-RBF-solver
+LU
 -Number-of-spline-parts
 1
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers

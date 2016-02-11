@@ -246,8 +246,24 @@ public:
 	}
 	
 	/// Assign Dirichlet BCs to arbitrary points in the mesh
-	void dirichletBC_points(const std::vector<int>& bcpoint_indices, const amat::Matrix<double>& bdata)
+	/** \param cflag contains an integer flag for all points in the mesh - 1 for constrained points and 0 for free points
+	 * \param bdata contains displacements for all points in the mesh. These displacements are only imposed on those points flagged by [cflag](@ref cflag)
+	 */
+	void dirichletBC_points(const vector<int>& cflag, const amat::Matrix<double>& bdata)
 	{
+		double temp1, temp2;
+		for(int i = 0; i < m->gnpoin(); i++)
+		{
+			if(cflag[i] == 1)
+			{
+				temp1 = K.get(i,i);
+				temp2 = K.get(i+m->gnpoin(), i+m->gnpoin());
+				K.set(i,i, temp1*cbig);
+				K.set(i+m->gnpoin(),i+m->gnpoin(), temp2*cbig);
+				f(i) = cbig*bdata.get(i,0)*temp1;
+				f(i+m->gnpoin()) = cbig*bdata.get(i,1)*temp2;
+			}
+		}
 	}
 
 	/*void dirichletBC_onAllBface(amat::Matrix<double> bdata, amat::Matrix<int> extra, int flag_move, int flag_fixed)

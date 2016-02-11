@@ -604,7 +604,7 @@ void BoundaryReconstruction2d::detect_corners()
 void BoundaryReconstruction2d::read_corners(std::string cname)
 {
 	// read corner data from file
-	ifstream fin(cname);
+	std::ifstream fin(cname);
 	
 	std::cout << "BoundaryReconstruction2d: read_corners(): Reading file" << std::endl;
 	int dum;

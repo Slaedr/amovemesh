@@ -13,9 +13,11 @@
 -Number-of-RBF-steps
 1
 -Tolerance-for-RBF-move
-1e-6
+1e-8
 -Maximum-iterations
 2000
+-RBF-solver
+CG
 -Number-of-spline-parts
 3
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers

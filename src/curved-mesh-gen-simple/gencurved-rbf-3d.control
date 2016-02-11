@@ -3,11 +3,11 @@
 -Curved-mesh
 ../../output/curved-mesh-gen-simple/bump3d-coarse_curved.msh
 -Support-radius
-0.02
+0.025
 -Num-steps
 1
 -RBF-solver
-LU
+CG
 -RBF-tolerance
 1e-8
 -RBF-max-iterations

@@ -40,7 +40,7 @@ class Curvedmeshgen2d
 	Matrix<double> boundisps;		///< Displacement at each boundary point of the quadratic mesh, computed using [disps](@ref disps).
 	Matrix<double> bounpoints;
 	Matrix<double> inpoints;
-	Matrix<int> bflagg;				///< This flag is true if the corresponding mesh node lies on a boundary.
+	Matrix<int> bflagg;				///< This flag is true if the corresponding quadratic mesh node lies on a boundary.
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 public:
@@ -110,10 +110,9 @@ void Curvedmeshgen2d::compute_boundary_displacements()
 */
 void Curvedmeshgen2d::generate_curved_mesh()
 {
-	/** 
-	Note that this function works with the straight quadratic mesh.
-	We assume that the face numberings of the linear mesh and the quadratic mesh are the same.
-	*/
+	/** Note that this function works with the straight quadratic mesh.
+	 * We assume that the face numberings of the linear mesh and the quadratic mesh are the same.
+	 */
 	
 	/// Get a vector of displacements for each node of the quadratic mesh
 	Matrix<double> allpoint_disps(mq->gnpoin(),mq->gndim());
