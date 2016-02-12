@@ -848,10 +848,9 @@ public:
 
 #define INITIAL_ROW_SIZE 20
 
-/**
- Implements sparse matrix storage in coordinate format, but with separate arrays for each row of the matrix.
- We do not need to store row indices any more.
-*/
+/** Implements sparse matrix storage in coordinate format, but with separate arrays for each row of the matrix.
+ * We do not need to store row indices any more.
+ */
 template<typename T>
 class MatrixCOO2
 {

@@ -130,6 +130,7 @@ public:
 		alloc_jacobians = false;
 		alloc_lambda = false;
 		neleminlambda = 3;
+		nface = 0;
 	}
 
 	UMesh2d(const UMesh2d& other)

@@ -186,7 +186,7 @@ public:
 	amat::Matrix<double> getBoundaryPoints()
 	{ return dgpoints; }
 
-	amat::Matrix<double> getcoords()
+	/**amat::Matrix<double> getcoords()
 	{
 		// create a coords matrix with same point numbering as initial matrix and return it
 		int a = 0, b = 0, k = 0;
@@ -208,7 +208,7 @@ public:
 			}
 		}
 		return newcoords;
-	}
+	}*/
 	
 	/// Return the DG as a mesh
 	UMesh2d getDelaunayGraph()

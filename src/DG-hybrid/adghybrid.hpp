@@ -15,6 +15,8 @@
 #include <alinelast_p1.hpp>
 #endif
 
+#define __ADGHYBRID_H 1
+
 namespace amc {
 
 class DGhybrid
@@ -48,16 +50,22 @@ class DGhybrid
 	/// indices of points in the required layer
 	std::vector<int> layerpoints;
 
-	double lambda;				///< Lame elasticity constant 1
-	double mu;					///< Lame elasticity constant 2
+	double lambda;				///< Lame` elasticity constant 1
+	double mu;					///< Lame` elasticity constant 2
+	double tol;
+	int maxiter;
+	std::string solver;
 
 public:
-	DGhybrid(UMesh2dh& mesh, UMesh2dh& qmesh, const amat::Matrix<double>& boundary_motion_quadratic, const int num_layers, const double young, const double nu);
+	DGhybrid(UMesh2dh& mesh, UMesh2dh& qmesh, const amat::Matrix<double>& boundary_motion_quadratic, const int num_layers, 
+			const double young, const double nu, const double tol, const int maxiter, const std::string solver);
+	void setup(UMesh2dh& mesh, UMesh2dh& qmesh, const amat::Matrix<double>& boundary_motion_quadratic, const int num_layers, 
+			const double young, const double nu, const double tol, const int maxiter, const std::string solver);
 	void compute_backmesh_points();
 	void generate_backmesh_and_compute_displacements();
 };
 
-DGhybrid::DGhybrid(UMesh2dh& mesh, UMesh2dh& qmesh, const amat::Matrix<double>& b_motion_quadratic, const int num_layers, const double young, const double nu) 
+DGhybrid::DGhybrid(UMesh2dh& mesh, UMesh2dh& qmesh, const amat::Matrix<double>& b_motion_quadratic, const int num_layers, const double young, const double nu, const double tol, const int maxiter) 
 	: m(mesh), mq(qmesh), b_motion_q(b_motion_quadratic), nlayers(num_layers)
 {
 	lambda = nu*young/((1.0+nu)*(1.0-2.0*nu));
@@ -71,7 +79,7 @@ void DGhybrid::compute_backmesh_points()
 {
 	std::vector<int> laypo(m.gnpoin(),0);
 	std::vector<int> layel(m.gnelem(),0);
-	int ib, iel, j, ip, idim; 
+	int ib, iel, j, ip, idim;
 	nbpoin_q = 0;
 
 	int morder = 2; // for quadratic mesh ************
@@ -121,16 +129,22 @@ void DGhybrid::compute_backmesh_points()
 	b_motion.setup(nbackp,m.gndim());
 
 	// add boundary points of the high-order mesh
+	int k = 0;
 	for(ib = 0; ib < mq.gnface(); ib++)
 	{
 		for(j = 0; j < mq.gnnofa(); j++)
+		{
 			for(idim = 0; idim < mq.gndim(); idim++)
-				backpoints(mq.gbface(ib,j), idim) = mq.gcoords(mq.gbface(ib,j),idim);
+				backpoints(k, idim) = mq.gcoords(mq.gbface(ib,j),idim);
+			k++;
+		}
 	}
+	if(k != nbpoin_q) std::cout << "DGhybrid: compute_backmesh_points(): Error in getting the points!" << std::endl;
+
 	// add layer points of the linear mesh
 	for(ip = 0; ip < layerpoints.size(); ip++)
 		for(idim = 0; idim < m.gndim(); idim++)
-			backpoints(nbpoin+ip,idim) = m.gcoords(layerpoints[ip],idim);
+			backpoints(nbpoin_q+ip,idim) = m.gcoords(layerpoints[ip],idim);
 }
 
 /// Generates the background mesh and computes displacements of its nodes using linear elasticity
@@ -180,10 +194,39 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 			}
 	}
 
+	// setup and solve the elasticity equations to get displacement of the background mesh
+	
 	linm.setup(bm, lambda, mu);
 	linm.assembleStiffnessMatrix();
 	linm.assembleLoadVector();
 	linm.dirichletBC_points(cflags, motion_b);
+
+	amat::SpMatrix A = linm.stiffnessMatrix();
+	amat::Matrix<double> b = linm.loadVector();
+	amat::Matrix<double> xb(2*nbackp,1);
+	xb.zeros();
+
+	xb = sparseCG_d(&A, b, xb, tol, maxiter);
+
+	for(int i = 0; i < nbackp; i++)
+		for(idim = 0; idim < mq.gndim(); idim++)
+			motion_b(nbpoin_q+i, idim) = xb.get(i+idim*nbpoin_q);
+}
+
+void DGhybrid::movemesh()
+{
+	int ibp, idim;
+	
+	// now solve Delaunay -- may need to set up once again - CHECK
+	dgm.movemesh();
+
+	inpoints_q = dgm.getInteriorPoints();
+	for(ibp = 0; ibp < nbackp, ibp++)
+		for(idim = 0; idim < ndim; idim++)
+			backpoints(ibp,idim) += motion_b.get(ibp,idim);
+
+	bm.setcoords(&backpoints);
+	bm.writeGmsh2("testdg.msh");
 }
 
 }		// end namespace
