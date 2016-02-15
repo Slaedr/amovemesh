@@ -15,10 +15,18 @@
 #include <cmath>
 #endif
 
+// for getenv(), atoi()
+#ifndef _GLIBCXX_CSTDLIB
+#include <cstdlib>
+#endif
+
+#ifndef __SLU_MT_DDEFS
+#include <slu_mt_ddefs.h>
+#endif
+
 #ifdef _OPENMP
 #ifndef OMP_H
 #include <omp.h>
-#define nthreads_linalg 8
 #endif
 #endif
 
@@ -31,6 +39,11 @@ namespace amat
 * A is mxm, b is mxk where k is the number of systems to be solved with the same LHS.
 */
 Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMALL_NUMBER/100.0);
+
+#ifdef _OPENMP
+/// Uses the SuperLU direct sparse solver to solve Ax = b and stores the solution in ans
+void superLU_solve(const SpMatrix* A, const Matrix<double>* b, Matrix<double>* ans);
+#endif
 
 /* Note: Cholesky algorithm only implemented for a row-major matrix */
 Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
@@ -194,6 +207,75 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 	}
 	return x;
 }
+
+#ifdef _OPENMP
+/** Re-stores matrix data in the form needed by SuperLU, and calls the SuperLU routine to solve.
+ */
+void superLU_solve(const SpMatrix* aa, const Matrix<double>* b, Matrix<double>* ans)
+{
+	if(aa->rows() != b->rows())
+	{
+		std::cout << "superLU_solve(): Input sizes do not match!!" << std::endl;
+		return;
+	}
+	
+	// get LHS matrix in CRS form and store in lhs
+	SMatrixCRS<double> lhs;
+	aa->getCRSMatrix(lhs);
+
+	SuperMatrix A, B, L, U;
+	double *a, *rhs;
+	int *col_ind, *row_ptr, *perm_r, *perm_c; 
+	a = doubleMalloc(lhs.nnz);
+	col_ind = intMalloc(lhs.nnz);
+	row_ptr = intMalloc(aa->rows()+1);
+	rhs = doubleMalloc(b->rows()*b->cols());
+	perm_r = intMalloc(aa->rows());
+	perm_c = intMalloc(aa->cols());
+
+	int i,j,k,info,nprocs;
+	nprocs = std::atoi(std::getenv("OMP_NUM_THREADS"));
+
+	for(i = 0; i < lhs.nnz; i++)
+	{
+		a[i] = lhs.val[i];
+		col_ind[i] = lhs.col_ind[i];
+	}
+	for(i = 0; i < aa->rows()+1; i++)
+		row_ptr[i] = lhs.row_ptr[i];
+
+	// store the RHS into rhs in column-major format
+	k = 0;
+	for(j = 0; j < b->cols(); j++)
+		for(i = 0; i < b->rows(); i++)
+		{
+			rhs[k] = b->get(i,j);
+			k++;
+		}
+
+	dCreate_CompCol_Matrix(&A, aa->rows(), aa->cols(), lhs.nnz, a, col_ind, row_ptr, SLU_NR, SLU_D, SLU_GE);
+	dCreate_Dense_Matrix(&B, b->rows(), b->cols(), rhs, b->rows(), SLU_DN, SLU_D, SLU_GE);
+	
+	pdgssv(nprocs, &A, perm_c, perm_r, &L, &U, &B, &info);
+
+	// copy the solution into ans
+	k=0;
+	for(j = 0; j < b->cols(); j++)
+		for(i = 0; i < b->rows(); i++)
+		{
+			(*ans)(i,j) = B[k];
+			k++;
+		}
+
+	SUPERLU_FREE(rhs);
+	SUPERLU_FREE(perm_r);
+	SUPERLU_FREE(perm_c);
+	Destroy_CompCol_Matrix(&A);
+	Destroy_SuperMatrix_Store(&B);
+	Destroy_SuperNode_SCP(&L);
+	Destroy_CompCol_NCP(&U);
+}
+#endif
 
 //-------------------- Iterative Methods ----------------------------------------//
 
@@ -390,7 +472,7 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 		Axold.zeros();
 		int i;
 
-		//#pragma omp parallel for default(none) private(i) shared(A,b,Axold,x,xold,inter,M,N) num_threads(nthreads_linalg)
+		//#pragma omp parallel for default(none) private(i) shared(A,b,Axold,x,xold,inter,M,N)
 		for(i = 0; i < N; i++)
 		{
 			//std::cout << "  Calling sparse getelem_multiply_parts\n";
@@ -481,7 +563,7 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 		Axold.zeros();
 		int i;
 
-		//#pragma omp parallel for default(none) private(i) shared(A,b,Axold,x,xold,inter,M,N,w) num_threads(nthreads_linalg)
+		//#pragma omp parallel for default(none) private(i) shared(A,b,Axold,x,xold,inter,M,N,w)
 		for(i = 0; i < N; i++)
 		{
 			//std::cout << "  Calling sparse getelem_multiply_parts\n";
@@ -596,7 +678,7 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 		}
 		theta = temp1/temp2;
 
-		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta) //num_threads(nthreads_linalg)
+		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta)
 		for(i = 0; i < x.rows(); i++)
 		{
 			x(i) = xold.get(i) + pold.get(i)*theta;
@@ -749,7 +831,7 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, std
 		if(temp2 <= 0) std::cout << "sparsePCG: ! Matrix A is not positive-definite!! temp2 is " << temp2 << "\n";
 		theta = temp1/temp2;
 
-		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta) //num_threads(nthreads_linalg)
+		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta)
 		for(i = 0; i < x.rows(); i++)
 		{
 			//std::cout << "Number of threads " << omp_get_num_threads();

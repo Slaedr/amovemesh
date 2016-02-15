@@ -1,4 +1,5 @@
 OPTIONS = -std=c++11 -ggdb
+SUPERLU_REQ = -I$(SUPERLU_INC_DIR) -l$(SUPERLU_LIB) -L$(SUPERLU_LIB_DIR)
 
 splinec:
 	$(GPP) calc-bmotion.cpp -o cb.out -std=c++11 -I$(PRMM)/include -ggdb
@@ -19,9 +20,11 @@ curvedgm:
 	$(GPP) curvedmeshgen2d-dgm.cpp -o curvedgm.out -I../../include $(OPTIONS)
 
 curveh:
-	$(GPP) curvedmeshgen2dh.cpp -o curveh.out -std=c++11 -ggdb -I$(PRMM)/include -fopenmp
+	$(GPP) curvedmeshgen2dh.cpp -c $(OPTIONS) -I$(PRMM)/include -I$(SUPERLU_INC_DIR) -fopenmp
+	$(GPP) curvedmeshgen2dh.o $(SUPERLU_LIB_DIR)lib$(SUPERLU_LIB).a -fopenmp -o curveh.out
 	
 curvee:
 	$(GPP) linelast-curvedmeshgen2d.cpp -o curvee.out -std=c++11 -ggdb -I$(PRMM)/include
 test:
-	$(GPP) test.cpp -o test.out -std=c++11 -I$(PRMM)/include -ggdb
+	$(GPP) test.cpp -c $(OPTIONS) -I$(PRMM)/include -I$(SUPERLU_INC_DIR) -fopenmp
+	$(GPP) test.o $(SUPERLU_LIB_DIR)lib$(SUPERLU_LIB).a -fopenmp -o test.out

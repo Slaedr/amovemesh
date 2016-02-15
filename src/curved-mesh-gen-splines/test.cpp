@@ -1,24 +1,24 @@
-#include <amesh2dh.hpp>
+#include <alinalg.hpp>
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
 
 int main()
 {
-	UMesh2dh m;
-	m.readGmsh2("../../input/tinquadh.msh", 2);
-	m.compute_topological();
-	int fac = 27;
-	for(int i = 0; i < 4; i++)
-		cout << m.gintfac(fac,i) << " ";
-	cout << endl;
-
-	int elem = 56-28-1;
-	cout << "nfael " << m.gnfael(elem) << endl;
-	for(int i = 0; i < m.gnfael(elem); i++)
-		cout << m.gesuel(elem,i) << " ";
-	cout << endl;
+	SpMatrix A(5,5);
+	A.set(0,0,1);
+	A.set(1,1,1.5);
+	A.set(2,2,2.5);
+	A.set(3,3,1.1);
+	A.set(4,4,0.6);
+	
+	Matrix<double> b(5,1);
+	b.zeros();
+	b(0) = 2.5;
+	
+	Matrix<double> x(5,1);
+	
+	superLU_solve(&A, &b, &x);
 
 	cout << endl;
 	return 0;
