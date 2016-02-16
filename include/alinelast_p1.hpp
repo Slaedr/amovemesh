@@ -18,7 +18,6 @@
 #ifdef _OPENMP
 #ifndef OMP_H
 #include <omp.h>
-#define nthreads_elast 8
 #endif
 #endif
 
@@ -36,6 +35,7 @@
 
 namespace amc {
 
+/// Solves equations of linear elasticity on a linear mesh using P1 Lagrange finite elements (no non-homogeneous Neumann BCs)
 class LinElastP1
 {
 	UMesh2d* m;
@@ -51,7 +51,7 @@ class LinElastP1
 	double cbig;				// for Dirichlet BCs
 
 public:
-	LinElastP1(UMesh2d* mesh, double mu, double lambd)
+	/*LinElastP1(UMesh2d* mesh, double mu, double lambd)
 	{
 		m = mesh;
 		ngeoel = 7;
@@ -82,18 +82,18 @@ public:
 			geoel(i,6) = -geoel(i,5) - geoel(i,4);
 		}
 
-		/*for(int i = 0; i < m->gnface(); i++)
-		{
-			//n_x = y_2 - y_1
-			geofa(i,0) = m->gcoords(m->gbface(i,2), 1) - m->gcoords(m->gbface(i,0), 1);
-			//n_y = x_1 - x_2
-			geofa(i,1) = m->gcoords(m->gbface(i,0), 0) - m->gcoords(m->gbface(i,2), 0);
-			//l = sqrt(n_x^2 + n_y^2)
-			geofa(i,2) = sqrt(geofa(i,0)*geofa(i,0) + geofa(i,1)*geofa(i,1));
-			//geofa(i,2) = sqrt((m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1))*(m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1)) + (m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0))*(m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0)));
-		}*/
-		std::cout << "LinElastP1: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n";
-	}
+// 		for(int i = 0; i < m->gnface(); i++)
+// 		{
+// 			//n_x = y_2 - y_1
+// 			geofa(i,0) = m->gcoords(m->gbface(i,2), 1) - m->gcoords(m->gbface(i,0), 1);
+// 			//n_y = x_1 - x_2
+// 			geofa(i,1) = m->gcoords(m->gbface(i,0), 0) - m->gcoords(m->gbface(i,2), 0);
+// 			//l = sqrt(n_x^2 + n_y^2)
+// 			geofa(i,2) = sqrt(geofa(i,0)*geofa(i,0) + geofa(i,1)*geofa(i,1));
+// 			//geofa(i,2) = sqrt((m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1))*(m.gcoords(m.gbface(i,1)-1, 1) - m.gcoords(m.gbface(i,0)-1, 1)) + (m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0))*(m.gcoords(m.gbface(i,0)-1, 0) - m.gcoords(m.gbface(i,1)-1, 0)));
+// 		}
+		//std::cout << "LinElastP1: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n";
+	}*/
 	
 	/// Alternative to constructor
 	void setup(UMesh2d* mesh, double mu, double lambd)
@@ -190,8 +190,6 @@ public:
 	void assembleStiffnessMatrix()
 	{
 		amat::SpMatrix K11(m->gnpoin(),m->gnpoin()), K22(m->gnpoin(),m->gnpoin()), K12(m->gnpoin(),m->gnpoin());
-
-		//UMesh2d* m = this->m;
 		int iel;
 
 		for(iel = 0; iel < m->gnelem(); iel++)
@@ -249,7 +247,7 @@ public:
 	/** \param cflag contains an integer flag for all points in the mesh - 1 for constrained points and 0 for free points
 	 * \param bdata contains displacements for all points in the mesh. These displacements are only imposed on those points flagged by [cflag](@ref cflag)
 	 */
-	void dirichletBC_points(const vector<int>& cflag, const amat::Matrix<double>& bdata)
+	void dirichletBC_points(const std::vector<int>& cflag, const amat::Matrix<double>& bdata)
 	{
 		double temp1, temp2;
 		for(int i = 0; i < m->gnpoin(); i++)

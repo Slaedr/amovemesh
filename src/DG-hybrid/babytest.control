@@ -1,0 +1,12 @@
+-input-mesh-linear
+../../input/testhybrid.msh
+-input-mesh-quadratic
+../../input/testhybrid_quadratic.msh
+-output-file
+../../output/testhybrid_bent.msh
+-tolerance
+1e-6
+-max-iterations
+5000
+-solver
+CG

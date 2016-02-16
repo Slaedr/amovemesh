@@ -8,6 +8,11 @@
 #include <abowyerwatson.hpp>
 #endif
 
+// for returning the Delaunay graph as a mesh
+#ifndef __AMESH2DGENERAL_H
+#include <amesh2d.hpp>
+#endif
+
 #define __ADGM_H 1
 
 namespace amc {
@@ -214,8 +219,9 @@ public:
 	UMesh2d getDelaunayGraph()
 	{
 		UMesh2d dgmesh;
-		dgmesh.setcoords(dgpoints);
+		dgmesh.setcoords(&dgpoints);
 		dgmesh.setinpoel(&dginpoel);
+		dgmesh.setnface(0);
 		return dgmesh;
 	}
 };

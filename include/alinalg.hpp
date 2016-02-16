@@ -16,13 +16,13 @@
 #endif
 
 // for getenv(), atoi()
-#ifndef _GLIBCXX_CSTDLIB
+/*#ifndef _GLIBCXX_CSTDLIB
 #include <cstdlib>
 #endif
 
 #ifndef __SLU_MT_DDEFS
 #include <slu_mt_ddefs.h>
-#endif
+#endif*/
 
 #ifdef _OPENMP
 #ifndef OMP_H
@@ -208,10 +208,9 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 	return x;
 }
 
-#ifdef _OPENMP
 /** Re-stores matrix data in the form needed by SuperLU, and calls the SuperLU routine to solve.
  */
-void superLU_solve(const SpMatrix* aa, const Matrix<double>* b, Matrix<double>* ans)
+/*void superLU_solve(const SpMatrix* aa, const Matrix<double>* b, Matrix<double>* ans)
 {
 	if(aa->rows() != b->rows())
 	{
@@ -259,11 +258,12 @@ void superLU_solve(const SpMatrix* aa, const Matrix<double>* b, Matrix<double>* 
 	pdgssv(nprocs, &A, perm_c, perm_r, &L, &U, &B, &info);
 
 	// copy the solution into ans
+	double* ansptr = (double*)((DNformat*)B.Store)->nzval;
 	k=0;
 	for(j = 0; j < b->cols(); j++)
 		for(i = 0; i < b->rows(); i++)
 		{
-			(*ans)(i,j) = B[k];
+			(*ans)(i,j) = ansptr[i + j*b->rows()];
 			k++;
 		}
 
@@ -274,8 +274,7 @@ void superLU_solve(const SpMatrix* aa, const Matrix<double>* b, Matrix<double>* 
 	Destroy_SuperMatrix_Store(&B);
 	Destroy_SuperNode_SCP(&L);
 	Destroy_CompCol_NCP(&U);
-}
-#endif
+}*/
 
 //-------------------- Iterative Methods ----------------------------------------//
 

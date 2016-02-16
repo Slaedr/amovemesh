@@ -269,6 +269,9 @@ public:
 	void setbface(amat::Matrix<int>* bf)
 	{ bface = *bf; }
 
+	void setnface(const int num_boun_faces)
+	{ nface = num_boun_faces; }
+
 	/// Allows modification of a member of [bface](@ref bface), intended for changing boundary markers if needed
 	void modify_bface_marker(const int iface, const int pos, const int number)
 	{ bface(iface, pos) = number; }
@@ -777,9 +780,11 @@ public:
 		std::cout << "UMesh2d: No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ", number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", number of faces per element: " << nfael << std::endl;
 	}
 
+	/// Writes the mesh to file in Gmsh2 format.
 	void writeGmsh2(std::string mfile)
 	{
 		std::cout << "UMesh2d: writeGmsh2(): writing mesh to file " << mfile << std::endl;
+		
 		// decide element type first, based on nfael/nnode and nnofa
 		int elm_type = 2;
 		int face_type = 1;

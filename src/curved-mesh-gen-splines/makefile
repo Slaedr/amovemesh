@@ -5,7 +5,7 @@ splinec:
 	$(GPP) calc-bmotion.cpp -o cb.out -std=c++11 -I$(PRMM)/include -ggdb
 
 crbf:
-	g++-5 gencurved.cpp -o crbf.out -std=c++11 -I/media/aditya/Data/include -ggdb
+	$(GPP) gencurved.cpp -o crbf.out -std=c++11 -I$(PRMM)/include -ggdb
 
 convert:
 	$(GPP) convertDomnGmsh2.cpp -o conv.out -std=c++11 -I$(PRMM)/include -ggdb
@@ -20,11 +20,14 @@ curvedgm:
 	$(GPP) curvedmeshgen2d-dgm.cpp -o curvedgm.out -I../../include $(OPTIONS)
 
 curveh:
-	$(GPP) curvedmeshgen2dh.cpp -c $(OPTIONS) -I$(PRMM)/include -I$(SUPERLU_INC_DIR) -fopenmp
+	$(GPP) $(OPTIONS) -I$(PRMM)/include -I$(SUPERLU_INC_DIR) -fopenmp -c curvedmeshgen2dh.cpp
 	$(GPP) curvedmeshgen2dh.o $(SUPERLU_LIB_DIR)lib$(SUPERLU_LIB).a -fopenmp -o curveh.out
 	
 curvee:
 	$(GPP) linelast-curvedmeshgen2d.cpp -o curvee.out -std=c++11 -ggdb -I$(PRMM)/include
 test:
-	$(GPP) test.cpp -c $(OPTIONS) -I$(PRMM)/include -I$(SUPERLU_INC_DIR) -fopenmp
-	$(GPP) test.o $(SUPERLU_LIB_DIR)lib$(SUPERLU_LIB).a -fopenmp -o test.out
+	$(GPP) $(OPTIONS) -I$(PRMM)/include -I$(SUPERLU_INC_DIR) $(SUPERLU_BLAS) -L$(BLAS_DIR) -fopenmp -c test.cpp
+	$(GPP) test.o $(SUPERLU_LIB_DIR)lib$(SUPERLU_LIB).a $(SUPERLU_BLAS) -L$(BLAS_DIR) -fopenmp -o test.out
+
+testsimple:
+	$(GPP) test.cpp -I$(PRMM)/include $(OPTIONS) -o test.out

@@ -472,6 +472,53 @@ void writeMeshToVtu(string fname, UTriMesh m)
 	cout << "Vtu file written.\n";
 }
 
+void writeQuadraticMeshToVtu(string fname, UTriMeshCurved& m)
+{
+	int elemcode = 22;
+	cout << "Writing vtu output...\n";
+	ofstream out(fname);
+
+	out << "<VTKFile type=\"UnstructuredGrid\" version=\"0.1\" byte_order=\"LittleEndian\">\n";
+	out << "<UnstructuredGrid>\n";
+	out << "\t<Piece NumberOfPoints=\"" << m.gnpoin() << "\" NumberOfCells=\"" << m.gnelem() << "\">\n";
+
+	//enter points
+	out << "\t\t<Points>\n";
+	out << "\t\t<DataArray type=\"Float64\" NumberOfComponents=\"3\" Format=\"ascii\">\n";
+	for(int i = 0; i < m.gnpoin(); i++)
+		out << "\t\t\t" << m.gcoords(i,0) << " " << m.gcoords(i,1) << " " << 0.0 << '\n';
+	out << "\t\t</DataArray>\n";
+	out << "\t\t</Points>\n";
+
+	//enter cells
+	out << "\t\t<Cells>\n";
+	out << "\t\t\t<DataArray type=\"UInt32\" Name=\"connectivity\" Format=\"ascii\">\n";
+	for(int i = 0; i < m.gnelem(); i++)
+	{
+		out << "\t\t\t\t";
+		for(int j = 0; j < m.gnnode(); j++)
+			out << m.ginpoel(i,j) << " ";
+		out << '\n';
+	}
+	out << "\t\t\t</DataArray>\n";
+	out << "\t\t\t<DataArray type=\"UInt32\" Name=\"offsets\" Format=\"ascii\">\n";
+	for(int i = 0; i < m.gnelem(); i++)
+		out << "\t\t\t\t" << 3*(i+1) << '\n';
+	out << "\t\t\t</DataArray>\n";
+	out << "\t\t\t<DataArray type=\"Int32\" Name=\"types\" Format=\"ascii\">\n";
+	for(int i = 0; i < m.gnelem(); i++)
+		out << "\t\t\t\t" << elemcode << '\n';
+	out << "\t\t\t</DataArray>\n";
+	out << "\t\t</Cells>\n";
+
+	//finish upper
+	out << "\t</Piece>\n";
+	out << "</UnstructuredGrid>\n";
+	out << "</VTKFile>";
+	out.close();
+	cout << "Vtu file written.\n";
+}
+
 void writeQuadraticMeshToVtu(string fname, UMesh2d& m)
 {
 	int elemcode = 5;
