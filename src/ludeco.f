@@ -7,7 +7,7 @@ c...  LU decomposition stocked in 1D profile
 c
       subroutine lupoin(npoin, npoi1 ,nstor, upper, lower, ldiag )
 c
-c		ldiag is an array of size nrows+1. ldiag(0) = 0, and ldiag(i+1) = ldiag(i) + bandwidth(row i)
+c		Aditya : ldiag is an array of size nrows+1. ldiag(0) = 0, and ldiag(i+1) = ldiag(i) + bandwidth(row i)
 c
       implicit real*8 (a-h,o-z)
 c

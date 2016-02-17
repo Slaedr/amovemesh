@@ -1,9 +1,16 @@
-/* Implemetation of sparse storage schemes for matrices.
-   Aditya Kashi
-   21 July 2015
-*/
+/** \file asparsematrix.hpp
+ * \brief Implemetation of sparse storage schemes for matrices
+ * \author Aditya Kashi
+ * \date 21 July 2015
+ */
 
 #define __ASPARSEMATRIX_H
+
+#ifdef EIGEN_LIBRARY
+#ifndef EIGEN_SPARSE_MODULE_H
+#include <Eigen/Sparse>
+#endif
+#endif
 
 // for memcpy() etc
 #ifndef _GLIBCXX_CSTRING
@@ -104,7 +111,7 @@ public:
 
 #define INITIAL_ROW_SIZE 20
 
-/** Implements sparse matrix storage in row-storage format, but with separate arrays for each row of the matrix.
+/** \brief Implements sparse matrix storage in row-storage format, but with separate arrays for each row of the matrix.
  */
 template<class T> class MatrixCRS : public SparseMatrix<T>
 {
