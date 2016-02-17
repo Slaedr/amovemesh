@@ -51,11 +51,12 @@ namespace amat {
 
 typedef Matrix<double> Mat;
 
+template <class T>
 /// Structure for matrix in compressed row storage
 /** \note Set [allocated](@ref allocated) to "true" right after reserving memory for the arrays.
  * Use matrix type "SLU_NR" while using this with SuperLU.
  */
-template <class T> struct SMatrixCRS
+struct SMatrixCRS
 {
 	int nnz;			///< Number of non-zero entries in the matrix
 	T* val;				///< Non-zero values of the matrix

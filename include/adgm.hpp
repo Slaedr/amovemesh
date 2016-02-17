@@ -63,6 +63,7 @@ public:
 	{
 		// boundary_motion has as many rows as bouncoords and contains x and y displacement values for each boun point
 		bmotion = boundary_motion;
+		std::cout << "DGmove: setup(): Dimensions of bouncoords are " << bouncoords->rows() << ", " << bouncoords->cols() << std::endl;
 		if(bmotion->rows() != bouncoords->rows() || bmotion->cols() != bouncoords->cols())
 			std::cout << "! DGmove: Dimensions of boundary point coordinate array and boundary displacement array do not match!!" << std::endl;
 		ndim = incoords->cols();
@@ -219,9 +220,8 @@ public:
 	UMesh2d getDelaunayGraph()
 	{
 		UMesh2d dgmesh;
-		dgmesh.setcoords(&dgpoints);
-		dgmesh.setinpoel(&dginpoel);
-		dgmesh.setnface(0);
+		dgmesh.createMesh(&dgpoints, &dginpoel, 3);
+		std::cout << "DGmove: getDelaunayGraph: has " << dgmesh.gnpoin() << " points, " << dgmesh.gnelem() << " elements." << std::endl;
 		return dgmesh;
 	}
 };

@@ -37,7 +37,7 @@ class DGhybrid
 	
 	/// Delaunay graph mapping context
 	DGmove dgm;
-	/// Stiffened linear elasticity context
+	/// linear elasticity context
 	LinElastP1 linm;
 	
 	/// Background mesh points
@@ -128,10 +128,10 @@ void DGhybrid::compute_backmesh_points()
 			laypo[m->gbface(ib,j)] = 1;
 	}
 
-	// get number of boundary points in the original mesh
+	// get number of boundary points in the original linear mesh
 	for(ip = 0; ip < m->gnpoin(); ip++)
 		nbpoin_q += laypo[ip];
-	// finally, add number of high-order points
+	// add number of high-order points to get number of boundary points in the quadratic mesh
 	nbpoin_q += m->gnface() * (morder-1);
 	
 	std::cout << "DGhybrid: compute_backmesh_points(): Number of boundary points = " << nbpoin_q << std::endl;
@@ -151,7 +151,7 @@ void DGhybrid::compute_backmesh_points()
 					if(ilayer == nlayers-1)
 						for(j = 0; j < m->gnnode(ele); j++)
 							if(laypo[m->ginpoel(ele,j)] != 1)
-								layerpoints.push_back(m->ginpoel(iel,j));
+								layerpoints.push_back(m->ginpoel(ele,j));
 					
 					// mark points of this element
 					for(j = 0; j < m->gnnode(ele); j++)
@@ -214,6 +214,7 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 	dgm.setup(mq->gndim(), &inpoints_q, &backpoints, &motion_b);
 	dgm.generateDG();
 	bm = dgm.getDelaunayGraph();
+	std::cout << "DGhybrid: Back mesh has " << bm.gnpoin() << " points, " << bm.gnelem() << " elements." << std::endl;
 	bm.writeGmsh2("testdg.msh");
 
 	motion_b.setup(nbackp,m->gndim());

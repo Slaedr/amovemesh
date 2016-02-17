@@ -5,7 +5,7 @@
 -output-file
 ../../output/testhybrid_bent.msh
 -number-of-layers
-1
+2
 -tolerance
 1e-6
 -max-iterations

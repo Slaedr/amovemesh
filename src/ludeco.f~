@@ -18,9 +18,9 @@ c
 		lend    = ldiag(i+1)
 		lband   = lend - lbeg + 1
 		mi      = i + 1 - lband
-c
-c...  	decompose the non diagonal terms
-c
+	c
+	c...  decompose the non diagonal terms
+	c
 		istor   = ldiag(i+1) - i
 		do 20 j = mi, i-1 
 			if(j .eq. 1) then
@@ -39,19 +39,19 @@ c
 			30   continue
 			lower(ij) = lower(ij)*upper(jj)
 		20   continue
-c
-c...  	diagonal terms
-c
+	c
+	c...  diagonal terms
+	c
 		ii      = ldiag(i+1)
 		do 40 k = mi, i-1
 			ik      = istor + k
 			upper(ii) = upper(ii) - lower(ik)*upper(ik)
 		40   continue
-c
-c...  	inverse diagonal terms
-c
+	c
+	c...  inverse diagonal terms
+	c
 		upper(ii) = 1.0/upper(ii)
-c    
+	c    
  10   continue
       return
       end

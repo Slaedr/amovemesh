@@ -1,4 +1,4 @@
-OPTIONS = -std=c++11 -ggdb
+include ../make.inc
 SUPERLU_REQ = -I$(SUPERLU_INC_DIR) -l$(SUPERLU_LIB) -L$(SUPERLU_LIB_DIR)
 
 splinec:
@@ -20,8 +20,7 @@ curvedgm:
 	$(GPP) curvedmeshgen2d-dgm.cpp -o curvedgm.out -I../../include $(OPTIONS)
 
 curveh:
-	$(GPP) $(OPTIONS) -I$(PRMM)/include -I$(SUPERLU_INC_DIR) -fopenmp -c curvedmeshgen2dh.cpp
-	$(GPP) curvedmeshgen2dh.o $(SUPERLU_LIB_DIR)lib$(SUPERLU_LIB).a -fopenmp -o curveh.out
+	$(GPP) $(OPTIONS) -I$(PRMM)/include -fopenmp curvedmeshgen2dh.cpp -o curveh.out
 	
 curvee:
 	$(GPP) linelast-curvedmeshgen2d.cpp -o curvee.out -std=c++11 -ggdb -I$(PRMM)/include

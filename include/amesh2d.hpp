@@ -214,6 +214,40 @@ public:
 			delete [] lambda;
 	}
 
+	/// Function to set mesh data from point coordinates and element connectivity matrix
+	/** Note that nface and nnofa are set to zero.
+	 * The input arrays are actually copied into the class members, inspite of taking pointers as arguments.
+	 */
+	void createMesh(const amat::Matrix<double>* const _coords, const amat::Matrix<int>* const _inpoel, const int _nfael)
+	{
+		coords = *_coords;
+		inpoel = *_inpoel;
+		npoin = coords.rows();
+		nelem = inpoel.rows();
+		ndim = coords.cols();
+		nnode = inpoel.cols();
+		nfael = _nfael;
+		nface = 0;
+		nnofa = 0;
+	}
+
+	/// Function to set mesh data from point coordinates, element connectivity matrix and boundary face data
+	/** The input arrays are actually copied into the class members, inspite of taking pointers as arguments.
+	 */
+	void createMeshWithBoundary(const amat::Matrix<double>* const _coords, const amat::Matrix<int>* const _inpoel, const int _nfael, const amat::Matrix<int>* const _bface)
+	{
+		coords = *_coords;
+		inpoel = *_inpoel;
+		bface = *_bface;
+		npoin = coords.rows();
+		nelem = inpoel.rows();
+		ndim = coords.cols();
+		nnode = inpoel.cols();
+		nfael = _nfael;
+		nface = 0;
+		nnofa = 0;
+	}
+
 	/** Functions to get mesh data. */
 	double gcoords(int pointno, int dim) const
 	{

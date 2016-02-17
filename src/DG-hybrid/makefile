@@ -1,4 +1,4 @@
-OPTIONS = -ggdb -std=c++11
+include ../make.inc
 INC = -I../../include/
 
 dgh2d:
