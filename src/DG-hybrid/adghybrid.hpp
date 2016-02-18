@@ -128,6 +128,11 @@ void DGhybrid::compute_backmesh_points()
 			laypo[m->gbface(ib,j)] = 1;
 	}
 
+	//debug:
+	/*for(j = 0; j < m->gnpoin(); j++)
+		std::cout << laypo[j] << " ";
+	std::cout << std::endl;*/
+
 	// get number of boundary points in the original linear mesh
 	for(ip = 0; ip < m->gnpoin(); ip++)
 		nbpoin_q += laypo[ip];
@@ -159,7 +164,7 @@ void DGhybrid::compute_backmesh_points()
 				}
 	}
 
-	std::cout << "DGhybrid: compute_backmesh_points(): Found points in layer " << nlayers << std::endl;
+	std::cout << "DGhybrid: compute_backmesh_points(): Found " << layerpoints.size() << " points in layer " << nlayers << std::endl;
 	
 	nbackp = nbpoin_q + layerpoints.size();
 	backpoints.setup(nbackp,m->gndim());

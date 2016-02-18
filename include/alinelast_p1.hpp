@@ -41,14 +41,14 @@ class LinElastP1
 	UMesh2d* m;
 	int ngeoel;
 	int ngeofa;
-	amat::Matrix<double> geoel;		// holds 2*area of element, and derivatives of barycentric coordinate functions lambdas
-	amat::Matrix<double> geofa;		// holds normals to and length of boundary faces
-	amat::SpMatrix K;					// global stiffness matrix
-	amat::Matrix<double> f;			// global load vector
+	amat::Matrix<double> geoel;		///< holds 2*area of element, and derivatives of barycentric coordinate functions lambdas
+	amat::Matrix<double> geofa;		///< holds normals to and length of boundary faces
+	amat::SpMatrix K;				///< global stiffness matrix
+	amat::Matrix<double> f;			///< global load vector
 
-	double muE;					// isotropic elasticity constants
-	double lambdaE;
-	double cbig;				// for Dirichlet BCs
+	double muE;					///< isotropic elasticity constant mu
+	double lambdaE;				///< isotropic elasticity constant lambda
+	double cbig;				///< large value for Dirichlet BCs
 
 public:
 	/*LinElastP1(UMesh2d* mesh, double mu, double lambd)

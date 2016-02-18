@@ -1,0 +1,14 @@
+-input-mesh-linear
+../../input/simplesquare.msh
+-input-mesh-quadratic
+../../input/simplesquare_quadratic.msh
+-output-file
+../../output/simplesquare_bent.msh
+-number-of-layers
+2
+-tolerance
+1e-6
+-max-iterations
+5000
+-solver
+CG

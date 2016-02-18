@@ -10,12 +10,14 @@
 
 #define __AROTATION2D_H 1
 
-using namespace acfd;
-using namespace std;
-
+namespace amc {
 
 class MRotation2d
 {
+	using amat::Matrix;
+	using std::cout;
+	using std::endl;
+	
 	double theta;
 	double cx;
 	double cy;
@@ -89,3 +91,5 @@ public:
 		return rhs;
 	}
 };
+
+}		// end namespace

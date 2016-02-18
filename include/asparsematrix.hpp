@@ -93,7 +93,6 @@ public:
 	SparseMatrix(int num_rows, int num_cols) : nrows(num_rows), ncols(num_cols)
 	{
 		nnz = 0;
-		std::cout << "Called constructor!" << std::endl;
 	}
 	int rows() const { return nrows; }
 	int cols() const { return ncols; }

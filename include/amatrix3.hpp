@@ -33,7 +33,7 @@ TODO: Make a Vector class, maybe as a sub-class of Matrix
 #include <fstream>
 #endif
 
-#define __AMATRIX2_H
+#define __AMATRIX3_H
 
 //using namespace std;
 
@@ -49,7 +49,7 @@ double dabs(double x)
 
 enum MStype {ROWMAJOR, COLMAJOR};
 
-template <class T, MSType storage>
+template <class T, class MSType>
 class Matrix
 {
 private:
