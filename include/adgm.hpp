@@ -39,9 +39,13 @@ public:
 
 	DGmove() {}
 
+	/** boundary_motion has as many rows as bouncoords and contains x and y displacement values for each boun point
+	 * 
+	 * \note The [DG points' coordinates](@ref dgpoints) are deep-copied from the parameter,
+	 * while the DG points' [displacements](@ref bmotion) are just referred by pointer.
+	 */
 	DGmove(int num_dimn, amat::Matrix<double>* incoords, amat::Matrix<double>* bouncoords, amat::Matrix<double>* boundary_motion)
 	{
-		// boundary_motion has as many rows as bouncoords and contains x and y displacement values for each boun point
 		bmotion = boundary_motion;
 		if(bmotion->rows() != bouncoords->rows() || bmotion->cols() != bouncoords->cols())
 			std::cout << "! DGmove: Dimensions of boundary point coordinate array and boundary displacement array do not match!!" << std::endl;
@@ -59,9 +63,13 @@ public:
 		dg.setup(&dgpoints, ndgpoin);
 	}
 
+	/** boundary_motion has as many rows as bouncoords and contains x and y displacement values for each boun point
+	 * 
+	 * \note The [DG points' coordinates](@ref dgpoints) are deep-copied from the parameter,
+	 * while the DG points' [displacements](@ref bmotion) are just referred by pointer.
+	 */
 	void setup(int num_dimn, amat::Matrix<double>* incoords, amat::Matrix<double>* bouncoords, amat::Matrix<double>* boundary_motion)
 	{
-		// boundary_motion has as many rows as bouncoords and contains x and y displacement values for each boun point
 		bmotion = boundary_motion;
 		std::cout << "DGmove: setup(): Dimensions of bouncoords are " << bouncoords->rows() << ", " << bouncoords->cols() << std::endl;
 		if(bmotion->rows() != bouncoords->rows() || bmotion->cols() != bouncoords->cols())

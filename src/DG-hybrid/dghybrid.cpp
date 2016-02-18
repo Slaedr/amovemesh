@@ -35,14 +35,14 @@ int main(int argc, char* argv[])
 	/*bounmotion(20,0) = 0.25; bounmotion(20,1) = 0.25;
 	bounmotion(22,0) = 0; bounmotion(22,1) = 0.3;
 	bounmotion(23,0) = -0.25; bounmotion(23,1) = 0.25;*/
-	bounmotion(11,0) = 0.1; bounmotion(11,1) = 0.1;
+	bounmotion(11,0) = 0.01; bounmotion(11,1) = 0.1;
 	bounmotion(12,0) = 0; bounmotion(12,1) = 0.15;
-	bounmotion(13,0) = -0.1; bounmotion(13,1) = 0.1;
+	bounmotion(13,0) = -0.01; bounmotion(13,1) = 0.1;
 
 	DGhybrid dgh(&m,&mq,&bounmotion, nlayers, 1e9, 0.4, tolerance, maxiter, solver);
 	dgh.compute_backmesh_points();
-	//dgh.generate_backmesh_and_compute_displacements();
-	//dgh.movemesh();
+	dgh.generate_backmesh_and_compute_displacements();
+	dgh.movemesh();
 
 	cout << endl;
 	return 0;

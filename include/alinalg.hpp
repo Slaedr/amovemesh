@@ -600,9 +600,10 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 	return x;
 }
 
-/** Calculates solution of Ax=b where A is a SPD matrix in sparse format. The preconditioner is a diagonal matrix.
-	NOTE: The parallel version is actually slower, due to some reason.
-*/
+/** Calculates solution of Ax=b where A is a SPD matrix in sparse format.
+ * The preconditioner is a diagonal matrix.
+ * NOTE: The parallel version is actually slower, due to some reason.
+ */
 Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter)
 {
 	std::cout << "sparseCG_d(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with diagonal preconditioner\n";

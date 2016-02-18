@@ -54,7 +54,10 @@ class DGhybrid
 	int nlayers;
 	/// indices of points in the required layer
 	std::vector<int> layerpoints;
+	
 	/// For each point in the [quadratic mesh](@ref mq), this contains 1 or 0, depending on whether it is a boundary point.
+	/** Ordering of the quadratic mesh's boundary points in the back-mesh is decided by bounflag_q.
+	 */
 	std::vector<int> bounflag_q;
 
 	double lambda;				///< Lame` elasticity constant 1
@@ -114,55 +117,76 @@ void DGhybrid::setup(UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>
  */
 void DGhybrid::compute_backmesh_points()
 {
-	std::vector<int> laypo(m->gnpoin(),0);
+	std::vector<int> prevlaypo(m->gnpoin(),0);
+	std::vector<int> curlaypo(m->gnpoin(),0);
 	std::vector<int> layel(m->gnelem(),0);
 	int ib, iel, j, ip, idim, ele;
 	nbpoin_q = 0;
 
-	int morder = 2; // for quadratic mesh ************
-
-	// mark the boundary points, 0th layer
+	// mark the boundary points of linear mesh, 0th layer
 	for(ib = 0; ib < m->gnface(); ib++)
 	{
 		for(j = 0; j < m->gnnofa(); j++)
-			laypo[m->gbface(ib,j)] = 1;
+			curlaypo[m->gbface(ib,j)] = 1;
 	}
 
-	//debug:
-	/*for(j = 0; j < m->gnpoin(); j++)
-		std::cout << laypo[j] << " ";
-	std::cout << std::endl;*/
-
-	// get number of boundary points in the original linear mesh
-	for(ip = 0; ip < m->gnpoin(); ip++)
-		nbpoin_q += laypo[ip];
-	// add number of high-order points to get number of boundary points in the quadratic mesh
-	nbpoin_q += m->gnface() * (morder-1);
+	// get number of boundary points in the quadratic mesh
+	for(ip = 0; ip < mq->gnpoin(); ip++)
+		nbpoin_q += bounflag_q[ip];
 	
 	std::cout << "DGhybrid: compute_backmesh_points(): Number of boundary points = " << nbpoin_q << std::endl;
 
 	// for each layer, mark elements containing marked points, and then mark all points of these elements
 	for(int ilayer = 0; ilayer < nlayers; ilayer++)
 	{
+		for(ip = 0; ip < m->gnpoin(); ip++)
+		{
+			prevlaypo[ip] = curlaypo[ip];
+			curlaypo[ip] = 0;
+		}
+		/*std::cout << "Layer no. " << ilayer << std::endl;
+		int np = 0, nele = 0;
+		std::cout << "Ele ";
+		for(int iel = 0; iel < m->gnelem(); iel++)
+		{
+			//std::cout << layel[iel] << " ";
+			nele+=layel[iel];
+		}
+		std::cout << std::endl;
+		std::cout << "pPo ";
+		for(ip = 0; ip < m->gnpoin(); ip++)
+		{
+			std::cout << prevlaypo[ip] << " ";
+			np+=prevlaypo[ip];
+		}
+		std::cout << std::endl;
+		std::cout << np << " points and " << nele << " elements marked." << std::endl;*/
+
 		// mark elements surrounding marked points, and further mark points of these elements
-		for(int ip = 0; ip < m->gnpoin(); ip++)
-			if(laypo[ip] == 1)
+		for(ip = 0; ip < m->gnpoin(); ip++)
+		{
+			if(prevlaypo[ip] == 1)
+			{
 				for(int iel = m->gesup_p(ip); iel < m->gesup_p(ip+1); iel++)
 				{
 					ele = m->gesup(iel);
-					layel[ele] = 1;
-					
-					// indices of points in the final layer go into layerpoints
-					if(ilayer == nlayers-1)
+					if(layel[ele] == 0)
+					{
+						layel[ele] = 1;
+						
 						for(j = 0; j < m->gnnode(ele); j++)
-							if(laypo[m->ginpoel(ele,j)] != 1)
-								layerpoints.push_back(m->ginpoel(ele,j));
-					
-					// mark points of this element
-					for(j = 0; j < m->gnnode(ele); j++)
-						laypo[m->ginpoel(ele,j)] = 1;
+							if(prevlaypo[m->ginpoel(ele,j)] != 1)
+								curlaypo[m->ginpoel(ele,j)] = 1;
+					}
 				}
+			}
+		}
 	}
+
+	// add points marked in curlaypo to layerpoints
+	for(ip = 0; ip < m->gnpoin(); ip++)
+		if(curlaypo[ip] == 1)
+			layerpoints.push_back(ip);
 
 	std::cout << "DGhybrid: compute_backmesh_points(): Found " << layerpoints.size() << " points in layer " << nlayers << std::endl;
 	
@@ -193,50 +217,54 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 {
 	// make a list of interior points of the quadratic mesh
 	
-	std::vector<int> onboun(mq->gnpoin(),0);
-	int ipoin, ib, ilp, idim, ninpoin_q = 0, k = 0, j;
-	
-	for(ib = 0; ib < mq->gnface(); ib++)
-		for(ilp = 0; ilp < mq->gnnofa(); ilp++)
-			onboun[mq->gbface(ib,ilp)] = 1;
+	int ip, ipoin, ib, ilp, idim, ninpoin_q = 0, k = 0, j;
 
 	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
-		ninpoin_q += onboun[ipoin];
+		ninpoin_q += bounflag_q[ipoin];
 
 	ninpoin_q = mq->gnpoin() - ninpoin_q;
 
 	inpoints_q.setup(ninpoin_q, mq->gndim());
 
+	k = 0;
 	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
-		if(!onboun[ipoin])
+		if(!bounflag_q[ipoin])
 		{
 			for(idim = 0; idim < mq->gndim(); idim++)
 				inpoints_q(k,idim) = mq->gcoords(ipoin,idim);
 			k++;
 		}
+	std::cout << "DGhybrid: generate_backmesh_and_compute_displacements(): No. of interior points to move = " << inpoints_q.rows() << std::endl;
 
-	// setup DGM and get back mesh
+	// setup DGM and get backmesh
+	
 	dgm.setup(mq->gndim(), &inpoints_q, &backpoints, &motion_b);
 	dgm.generateDG();
 	bm = dgm.getDelaunayGraph();
 	std::cout << "DGhybrid: Back mesh has " << bm.gnpoin() << " points, " << bm.gnelem() << " elements." << std::endl;
 	bm.writeGmsh2("testdg.msh");
 
+	// prepare input for linear elasticity problem
+	
 	motion_b.setup(nbackp,m->gndim());
 	motion_b.zeros();
 
 	// cflags contains 1 if the corresponding backmesh point has a Dirichlet BC
 	std::vector<int> cflags(nbackp,0);
-
+	
 	// get displacements of the boundary points of the quadratic mesh
-	for(ib = 0; ib < mq->gnface(); ib++)
+	k = 0;
+	for(ip = 0; ip < mq->gnpoin(); ip++)
 	{
-		for(j = 0; j < mq->gnnofa(); j++)
+		if(bounflag_q[ip] == 1)
+		{
 			for(idim = 0; idim < mq->gndim(); idim++)
 			{
-				motion_b(mq->gbface(ib,j), idim) = b_motion_q->get(mq->gbface(ib,j),idim);
-				cflags[mq->gbface(ib,j),idim] = 1;
+				motion_b(k, idim) = b_motion_q->get(ip,idim);
+				cflags[k] = 1;
 			}
+			k++;
+		}
 	}
 
 	// setup and solve the elasticity equations to get displacement of the background mesh
@@ -256,7 +284,7 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 
 	for(int i = 0; i < nbackp; i++)
 		for(idim = 0; idim < mq->gndim(); idim++)
-			motion_b(nbpoin_q+i, idim) = xb.get(i+idim*nbpoin_q);
+			motion_b(i, idim) = xb.get(i+idim*nbackp);
 }
 
 void DGhybrid::movemesh()

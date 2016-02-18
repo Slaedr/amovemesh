@@ -253,10 +253,6 @@ void RBFmove::assembleLHS()
 		}
 	}
 
-	/*ofstream ofile("rbfmatrix.dat");
-	A->fprint(ofile);
-	ofile.close();*/
-
 	/*std::cout << "RBFmove:  assembleLHS(): assembling P_b" << std::endl;
 	// set P_b and P_b transpose
 	for(i = 0; i < nbpoin; i++)

@@ -22,7 +22,7 @@
 #include <fstream>
 #endif
 #ifndef _GLIBCXX_STRING
-#include <std::string>
+#include <string>
 #endif
 #ifndef _GLIBCXX_CMATH
 #include <cmath>
@@ -57,7 +57,7 @@
 
 namespace amc {
 
-/** @brief Class UMesh2d is a general mesh class for unstructured mesh (with 1 kind of element throughout - hybrid mesh is NOT supported) */
+/** @brief Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout - hybrid mesh is NOT supported) */
 class UMesh2d
 {
 private:
@@ -216,7 +216,7 @@ public:
 
 	/// Function to set mesh data from point coordinates and element connectivity matrix
 	/** Note that nface and nnofa are set to zero.
-	 * The input arrays are actually copied into the class members, inspite of taking pointers as arguments.
+	 * The input arrays are actually deep-copied into the class members, inspite of taking pointers as arguments.
 	 */
 	void createMesh(const amat::Matrix<double>* const _coords, const amat::Matrix<int>* const _inpoel, const int _nfael)
 	{
@@ -229,10 +229,13 @@ public:
 		nfael = _nfael;
 		nface = 0;
 		nnofa = 0;
+		ndtag = 2;
+		vol_regions.setup(nelem,ndtag);
+		vol_regions.zeros();
 	}
 
 	/// Function to set mesh data from point coordinates, element connectivity matrix and boundary face data
-	/** The input arrays are actually copied into the class members, inspite of taking pointers as arguments.
+	/** The input arrays are actually deep-copied into the class members, inspite of taking pointers as arguments.
 	 */
 	void createMeshWithBoundary(const amat::Matrix<double>* const _coords, const amat::Matrix<int>* const _inpoel, const int _nfael, const amat::Matrix<int>* const _bface)
 	{
@@ -815,7 +818,7 @@ public:
 	}
 
 	/// Writes the mesh to file in Gmsh2 format.
-	void writeGmsh2(std::string mfile)
+	void writeGmsh2(const std::string mfile) const
 	{
 		std::cout << "UMesh2d: writeGmsh2(): writing mesh to file " << mfile << std::endl;
 		
@@ -843,7 +846,7 @@ public:
 		{
 			outf << ip+1;
 			for(int j = 0; j < ndim; j++)
-			 	outf << " " << coords(ip,j);
+			 	outf << " " << coords.get(ip,j);
 			for(int j = 3-ndim; j > 0; j--)
 				outf << " " << 0.0;
 			outf << '\n';
@@ -857,9 +860,9 @@ public:
 		{
 			outf << iface+1 << " " << face_type << " " << nbtag;
 			for(int i = nnofa; i < nnofa+nbtag; i++)
-				outf << " " << bface(iface,i);			// write tags
+				outf << " " << bface.get(iface,i);			// write tags
 			for(int i = 0; i < nnofa; i++)
-				outf << " " << bface(iface,i)+1;		// write nodes
+				outf << " " << bface.get(iface,i)+1;		// write nodes
 			outf << '\n';
 		}
 		//std::cout << "elements\n";
@@ -867,9 +870,9 @@ public:
 		{
 			outf << nface+iel+1 << " " << elm_type << " " << ndtag;
 			for(int i = 0; i < ndtag; i++)
-				outf << " " << vol_regions(iel,i);
+				outf << " " << vol_regions.get(iel,i);
 			for(int i = 0; i < nnode; i++)
-				outf << " " << inpoel(iel,i)+1;
+				outf << " " << inpoel.get(iel,i)+1;
 			outf << '\n';
 		}
 		outf << "$EndElements\n";
@@ -1377,10 +1380,9 @@ public:
 		isBoundaryMaps = true;
 	}
 
+	/// Populate intfacbtags with boundary markers of corresponding bfaces
 	void compute_intfacbtags()
 	{
-		/// Populate intfacbtags with boundary markers of corresponding bfaces
-
 		intfacbtags.setup(nbpoin,nbtag);
 
 		if(isBoundaryMaps == false)
@@ -1396,9 +1398,10 @@ public:
 		}
 	}
 
-	/**	Adds high-order nodes to convert a linear mesh to a straight-faced quadratic mesh.
-		NOTE: Make sure to execute [compute_topological()](@ref compute_topological) before calling this function.
-	*/
+	/**	@brief Adds high-order nodes to convert a linear mesh to a straight-faced quadratic mesh.
+	 *
+	 * NOTE: Make sure to execute [compute_topological()](@ref compute_topological) before calling this function.
+	 */
 	UMesh2d convertLinearToQuadratic()
 	{
 		std::cout << "UMesh2d: convertLinearToQuadratic(): Producing quadratic mesh from linear mesh" << std::endl;
