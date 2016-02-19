@@ -1,4 +1,4 @@
-/** @brief Class to convert hybrid linear mesh into quadratic mesh.
+/** @brief Class to convert hybrid linear mesh into quadratic mesh using hybrid LE-DG method
  * @author Aditya Kashi
  * @date November 2, 2015
  * 
@@ -14,7 +14,7 @@
 	#include "adghybrid.hpp"
 #endif
 
-#define __ACURVEDMESHGEN2DH_H 1
+#define __ACMG2DH_LEDG_H 1
 
 using namespace std;
 using namespace amat;
@@ -23,7 +23,7 @@ using namespace amc;
 /** \brief Class to generate curved mesh from a linear mesh using cubic spline reconstruction and the DGM-Elasticity hybrid mesh movement technique. */
 class Curvedmeshgen2d
 {
-	UMesh2dh* m;						///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
+	UMesh2dh* m;					///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
 	UMesh2dh* mq;					///< Data of the corresponding (straight-faced) quadratic mesh
 	DGHybrid mmv;					///< the mesh-movement class DG hybrid
 	BoundaryReconstruction2d br;	///< Object to reconstruct the boundary using cubic splines.
@@ -50,9 +50,11 @@ class Curvedmeshgen2d
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 public:
-	Curvedmeshgen2d(UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter, double le_toler, int le_maxiter, string le_solver, const double young, const double pratio);
+	Curvedmeshgen2d(UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter,
+			double le_toler, int le_maxiter, string le_solver, const double young, const double pratio);
 
-	void setup(UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter, double le_toler, int le_maxiter, string le_solver, const double young, const double pratio);
+	void setup(UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter,
+			double le_toler, int le_maxiter, string le_solver, const double young, const double pratio);
 
 	void compute_boundary_displacements();
 
@@ -118,14 +120,12 @@ void Curvedmeshgen2d::compute_boundary_displacements()
 	/// We do not need the linear mesh once we have the displacements of the faces' midpoints.
 }
 
-/** Uses the previously computed displacements of the face midpoints to curve the mesh.
-*/
+/// Uses the previously computed displacements of the face midpoints to curve the mesh
 void Curvedmeshgen2d::generate_curved_mesh()
 {
-	/** 
-	Note that this function works with the straight quadratic mesh.
-	We assume that the face numberings of the linear mesh and the quadratic mesh are the same.
-	*/
+	/** Note that this function works with the straight quadratic mesh.
+	 * We assume that the face numberings of the linear mesh and the quadratic mesh are the same.
+	 */
 	
 	/// Get a vector of displacements for each node of the quadratic mesh
 	Matrix<double> allpoint_disps(mq->gnpoin(),mq->gndim());

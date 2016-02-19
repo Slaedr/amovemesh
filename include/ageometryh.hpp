@@ -1,7 +1,7 @@
-/** Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear boundary given by a hybrid linear mesh.
-   Aditya Kashi
-   November 2, 2015
-*/
+/** @brief Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear boundary given by a hybrid linear mesh.
+ * @author Aditya Kashi
+ * @date November 2, 2015
+ */
 
 #ifndef __AMESH2DHYBRID_H
 #include "amesh2dh.hpp"
@@ -23,7 +23,7 @@ namespace amc {
 
 class CSpline
 {
-	UMesh2dh* m;
+	const UMesh2dh* m;
 	amat::Matrix<int> rfl;					//< Contains boundary markers to be reconstructed to a spline
 	std::vector<int> facelist;				//< Alternative to rfl; stores an ordered list of faces to be reconstructed
 	int ndf;							//< number of degrees of freedom per spline - for cubic this is 4
@@ -47,10 +47,10 @@ class CSpline
 
 public:
 	
-	void setup(UMesh2dh* mesh, amat::Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
+	void setup(const UMesh2dh* const mesh, amat::Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
 	/**< Use if you want to supply boundary markers for faces to reconstruct. */
 
-	void setup(UMesh2dh* mesh, std::vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
+	void setup(const UMesh2dh* const mesh, std::vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter);
 	/**< Use if you provide a pre-ordered list of faces to reconstruct. */
 
 	~CSpline();
@@ -69,7 +69,7 @@ public:
 
 // --- CSpline implementation ---
 
-void CSpline::setup(UMesh2dh* mesh, amat::Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
+void CSpline::setup(const UMesh2dh* const mesh, amat::Matrix<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
 {
 	face_list_available = false;
 	
@@ -134,7 +134,7 @@ void CSpline::setup(UMesh2dh* mesh, amat::Matrix<int> recmarkers, bool closed, b
 		seq_spoin(i) = -1;
 }
 
-void CSpline::setup(UMesh2dh* mesh, std::vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
+void CSpline::setup(const UMesh2dh* const mesh, std::vector<int> recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)
 {
 	face_list_available = true;
 	
@@ -394,17 +394,17 @@ double CSpline::getspline(int iface, int idim, double t)
 // --------------------- End of class CSpline --------------------------------------------------------------------------------------------//
 
 
-/** Class BoundaryReconstruction2d handles spline reconstruction of multiple parts of the boundary into seperate c-splines.
-	It accepts an arbitrary number of boundary parts (BPs) to be reconstructed independently of each other, each consisting of an arbitrary number
-	of boundary markers.
-	It scans each boundary part for corners, and splits them at the corners to get several boundary parts with no corners.
-	NOTE: This process of splitting parts at corners modifies the original mesh file!
-	The class can also store and retrieve spline coefficients for such multi-boundary-part meshes.
-*/
+/** @brief Class BoundaryReconstruction2d handles spline reconstruction of multiple parts of the boundary into seperate c-splines.
+ * 
+ * It accepts an arbitrary number of boundary parts (BPs) to be reconstructed independently of each other, each consisting of an arbitrary number of boundary markers.
+ * It scans each boundary part for corners, and splits them at the corners to get several boundary parts with no corners.
+ * The class can also store and retrieve spline coefficients for such multi-boundary-part meshes.
+ * \note The mesh supplied must have bpointsb computed.
+ */
 
 class BoundaryReconstruction2d
 {
-	UMesh2dh* m;								///< NOTE: make sure bpointsb has been computed!
+	const UMesh2dh* m;								///< NOTE: make sure bpointsb has been computed!
 	std::vector<std::vector<int>> marks;				///< to hold boundary markers of all parts
 	double cangle;							///< minimum corner angle, above which an intersection is considered a corner
 	int nparts;
@@ -420,7 +420,7 @@ class BoundaryReconstruction2d
 	amat::Matrix<int> facepart;					///< stores part no. and local face number in that part, for each boundary face
 
 public:
-	void setup(UMesh2dh* mesh, int num_parts, std::vector<std::vector<int>> boundary_markers, double angle_threshold);
+	void setup(const UMesh2dh* const mesh, int num_parts, std::vector<std::vector<int>> boundary_markers, double angle_threshold);
 
 	~BoundaryReconstruction2d();
 	
@@ -450,7 +450,7 @@ public:
 	//void readCoeffs(std::string fname);
 };
 
-void BoundaryReconstruction2d::setup(UMesh2dh* mesh, int num_parts, std::vector<std::vector<int>> boundary_markers, double angle_threshold)
+void BoundaryReconstruction2d::setup(const UMesh2dh* const mesh, int num_parts, std::vector<std::vector<int>> boundary_markers, double angle_threshold)
 {
 	m = mesh;
 	nparts = num_parts;
@@ -714,7 +714,7 @@ void BoundaryReconstruction2d::split_parts()
 						// new split parts are always open
 						isSplitClosed.push_back(false);
 
-						// reset std::vector facelist
+						// reset vector facelist
 						facelist.clear();
 
 						nnparts++;									// new number of parts

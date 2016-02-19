@@ -6,6 +6,8 @@
 ../../output/simplesquare_bent.msh
 -number-of-layers
 2
+-support-radius-(not-used-for-elasticity)
+0.75
 -tolerance
 1e-6
 -max-iterations

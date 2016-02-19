@@ -1,6 +1,4 @@
-#include "acurvedmeshgen2dh.hpp"
-#include <ctime>
-#include <limits>
+#include "acmg2dh_rbfdg.hpp"
 
 using namespace std;
 using namespace amat;
@@ -8,17 +6,18 @@ using namespace amc;
 
 int main(int argc, char* argv[])
 {
-	//string confile = "curvedmeshgen2dh.control";
-	if(argc < 2) {
-		cout << "Insufficient arguments given!\n";
-			return 0;
+	if(argc < 2)
+	{
+		cout << "Give a control file name!\n";
+		return 0;
 	}
-
+	
 	string confile(argv[1]);
+	
 	ifstream conf(confile);
 	string dum, str_linearmesh, str_qmesh, str_curvedmesh, rbf_solver;
-	int rbfchoice, rbfmaxiter, splmaxiter, nrbfsteps, nsplineparts, nflags;
-	double supportradius, rbftol, spltol, cornerangle;
+	int rbfchoice, splmaxiter, rbfmaxiter, nrbfsteps, nsplineparts, nflags, nlayers;
+	double supportradius, spltol, rbftol, cornerangle;
 	vector<vector<int>> splineflags;
 	vector<int> vec;
 
@@ -32,8 +31,8 @@ int main(int argc, char* argv[])
 	conf >> dum; conf >> rbfchoice;
 	conf >> dum; conf >> supportradius;
 	conf >> dum; conf >> nrbfsteps;
-	conf >> dum; conf >> tol;
-	conf >> dum; conf >> maxiter;
+	conf >> dum; conf >> rbftol;
+	conf >> dum; conf >> rbfmaxiter;
 	conf >> dum; conf >> rbf_solver;
 	conf >> dum; conf >> nsplineparts;
 	conf >> dum;
@@ -53,26 +52,20 @@ int main(int argc, char* argv[])
 	for(int i = 0; i < nsplineparts; i++)
 		cout << " Number of markers in part " << i << " = " << splineflags[i].size() << endl;
 	
-	UMesh2dh m, mq;
-	m.readGmsh2(str_linearmesh,2);
-	mq.readGmsh2(str_qmesh,2);
-
-	m.compute_boundary_points();
-	//m.compute_topological();
-
-	RBFmove rmove;
-	Curvedmeshgen2d cu;
-	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol, maxiter, rbfchoice, supportradius, nrbfsteps, rbf_solver);
-	cu.compute_boundary_displacements();
+	UMesh2dh m,mq;
+	mq.readGmsh2(str_qmesh, 2);
 	
-	clock_t begin = clock();
-	cu.generate_curved_mesh();
-	clock_t end = clock() - begin;
-	cout << "Time taken by RBF is " << (double(end))/CLOCKS_PER_SEC << endl;
+	m.readGmsh2(str_linearmesh, 2);
+	m.compute_topological();
+	m.compute_boundary_points();
 
+	Curvedmeshgen2d cmg;
+	cmg.setup(&m, &mq, nsplineparts, splineflags, cornerangle, spltol, splmaxiter, rbftol, rbfmaxiter, rbf_solver, supportradius, nlayers);
+	cmg.compute_boundary_displacements();
+	cmg.generate_curved_mesh();
+	
 	mq.writeGmsh2(str_curvedmesh);
 
-	//cout << "Machine epsilon " << numeric_limits<double>::epsilon() << endl;
 	cout << endl;
 	return 0;
 }

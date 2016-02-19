@@ -52,11 +52,21 @@ public:
 	/// No-arg constructor
 	RBFmove();
 
-	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver);
+	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, 
+			double tolerance, int iter, std::string linear_solver);
 	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 
-	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver);
-	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
+	/// Sets the data needed
+	/** Note that all parameters are deep-copied.
+	 * \param int_points is a list of all interior points to be moved
+	 * \param boun_points is the array of boundary points
+	 * \param boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
+	 * \param rbf_ch indicates the RBF to use - 0 : C0, 2 : C2, 4 : C4, default : Gaussian
+	 * \param num_steps is the number of steps in which to break up the movement to perform separately (sequentially)
+	 * \param linear_solver indicates the linear solver to use to solve the RBF equations - "CG" or "LU"
+	 */
+	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, 
+			double tolerance, int iter, std::string linear_solver);
 
 	~RBFmove();
 
@@ -72,8 +82,8 @@ public:
 	/// Executes 1 step of the mesh movement.
 	void move_step();
 
-	/** Uses [move_step](@ref move_step) to execute the total number of steps specified.
-	 * This function calls all other required functions, so it should be used directly after setup.
+	/// Uses [move_step](@ref move_step) to execute the total number of steps specified.
+	/** This function calls all other required functions, so it should be used directly after setup.
 	 */
 	void move();
 
@@ -308,7 +318,7 @@ void RBFmove::move_step()
 	std::cout << "RBFmove:  move_step(): Moving interior points" << std::endl;
 	// calculate new positions of interior points
 	int i;
-	amat::Matrix<double>* co = coeffs;			// first assign local pointers to class variables for OpenMP etc
+	amat::Matrix<double>* co = coeffs;			// first assign local pointers to class variables for OpenMP
 	amat::Matrix<double>* bp = &bpoints;
 	amat::Matrix<double>* ip = &inpoints;
 	double (RBFmove::*rbfunc)(double) = rbf;
@@ -353,9 +363,6 @@ void RBFmove::move_step()
 
 		delete [] sum;
 		delete [] psum;
-
-		//if(i % 100 == 0)
-			//printf(" =");
 	}
 	printf("\n");
 }

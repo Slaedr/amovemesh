@@ -1,4 +1,4 @@
-#include "adghybrid.hpp"
+#include "arbfdghybrid.hpp"
 
 using namespace std;
 using namespace amat;
@@ -40,10 +40,12 @@ int main(int argc, char* argv[])
 	bounmotion(12,0) = 0; bounmotion(12,1) = 0.15;
 	bounmotion(13,0) = -0.01; bounmotion(13,1) = 0.1;
 
-	DGhybrid dgh(&m,&mq,&bounmotion, nlayers, 1e9, 0.4, tolerance, maxiter, solver);
+	DGhybrid dgh(&m,&mq,&bounmotion, nlayers, suprad, tolerance, maxiter, solver);
 	dgh.compute_backmesh_points();
 	dgh.generate_backmesh_and_compute_displacements();
 	dgh.movemesh();
+
+	mq.writeGmsh2(outmesh);
 
 	cout << endl;
 	return 0;
