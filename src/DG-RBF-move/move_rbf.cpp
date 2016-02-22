@@ -1,3 +1,7 @@
+/** @brief Program to carry out rotational motion of a mesh using RBF method
+ * @author Aditya Kashi
+ */
+
 #include <arotation2d.hpp>
 #include <arbf.hpp>
 

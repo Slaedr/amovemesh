@@ -71,8 +71,8 @@ public:
 	}
 	
 	/** Return a vector of rotation angles for each point in the mesh. 
-		Zero for all points except those in flag.
-	*/
+	 * Zero for all points except those in flag.
+	 */
 	Matrix<double> rhsvect_angles()
 	{
 		cout << "MRotation2d: Calculating RHS vector" << endl;
