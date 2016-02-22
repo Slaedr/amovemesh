@@ -1,5 +1,7 @@
 /** @brief Program to carry out rotational motion of a mesh using RBF method
  * @author Aditya Kashi
+ * 
+ * Updated Feb 22, 2016: "Modernized"
  */
 
 #include <arotation2d.hpp>
@@ -7,11 +9,18 @@
 
 using namespace amat;
 using namespace std;
+using namespace amc;
 
-int main()
+int main(int argc, char* argv[])
 {
-	string confile = "move_rbf.control";
-	string inp, outp, outdg, jacs, dum, anglestr;
+	if(argc < 2)
+	{
+		cout << "Please provide a control file name.\n";
+		return -1;
+	}
+	
+	string confile = argv[1];
+	string inp, outp, outdg, jacs, dum, anglestr, solver;
 	double suprad, tol;
 	int nmarks;		// number of boundary markers to read
 	int nrbfsteps, maxiter;
@@ -33,6 +42,7 @@ int main()
 	
 	conf >> dum; conf >> suprad;
 	conf >> dum; conf >> nrbfsteps;
+	conf >> dum; conf >> solver;
 	conf >> dum; conf >> tol;
 	conf >> dum; conf >> maxiter;
 	conf.close();
@@ -88,7 +98,7 @@ int main()
 
 	// carry out DG mapping procedure
 	RBFmove d;
-	d.setup(&inpoints, &bpoints, &bcb, 2, suprad, nrbfsteps, tol, maxiter);
+	d.setup(&inpoints, &bpoints, &bcb, 2, suprad, nrbfsteps, tol, maxiter,solver);
 	d.move();
 	inpoints = d.getInteriorPoints();
 	bpoints = d.getBoundaryPoints();

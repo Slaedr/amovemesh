@@ -1,8 +1,10 @@
+include ../make.inc
+
 mdgrbfr:
 	$(GPP) dg_rotate.cpp -o mdgrbfr.out -std=c++11 -ggdb -I$(PRMM)/include
 
 mrbf:
-	$(GPP) move_rbf.cpp -o mrbf.out -std=c++11 -ggdb -I$(PRMM)/include
+	$(GPP) move_rbf.cpp -o mrbf.out $(OPTIONS) -I../../include
 
 mdgm:
 	$(GPP) move_dgm.cpp -o mdgm.out -std=c++11 -ggdb -I$(PRMM)/include

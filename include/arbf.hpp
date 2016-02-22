@@ -70,7 +70,7 @@ public:
 
 	~RBFmove();
 
-	/// Specific RBFs
+	// Specific RBFs
 	double rbf_c2_compact(double xi);
 	double rbf_c0(double xi);
 	double rbf_c4(double xi);
@@ -227,6 +227,8 @@ double RBFmove::gaussian(double xi)
 	return exp(-xi*xi);
 }
 
+/** Note that an element is only inserted into the sparse LHS matrix if its magnitude is more than tol * tol
+ */
 void RBFmove::assembleLHS()
 {
 	std::cout << "RBFmove:  assembleLHS(): assembling LHS matrix" << std::endl;
@@ -242,12 +244,12 @@ void RBFmove::assembleLHS()
 
 	// set the top nbpoin-by-nbpoin elements of A, ie, M_bb
 	//std::cout << "RBFmove:  assembleLHS(): assembling M_bb" << std::endl;
+	
 	//#pragma omp parallel for default(none) private(i,j,dist,temp) shared(A,bpoints,rbfunc,nbpoin,ndim)
 	for(i = 0; i < nbpoin; i++)
 	{
 		A->set(i,i, (this->*rbfunc)(0.0));			// set diagonal element in row i
 
-		//std::cout << "RBF value = " << (this->*rbf)(0.0) << std::endl;
 		for(j = i+1; j < nbpoin; j++)		// traverse lower triangular matrix
 		{
 			dist = 0;

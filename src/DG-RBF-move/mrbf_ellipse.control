@@ -1,0 +1,24 @@
+-input-mesh
+../../input/ellipse-annulus-vc_curved.msh
+-output-mesh
+../../output/DG-RBF-move/ellipse-annulus-vc_curved-r30.msh
+-negative-jacobian-file
+negative_jac.dat
+-rotation-angle
+30
+-coordinates-of-centre-of-rotation
+0.0 0.0
+-number-of-boundary-markers-whose-faces-have-to-be-rotated
+1
+-boundary-markers-of-faces-to-be-rotated
+12
+support-radius
+4.5
+-number-of-rbf-steps
+1
+-solver-for-RBF-equations
+LU
+-tolerance
+1e-6
+-maximum-number-of-iterations-for-CG
+5000

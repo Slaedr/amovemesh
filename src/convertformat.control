@@ -1,9 +1,9 @@
 -input-file
-../input/naca0012-coarse.domn
+../output/DG-RBF-move/ellipse-annulus-vc_curved-r30.msh
 -input-format
-domn
--output-file
-../input/naca0012-coarse.msh
--output-format
 msh
+-output-file
+../output/DG-RBF-move/ellipse-annulus-vc_curved-r30.vtu
+-output-format
+vtu
 

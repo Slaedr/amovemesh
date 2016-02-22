@@ -23,7 +23,7 @@ using namespace amc;
 /** \brief Class to generate curved mesh from a linear mesh using cubic spline reconstruction and RBF-DGM hybrid mesh movement technique. */
 class Curvedmeshgen2d
 {
-	const UMesh2dh* m;				///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
+	UMesh2dh* m;				///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
 	UMesh2dh* mq;					///< Data of the corresponding (straight-faced) quadratic mesh
 	DGhybrid* mmv;					///< the mesh-movement class DG hybrid
 	BoundaryReconstruction2d br;	///< Object to reconstruct the boundary using cubic splines.
@@ -39,6 +39,7 @@ class Curvedmeshgen2d
 	string mmsolver;				///< String describing the solver to use for mesh movement - "LU" or "CG"
 	double suprad;					///< Support radius for RBF mesh movement
 	int nlayers;					///< Number of layers to advance from the boundary in order to select points for the background mesh in the DG-hybrid method
+	bool allocmove;					///< Stores whether the [mesh movement context](@ref mmv) has been allocated
 
 	int nbounpoin;					///< Number if boundary points.
 	int ninpoin;					///< Number of interior points.
@@ -50,15 +51,26 @@ class Curvedmeshgen2d
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 public:
-	void setup(const UMesh2dh* mesh, UMesh2dh* const meshq, const int num_parts, const vector<vector<int>> boundarymarkers, const double angle_threshold, const double spl_tol, const int spl_maxiter,
-			const double le_toler, const int le_maxiter, const string le_solver, const double support_radius, const int num_layers);
+	Curvedmeshgen2d()
+	{
+		allocmove = false;
+	}
+
+	~Curvedmeshgen2d()
+	{
+		if(allocmove)
+			delete mmv;
+	}
+
+	void setup(UMesh2dh* const mesh, UMesh2dh* const meshq, const int num_parts, const vector<vector<int>> boundarymarkers, const double angle_threshold, 
+			const double spl_tol, const int spl_maxiter, const double le_toler, const int le_maxiter, const string le_solver, const double support_radius, const int num_layers);
 
 	void compute_boundary_displacements();
 
 	void generate_curved_mesh();
 };
 
-void Curvedmeshgen2d::setup(const UMesh2dh* mesh, UMesh2dh* const meshq, const int num_parts, const vector<vector<int>> boundarymarkers, const double angle_threshold, 
+void Curvedmeshgen2d::setup(UMesh2dh* const mesh, UMesh2dh* const meshq, const int num_parts, const vector<vector<int>> boundarymarkers, const double angle_threshold, 
 		const double spl_tol, const int spl_maxiter, const double le_toler, const int le_maxiter, const string le_solver, const double supp_rad, const int num_layers)
 {
 	m = mesh;
@@ -75,6 +87,9 @@ void Curvedmeshgen2d::setup(const UMesh2dh* mesh, UMesh2dh* const meshq, const i
 	disps.setup(m->gnface(),m->gndim());
 	disps.zeros();
 	bflagg.setup(mq->gnpoin(),1);
+
+	mmv = new DGhybrid();
+	allocmove = true;
 	
 	// demarcate which faces are to be reconstructed
 	toRec.setup(m->gnface(),1);

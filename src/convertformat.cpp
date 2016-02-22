@@ -1,7 +1,8 @@
 #include <amesh2dh.hpp>
+#include <aoutput.hpp>
 
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 using namespace std;
 
 int main()
@@ -27,7 +28,14 @@ int main()
 		return -1;
 	}
 
-	m.writeGmsh2(outmesh);
+	if(outformat == "msh")	
+		m.writeGmsh2(outmesh);
+	else if(outformat == "vtu")
+		writeMeshToVtu(outmesh, m);
+	else {
+		cout << "Invalid format. Exiting." << endl;
+		return -1;
+	}
 
 	cout << endl;
 	return 0;

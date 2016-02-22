@@ -914,17 +914,22 @@ public:
 
 	void detect_negative_jacobians(std::ofstream& out)
 	{
-		bool flagj = false;
-		int nneg = 0;
-		for(int i = 0; i < nelem; i++)
+		if(alloc_jacobians)
 		{
-			if(jacobians(i,0) <= 1e-15) {
-				out << i << " " << jacobians(i,0) << '\n';
-				flagj = true;
-				nneg++;
+			bool flagj = false;
+			int nneg = 0;
+			for(int i = 0; i < nelem; i++)
+			{
+				if(jacobians(i,0) <= 1e-15) {
+					out << i << " " << jacobians(i,0) << '\n';
+					flagj = true;
+					nneg++;
+				}
 			}
+			if(flagj == true) std::cout << "UMesh2d: detect_negative_jacobians(): There exist " << nneg << " element(s) with negative jacobian!!\n";
 		}
-		if(flagj == true) std::cout << "UMesh2d: detect_negative_jacobians(): There exist " << nneg << " element(s) with negative jacobian!!\n";
+		else
+			std::cout << "UMesh2d: detect_negative_jacobians(): ! No jacobians available!" << std::endl;
 	}
 
 	

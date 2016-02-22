@@ -432,7 +432,8 @@ public:
 					}
 
 					// Face formed by new point and p[2]
-					if((faces[newfaces[jfa]].p[0] == nw.p[2] && faces[newfaces[jfa]].p[1] == nw.p[0]) || (faces[newfaces[jfa]].p[0] == nw.p[0] && faces[newfaces[jfa]].p[1] == nw.p[2])) // if the face formed by nw.p[0] and nw.p[2] exists in newfaces
+					if((faces[newfaces[jfa]].p[0] == nw.p[2] && faces[newfaces[jfa]].p[1] == nw.p[0]) || (faces[newfaces[jfa]].p[0] == nw.p[0] && faces[newfaces[jfa]].p[1] == nw.p[2])) 
+						// if the face formed by nw.p[0] and nw.p[2] exists in newfaces
 					{
 						if(faces[newfaces[jfa]].elem[1] == -4)
 						{

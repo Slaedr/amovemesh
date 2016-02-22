@@ -1,6 +1,6 @@
 -Input-mesh-filename
-../../input/30P30N_3airfoil_tri.msh
+../../input/ellipse-annulusc.msh
 -Output-quadratic-mesh-filename
-../../input/30P30N_3airfoil_tri_quadratic.msh
+../../input/ellipse-annulusc_quadratic.msh
 
 30P30N_luo_1st_tri

@@ -27,7 +27,7 @@ namespace amc {
 class DGhybrid
 {
 	/// input mesh (linear)
-	const UMesh2dh* m;
+	UMesh2dh* m;
 	/// quadratic straight version of the input mesh
 	UMesh2dh* mq;
 	/// Prescribed movement of each node in the quadratic mesh
@@ -66,16 +66,19 @@ class DGhybrid
 	std::string solver;
 
 public:
-	DGhybrid(const UMesh2dh* const mesh, UMesh2dh* const qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
+	/// No-arg constructor
+	DGhybrid() { }
+
+	DGhybrid(UMesh2dh* const mesh, UMesh2dh* const qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
 			const double supp_rad, const double tol, const int maxiter, const std::string solver);
-	void setup(const UMesh2dh* const mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
+	void setup(UMesh2dh* const mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
 			const double supp_rad, const double tol, const int maxiter, const std::string solver);
 	void compute_backmesh_points();
 	void generate_backmesh_and_compute_displacements();
 	void movemesh();
 };
 
-DGhybrid::DGhybrid(const UMesh2dh* const mesh, UMesh2dh* const qmesh, const amat::Matrix<double>* b_motion_quadratic, const int num_layers, const double supp_rad, 
+DGhybrid::DGhybrid(UMesh2dh* const mesh, UMesh2dh* const qmesh, const amat::Matrix<double>* b_motion_quadratic, const int num_layers, const double supp_rad, 
 		const double toler, const int max_iter, const std::string _solver) 
 	: m(mesh), mq(qmesh), b_motion_q(b_motion_quadratic), nlayers(num_layers), srad(supp_rad), tol(toler), maxiter(max_iter), solver(_solver)
 {
@@ -87,7 +90,7 @@ DGhybrid::DGhybrid(const UMesh2dh* const mesh, UMesh2dh* const qmesh, const amat
 			bounflag_q[mq->gbface(i,j)] = 1;
 }
 	
-void DGhybrid::setup(const UMesh2dh* mesh, UMesh2dh* const qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
+void DGhybrid::setup(UMesh2dh* const mesh, UMesh2dh* const qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
 		const double supp_rad, const double toler, const int max_iter, const std::string _solver)
 {
 	m = mesh;
@@ -107,8 +110,6 @@ void DGhybrid::setup(const UMesh2dh* mesh, UMesh2dh* const qmesh, const amat::Ma
 }
 
 /// Generate a list of points to use for the background mesh by advancing though [layers](@ref nlayers)
-/** \todo Currently cannot handle intersecting layer fronts from different unconnected boundaries.
- */
 void DGhybrid::compute_backmesh_points()
 {
 	std::vector<int> prevlaypo(m->gnpoin(),0);
@@ -231,17 +232,18 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 	std::cout << "DGhybrid: generate_backmesh_and_compute_displacements(): No. of interior points to move = " << inpoints_q.rows() << std::endl;
 
 	// setup DGM and get backmesh
-	
+	std::cout << "DGhybrid: generate_backmesh_and_compute_displacements(): Size of backpoints " << backpoints.rows() << " x " << backpoints.cols() << std::endl;
+	std::cout << "DGhybrid: generate_backmesh_and_compute_displacements(): Size of motion_b " << motion_b.rows() << " x " << motion_b.cols() << std::endl;
 	dgm.setup(mq->gndim(), &inpoints_q, &backpoints, &motion_b);
 	dgm.generateDG();
 
 	// --- optional:
-	bm = dgm.getDelaunayGraph();
-	std::cout << "DGhybrid: Back mesh has " << bm.gnpoin() << " points, " << bm.gnelem() << " elements." << std::endl;
-	bm.writeGmsh2("testdg.msh");
+	//bm = dgm.getDelaunayGraph();
+	//std::cout << "DGhybrid: Back mesh has " << bm.gnpoin() << " points, " << bm.gnelem() << " elements." << std::endl;
+	//bm.writeGmsh2("testdg.msh");
 	// --- optional over
 
-	// prepare input for linear elasticity problem
+	// prepare input for rbf interpolation
 	
 	motion_b.setup(nbackp,m->gndim());
 	motion_b.zeros();
