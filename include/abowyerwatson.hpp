@@ -80,7 +80,6 @@ public:
 	amat::Matrix<double> jacobians;
 
 	int npoints;
-	//int nelem;
 
 	Delaunay2D() {}
 

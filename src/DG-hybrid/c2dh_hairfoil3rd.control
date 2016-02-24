@@ -3,7 +3,7 @@
 -input-quadratic-mesh-filename
 ../../output/curved-mesh-gen-spline/hairfoil3rd_quadratic.msh
 -output-curved-mesh-filename
-../../output/curved-mesh-gen-spline/hairfoil3rd_curved.msh
+../../output/curved-mesh-gen-spline/hairfoil3rd_curvedh.msh
 -angle-threshold-for-corners
 40.0
 -Tolerance-for-spline-solver

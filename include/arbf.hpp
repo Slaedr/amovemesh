@@ -167,6 +167,7 @@ void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun
 		case(0): rbf = &RBFmove::rbf_c0;
 		break;
 		case(2): rbf = &RBFmove::rbf_c2_compact;
+				 std::cout << "RBFmove: setup(): Selected C2 function as RBF" << std::endl;
 		break;
 		case(4): rbf = &RBFmove::rbf_c4;
 		default: rbf = &RBFmove::gaussian;
@@ -208,20 +209,30 @@ RBFmove::~RBFmove()
 }
 
 // RBFs
+/// Wendland's C2 function
 double RBFmove::rbf_c2_compact(double xi)
 {
-	if(xi/srad <= 1.0)
+	if(xi < srad)
 		return pow(1-xi/srad,4)*(4*xi/srad+1);
 	else return 0;
 }
+
 double RBFmove::rbf_c0(double xi)
 {
-	return (1-xi)*(1-xi);
+	if(xi < srad)
+		return (1-xi/srad)*(1-xi/srad);
+	else
+		return 0;
 }
+
 double RBFmove::rbf_c4(double xi)
 {
-	return pow(1-xi,6)*(35*xi*xi + 18*xi + 3);
+	if(xi < srad)
+		return pow(1-xi/srad,6)*(35*xi*xi/(srad*srad) + 18*xi/srad + 3);
+	else
+		return 0;
 }
+
 double RBFmove::gaussian(double xi)
 {
 	return exp(-xi*xi);
@@ -243,12 +254,12 @@ void RBFmove::assembleLHS()
 	int ndim = RBFmove::ndim;
 
 	// set the top nbpoin-by-nbpoin elements of A, ie, M_bb
-	//std::cout << "RBFmove:  assembleLHS(): assembling M_bb" << std::endl;
 	
 	//#pragma omp parallel for default(none) private(i,j,dist,temp) shared(A,bpoints,rbfunc,nbpoin,ndim)
 	for(i = 0; i < nbpoin; i++)
 	{
 		A->set(i,i, (this->*rbfunc)(0.0));			// set diagonal element in row i
+		//A->set(i,i, 1.0);			// set diagonal element in row i
 
 		for(j = i+1; j < nbpoin; j++)		// traverse lower triangular matrix
 		{
@@ -257,6 +268,7 @@ void RBFmove::assembleLHS()
 				dist += (bpoints->get(i,id) - bpoints->get(j,id))*(bpoints->get(i,id) - bpoints->get(j,id));
 			dist = sqrt(dist);
 			temp = (this->*rbfunc)(dist);
+			//std::cout << temp << " ";
 			if(fabs(temp) > tol*tol)
 			{
 				A->set(i,j, temp);
@@ -277,6 +289,10 @@ void RBFmove::assembleLHS()
 			A.set(j,i, bpoints.get(i,j-nbpoin-1));
 		}
 	}*/
+	
+	/*std::ofstream fout("rbfmatrix.dat");
+	A->fprint(fout);
+	fout.close();*/
 }
 
 void RBFmove::move_step()

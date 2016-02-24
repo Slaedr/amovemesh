@@ -100,6 +100,7 @@ void DGhybrid::setup(UMesh2dh* const mesh, UMesh2dh* const qmesh, const amat::Ma
 	tol = toler;
 	maxiter = max_iter;
 	solver = _solver;
+	srad = supp_rad;
 
 	// flag the boundary points of the quadratic mesh
 	bounflag_q.resize(mq->gnpoin(),0);
@@ -238,9 +239,9 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 	dgm.generateDG();
 
 	// --- optional:
-	//bm = dgm.getDelaunayGraph();
-	//std::cout << "DGhybrid: Back mesh has " << bm.gnpoin() << " points, " << bm.gnelem() << " elements." << std::endl;
-	//bm.writeGmsh2("testdg.msh");
+	bm = dgm.getDelaunayGraph();
+	std::cout << "DGhybrid: Back mesh has " << bm.gnpoin() << " points, " << bm.gnelem() << " elements." << std::endl;
+	bm.writeGmsh2("testdg.msh");
 	// --- optional over
 
 	// prepare input for rbf interpolation
@@ -262,7 +263,8 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 			{
 				motion_b(k,idim) = b_motion_q->get(ip,idim);
 				bm_boun_disp(k, idim) = b_motion_q->get(ip,idim);
-				bm_boun_points(k,idim) = backpoints.get(k,idim);
+				//bm_boun_points(k,idim) = backpoints.get(k,idim);
+				bm_boun_points(k,idim) = mq->gcoords(ip,idim);
 			}
 			k++;
 		}

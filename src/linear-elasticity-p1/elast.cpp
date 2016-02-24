@@ -61,10 +61,11 @@ int main()
 	Matrix<double> xold(2*m.gnpoin(),1); xold.zeros();
 	Matrix<double> u(2*m.gnpoin(), 1);		// final displacements
 
-	u = sparseCG_d(&K, f, xold, tol, maxiter);
+	//u = sparseCG_d(&K, f, xold, tol, maxiter);
 	//u = sparse_bicgstab(&K, f, xold, tol, maxiter);
 	//u = sparsegaussseidel(&K, f, xold, tol, maxiter);
 	//u = sparseSOR(&K, f, xold, tol, maxiter,1.25);
+	u = gausselim(K, f);
 	m.movemesh(u);
 	m.writeGmsh2(finmesh);
 

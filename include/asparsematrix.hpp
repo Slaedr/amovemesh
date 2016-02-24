@@ -17,6 +17,11 @@
 #include <cstring>
 #endif
 
+// for malloc()
+#ifndef _GLIBCXX_CSTDLIB
+#include <cstdlib>
+#endif
+
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
 #endif
@@ -638,6 +643,40 @@ public:
 			rmat.row_ptr[i+1] = k;
 		}
 	}
+
+#	ifdef EIGEN_LIBRARY
+	/// Creates an Eigen3 sparse matrix in row major format
+	void get_Eigen3_rowmajor_matrix( Eigen::SparseMatrix<T, Eigen::RowMajor>& A ) const
+	{
+		// calculate number of non-zeros
+		int nnz = 0;
+		for(int i = 0; i < nrows; i++)
+			nnz += rsize[i];
+
+		/** Eigen::SparseMatrix::resize(Index,Index) function only allocates memory for the outerIndex storage.
+		 * It also sets the outer size and the inner size of the Eigen::SparseMatrix. This is the primary reason for calling this funcion here.
+		 */
+		A.resize(nrows,ncols);
+
+		//A.valuePtr() = new T[nnz];
+		A.valuePtr() = static_cast<T*>(std::malloc(nnz*sizeof(T)));
+		A.innerIndexPtr() = new int[nnz];
+		//A.outerIndexPtr() = new int[nrows+1]; // this should not be here, as explained above
+		A.outerIndexPtr()[0] = 0;
+
+		int i, j, k = 0;
+		for(i = 0; i < nrows; i++)
+		{
+			for(j = 0; j < rsize[i]; j++)
+			{
+				A.valuePtr()[k] = val[i][j];
+				A.innerIndexPtr()[k] = col_ind[i][j];
+				k++;
+			}
+			A.outerIndexPtr()[i+1] = k;
+		}
+	}
+#	endif
 
 	/* Computes the LU factorization with partial pivoting.
 	 * L is the unit lower triangular matrix, U is the upper triangular matrix.

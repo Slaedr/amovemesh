@@ -40,6 +40,11 @@ namespace amat
 */
 Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMALL_NUMBER/100.0);
 
+#ifdef EIGEN_LIBRARY
+/// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
+Matrix<double> gausselim(SpMatrix& A, Matrix<double>& b);
+#endif
+
 #ifdef _OPENMP
 /// Uses the SuperLU direct sparse solver to solve Ax = b and stores the solution in ans
 void superLU_solve(const SpMatrix* A, const Matrix<double>* b, Matrix<double>* ans);
@@ -207,6 +212,34 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 	}
 	return x;
 }
+
+#ifdef EIGEN_LIBRARY
+Matrix<double> gausselim(const SpMatrix& A, const Matrix<double>& b)
+{
+	int nr = A.rows(), nc = A.cols(), nrhs = b.cols();
+	Matrix<double> x(nr,nrhs);
+	if(b.rows() != nr)
+	{
+		std::cout << "gausselim: ! Dimension mismatch between LHS and RHS!" << std::endl;
+		return x;
+	}
+	
+	int i,j,k;
+
+	Eigen::MatrixXd B(nr,nrhs);
+	for(i = 0; i < nr; i++)
+		for(j = 0; j < nrhs; j++)
+			B(i,j) = b.get(i,j);
+
+	std::cout << "gausselim: Copying LHS into Eigen sparse matrix" << std::endl;
+	Eigen::SparseMatrix<double,Eigen::RowMajor> AA;
+	A.get_Eigen3_rowmajor_matrix(AA);
+
+	Eigen::SparseLU < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::COLAMDOrdering<int> > eigsolver;
+
+	return x;
+}
+#endif
 
 /** Re-stores matrix data in the form needed by SuperLU, and calls the SuperLU routine to solve.
  */

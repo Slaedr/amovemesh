@@ -1,5 +1,7 @@
+include ../make.inc
+
 elast:
-	g++-5 elast.cpp -o e.out -std=c++11 -I/media/aditya/Data/include -ggdb
+	$(GPP) elast.cpp $(OPTIONS) -I../../include -o e.out
 
 elastsq:
-	g++-5 elast2.cpp -o e2.out -std=c++11 -I/media/aditya/Data/include -ggdb
+	$(GPP) elast2.cpp $(OPTIONS) -I../../include -o e2.out
