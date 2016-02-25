@@ -14,7 +14,7 @@
 	#include "adghybrid.hpp"
 #endif
 
-#define __ACMG2DH_LEDG_H 1
+#define __ACMG2DH_LNEEDG_H 1
 
 using namespace std;
 using namespace amat;

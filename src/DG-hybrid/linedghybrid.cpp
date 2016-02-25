@@ -1,4 +1,4 @@
-#include "adghybrid.hpp"
+#include "acmg2dh_linedg.hpp"
 
 using namespace std;
 using namespace amat;

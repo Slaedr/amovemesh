@@ -261,7 +261,7 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 		{
 			for(idim = 0; idim < mq->gndim(); idim++)
 			{
-				motion_b(k,idim) = b_motion_q->get(ip,idim);
+				motion_b(k,idim) = b_motion_q->get(ip,idim);		// set motion of boundary points of backmesh here
 				bm_boun_disp(k, idim) = b_motion_q->get(ip,idim);
 				//bm_boun_points(k,idim) = backpoints.get(k,idim);
 				bm_boun_points(k,idim) = mq->gcoords(ip,idim);
@@ -279,6 +279,8 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 	rm.move();
 
 	amat::Matrix<double> movedInteriorPoints = rm.getInteriorPoints();
+
+	// now set motion of interior points of the backmesh
 	for(ip = nbpoin_q; ip < nbackp; ip++)
 		for(idim = 0; idim < m->gndim(); idim++)
 			motion_b(ip,idim) = movedInteriorPoints.get(ip-nbpoin_q,idim) - bm_interior_points.get(ip-nbpoin_q,idim);
@@ -288,7 +290,7 @@ void DGhybrid::movemesh()
 {
 	int ipoin, ibp, idim, k;
 	
-	// now solve Delaunay -- may need to set up once again - CHECK
+	// now solve Delaunay
 	dgm.movemesh();
 
 	inpoints_q = dgm.getInteriorPoints();

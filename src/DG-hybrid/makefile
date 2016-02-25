@@ -1,8 +1,8 @@
 include ../make.inc
 INC = -I../../include/
 
-dgh2d:
-	$(GPP) $(OPTIONS) $(INC) -o dgh2d.out dghybrid.cpp
+linedgh2d:
+	$(GPP) $(OPTIONS) $(INC) -o dgh2d.out linedghybrid.cpp
 
 rbfdgh2d:
 	$(GPP) $(OPTIONS) $(INC) -o rbfdgh2d.out rbfdghybrid.cpp

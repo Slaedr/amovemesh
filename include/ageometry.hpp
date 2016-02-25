@@ -27,26 +27,26 @@ using namespace amat;
 class CSpline
 {
 	UMesh2d* m;
-	amat::Matrix<int> rfl;					//< Contains boundary markers to be reconstructed to a spline
-	std::vector<int> facelist;				//< Alternative to rfl; stores an ordered list of faces to be reconstructed
-	int ndf;							//< number of degrees of freedom per spline - for cubic this is 4
+	amat::Matrix<int> rfl;					///< Contains boundary markers to be reconstructed to a spline
+	std::vector<int> facelist;				///< Alternative to rfl; stores an ordered list of faces to be reconstructed
+	int ndf;							///< number of degrees of freedom per spline - for cubic this is 4
 	int dim;
-	int nseg;							//< number of spline pieces
-	int nspoin;							//< number of control points
-	amat::Matrix<int> seq_spoin;				//< stores sequence of global point numbers for use in spline construction
-	amat::Matrix<int> seq_bface;				//< for each bface, stores an order number indicating its occurrence order according to contiguity
-	amat::Matrix<int> segface;				//< inverse of seq_bface; stores bface number for each segment
+	int nseg;							///< number of spline pieces
+	int nspoin;							///< number of control points
+	amat::Matrix<int> seq_spoin;				///< stores sequence of global point numbers for use in spline construction
+	amat::Matrix<int> seq_bface;				///< for each bface, stores an order number indicating its occurrence order according to contiguity
+	amat::Matrix<int> segface;				///< inverse of seq_bface; stores bface number for each segment
 	amat::Matrix<double>* scf;
-	amat::Matrix<int> toRec;					//< stores for each bface face whether that face is to be reconstricted
-	bool isClosed;						//< is the spline curve open or closed?
-	bool issequenced;					//< is the list of faces already in sequence?
-	bool face_list_available;			//< true if face list is available, false if rfl is available
+	amat::Matrix<int> toRec;					///< stores for each bface face whether that face is to be reconstricted
+	bool isClosed;						///< is the spline curve open or closed?
+	bool issequenced;					///< is the list of faces already in sequence?
+	bool face_list_available;			///< true if face list is available, false if rfl is available
 	double tol;
 	int maxiter;
 
-	amat::Matrix<double>* D;					//< D[idim](i) will contain the slope at point 0 of the ith spline piece
-	amat::SpMatrix slhs;						//< LHS of the system which is solved for D
-	amat::Matrix<double>* srhs;				//< RHS for each dimention
+	amat::Matrix<double>* D;					///< D[idim](i) will contain the slope at point 0 of the ith spline piece
+	amat::SpMatrix slhs;						///< LHS of the system which is solved for D
+	amat::Matrix<double>* srhs;				///< RHS for each dimention
 
 public:
 	
@@ -58,10 +58,11 @@ public:
 
 	~CSpline();
 	
+	/// This function arranges the faces to be reconstructed in their sequence of contiguity.
+	/** It calculates seq_poin and seq_bface, such that seq_bface(iface) contains the iface-th bface in geometrical order, 
+	 * and seq_poin(ibpoin) is the first bpointsb point number of seq_bface(iface).
+	 */
 	void sequence();
-	///< This function arranges the faces to be reconstructed in their sequence of contiguity.
-	///< It calculates seq_poin and seq_bface, such that seq_bface(iface) contains the iface-th bface in geometrical order, and seq_poin(ibpoin)
-	///<  is the first bpointsb point number of seq_bface(iface).
 
 	void compute();
 	///< This function computes the spline coeffs and stores them in scf. Depends on sequenced bfaces and points.

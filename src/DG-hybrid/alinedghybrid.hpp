@@ -144,23 +144,6 @@ void DGhybrid::compute_backmesh_points()
 			prevlaypo[ip] = curlaypo[ip];
 			curlaypo[ip] = 0;
 		}
-		/*std::cout << "Layer no. " << ilayer << std::endl;
-		int np = 0, nele = 0;
-		std::cout << "Ele ";
-		for(int iel = 0; iel < m->gnelem(); iel++)
-		{
-			//std::cout << layel[iel] << " ";
-			nele+=layel[iel];
-		}
-		std::cout << std::endl;
-		std::cout << "pPo ";
-		for(ip = 0; ip < m->gnpoin(); ip++)
-		{
-			std::cout << prevlaypo[ip] << " ";
-			np+=prevlaypo[ip];
-		}
-		std::cout << std::endl;
-		std::cout << np << " points and " << nele << " elements marked." << std::endl;*/
 
 		// mark elements surrounding marked points, and further mark points of these elements
 		for(ip = 0; ip < m->gnpoin(); ip++)
@@ -277,14 +260,15 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 	amat::SpMatrix A = linm.stiffnessMatrix();
 	amat::Matrix<double> b = linm.loadVector();
 	amat::Matrix<double> xb(2*nbackp,1);
+	amat::Matrix<double> x(2*nbackp,1);
 	xb.zeros();
 
-	/// \todo add a switch to change solver
-	xb = sparseCG_d(&A, b, xb, tol, maxiter);
+	// TODO: add a switch to change solver
+	x = sparseCG_d(&A, b, xb, tol, maxiter);
 
 	for(int i = 0; i < nbackp; i++)
 		for(idim = 0; idim < mq->gndim(); idim++)
-			motion_b(i, idim) = xb.get(i+idim*nbackp);
+			motion_b(i, idim) = x.get(i+idim*nbackp);
 }
 
 void DGhybrid::movemesh()
@@ -294,6 +278,21 @@ void DGhybrid::movemesh()
 	// now solve Delaunay -- may need to set up once again - CHECK
 	dgm.movemesh();
 
+	// re-assemble coords for the quadratic mesh
+	amat::Matrix<double> mqcoords(mq->gnpoin(), mq->gndim());
+	amat::Matrix<double> intpointsq = dgm.getInteriorPoints();
+	int ipoin, k = 0;
+	// get interior points
+	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
+		if(!bounflag_q[ipoin])
+		{
+			for(idim = 0; idim < mq->gndim(); idim++)
+				mqcoords(ipoin,idim) = inpoints_q.get(k,idim);
+			k++;
+		}
+	
+	// get boundary points
+	
 	inpoints_q = dgm.getInteriorPoints();
 	for(ibp = 0; ibp < nbackp; ibp++)
 		for(idim = 0; idim < mq->gndim(); idim++)

@@ -23,13 +23,13 @@ using namespace amc;
 /** \brief Class to generate curved mesh from a linear mesh using cubic spline reconstruction and RBF-DGM hybrid mesh movement technique. */
 class Curvedmeshgen2d
 {
-	UMesh2dh* m;				///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
+	UMesh2dh* m;					///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
 	UMesh2dh* mq;					///< Data of the corresponding (straight-faced) quadratic mesh
 	DGhybrid* mmv;					///< the mesh-movement class DG hybrid
 	BoundaryReconstruction2d br;	///< Object to reconstruct the boundary using cubic splines.
 	
-	double spltol;						///< Tolerance for linear solver used for computing spline coefficients.
-	double splmaxiter;					///< Maximum number of iterations for linear solver used to compute spline coefficients.
+	double spltol;					///< Tolerance for linear solver used for computing spline coefficients.
+	double splmaxiter;				///< Maximum number of iterations for linear solver used to compute spline coefficients.
 	int rbfchoice;					///< Parameters for mesh movement - the type of RBF to be used, if applicable
 	double supportradius;			///< Parameters for mesh movement - the support radius to be used, if applicable
 	int nummovesteps;				///< Number of steps in which to accomplish the total mesh movement.
@@ -45,8 +45,8 @@ class Curvedmeshgen2d
 	int ninpoin;					///< Number of interior points.
 	Matrix<double> disps;			///< Displacement of midpoint of each face
 	Matrix<double> boundisps;		///< Displacement at each boundary point of the quadratic mesh, computed using [disps](@ref disps).
-	Matrix<double> bounpoints;
-	Matrix<double> inpoints;
+	Matrix<double> bounpoints;		///< List of boundary points of the quadratic mesh
+	Matrix<double> inpoints;		///< List of interior points of the quadratic mesh
 	Matrix<int> bflagg;				///< This flag is true if the corresponding mesh node lies on a boundary.
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 

@@ -7,11 +7,11 @@
 -angle-threshold-for-corners
 40.0
 -Tolerance-for-spline-solver
-1e-8
+1e-6
 -Maximum-iterations-for-spline-solver
 500
 -Number-of-layers-of-boundary-cells-beyond-which-to-take-points-of-backmesh
-40
+30
 -RBF-choice
 2
 -Support-radius-for-RBF

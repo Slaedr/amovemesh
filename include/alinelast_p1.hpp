@@ -95,7 +95,7 @@ public:
 		//std::cout << "LinElastP1: Computed derivatives of basis functions, and normals to and lengths of boundary faces.\n";
 	}*/
 	
-	/// Alternative to constructor
+	/// Set variables and compute derivatives of basis functions
 	void setup(UMesh2d* mesh, double mu, double lambd)
 	{
 		m = mesh;
@@ -187,6 +187,7 @@ public:
 		return K12;
 	}
 
+	/// Assembles a global stiffness matrix for 2D linear elasticity problem
 	void assembleStiffnessMatrix()
 	{
 		amat::SpMatrix K11(m->gnpoin(),m->gnpoin()), K22(m->gnpoin(),m->gnpoin()), K12(m->gnpoin(),m->gnpoin());
@@ -244,8 +245,8 @@ public:
 	}
 	
 	/// Assign Dirichlet BCs to arbitrary points in the mesh
-	/** \param cflag contains an integer flag for all points in the mesh - 1 for constrained points and 0 for free points
-	 * \param bdata contains displacements for all points in the mesh. These displacements are only imposed on those points flagged by [cflag](@ref cflag)
+	/** \param[in] cflag contains an integer flag for all points in the mesh - 1 for constrained points and 0 for free points
+	 * \param[in] bdata contains displacements for all points in the mesh. These displacements are only imposed on those points flagged by [cflag](@ref cflag)
 	 */
 	void dirichletBC_points(const std::vector<int>& cflag, const amat::Matrix<double>& bdata)
 	{
