@@ -15,6 +15,13 @@
 #include <cmath>
 #endif
 
+
+#ifdef EIGEN_LIBRARY
+#ifndef EIGEN_SPARSE_MODULE_H
+#include <Eigen/Sparse>
+#endif
+#endif
+
 // for getenv(), atoi()
 /*#ifndef _GLIBCXX_CSTDLIB
 #include <cstdlib>
@@ -42,7 +49,7 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMAL
 
 #ifdef EIGEN_LIBRARY
 /// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
-Matrix<double> gausselim(const SpMatrix& A, Matrix<double>& b);
+Matrix<double> gausselim(const SpMatrix& A, const Matrix<amat_real>& b);
 #endif
 
 #ifdef _OPENMP
@@ -224,7 +231,7 @@ Matrix<double> gausselim(const SpMatrix& A, const Matrix<amat_real>& b)
 		return x;
 	}
 	
-	std::cout << "gausselim: Converting sparse matrix to a format that Eigen's SparseLU can work with..." << std::endl;
+	std::cout << "gausselim: Converting sparse matrix and RHS to Eigen formats..." << std::endl;
 	int i,j,k;
 
 	Eigen::Matrix<amat_real, Eigen::Dynamic, Eigen::Dynamic> B(nr,nrhs);
@@ -234,11 +241,10 @@ Matrix<double> gausselim(const SpMatrix& A, const Matrix<amat_real>& b)
 
 	SMatrixCRS<amat_real> lhs;
 	A.get_CRS_matrix(lhs);
-
-	std::cout << "gausselim: Copying LHS into Eigen sparse matrix" << std::endl;
+	
 	Eigen::MappedSparseMatrix<amat_real, Eigen::RowMajor> AA(A.rows(), A.cols(), lhs.nnz, lhs.row_ptr, lhs.col_ind, lhs.val);
 
-	Eigen::SparseLU < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::AMDOrdering<int> > eigsolver;
+	Eigen::SparseLU < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::COLAMDOrdering<int> > eigsolver;
 	eigsolver.analyzePattern(AA);
 	eigsolver.factorize(AA);
 

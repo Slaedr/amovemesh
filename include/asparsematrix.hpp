@@ -6,12 +6,6 @@
 
 #define __ASPARSEMATRIX_H
 
-#ifdef EIGEN_LIBRARY
-#ifndef EIGEN_SPARSE_MODULE_H
-#include <Eigen/Sparse>
-#endif
-#endif
-
 // for memcpy() etc
 #ifndef _GLIBCXX_CSTRING
 #include <cstring>

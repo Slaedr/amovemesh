@@ -63,7 +63,7 @@ public:
 	 * \param boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 	 * \param rbf_ch indicates the RBF to use - 0 : C0, 2 : C2, 4 : C4, default : Gaussian
 	 * \param num_steps is the number of steps in which to break up the movement to perform separately (sequentially)
-	 * \param linear_solver indicates the linear solver to use to solve the RBF equations - "CG" or "LU"
+	 * \param linear_solver indicates the linear solver to use to solve the RBF equations - "DLU", "CG", "LU"
 	 */
 	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, 
 			double tolerance, int iter, std::string linear_solver);
@@ -311,7 +311,7 @@ void RBFmove::move_step()
 	else if(lsolver == "BICGSTAB")
 		for(int idim = 0; idim < ndim; idim++)
 			coeffs[idim] = sparse_bicgstab(&A, b[idim], xold, tol, maxiter);
-	else
+	else if(lsolver == "DLU")
 	{
 		amat::Matrix<double> coeffsm(nbpoin,ndim);
 		amat::Matrix<double> rhs(nbpoin,ndim);
@@ -323,6 +323,21 @@ void RBFmove::move_step()
 		
 		coeffsm = gausselim(B, rhs);
 		
+		for(int i = 0; i < nbpoin; i++)
+			for(int j = 0; j < ndim; j++)
+				coeffs[j](i) = coeffsm.get(i,j);
+	}
+	else
+	{
+		amat::Matrix<double> coeffsm(nbpoin,ndim);
+		amat::Matrix<double> rhs(nbpoin,ndim);
+		for(int i = 0; i < nbpoin; i++)
+			for(int j = 0; j < ndim; j++)
+				rhs(i,j) = b[j](i);
+
+		// solve the system by Eigen's SparseLU routine
+		coeffsm = gausselim(A,rhs);
+
 		for(int i = 0; i < nbpoin; i++)
 			for(int j = 0; j < ndim; j++)
 				coeffs[j](i) = coeffsm.get(i,j);
