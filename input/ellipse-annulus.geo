@@ -22,3 +22,5 @@ Plane Surface(11) = {11};
 Physical Line(12) = {1, 2, 3, 4};
 Physical Line(13) = {5, 6, 7, 8};
 Physical Surface(14) = {11};
+Recombine Surface {11};
+Recombine Surface {11};
