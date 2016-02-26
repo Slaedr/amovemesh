@@ -42,7 +42,7 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMAL
 
 #ifdef EIGEN_LIBRARY
 /// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
-Matrix<double> gausselim(SpMatrix& A, Matrix<double>& b);
+Matrix<double> gausselim(const SpMatrix& A, Matrix<double>& b);
 #endif
 
 #ifdef _OPENMP

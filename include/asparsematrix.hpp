@@ -659,9 +659,9 @@ public:
 		A.resize(nrows,ncols);
 
 		//A.valuePtr() = new T[nnz];
+		//A.innerIndexPtr() = new int[nnz];
 		A.valuePtr() = static_cast<T*>(std::malloc(nnz*sizeof(T)));
-		A.innerIndexPtr() = new int[nnz];
-		//A.outerIndexPtr() = new int[nrows+1]; // this should not be here, as explained above
+		A.innerIndexPtr() = static_cast<int*>(std::malloc(nnz*sizeof(int)));
 		A.outerIndexPtr()[0] = 0;
 
 		int i, j, k = 0;

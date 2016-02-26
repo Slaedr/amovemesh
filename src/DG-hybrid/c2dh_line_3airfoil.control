@@ -1,0 +1,31 @@
+-input-linear-mesh-filename
+../../input/30P30N_3airfoil_tri.msh
+-input-quadratic-mesh-filename
+../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_quadratic.msh
+-output-curved-mesh-filename
+../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_curved-hline.msh
+-angle-threshold-for-corners
+40.0
+-Tolerance-for-spline-solver
+1e-6
+-Maximum-iterations-for-spline-solver
+500
+-Number-of-layers-of-boundary-cells-beyond-which-to-take-points-of-backmesh
+30
+-Young's-modulus
+1e9
+-Poisson's-ratio
+0.4
+-Tolerance-for-LE-move
+1e-6
+-Maximum-iterations
+5000
+-LE-solver
+CG
+-Number-of-spline-parts
+3
+-Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers
+1 13
+1 12
+1 14
+

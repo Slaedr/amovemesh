@@ -13,16 +13,37 @@ int main(int argc, char* argv[])
 	}
 	
 	string inmeshlin, inmeshquad, outmesh, dum, solver;
-	double tolerance, suprad; int nlayers, maxiter;
+	double spl_tol, le_tol, suprad, angle_threshold, young, pratio;
+	int nlayers, spl_maxiter, le_maxiter, num_parts, nflags;
+	vector<int> vec;
+	vector<vector<int>> splineflags;
+
 	ifstream fin(argv[1]);
 	fin >> dum; fin >> inmeshlin;
 	fin >> dum; fin >> inmeshquad;
 	fin >> dum; fin >> outmesh;
+	fin >> dum; fin >> angle_threshold;
+	fin >> dum; fin >> spl_tol;
+	fin >> dum; fin >> spl_maxiter;
 	fin >> dum; fin >> nlayers;
-	fin >> dum; fin >> suprad;
-	fin >> dum; fin >> tolerance;
-	fin >> dum; fin >> maxiter;
+	fin >> dum; fin >> young;
+	fin >> dum; fin >> pratio;
+	fin >> dum; fin >> le_tol;
+	fin >> dum; fin >> le_maxiter;
 	fin >> dum; fin >> solver;
+	fin >> dum; fin >> num_parts;
+	fin >> dum;
+	splineflags.reserve(num_parts);
+	for(int i = 0; i < num_parts; i++)
+	{
+		fin >> nflags;
+		vec.resize(nflags);
+		for(int j = 0; j < nflags; j++)
+		{
+			fin >> vec[j];
+		}
+		splineflags.push_back(vec);
+	}
 	fin.close();
 	
 	UMesh2dh m,mq;
@@ -30,20 +51,14 @@ int main(int argc, char* argv[])
 	
 	m.readGmsh2(inmeshlin, 2);
 	m.compute_topological();
+	m.compute_boundary_points();
 	
-	Matrix<double> bounmotion(mq.gnpoin(), mq.gndim());
-	bounmotion.zeros();
-	/*bounmotion(20,0) = 0.25; bounmotion(20,1) = 0.25;
-	bounmotion(22,0) = 0; bounmotion(22,1) = 0.3;
-	bounmotion(23,0) = -0.25; bounmotion(23,1) = 0.25;*/
-	bounmotion(11,0) = 0.01; bounmotion(11,1) = 0.1;
-	bounmotion(12,0) = 0; bounmotion(12,1) = 0.15;
-	bounmotion(13,0) = -0.01; bounmotion(13,1) = 0.1;
+	Curvedmeshgen2d cur;
+	cur.setup(&m, &mq, num_parts, splineflags, angle_threshold, spl_tol, spl_maxiter, le_tol, le_maxiter, solver, young, pratio, nlayers);
+	cur.compute_boundary_displacements();
+	cur.generate_curved_mesh();
 
-	DGhybrid dgh(&m,&mq,&bounmotion, nlayers, 1e9, 0.4, tolerance, maxiter, solver);
-	dgh.compute_backmesh_points();
-	dgh.generate_backmesh_and_compute_displacements();
-	dgh.movemesh();
+	mq.writeGmsh2(outmesh);
 
 	cout << endl;
 	return 0;

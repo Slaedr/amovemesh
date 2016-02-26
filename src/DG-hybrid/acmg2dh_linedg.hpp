@@ -11,7 +11,7 @@
 #endif
 
 #ifndef __ADGHYBRID_H
-	#include "adghybrid.hpp"
+	#include "alinedghybrid.hpp"
 #endif
 
 #define __ACMG2DH_LNEEDG_H 1
@@ -23,9 +23,9 @@ using namespace amc;
 /** \brief Class to generate curved mesh from a linear mesh using cubic spline reconstruction and the DGM-Elasticity hybrid mesh movement technique. */
 class Curvedmeshgen2d
 {
-	UMesh2dh* m;					///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
+	const UMesh2dh* m;				///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
 	UMesh2dh* mq;					///< Data of the corresponding (straight-faced) quadratic mesh
-	DGHybrid mmv;					///< the mesh-movement class DG hybrid
+	DGhybrid mmv;					///< the mesh-movement class DG hybrid
 	BoundaryReconstruction2d br;	///< Object to reconstruct the boundary using cubic splines.
 	
 	double spltol;						///< Tolerance for linear solver used for computing spline coefficients.
@@ -42,6 +42,7 @@ class Curvedmeshgen2d
 
 	int nbounpoin;					///< Number if boundary points.
 	int ninpoin;					///< Number of interior points.
+	int nlayers;					///< Number of layers to use for hybrid LEDG movement
 	Matrix<double> disps;			///< Displacement of midpoint of each face
 	Matrix<double> boundisps;		///< Displacement at each boundary point of the quadratic mesh, computed using [disps](@ref disps).
 	Matrix<double> bounpoints;
@@ -50,30 +51,28 @@ class Curvedmeshgen2d
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 public:
-	Curvedmeshgen2d(UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter,
-			double le_toler, int le_maxiter, string le_solver, const double young, const double pratio);
-
-	void setup(UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter,
-			double le_toler, int le_maxiter, string le_solver, const double young, const double pratio);
+	void setup(const UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter,
+			double le_toler, int le_maxiter, string le_solver, const double young, const double pratio, const int num_layers);
 
 	void compute_boundary_displacements();
 
 	void generate_curved_mesh();
 };
 
-void Curvedmeshgen2d::setup(UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double spl_tol, int spl_maxiter, double le_toler, int le_maxiter, string le_solver, const double young, const double pratio)
+void Curvedmeshgen2d::setup(const UMesh2dh* mesh, UMesh2dh* meshq, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, 
+		double spl_tol, int spl_maxiter, double le_toler, int le_maxiter, string le_solver, const double young, const double pratio, const int num_layers)
 {
 	m = mesh;
 	mq = meshq;
-	mmv = mmove;
 	br.setup(m, num_parts, boundarymarkers, angle_threshold);
-	spltol = spl_tol
+	spltol = spl_tol;
 	splmaxiter = spl_maxiter;
-	mmtol = le_tol;
+	mmtol = le_toler;
 	mmmaxiter = le_maxiter;
 	mmsolver = le_solver;
 	youngsmodulus = young;
 	poissonsratio = pratio;
+	nlayers = num_layers;
 	
 	disps.setup(m->gnface(),m->gndim());
 	disps.zeros();
@@ -95,7 +94,7 @@ void Curvedmeshgen2d::compute_boundary_displacements()
 	br.preprocess();
 	br.detect_corners();
 	br.split_parts();
-	br.compute_splines(tol,maxiter);
+	br.compute_splines(spltol,splmaxiter);
 
 	// get coords of midpoints of each boundary face
 	Matrix<double> facemidpoints(m->gnface(),m->gndim());
@@ -176,10 +175,12 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	/// We now have all we need to call the mesh-movement functions and generate the curved mesh.
 	//Call RBF functions here
 
-	mmv->setup(&m, &mq, &boundisps, nlayers, youngsmodulus, poissonsratio, mmtol, mmmaxiter, mmsolver);
-	mmv->move();
+	mmv.setup(m, mq, &allpoint_disps, nlayers, youngsmodulus, poissonsratio, mmtol, mmmaxiter, mmsolver);
+	mmv.compute_backmesh_points();
+	mmv.generate_backmesh_and_compute_displacements();
+	mmv.movemesh();
 
-	bounpoints = mmv->getBoundaryPoints();
+	/*bounpoints = mmv->getBoundaryPoints();
 	inpoints = mmv->getInteriorPoints();
 
 	/// Finally, we reassemble the coord array for the curved mesh using the mesh-mover's computed values.
@@ -201,7 +202,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	}
 
 	// set it in mesh mq
-	mq->setcoords(&newcoords);
+	mq->setcoords(&newcoords);*/
 }
 
 // ------------ end --------------------

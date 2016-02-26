@@ -3,7 +3,7 @@
  *  \date Feb 8, 2016
  */
 
-#ifndef __AMESH2DH_H
+#ifndef __AMESH2DHYBRID_H
 #include <amesh2dh.hpp>
 #endif
 
@@ -67,16 +67,17 @@ class DGhybrid
 	std::string solver;
 
 public:
-	DGhybrid(UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
+	DGhybrid() { }
+	DGhybrid(const UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
 			const double young, const double nu, const double tol, const int maxiter, const std::string solver);
-	void setup(UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
+	void setup(const UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
 			const double young, const double nu, const double tol, const int maxiter, const std::string solver);
 	void compute_backmesh_points();
 	void generate_backmesh_and_compute_displacements();
 	void movemesh();
 };
 
-DGhybrid::DGhybrid(UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* b_motion_quadratic, const int num_layers, const double young, const double nu, 
+DGhybrid::DGhybrid(const UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* b_motion_quadratic, const int num_layers, const double young, const double nu, 
 		const double toler, const int max_iter, const std::string _solver) 
 	: m(mesh), mq(qmesh), b_motion_q(b_motion_quadratic), nlayers(num_layers), tol(toler), maxiter(max_iter), solver(_solver)
 {
@@ -91,7 +92,7 @@ DGhybrid::DGhybrid(UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* 
 			bounflag_q[mq->gbface(i,j)] = 1;
 }
 	
-void DGhybrid::setup(UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
+void DGhybrid::setup(const UMesh2dh* mesh, UMesh2dh* qmesh, const amat::Matrix<double>* boundary_motion_quadratic, const int num_layers, 
 		const double young, const double nu, const double toler, const int max_iter, const std::string _solver)
 {
 	m = mesh;
@@ -134,7 +135,7 @@ void DGhybrid::compute_backmesh_points()
 	for(ip = 0; ip < mq->gnpoin(); ip++)
 		nbpoin_q += bounflag_q[ip];
 	
-	std::cout << "DGhybrid: compute_backmesh_points(): Number of boundary points = " << nbpoin_q << std::endl;
+	std::cout << "DGhybrid: compute_backmesh_points(): Number of boundary points = " << nbpoin_q << ", number of layers = " << nlayers << std::endl;
 
 	// for each layer, mark elements containing marked points, and then mark all points of these elements
 	for(int ilayer = 0; ilayer < nlayers; ilayer++)
@@ -273,7 +274,7 @@ void DGhybrid::generate_backmesh_and_compute_displacements()
 
 void DGhybrid::movemesh()
 {
-	int ibp, idim;
+	int ip, ibp, idim;
 	
 	// now solve Delaunay -- may need to set up once again - CHECK
 	dgm.movemesh();
@@ -281,6 +282,7 @@ void DGhybrid::movemesh()
 	// re-assemble coords for the quadratic mesh
 	amat::Matrix<double> mqcoords(mq->gnpoin(), mq->gndim());
 	amat::Matrix<double> intpointsq = dgm.getInteriorPoints();
+
 	int ipoin, k = 0;
 	// get interior points
 	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
@@ -291,13 +293,22 @@ void DGhybrid::movemesh()
 			k++;
 		}
 	
-	// get boundary points
-	
-	inpoints_q = dgm.getInteriorPoints();
+	// update the backmesh coords
 	for(ibp = 0; ibp < nbackp; ibp++)
 		for(idim = 0; idim < mq->gndim(); idim++)
 			backpoints(ibp,idim) += motion_b.get(ibp,idim);
 
+	// get boundary points from backpoints
+	k = 0;
+	for(ip = 0; ip < mq->gnpoin(); ip++)
+		if(bounflag_q.at(ip) == 1)
+		{
+			for(idim = 0; idim < mq->gndim(); idim++)
+				mqcoords(ip,idim) = backpoints(k,idim);
+			k++;
+		}
+	mq->setcoords(&mqcoords);
+	
 	bm.setcoords(&backpoints);
 	bm.writeGmsh2("testdg_moved.msh");
 }

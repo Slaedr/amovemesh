@@ -88,7 +88,7 @@ public:
 		nnode = 3;
 		cap = 1000;
 		badcap = 50;
-		tol = 1e-10;
+		tol = A_SMALL_NUMBER;
 		elems.reserve(cap);
 		faces.reserve(cap);
 		//nelem = 0;
@@ -131,7 +131,7 @@ public:
 		nnode = 3;
 		cap = 1000;
 		badcap = 50;
-		tol = 1e-10;
+		tol = A_SMALL_NUMBER;
 		elems.reserve(cap);
 		faces.reserve(cap);
 		points = *_points;
