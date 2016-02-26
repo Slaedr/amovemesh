@@ -65,6 +65,9 @@ Part of Amocurve.
 
 namespace amat {
 
+/// Real type - redefine to convert floating-point numbers to different precision, for example.
+typedef double amat_real;
+
 const int WIDTH = 10;		// width of field for printing matrices
 
 template <class T>

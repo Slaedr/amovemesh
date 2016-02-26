@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 	m.compute_boundary_points();
 
 	Curvedmeshgen2d cmg;
-	cmg.setup(&m, &mq, nsplineparts, splineflags, cornerangle, spltol, splmaxiter, rbftol, rbfmaxiter, rbf_solver, supportradius, nlayers);
+	cmg.setup(&m, &mq, nsplineparts, splineflags, PI/180.0*cornerangle, spltol, splmaxiter, rbftol, rbfmaxiter, rbf_solver, supportradius, nlayers);
 	cmg.compute_boundary_displacements();
 	cmg.generate_curved_mesh();
 	

@@ -1,13 +1,13 @@
 -input-linear-mesh-filename
 ../../input/30P30N_3airfoil_tri.msh
 -input-quadratic-mesh-filename
-../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_quadratic.msh
+../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_quadratic.msh
 -output-curved-mesh-filename
 ../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_curvedh.msh
 -angle-threshold-for-corners
 40.0
 -Tolerance-for-spline-solver
-1e-6
+1e-8
 -Maximum-iterations-for-spline-solver
 500
 -Number-of-layers-of-boundary-cells-beyond-which-to-take-points-of-backmesh
@@ -19,7 +19,7 @@
 -Number-of-RBF-steps
 1
 -Tolerance-for-RBF-move
-1e-6
+1e-8
 -Maximum-iterations
 5000
 -RBF-solver

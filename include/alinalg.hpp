@@ -214,28 +214,38 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 }
 
 #ifdef EIGEN_LIBRARY
-Matrix<double> gausselim(const SpMatrix& A, const Matrix<double>& b)
+Matrix<double> gausselim(const SpMatrix& A, const Matrix<amat_real>& b)
 {
 	int nr = A.rows(), nc = A.cols(), nrhs = b.cols();
-	Matrix<double> x(nr,nrhs);
+	Matrix<amat_real> x(nr,nrhs);
 	if(b.rows() != nr)
 	{
 		std::cout << "gausselim: ! Dimension mismatch between LHS and RHS!" << std::endl;
 		return x;
 	}
 	
+	std::cout << "gausselim: Converting sparse matrix to a format that Eigen's SparseLU can work with..." << std::endl;
 	int i,j,k;
 
-	Eigen::MatrixXd B(nr,nrhs);
+	Eigen::Matrix<amat_real, Eigen::Dynamic, Eigen::Dynamic> B(nr,nrhs);
 	for(i = 0; i < nr; i++)
 		for(j = 0; j < nrhs; j++)
 			B(i,j) = b.get(i,j);
 
-	std::cout << "gausselim: Copying LHS into Eigen sparse matrix" << std::endl;
-	Eigen::SparseMatrix<double,Eigen::RowMajor> AA;
-	A.get_Eigen3_rowmajor_matrix(AA);
+	SMatrixCRS<amat_real> lhs;
+	A.get_CRS_matrix(lhs);
 
-	Eigen::SparseLU < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::COLAMDOrdering<int> > eigsolver;
+	std::cout << "gausselim: Copying LHS into Eigen sparse matrix" << std::endl;
+	Eigen::MappedSparseMatrix<amat_real, Eigen::RowMajor> AA(A.rows(), A.cols(), lhs.nnz, lhs.row_ptr, lhs.col_ind, lhs.val);
+
+	Eigen::SparseLU < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::AMDOrdering<int> > eigsolver;
+	eigsolver.analyzePattern(AA);
+	eigsolver.factorize(AA);
+
+	Eigen::Matrix<amat_real, Eigen::Dynamic, Eigen::Dynamic> xx = eigsolver.solve(B);
+	for(i = 0; i < nr; i++)
+		for(j = 0; j < nrhs; j++)
+			x(i,j) = xx(i,j);
 
 	return x;
 }
