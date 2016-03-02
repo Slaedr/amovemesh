@@ -1,7 +1,7 @@
 -Input_mesh_file
-rdgflo.domn.32x32
+../../input/rdgflo.domn.32x32
 -Output-mesh-file
-movedrbf-b-4.msh
+../../output/rbf-mesh-movement/movedrbf-b-4.msh
 -Output-file-for-jacobian-check
 jacs.dat
 -rotation-angle
