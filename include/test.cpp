@@ -6,7 +6,7 @@ using namespace amat;
 
 int main()
 {
-	MatrixCOO2<double> A(6,6);
+	SpMatrix A(6,6);
 	Matrix<double> prod(6,1);
 	//cout << A.get(1,1) << endl;
 	//A.set(1,1,10.5);
@@ -32,7 +32,7 @@ int main()
 
 	A.mprint();
 
-	Matrix<double> x(6,1);
+	Matrix<amc_real> x(6,1);
 	x(0) = 9; x(1) = 8; x(2) = 7; x(3) = 6; x(4) = 5; x(5) = 4;
 	x.mprint();
 	Matrix<double> y(6,1);

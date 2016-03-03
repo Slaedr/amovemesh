@@ -40,39 +40,39 @@ namespace amc {
 class UMesh
 {
 private:
-	int npoin;
-	int nelem;
-	int nface;
-	int nedge;
+	amc_int npoin;
+	amc_int nelem;
+	amc_int nface;
+	amc_int nedge;		///< Number of edges in the mesh
 	int ndim;
-	int nnode;		///< number of nodes to an element
-	int nfael;		///< number of faces to an element
-	int nedel;		///< number of edges in an element
-	int nnofa;		///< number of nodes in a face -- needs to be generalized in case of general grids
-	int nedfa;		///< number of edges in a face
-	int nnoded;		///< number of nodes per edge
-	int naface;		///< total number of (internal and boundary) faces
-	int nbface;		///< number of boundary faces as calculated by compute_face_data(), as opposed to nface which is read from file
-	int nbedge;		///< number of boundary edges
-	int nbtag;		///< Number of boundary markers for each boundary face
-	int ndtag;		///< Number of region markers for each element
-	amat::Matrix<double> coords;
-	amat::Matrix<int> inpoel;
-	amat::Matrix<int> m_inpoel;		// same as inpoel, except that it might contain different node ordering
-	amat::Matrix<int> bface;
-	amat::Matrix<int> flag_bpoin;		// a boolean flag for each point. Contains 1 if the corresponding point is a boundary point
-	amat::Matrix<double> vol_regions;		// to hold volume region markers, if any
+	int nnode;			///< number of nodes to an element
+	int nfael;			///< number of faces to an element
+	int nedel;			///< number of edges in an element
+	int nnofa;			///< number of nodes in a face -- needs to be generalized in case of general grids
+	int nedfa;			///< number of edges in a face
+	int nnoded;			///< number of nodes per edge
+	amc_int naface;		///< total number of (internal and boundary) faces
+	amc_int nbface;		///< number of boundary faces as calculated by compute_face_data(), as opposed to nface which is read from file
+	amc_int nbedge;		///< number of boundary edges
+	int nbtag;			///< Number of boundary markers for each boundary face
+	int ndtag;			///< Number of region markers for each element
+	amat::Matrix<amc_real> coords;
+	amat::Matrix<amc_int> inpoel;
+	amat::Matrix<amc_int> m_inpoel;		// same as inpoel, except that it might contain different node ordering
+	amat::Matrix<amc_int> bface;
+	amat::Matrix<amc_int> flag_bpoin;		// a boolean flag for each point. Contains 1 if the corresponding point is a boundary point
+	amat::Matrix<amc_int> vol_regions;		// to hold volume region markers, if any
 	bool alloc_jacobians;
-	amat::Matrix<double> jacobians;
+	amat::Matrix<amc_real> jacobians;
 
-	amat::Matrix<int> lpofa;		///< for each face of an element, it contains local node numbers of the nodes forming that face. Assumed to be same for all elements.
-	amat::Matrix<int> esup;		///< elements surrounding points
+	amat::Matrix<amc_real> lpofa;		///< for each face of an element, it contains local node numbers of the nodes forming that face. Assumed to be same for all elements.
+	amat::Matrix<amc_int> esup;		///< elements surrounding points
 	amat::Matrix<int> esup_p;		///< array containing index of esup where elements surrounding a certain point start
 	std::vector<int>* psup;		///< points surrounding points
-	amat::Matrix<int> esuel;		///< elements surrounding elements
-	amat::Matrix<int> intedge;	///< edge data structure
+	amat::Matrix<amc_int> esuel;		///< elements surrounding elements
+	amat::Matrix<amc_int> intedge;	///< edge data structure. Stores the indices of the points making up the edge.
 	std::vector<int>* elsed;		///< elements surrounding edge
-	amat::Matrix<int> intfac;		///< face data strcture
+	amat::Matrix<amc_int> intfac;		///< face data strcture
 
 public:
 
@@ -132,58 +132,58 @@ public:
 			delete [] elsed;
 	}
 
-	double gcoords(int pointno, int dim)
+	double gcoords(amc_int pointno, int dim) const
 	{
 		return coords.get(pointno,dim);
 	}
-	int ginpoel(int elemno, int locnode)
+	int ginpoel(amc_int elemno, int locnode) const
 	{
 		return inpoel.get(elemno, locnode);
 	}
-	int gbface(int faceno, int val)
+	int gbface(amc_int faceno, int val) const
 	{
 		return bface.get(faceno, val);
 	}
-	int gflag_bpoin(int ipoin) { return flag_bpoin(ipoin); }
+	int gflag_bpoin(amc_int ipoin) const { return flag_bpoin.get(ipoin); }
 
-	void setcoords(amat::Matrix<double>* c)
+	void setcoords(amat::Matrix<amc_real>* c)
 	{ coords = *c; }
 
-	void setinpoel(amat::Matrix<int>* inp)
+	void setinpoel(amat::Matrix<amc_int>* inp)
 	{ inpoel = *inp; }
 
-	void setbface(amat::Matrix<int>* bf)
+	void setbface(amat::Matrix<amc_int>* bf)
 	{ bface = *bf; }
 
-	amat::Matrix<double>* getcoords()
+	amat::Matrix<amc_real>* getcoords() const
 	{ return &coords; }
 
-	int glpofa(int iface, int ifnode) { return lpofa(iface, ifnode); }
-	int gesup(int i) { return esup.get(i); }
-	int gesup_p(int i) { return esup_p.get(i); }
-	int gpsup(int i, int j) { return psup[i].at(j); }		// get jth surrounding point of ith node
-	int gpsupsize(int i) { return psup[i].size(); }
-	int gintedge(int iedge, int ipoin) { return intedge.get(iedge,ipoin); }
-	int gelsed(int iedge, int ielem) { return elsed[iedge].at(ielem); }
-	int gelsedsize(int iedge) { return elsed[iedge].size(); }
-	int gesuel(int ielem, int jnode) { return esuel.get(ielem, jnode); }
-	int gintfac(int face, int i) { return intfac.get(face,i); }
+	int glpofa(amc_int iface, int ifnode) const { return lpofa.get(iface, ifnode); }
+	amc_int gesup(amc_int i) const { return esup.get(i); }
+	amc_int gesup_p(amc_int i) const { return esup_p.get(i); }
+	amc_int gpsup(amc_int i, int j) const { return psup[i].at(j); }		// get jth surrounding point of ith node
+	amc_int gpsupsize(amc_int i) const { return psup[i].size(); }
+	amc_int gintedge(amc_int iedge, int ipoin) const { return intedge.get(iedge,ipoin); }
+	amc_int gelsed(amc_int iedge, int ielem) const { return elsed[iedge].at(ielem); }
+	amc_int gelsedsize(amc_int iedge) const { return elsed[iedge].size(); }
+	amc_int gesuel(amc_int ielem, int jnode) const { return esuel.get(ielem, jnode); }
+	amc_int gintfac(amc_int face, int i) const { return intfac.get(face,i); }
 	//double gjacobians(int ielem) { return jacobians(ielem,0); }
 
-	int gnpoin() { return npoin; }
-	int gnelem() { return nelem; }
-	int gnface() { return nface; }
-	int gnbface() { return nbface; }
-	int gnnode() { return nnode; }
-	int gndim() { return ndim; }
-	int gnaface() {return naface; }
-	int gnfael() { return nfael; }
-	int gnnofa() { return nnofa; }
-	int gnedel() { return nedel; }
-	int gnbtag() {return nbtag; }
-	int gndtag() { return ndtag; }
-	int gnedge() { return nedge; }
-	int gnbedge() { return nbedge; }
+	amc_int gnpoin() const { return npoin; }
+	amc_int gnelem() const { return nelem; }
+	amc_int gnface() const { return nface; }
+	amc_int gnbface() const { return nbface; }
+	int gnnode() const { return nnode; }
+	int gndim() const { return ndim; }
+	amc_int gnaface() const {return naface; }
+	int gnfael() const { return nfael; }
+	int gnnofa() const { return nnofa; }
+	int gnedel() const { return nedel; }
+	int gnbtag() const {return nbtag; }
+	int gndtag() const { return ndtag; }
+	amc_int gnedge() const { return nedge; }
+	amc_int gnbedge() const { return nbedge; }
 
 	void readGmsh2(std::string mfile, int dimensions)
 	///< Reads mesh from Gmsh 2 format file. For quadratic meshes, mapping has to be applied for node-ordering.
@@ -214,15 +214,16 @@ public:
 		infile >> dums;
 		//std::cout << "UMesh3d: readGmsh2(): coords read." << std::endl;
 
-		int nelm, elmtype, nbtags, ntags, nskipped= 0;
+		int elmtype, nbtags, ntags, nskipped= 0;
+		amc_int nelm, i;
 		ndtag = 0; nbtag = 0;
 		infile >> nelm;
-		amat::Matrix<int> elms(nelm,40);
+		amat::Matrix<amc_int> elms(nelm,40);
 		nface = 0; nelem = 0;
 		std::cout << "UMesh3d: readGmsh2(): Total number of elms is " << nelm << std::endl;
-		amat::Matrix<int> temper(27,1);		// to temporarily store nodes in Gmsh order
+		amat::Matrix<amc_int> temper(27,1);		// to temporarily store nodes in Gmsh order
 
-		for(int i = 0; i < nelm; i++)
+		for(i = 0; i < nelm; i++)
 		{
 			infile >> dum;
 			infile >> elmtype;
@@ -379,14 +380,14 @@ public:
 
 		// write into inpoel and bface
 		// the first nface rows to be read are boundary faces
-		for(int i = 0; i < nface; i++)
+		for(i = 0; i < nface; i++)
 		{
 			for(int j = 0; j < nnofa; j++)
 				bface(i,j) = elms(i+nskipped,j)-1;			// -1 to correct for the fact that our numbering starts from zero
 			for(int j = nnofa; j < nnofa+nbtag; j++)
 				bface(i,j) = elms(i+nskipped,j);
 		}
-		for(int i = 0; i < nelem; i++)
+		for(i = 0; i < nelem; i++)
 		{
 			for(int j = 0; j < nnode; j++)
 				inpoel(i,j) = elms(i+nface+nskipped,j)-1;
@@ -449,7 +450,11 @@ public:
 		std::cout << "UMesh2d: writeGmsh2(): writing mesh to file " << mfile << std::endl;
 
 		m_inpoel.setup(nelem,nnode);
-		mapinpoelXiaodongToGmsh();
+		
+		if(nnode == 27)
+			mapinpoelXiaodongToGmsh();
+		else
+			m_inpoel = inpoel;
 
 		// decide element type first, based on nfael/nnode and nnofa
 		int elm_type = 4;
@@ -473,7 +478,7 @@ public:
 		{
 			outf << ip+1;
 			for(int j = 0; j < ndim; j++)
-			 	outf << " " << coords(ip,j);
+			 	outf << " " << coords.get(ip,j);
 			for(int j = 3-ndim; j > 0; j--)
 				outf << " " << 0.0;
 			outf << '\n';
@@ -487,9 +492,9 @@ public:
 		{
 			outf << iface+1 << " " << face_type << " " << nbtag;
 			for(int i = nnofa; i < nnofa+nbtag; i++)
-				outf << " " << bface(iface,i);			// write tags
+				outf << " " << bface.get(iface,i);			// write tags
 			for(int i = 0; i < nnofa; i++)
-				outf << " " << bface(iface,i)+1;		// write nodes
+				outf << " " << bface.get(iface,i)+1;		// write nodes
 			outf << '\n';
 		}
 
@@ -498,9 +503,9 @@ public:
 		{
 			outf << nface+iel+1 << " " << elm_type << " " << ndtag;
 			for(int i = 0; i < ndtag; i++)
-				outf << " " << vol_regions(iel,i);
+				outf << " " << vol_regions.get(iel,i);
 			for(int i = 0; i < nnode; i++)
-				outf << " " << m_inpoel(iel,i)+1;
+				outf << " " << m_inpoel.get(iel,i)+1;
 			outf << '\n';
 		}
 		outf << "$EndElements\n";
@@ -520,7 +525,7 @@ public:
 	 */
 	void compute_topological()
 	{
-		/// NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
+		/// \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
 
 		std::cout << "UMesh2d: compute_topological(): Calculating and storing topological information...\n";
 		//1. Elements surrounding points
@@ -874,6 +879,8 @@ public:
 
 	
 	/// Creates a UMesh object by adding one extra node at each edge centre, and also, in case of a hex mesh, one extra node at each face centre and cell centre.
+	/** \note Only works for tetrahedral and hexahedral elements.
+	 */
 	UMesh convertLinearToQuadratic()
 	{
 		UMesh q;

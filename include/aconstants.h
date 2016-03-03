@@ -10,5 +10,14 @@
 
 	/// A small number likely smaller than most convergence tolerances
 	#define A_SMALL_NUMBER 1e-12
+	
+	namespace amc 
+	{
+		/// the floating point type to be used
+		typedef double amc_real;
+		
+		/// the index (counting) type to be used
+		typedef int amc_int;
+	}
 
 #endif

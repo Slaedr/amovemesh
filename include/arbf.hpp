@@ -1,4 +1,6 @@
-/** A mesh-movement method using radial basis function interpolation based on the 2007 paper by de Boer, van der Schoot and Bijl,
+/** @brief A mesh-movement method using radial basis function interpolation 
+ * 
+ * based on the 2007 paper by de Boer, van der Schoot and Bijl,
  * but with one major difference - the interpolation is done using only RBFs; the polynomial part is ignored.
  * @author Aditya Kashi
  * @date August 6, 2015
