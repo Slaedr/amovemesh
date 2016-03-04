@@ -132,7 +132,8 @@ public:
 			delete [] elsed;
 	}
 
-	double gcoords(amc_int pointno, int dim) const
+	/// Access point coordinates
+	amc_real gcoords(amc_int pointno, int dim) const
 	{
 		return coords.get(pointno,dim);
 	}
@@ -145,6 +146,12 @@ public:
 		return bface.get(faceno, val);
 	}
 	int gflag_bpoin(amc_int ipoin) const { return flag_bpoin.get(ipoin); }
+
+	/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
+	void scoords(amc_int pointno, int dim, amc_real value)
+	{
+		coords(pointno,dim) = value;
+	}
 
 	void setcoords(amat::Matrix<amc_real>* c)
 	{ coords = *c; }

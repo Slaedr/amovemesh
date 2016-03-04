@@ -54,8 +54,8 @@ public:
 	/// No-arg constructor
 	RBFmove();
 
-	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, 
-			double tolerance, int iter, std::string linear_solver);
+	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, const int num_steps, 
+			const double tolerance, const int iter, const std::string linear_solver);
 	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 
 	/// Sets the data needed
@@ -67,8 +67,8 @@ public:
 	 * \param num_steps is the number of steps in which to break up the movement to perform separately (sequentially)
 	 * \param linear_solver indicates the linear solver to use to solve the RBF equations - "DLU", "CG", "LU"
 	 */
-	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, 
-			double tolerance, int iter, std::string linear_solver);
+	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, const int num_steps, 
+			const double tolerance, const int iter, const std::string linear_solver);
 
 	~RBFmove();
 
@@ -98,7 +98,8 @@ public:
 	
 RBFmove::RBFmove() {isalloc = false; }
 
-RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver)
+RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, 
+		const int num_steps, const double tolerance, const int iter, const std::string linear_solver)
 // boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 {
 	std::cout << "RBFmove: Storing inputs" << std::endl;
@@ -147,7 +148,8 @@ RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_po
 	lsolver = linear_solver;
 }
 
-void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, int rbf_ch, double support_radius, int num_steps, double tolerance, int iter, std::string linear_solver)
+void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, 
+		const int num_steps, const double tolerance, const int iter, const std::string linear_solver)
 // boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 {
 	std::cout << "RBFmove: Storing inputs" << std::endl;
