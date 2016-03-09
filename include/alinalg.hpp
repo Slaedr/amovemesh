@@ -49,7 +49,7 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMAL
 
 #ifdef EIGEN_LIBRARY
 /// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
-Matrix<double> gausselim(const SpMatrix& A, const Matrix<amat_real>& b);
+Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b);
 #endif
 
 #ifdef _OPENMP
@@ -211,7 +211,8 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 			sum = 0;
 			int k = i+1;
 			do
-			{	sum += A(i,k)*x(k,l);		// or A(k,i) ??
+			{	
+				sum += A(i,k)*x(k,l);		// or A(k,i) ??
 				k++;
 			} while(k <= N-1);
 			x(i,l) = (b(i,l) - sum)/A(i,i);
@@ -221,10 +222,10 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 }
 
 #ifdef EIGEN_LIBRARY
-Matrix<double> gausselim(const SpMatrix& A, const Matrix<amat_real>& b)
+Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b)
 {
 	int nr = A.rows(), nc = A.cols(), nrhs = b.cols();
-	Matrix<amat_real> x(nr,nrhs);
+	Matrix<amc_real> x(nr,nrhs);
 	if(b.rows() != nr)
 	{
 		std::cout << "gausselim: ! Dimension mismatch between LHS and RHS!" << std::endl;
@@ -234,21 +235,23 @@ Matrix<double> gausselim(const SpMatrix& A, const Matrix<amat_real>& b)
 	std::cout << "gausselim: Converting sparse matrix and RHS to Eigen formats..." << std::endl;
 	int i,j,k;
 
-	Eigen::Matrix<amat_real, Eigen::Dynamic, Eigen::Dynamic> B(nr,nrhs);
+	Eigen::Matrix<amc_real, Eigen::Dynamic, Eigen::Dynamic> B(nr,nrhs);
 	for(i = 0; i < nr; i++)
 		for(j = 0; j < nrhs; j++)
 			B(i,j) = b.get(i,j);
 
-	SMatrixCRS<amat_real> lhs;
+	SMatrixCRS<amc_real> lhs;
 	A.get_CRS_matrix(lhs);
 	
-	Eigen::MappedSparseMatrix<amat_real, Eigen::RowMajor> AA(A.rows(), A.cols(), lhs.nnz, lhs.row_ptr, lhs.col_ind, lhs.val);
+	Eigen::MappedSparseMatrix<amc_real, Eigen::RowMajor> AA(A.rows(), A.cols(), lhs.nnz, lhs.row_ptr, lhs.col_ind, lhs.val);
 
+	std::cout << "gausselim: Solving via Eigen SpareLU..." << std::endl;
+	
 	Eigen::SparseLU < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::COLAMDOrdering<int> > eigsolver;
 	eigsolver.analyzePattern(AA);
 	eigsolver.factorize(AA);
 
-	Eigen::Matrix<amat_real, Eigen::Dynamic, Eigen::Dynamic> xx = eigsolver.solve(B);
+	Eigen::Matrix<amc_real, Eigen::Dynamic, Eigen::Dynamic> xx = eigsolver.solve(B);
 	for(i = 0; i < nr; i++)
 		for(j = 0; j < nrhs; j++)
 			x(i,j) = xx(i,j);

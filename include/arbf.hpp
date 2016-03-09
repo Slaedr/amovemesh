@@ -8,11 +8,11 @@
  * Aug 14, 2015: Modified to work with curved mesh generation. Now requires interior points and boundary points as separate inputs.
  */
 
-#ifndef __GLIBCXX_CSTDIO
+#ifndef _GLIBCXX_CSTDIO
 #include <cstdio>
 #endif
 
-#ifndef __GLIBCXX_STRING
+#ifndef _GLIBCXX_STRING
 #include <string>
 #endif
 
@@ -214,11 +214,20 @@ RBFmove::~RBFmove()
 
 // RBFs
 /// Wendland's C2 function
-double RBFmove::rbf_c2_compact(double xi)
+/*double RBFmove::rbf_c2_compact(double xi)
 {
 	if(xi < srad)
 		return pow(1-xi/srad,4)*(4*xi/srad+1);
 	else return 0;
+}*/
+double RBFmove::rbf_c2_compact(double xi)
+{
+	if(xi < srad)
+	{
+		double q = xi/srad;
+		return (1.0-q)*(1.0-q)*(1.0-q)*(1.0-q)*(4.0*q+1.0);
+	}
+	else return 0.0;
 }
 
 double RBFmove::rbf_c0(double xi)
@@ -308,7 +317,10 @@ void RBFmove::move_step()
 		
 	if(lsolver == "CG")
 		for(int idim = 0; idim < ndim; idim++)
+		{
+			//std::cout << "RBFmove:  move_step(): Norm of RHS " << idim << " = " << b[idim].l2norm() << std::endl;
 			coeffs[idim] = sparseCG_d(&A, b[idim], xold, tol, maxiter);
+		}
 	else if(lsolver == "SOR")
 		for(int idim = 0; idim < ndim; idim++)
 			coeffs[idim] = sparseSOR(&A, b[idim], xold, tol, maxiter);

@@ -148,7 +148,7 @@ public:
 	int gflag_bpoin(amc_int ipoin) const { return flag_bpoin.get(ipoin); }
 
 	/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
-	void scoords(amc_int pointno, int dim, amc_real value)
+	void scoords(const amc_int pointno, const int dim, const amc_real value)
 	{
 		coords(pointno,dim) = value;
 	}
@@ -162,7 +162,7 @@ public:
 	void setbface(amat::Matrix<amc_int>* bf)
 	{ bface = *bf; }
 
-	amat::Matrix<amc_real>* getcoords() const
+	const amat::Matrix<amc_real>* getcoords() const
 	{ return &coords; }
 
 	int glpofa(amc_int iface, int ifnode) const { return lpofa.get(iface, ifnode); }

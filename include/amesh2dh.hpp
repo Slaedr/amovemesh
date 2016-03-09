@@ -70,6 +70,7 @@ private:
 	amat::Matrix<int> inpoel;				///< Interconnectivity matrix: lists node numbers of nodes in each element
 	amat::Matrix<int> bface;				///< Boundary face data: lists nodes belonging to a boundary face and contains boudnary markers
 	amat::Matrix<double> vol_regions;		///< to hold volume region markers, if any
+	amat::Matrix<amc_real> flag_bpoin;		///< Holds 1 or 0 for each point depending on whether or not that point is a boundary point
 
 	/// List of indices of [esup](@ref esup) corresponding to nodes
 	amat::Matrix<int> esup_p;
@@ -162,6 +163,8 @@ public:
 	int gnbpoin() const;
 
 	/* Functions to set some mesh data structures. */
+	/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
+	void scoords(const amc_int pointno, const int dim, const amc_real value);
 	void setcoords(amat::Matrix<double>* c);
 	void setinpoel(amat::Matrix<int>* inp);
 	void setbface(amat::Matrix<int>* bf);
@@ -352,7 +355,13 @@ int UMesh2dh::gnbtag() const{ return nbtag; }
 int UMesh2dh::gndtag() const { return ndtag; }
 int UMesh2dh::gnbpoin() const { return nbpoin; }
 
-/** Functions to set some mesh data structures. */
+/* Functions to set some mesh data structures. */
+/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
+void UMesh2dh::scoords(const amc_int pointno, const int dim, const amc_real value)
+{
+	coords(pointno,dim) = value;
+}
+
 void UMesh2dh::setcoords(amat::Matrix<double>* c)
 { coords = *c; }
 
@@ -501,6 +510,13 @@ void UMesh2dh::readDomn(std::string mfile)
 
 	/*if (nnode == 3) nmtens = 1;
 	else if(nnode == 4) nmtens = 4;*/
+	
+	// set flag_bpoin
+	flag_bpoin.setup(npoin,1);
+	flag_bpoin.zeros();
+	for(int i = 0; i < nface; i++)
+		for(int j = 0; j < nnofa; j++)
+			flag_bpoin(bface(i,j)) = 1;
 }
 
 /// Reads mesh from Gmsh 2 format file
@@ -694,6 +710,13 @@ void UMesh2dh::readGmsh2(std::string mfile, int dimensions)
 		if (nnode == 3) nmtens[i] = 1;
 		else if(nnode == 4) nmtens[i] = 4;
 	}*/
+	
+	// set flag_bpoin
+	flag_bpoin.setup(npoin,1);
+	flag_bpoin.zeros();
+	for(int i = 0; i < nface; i++)
+		for(int j = 0; j < nnofa; j++)
+			flag_bpoin(bface(i,j)) = 1;
 }
 
 /**	Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.

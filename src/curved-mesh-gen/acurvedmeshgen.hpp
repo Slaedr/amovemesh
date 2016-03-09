@@ -7,6 +7,10 @@
 #include <amesh3d.hpp>
 #endif
 
+#ifndef __ARBF_H
+#include <arbf.hpp>
+#endif
+
 #define __ACURVEDMESHGEN_H
 
 namespace amc {
@@ -34,19 +38,28 @@ public:
 	 * \param[in] maxiter maximum iterations for linear solver
 	 * \param[in] solver a string describing the linear solver to use ("CG", "LU")
 	 */
-	CurvedMeshGen(UMesh* mesh, const int choice, const double param1, const double tol, const int maxiter, const string solver);
+	CurvedMeshGen(UMesh* mesh, const int choice, const double param1, const double tol, const int maxiter, const std::string solver);
 
 	~CurvedMeshGen();
 
 	void generateCurvedMesh();
 };
 
-CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1, const double tol, const int maxiter, const string solver)
+CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1, const double tol, const int maxiter, const std::string solver)
 {
 	m = mesh;
 	
 	amc_int ipoin, iface, inode, jnode, k, l;
-	std::vector<amc_real> midpoint(m->gndim());
+	int idim;
+	//std::vector<amc_real> midpoint(m->gndim());
+
+	amat::Matrix<amc_real>* midpoints = new amat::Matrix<amc_real>[m->gnface()];
+	for(int i = 0; i < m->gnface(); i++)
+		if(m->gnnofa()==6)
+			midpoints[i].setup(3,m->gndim());
+		else if(m->gnnofa()==9)
+			midpoints[i].setup(5,m->gndim());
+		// add cases for other types of faces, if needed
 	
 	nbpoin = 0;
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
@@ -70,17 +83,14 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1,
 				jnode = (inode+1) % 3;		// next local node
 				for(idim = 0; idim < m->gndim(); idim++)
 				{
-					midpoint[idim] = (m->gcoords(m->gbface(iface,inode),idim) + m->gcoords(m->gbface(iface,jnode),idim)) / 2.0;
+					midpoints[iface](inode,idim) = (m->gcoords(m->gbface(iface,inode),idim) + m->gcoords(m->gbface(iface,jnode),idim)) / 2.0;
 					
 					// copy true high-order point coord to disps
-					disps(m->gbface(iface,inode+3),idim) = m->gcoords(m->gbface(iface,inode+3),idim) - midpoint[idim];
-
-					// set coordinate of the point as the midpoint, making the edge straight
-					m->scoords(m->gbface(iface,inode+3),idim) = midpoint[idim];
+					disps(m->gbface(iface,inode+3),idim) = m->gcoords(m->gbface(iface,inode+3),idim) - midpoints[iface](inode,idim);
 				}
 			}
 		}
-		else if(m->gnnofa() == 27)
+		else if(m->gnnofa() == 9)
 		{
 			// \todo TODO: add handler for hexahedral mesh
 		}
@@ -92,6 +102,34 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1,
 			std::cout << "CurvedMeshGen: ! Unknown face type!" << std::endl;
 		}
 	}
+
+	for(iface = 0; iface < m->gnface(); iface++)
+	{
+		if(m->gnnofa() == 6)
+		{
+			for(inode = 0; inode < 3; inode++)
+			{
+				//jnode = (inode+1) % 3;		// next local node
+				for(idim = 0; idim < m->gndim(); idim++)
+				{
+					// set coordinate of the point as the midpoint, making the edge straight
+					m->scoords(m->gbface(iface,inode+3),idim, midpoints[iface](inode,idim));
+				}
+			}
+		}
+		else if(m->gnnofa() == 9)
+		{
+			// TODO: add handler for hexahedral mesh
+		}
+
+		// add handlers for additional types of elements here
+
+		else
+		{
+			std::cout << "CurvedMeshGen: !> Unknown face type!" << std::endl;
+		}
+	}
+	delete [] midpoints;
 
 	k = 0; l = 0;
 
@@ -114,6 +152,18 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1,
 
 	std::cout << "CurvedMeshGen: Assembled lists of boundary points, boundary displacements and interior points. k = " << k << ", nbpoin = " << nbpoin << "; l = " << l << ", ninpoin = " << ninpoin << std::endl;
 
+	std::cout << "CurvedMeshGen: Norm of boundary displacements ";
+	std::vector<amc_real> nrm(m->gndim(), 0.0);
+	for(int i = 0; i < nbpoin; i++)
+		for(idim = 0; idim < m->gndim(); idim++)
+			nrm[idim] += boundisps(i,idim)*boundisps(i,idim);
+	for(idim = 0; idim < m->gndim(); idim++)
+	{
+		nrm[idim] = sqrt(nrm[idim]);
+		std::cout << nrm[idim] << ", ";
+	}
+	std::cout << std::endl;
+
 	move = new RBFmove(&inpoints, &bounpoints, &boundisps, choice, param1, 1, tol, maxiter, solver );
 }
 
@@ -122,7 +172,7 @@ CurvedMeshGen::~CurvedMeshGen()
 	delete move;
 }
 
-CurvedMeshGen::generateCurvedMesh()
+void CurvedMeshGen::generateCurvedMesh()
 {
 	move->move();
 
@@ -130,7 +180,7 @@ CurvedMeshGen::generateCurvedMesh()
 	bounpoints = move->getBoundaryPoints();
 	//amat::Matrix<amc_real> ncoords(m->gnpoin(), m->gndim());
 	
-	amc_int ipoin, idim, k = 0; l = 0;
+	amc_int ipoin, idim, k = 0, l = 0;
 
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
 		if(m->gflag_bpoin(ipoin) == 1)
