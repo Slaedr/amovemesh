@@ -53,13 +53,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh2dh* mesh, const int choice, const double para
 	int idim;
 	//std::vector<amc_real> midpoint(m->gndim());
 
-	amat::Matrix<amc_real>* midpoints = new amat::Matrix<amc_real>[m->gnface()];
-	for(int i = 0; i < m->gnface(); i++)
-		if(m->gnnofa()==6)
-			midpoints[i].setup(3,m->gndim());
-		else if(m->gnnofa()==9)
-			midpoints[i].setup(5,m->gndim());
-		// add cases for other types of faces, if needed
+	amat::Matrix<amc_real> midpoints(m->gnface(), m->gndim());
 	
 	nbpoin = 0;
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
@@ -76,60 +70,23 @@ CurvedMeshGen::CurvedMeshGen(UMesh2dh* mesh, const int choice, const double para
 	// get displacements for each boundary point by iterating over faces
 	for(iface = 0; iface < m->gnface(); iface++)
 	{
-		if(m->gnnofa() == 6)
+		for(idim = 0; idim < m->gndim(); idim++)
 		{
-			for(inode = 0; inode < 3; inode++)
-			{
-				jnode = (inode+1) % 3;		// next local node
-				for(idim = 0; idim < m->gndim(); idim++)
-				{
-					midpoints[iface](inode,idim) = (m->gcoords(m->gbface(iface,inode),idim) + m->gcoords(m->gbface(iface,jnode),idim)) / 2.0;
-					
-					// copy true high-order point coord to disps
-					disps(m->gbface(iface,inode+3),idim) = m->gcoords(m->gbface(iface,inode+3),idim) - midpoints[iface](inode,idim);
-				}
-			}
-		}
-		else if(m->gnnofa() == 9)
-		{
-			// \todo TODO: add handler for hexahedral mesh
-		}
-
-		// add handlers for additional types of elements here
-
-		else
-		{
-			std::cout << "CurvedMeshGen: ! Unknown face type!" << std::endl;
+			midpoints(iface,idim) = (m->gcoords(m->gbface(iface,0),idim) + m->gcoords(m->gbface(iface,1),idim)) / 2.0;
+			
+			// copy true high-order point coord to disps
+			disps(m->gbface(iface,2),idim) = m->gcoords(m->gbface(iface,2),idim) - midpoints.get(iface,idim);
 		}
 	}
 
 	for(iface = 0; iface < m->gnface(); iface++)
 	{
-		if(m->gnnofa() == 6)
+		for(idim = 0; idim < m->gndim(); idim++)
 		{
-			for(inode = 0; inode < 3; inode++)
-			{
-				//jnode = (inode+1) % 3;		// next local node
-				for(idim = 0; idim < m->gndim(); idim++)
-				{
-					// set coordinate of the point as the midpoint, making the edge straight
-					m->scoords(m->gbface(iface,inode+3),idim, midpoints[iface](inode,idim));
-				}
-			}
-		}
-		else if(m->gnnofa() == 9)
-		{
-			// TODO: add handler for hexahedral mesh
-		}
-
-		// add handlers for additional types of elements here
-
-		else
-		{
-			std::cout << "CurvedMeshGen: !> Unknown face type!" << std::endl;
+			// set coordinate of the point as the midpoint, making the edge straight
+			m->scoords(m->gbface(iface,2),idim, midpoints(iface,idim));
 		}
 	}
-	delete [] midpoints;
 
 	k = 0; l = 0;
 

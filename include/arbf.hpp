@@ -374,6 +374,7 @@ void RBFmove::move_step()
 	int nbpoin = RBFmove::nbpoin;
 	int ninpoin = RBFmove::ninpoin;
 	int ndim = RBFmove::ndim;
+	amc_real sr = RBFmove::srad;
 
 	#pragma omp parallel for default(none) private(i) shared(co, bp, ip, rbfunc, nbpoin, ninpoin, ndim)
 	for(i = 0; i < ninpoin; i++)
@@ -396,8 +397,9 @@ void RBFmove::move_step()
 				dist += (ip->get(i,idim)-bp->get(j,idim))*(ip->get(i,idim)-bp->get(j,idim));
 			dist = sqrt(dist);
 
-			for(int idim = 0; idim < ndim; idim++)
-				sum[idim] += co[idim].get(j) * (this->*rbfunc)(dist);
+			if(dist < srad)	
+				for(int idim = 0; idim < ndim; idim++)
+					sum[idim] += co[idim].get(j) * (this->*rbfunc)(dist);
 		}
 
 		//get polynomial part

@@ -1,0 +1,15 @@
+-input-mesh-file
+../../output/curved-mesh-gen/2dcylinder_bq.msh
+-outpur-mesh-file
+../../output/curved-mesh-gen/2dcylinder_curved.msh
+-choice(RBF-choice)
+2
+-support-radius
+0.15
+-solver
+LU
+-tolerance
+1e-7
+-max-iterations
+4000
+

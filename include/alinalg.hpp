@@ -245,7 +245,7 @@ Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b)
 	
 	Eigen::MappedSparseMatrix<amc_real, Eigen::RowMajor> AA(A.rows(), A.cols(), lhs.nnz, lhs.row_ptr, lhs.col_ind, lhs.val);
 
-	std::cout << "gausselim: Solving via Eigen SpareLU..." << std::endl;
+	std::cout << "gausselim: Solving via Eigen SparseLU..." << std::endl;
 	
 	Eigen::SparseLU < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::COLAMDOrdering<int> > eigsolver;
 	eigsolver.analyzePattern(AA);

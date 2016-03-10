@@ -161,6 +161,7 @@ public:
 	int gnbtag() const;
 	int gndtag() const;
 	int gnbpoin() const;
+	int gflag_bpoin(const amc_int pointno) const;
 
 	/* Functions to set some mesh data structures. */
 	/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
@@ -341,6 +342,7 @@ int UMesh2dh::gbfacebp(int iface, int i) const { return bfacebp.get(iface,i); }
 int UMesh2dh::gbifmap(int intfacno) const { return bifmap.get(intfacno); }
 int UMesh2dh::gifbmap(int bfaceno) const { return ifbmap.get(bfaceno); }
 double UMesh2dh::gjacobians(int ielem) const { return jacobians.get(ielem,0); }
+int UMesh2dh::gflag_bpoin(const amc_int pointno) const { return flag_bpoin.get(pointno); }
 
 int UMesh2dh::gnpoin() const { return npoin; }
 int UMesh2dh::gnelem() const { return nelem; }

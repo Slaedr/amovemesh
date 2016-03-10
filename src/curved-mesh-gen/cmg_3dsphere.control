@@ -5,7 +5,7 @@
 -choice(RBF-choice)
 2
 -support-radius
-0.3
+0.125
 -solver
 LU
 -tolerance
