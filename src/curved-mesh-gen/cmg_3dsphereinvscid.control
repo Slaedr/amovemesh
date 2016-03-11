@@ -1,7 +1,7 @@
 -input-mesh-file
-../../output/curved-mesh-gen/3dsphereinviscid_bq.msh
+../../output/curved-mesh-gen/3dsphereinviscid2_bq.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/3dsphereinviscid_curved.msh
+../../output/curved-mesh-gen/3dsphereinviscid2_curved.msh
 -choice(RBF-choice)
 2
 -support-radius

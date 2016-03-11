@@ -13,3 +13,6 @@ q2t:
 
 quadratize:
 	$(GPP) quadratize2d.cpp -o quadratize2d.out $(OPTIONS) -I$(PRMM)/include
+
+jac3d:
+	$(GPP) jac3d.cpp -o jac3d.out $(OPTIONS) -I../../include

@@ -175,7 +175,7 @@ public:
 	amc_int gelsedsize(amc_int iedge) const { return elsed[iedge].size(); }
 	amc_int gesuel(amc_int ielem, int jnode) const { return esuel.get(ielem, jnode); }
 	amc_int gintfac(amc_int face, int i) const { return intfac.get(face,i); }
-	//double gjacobians(int ielem) { return jacobians(ielem,0); }
+	amc_real gjacobians(amc_int ielem) { return jacobians.get(ielem,0); }
 
 	amc_int gnpoin() const { return npoin; }
 	amc_int gnelem() const { return nelem; }
@@ -519,6 +519,48 @@ public:
 
 		outf.close();
 	}
+	
+	/// Computes jacobians for linear elements
+	/** Currently only for tetrahedra
+	 */
+	void compute_jacobians()
+	{
+		if(!alloc_jacobians)
+		{
+			jacobians.setup(nelem,1);
+			alloc_jacobians = true;
+		}
+		jacobians.zeros();
+		
+		if(nnode == 4)
+		{
+			amc_int ielem; int inode;
+			amc_real x1, y1, z1, x21, y21, z21, x31, y31, z31, x41, y41, z41;
+			
+			for(ielem = 0; ielem < nelem; ielem++)
+			{
+				x1 = coords(inpoel(ielem,0),0); y1 = coords(inpoel(ielem,0),1); z1 = coords(inpoel(ielem,0),2);
+
+				x21 = coords(inpoel(ielem,1),0) - x1;
+				y21 = coords(inpoel(ielem,1),1) - y1;
+				z21 = coords(inpoel(ielem,1),2) - z1;
+
+				x31 = coords(inpoel(ielem,2),0) - x1;
+				y31 = coords(inpoel(ielem,2),1) - y1;
+				z31 = coords(inpoel(ielem,2),2) - z1;
+
+				x41 = coords(inpoel(ielem,3),0) - x1;
+				y41 = coords(inpoel(ielem,3),1) - y1;
+				z41 = coords(inpoel(ielem,3),2) - z1;
+
+				jacobians(ielem) = x21*(y31*z41-z31*y41) + x31*(z21*y41-y21*z41) + x41*(y21*z31-z21*y31);
+			}
+		}
+		else
+		{
+			std::cout << "UMesh: compute_jacobians(): ! Not implemented for this mesh type!!" << std::endl;
+		}
+	}
 
 	/** \brief Computes various connectivity data structures for the mesh.
 	 *
@@ -529,11 +571,11 @@ public:
 	 * (4) Elements surrounding edge (elsed)
 	 * (5) Edge data structure (intedge)
 	 * (6) Face data structure (intfac)
+	 * 
+	 * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
 	 */
 	void compute_topological()
 	{
-		/// \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
-
 		std::cout << "UMesh2d: compute_topological(): Calculating and storing topological information...\n";
 		//1. Elements surrounding points
 		//std::cout << "UMesh2d: compute_topological(): Elements surrounding points\n";
