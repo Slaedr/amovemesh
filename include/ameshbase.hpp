@@ -27,10 +27,10 @@ enum MeshType
 	QUADRANGULAR,
 	TETRAHEDRAL,
 	HEXAHEDRAL,
-	HYBRID
+	PRISMATIC,
+	HYBRID,
+	HYBRID_PRISM_TET
 };
-
-typedef int Integer;
 
 /// Abstract generic mesh class
 class Mesh
@@ -40,7 +40,7 @@ protected:
 	int ndim;									///< Dimensionality of mesh - 1D, 2D or 3D
 	amc_int npoin;								///< Number of points in the mesh
 	amc_int nelem;								///< Number of cells/elements in the mesh
-	amc_int nbface;								///< Number of boundary points
+	amc_int nbface;								///< Number of boundary faces
 	amat::Matrix<amc_real> coords;				///< Coordinates of the points
 	std::vector<std::vector<amc_int>> inpoel;	///< Element-node interconnectivity matrix
 	std::vector<std::vector<amc_int>> bface;	///< boundary face data - points and labels
@@ -49,6 +49,12 @@ public:
 	amc_real gcoords(amc_int ipoin, int idim);
 	amc_int ginpoel(amc_int ielem, int inode);
 	amc_int gbface(amc_int iface, int inofa);
+};
+
+class Mesh3d : public Mesh
+{
+protected:
+	amc_int nbedge;								///< Number of boundary edges
 };
 
 } // end namespace

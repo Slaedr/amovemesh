@@ -56,23 +56,31 @@ private:
 	amc_int nbedge;		///< number of boundary edges
 	int nbtag;			///< Number of boundary markers for each boundary face
 	int ndtag;			///< Number of region markers for each element
+	amc_int nbpoin;		///< Number of boundary points
 	amat::Matrix<amc_real> coords;
 	amat::Matrix<amc_int> inpoel;
-	amat::Matrix<amc_int> m_inpoel;		// same as inpoel, except that it might contain different node ordering
+	amat::Matrix<amc_int> m_inpoel;			// same as inpoel, except that it might contain different node ordering
 	amat::Matrix<amc_int> bface;
-	amat::Matrix<amc_int> flag_bpoin;		// a boolean flag for each point. Contains 1 if the corresponding point is a boundary point
-	amat::Matrix<amc_int> vol_regions;		// to hold volume region markers, if any
+	amat::Matrix<amc_int> flag_bpoin;		///< a boolean flag for each point. Contains 1 if the corresponding point is a boundary point
+	amat::Matrix<amc_int> vol_regions;		///< to hold volume region markers, if any
 	bool alloc_jacobians;
 	amat::Matrix<amc_real> jacobians;
 
 	amat::Matrix<amc_real> lpofa;		///< for each face of an element, it contains local node numbers of the nodes forming that face. Assumed to be same for all elements.
-	amat::Matrix<amc_int> esup;		///< elements surrounding points
-	amat::Matrix<int> esup_p;		///< array containing index of esup where elements surrounding a certain point start
-	std::vector<int>* psup;		///< points surrounding points
+	amat::Matrix<amc_int> esup;			///< elements surrounding points
+	amat::Matrix<int> esup_p;			///< array containing index of esup where elements surrounding a certain point start
+	std::vector<int>* psup;				///< points surrounding points
 	amat::Matrix<amc_int> esuel;		///< elements surrounding elements
-	amat::Matrix<amc_int> intedge;	///< edge data structure. Stores the indices of the points making up the edge.
-	std::vector<int>* elsed;		///< elements surrounding edge
+	amat::Matrix<amc_int> intedge;		///< edge data structure. Stores the indices of the points making up the edge.
+	std::vector<int>* elsed;			///< elements surrounding edge
 	amat::Matrix<amc_int> intfac;		///< face data strcture
+	
+	amat::Matrix<amc_int> bpoints;		///< an ordering of the boundary points, containging corresponding node numbers in coords
+	amat::Matrix<amc_int> bpointsinv;	///< inverse of bpoints; contains bpoint number for each node which is a boundary node, and -1 for interior nodes
+	amat::Matrix<amc_int> bfacebp;		///< stores [bpoint](@ref bpoints) numbers of nodes of each [boundary face](@ref bface)
+	amat::Matrix<amc_int> bfsubp;		///< boundary faces surrounding boundary point
+	amat::Matrix<amc_int> bfsubp_p;		///< contains pointers into [bfsubp](@ref bfsubp) for each boundary point
+	amat::Matrix<amc_int> bfsubf;		///< boundary faces surrounding boundary face
 
 public:
 
@@ -147,6 +155,9 @@ public:
 	}
 	int gflag_bpoin(amc_int ipoin) const { return flag_bpoin.get(ipoin); }
 
+	amc_int gbpoints(amc_int ipoin) const { return bpoints.get(ipoin); }
+	amc_int gbpointsinv(amc_int ipoin) const { return bpointsinv.get(ipoin); }
+
 	/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
 	void scoords(const amc_int pointno, const int dim, const amc_real value)
 	{
@@ -175,12 +186,16 @@ public:
 	amc_int gelsedsize(amc_int iedge) const { return elsed[iedge].size(); }
 	amc_int gesuel(amc_int ielem, int jnode) const { return esuel.get(ielem, jnode); }
 	amc_int gintfac(amc_int face, int i) const { return intfac.get(face,i); }
-	amc_real gjacobians(amc_int ielem) { return jacobians.get(ielem,0); }
+	amc_int gbfsubp_p(amc_int i) const { return bfsubp_p.get(i); }
+	amc_int gbfsubp(amc_int i) const { return bfsubp.get(i); }
+	amc_int gbfsubf(amc_int iface, int isurr) const { return bfsubf.get(iface,isurr); }
+	amc_real gjacobians(amc_int ielem) const { return jacobians.get(ielem,0); }
 
 	amc_int gnpoin() const { return npoin; }
 	amc_int gnelem() const { return nelem; }
 	amc_int gnface() const { return nface; }
 	amc_int gnbface() const { return nbface; }
+	amc_int gnbpoin() const { return nbpoin; }
 	int gnnode() const { return nnode; }
 	int gndim() const { return ndim; }
 	amc_int gnaface() const {return naface; }
@@ -571,6 +586,9 @@ public:
 	 * (4) Elements surrounding edge (elsed)
 	 * (5) Edge data structure (intedge)
 	 * (6) Face data structure (intfac)
+	 * (7) Boundary points (bpoints and bpointsinv)
+	 * (8) Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
+	 * (9) Boundary faces surrounding boundary face (bfsubf)
 	 * 
 	 * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
 	 */
@@ -923,6 +941,127 @@ public:
 			}
 		}
 
+		// boundary data structures
+
+		amc_int i, j, inode, ipoin, jpoin;
+		nbpoin = 0;
+		for(i = 0; i < npoin; i++)
+		{
+			if(flag_bpoin.get(i) == 1)
+				nbpoin++;
+		}
+		bpoints.setup(nbpoin,1);
+		bpointsinv.setup(npoin,1);
+
+		nbpoin = 0;
+		for(i = 0; i < npoin; i++)
+		{
+			bpointsinv(i) = -1;
+			if(flag_bpoin.get(i) == 1)
+			{
+				bpoints(nbpoin) = i;
+				bpointsinv(i) = nbpoin;
+				nbpoin++;
+			}
+		}
+
+		std::cout << "UMesh3d: compute_topological(): The mesh has " << nbpoin << " boundary points." << std::endl;
+
+		lhelp.setup(nnoded,1);
+		lpoin.setup(nbpoin,1);
+
+		std::cout << "Bfaces surrounding bpoint" << std::endl;
+		
+		// bfaces surrounding bpoint
+
+		bfsubp_p.setup(nbpoin+1,1);
+		bfsubp_p.zeros();
+
+		for(i = 0; i < nface; i++)
+		{
+			for(j = 0; j < nnofa; j++)
+			{
+				bfsubp_p(bpointsinv.get(bface(i,j))+1) += 1;		// bface(i,j) + 1 : the + 1 is there because the storage corresponding to the first node begins at 0, not at 1
+			}
+		}
+		// Now make the members of bfsubp_p cumulative
+		for(i = 1; i < nbpoin+1; i++)
+			bfsubp_p(i) += bfsubp_p(i-1);
+		// Now populate bfsubp
+		bfsubp.setup(bfsubp_p(nbpoin),1);
+		bfsubp.zeros();
+		for(i = 0; i < nface; i++)
+		{
+			for(j = 0; j < nnofa; j++)
+			{
+				ipoin = bpointsinv.get(bface.get(i,j));
+				bfsubp(bfsubp_p(ipoin)) = i;		// now put that element no. in the space pointed to by esup_p(ipoin)
+				bfsubp_p(ipoin) += 1;				// an element corresponding to ipoin has been found - increment esup_p for that point
+			}
+		}
+		//But now bfsubp_p holds increased values - each member increased by the number elements surrounding the corresponding point, so correct this.
+		for(i = nbpoin; i >= 1; i--)
+			bfsubp_p(i) = bfsubp_p(i-1);
+		bfsubp_p(0) = 0;
+
+		// bfaces surrounding bface
+		std::cout << "bfaces surrounding bface" << std::endl;
+		
+		int ii, jj;
+		bfsubf.setup(nface, nedfa);
+		for(ii = 0; ii < nface; ii++)
+			for(jj = 0; jj < nedfa; jj++)
+				esuel(ii,jj) = -1;
+
+		amat::Matrix<int> lpofa(nedfa, nnoded);			// lpofa(i,j) holds local node number of jth node of ith edge (j in [0:nnoded], i in [0:nedfa])
+		for(int i = 0; i < nedfa; i++)
+		{
+			for(int j = 0; j < nnoded; j++)
+			{
+				lpofa(i,j) = (i+j) % nnofa;
+			}
+		}
+		//lpofa.mprint();
+		lhelp.zeros();
+		lpoin.zeros();
+
+		int iface, jface, istor, ied, jed, icoun, jnoded;
+		for(int iface = 0; iface < nface; iface++)
+		{
+			for(ied = 0; ied < nedfa; ied++)
+			{
+				for(i = 0; i < nnoded; i++)
+				{
+					lhelp(i) = bpointsinv.get(bface.get(iface, lpofa(ied,i)));	// lhelp stores global node nos. of current face of current element
+					lpoin(lhelp(i)) = 1;
+				}
+				ipoin = lhelp(0);
+				for(istor = bfsubp_p(ipoin); istor < bfsubp_p(ipoin+1); istor++)
+				{
+					jface = bfsubp(istor);
+					if(jface != iface)
+					{
+						for(jed = 0; jed < nedfa; jed++)
+						{
+							//Assume that no. of nodes in face ifael is same as that in face jfael
+							icoun = 0;
+							for(jnoded = 0; jnoded < nnoded; jnoded++)
+							{
+								jpoin = bpointsinv.get(bface.get(jface, lpofa(jed,jnoded)));
+								if(lpoin(jpoin)==1) icoun++;
+							}
+							if(icoun == nnoded)		// nnoded is 2
+							{
+								bfsubf(iface,ied) = jface;
+								bfsubf(jface,jed) = iface;
+							}
+						}
+					}
+				}
+				for(i = 0; i < nnoded; i++)
+					lpoin(lhelp(i)) = 0;
+			}
+		}
 		std::cout << "UMesh3d: compute_topological(): Done." << std::endl;
 	}
 
