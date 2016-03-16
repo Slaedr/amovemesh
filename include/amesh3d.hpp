@@ -75,7 +75,7 @@ private:
 	std::vector<int>* elsed;			///< elements surrounding edge
 	amat::Matrix<amc_int> intfac;		///< face data strcture
 	
-	amat::Matrix<amc_int> bpoints;		///< an ordering of the boundary points, containging corresponding node numbers in coords
+	amat::Matrix<amc_int> bpoints;		///< an ordering of the boundary points, containing corresponding node numbers in coords
 	amat::Matrix<amc_int> bpointsinv;	///< inverse of bpoints; contains bpoint number for each node which is a boundary node, and -1 for interior nodes
 	amat::Matrix<amc_int> bfacebp;		///< stores [bpoint](@ref bpoints) numbers of nodes of each [boundary face](@ref bface)
 	amat::Matrix<amc_int> bfsubp;		///< boundary faces surrounding boundary point
@@ -1013,15 +1013,15 @@ public:
 			for(jj = 0; jj < nedfa; jj++)
 				esuel(ii,jj) = -1;
 
-		amat::Matrix<int> lpofa(nedfa, nnoded);			// lpofa(i,j) holds local node number of jth node of ith edge (j in [0:nnoded], i in [0:nedfa])
+		amat::Matrix<int> lpofab(nedfa, nnoded);			// lpofab(i,j) holds local node number of jth node of ith edge (j in [0:nnoded], i in [0:nedfa])
 		for(int i = 0; i < nedfa; i++)
 		{
 			for(int j = 0; j < nnoded; j++)
 			{
-				lpofa(i,j) = (i+j) % nnofa;
+				lpofab(i,j) = (i+j) % nnofa;
 			}
 		}
-		//lpofa.mprint();
+		//lpofab.mprint();
 		lhelp.zeros();
 		lpoin.zeros();
 
@@ -1032,7 +1032,7 @@ public:
 			{
 				for(i = 0; i < nnoded; i++)
 				{
-					lhelp(i) = bpointsinv.get(bface.get(iface, lpofa(ied,i)));	// lhelp stores global node nos. of current face of current element
+					lhelp(i) = bpointsinv.get(bface.get(iface, lpofab(ied,i)));	// lhelp stores global node nos. of current edge of current face
 					lpoin(lhelp(i)) = 1;
 				}
 				ipoin = lhelp(0);
@@ -1047,7 +1047,7 @@ public:
 							icoun = 0;
 							for(jnoded = 0; jnoded < nnoded; jnoded++)
 							{
-								jpoin = bpointsinv.get(bface.get(jface, lpofa(jed,jnoded)));
+								jpoin = bpointsinv.get(bface.get(jface, lpofab(jed,jnoded)));
 								if(lpoin(jpoin)==1) icoun++;
 							}
 							if(icoun == nnoded)		// nnoded is 2
