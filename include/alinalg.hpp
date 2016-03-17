@@ -145,6 +145,94 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 	return b;
 }
 
+// TODO: optimize this function to factorize A in-place
+/// Solves Ax = b by Cholesky decomposition
+void chol(Matrix<amc_real>& A, Matrix<amc_real>& b)
+{
+	Matrix<amc_real> B;
+
+	std::cout << "\ncholesky: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
+	if(A.rows() != b.rows()) { std::cout << "\nInvalid dimensions of A and b!"; return B; }
+	int N = A.rows(), i, j, k;
+	amc_real bjk_sum, bsum, sum;
+
+	//Part 1: Cholesky decomposition
+	B.setup(N,N,ROWMAJOR); B.zeros();
+
+	B(0,0) = sqrt(A(0,0));
+	for(i = 1; i < N; i++)
+		B(i,0) = A(i,0)/B(0,0);
+
+	for(j = 1; j < N; j++)
+	{
+		bjk_sum = 0;
+		k = 0;
+		do
+		{
+			bjk_sum += B(j,k)*B(j,k);
+			k++;
+		}
+		while(k <= j-1);
+
+		if(bjk_sum >= A(j,j)) std::cout << "\n! cholesky: Negative argument to sqrt at ("<<j<<","<<j<<")\n";
+		B(j,j) = sqrt(A(j,j) - bjk_sum);
+
+		for(i = j+1; i < N; i++)
+		{
+			bsum = 0;
+			k=0;
+			do
+			{	bsum += B(i,k)*B(j,k);
+				k++;
+			}
+			while(k <= j-1);
+			B(i,j) = (A(i,j) - bsum)/B(j,j);
+		}
+	}
+	// We now have B, the lower triangular matrix
+
+#if(DEBUG==1)
+	// Check if any of the diagonal elements of B are zero
+	for(i = 0; i < N; i++)
+		if(abs(B(i,i)) < ZERO_TOL)
+		{
+			std::cout << "\ncholesky: Element (" << i <<"," << i << ") of lower triangular matrix is near zero!";
+		}
+#endif
+
+	// Part 2: forward substitution to obtain intermediate vector y
+	Matrix<amc_real> y(N,1,ROWMAJOR);
+
+	y(0,0) = b(0,0)/B(0,0);
+
+	for(i = 1; i < N; i++)
+	{
+		sum = 0;
+		k = 0;
+		do
+		{	sum += B(i,k)*y(k,0);
+			k++;
+		} while(k <= i-1);
+		y(i,0) = (b(i,0) - sum)/B(i,i);
+	}
+
+	//Part 3: back substitution to obtain final solution
+	// Note: the final solution is stored in b
+	b.zeros();
+	b(N-1,0) = y(N-1,0)/B(N-1,N-1);
+
+	for(i = N-2; i >= 0; i--)
+	{
+		sum = 0;
+		int k = i+1;
+		do
+		{	sum += B(k,i)*b(k,0);
+			k++;
+		} while(k <= N-1);
+		b(i,0) = (y(i,0) - sum)/B(i,i);
+	}
+}
+
 Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 {
 	//std::cout << "gausselim: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
@@ -1046,5 +1134,39 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 	return x;
 }
 
+/// solves the least squares problem (finds the minimum point x) \f$ \min(||Ax - b||_2) \f$ by solving the normal equations
+void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
+{
+	amc_int m = A->rows(), n = A->cols();
+#if(DEBUG==1)
+	if(b->rows() != n || x->rows() != m) 
+	{
+		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;
+		return;
+	}
+#endif
+	amat::Matrix<amc_real> B(n,n);
+	amat::Matrix<amc_real> c(n,1);
+	amc_int i,j,k;
+	for(i = 0; i < n; i++)
+	{
+		c(i) = 0;
+		for(k = 0; k < m; k++)
+			c(i) += A.get(k,i)*b.get(k);
+
+		for(j = 0; j < n; j++)
+		{
+			B(i,j) = 0;
+			for(k = 0; k < m; k++)
+				B(i,j) += A.get(k,i)*A.get(k,j);
+		}
+	}
+	// we now have B = A^T A and c = A^T b
+	// solve by Cholesky
+	chol(B, c);
+
+	for(i = 0; i < n; i++)
+		x(i) = c.get(i);
+}
 
 }
