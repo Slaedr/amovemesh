@@ -30,7 +30,7 @@ int factorial(int x)
 class BoundaryReconstruction
 {
 protected:
-	const UMesh3d* m;
+	const UMesh* m;
 	int degree;							///< Polynomial degree of reconstructed surface
 	amat::Matrix<amc_real> fnormals;	///< Face normals
 	amat::Matrix<amc_real>* V;			///< Vandermonde matrices for surface points
@@ -41,13 +41,13 @@ protected:
 
 public:
 	BoundaryReconstruction(const UMesh* mesh, int deg);
-	~BoundaryReconstruction();
+	virtual ~BoundaryReconstruction() { }
 
-	virtual std::vector<amc_real> getEdgePoint(const amc_real ratio, const amc_int edgenum) = 0;
-	virtual std::vector<amc_real> getFacePoint(const std::vector<amc_real> areacoords, const amc_int facenum) = 0;
+	virtual void getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const = 0;
+	virtual void getFacePoint(const std::vector<amc_real>& areacoords, const amc_int facenum, std::vector<amc_real>& point) const = 0;
 };
 
-BoundaryReconstruction(const UMesh* mesh, int deg) 
+BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg) 
 	: m(mesh), degree(deg), s1(1.0), s2(2.0)
 {
 	fnormals.setup(m->gnface(), m->gndim());
@@ -92,10 +92,10 @@ class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 	std::vector<int>* stencil;					///< List of bpoint indices of points lying in the stencil of each surface point
 
 	/// convert a point from local coord system of point ibpoin to the global xyz coord system
-	void xyz_from_uvw(const amc_int ibpoin, const std::vector<amc_real>& uvwpoint, std::vector<amc_real>& xyzpoint);
+	void xyz_from_uvw(const amc_int ibpoin, const std::vector<amc_real>& uvwpoint, std::vector<amc_real>& xyzpoint) const;
 
 	/// convert a point from global coord system to the local uvw coord system of point ibpoin
-	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint);
+	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
 
 public:
 	VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg);
@@ -106,18 +106,18 @@ public:
 	/// solve linear least-squares problem at each point
 	void solve();
 	
-	std::vector<amc_real> getEdgePoint(const amc_real ratio, const amc_int edgenum);
-	std::vector<amc_real> getFacePoint(const std::vector<amc_real> areacoords, const amc_int facenum);
+	/// Returns coords of a point lying on the 'edgenum' edge, having length coordinate 'ratio' along the edge from point 0 to point 1.
+	void getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const;
+	/// Returns coords of a point lying on the face 'facenum' and having area coordinates given by 'areacoords'
+	void getFacePoint(const std::vector<amc_real>& areacoords, const amc_int facenum, std::vector<amc_real>& point) const;
 };
 
 VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg) : BoundaryReconstruction(mesh, deg)
 {
-	V = new amat::Matrix<amc_real>[m->gnbpoin()];
 	D = new amat::Matrix<amc_real>[m->gnbpoin()];
-	F = new amat::Matrix<amc_real>[m->gnbpoin()];
 	Q = new amat::Matrix<amc_real>[m->gnbpoin()];
 	mpo.resize(m->gnbpoin());
-	for(i = 0; i < m->gnbpoin(); i++)
+	for(int i = 0; i < m->gnbpoin(); i++)
 	{
 		Q[i].setup(m->gndim(), m->gndim());
 		
@@ -133,9 +133,7 @@ VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const
 
 VertexCenteredBoundaryReconstruction::~VertexCenteredBoundaryReconstruction()
 {
-	delete [] V;
 	delete [] D;
-	delete [] F;
 	delete [] Q;
 	delete [] stencil;
 }
@@ -143,7 +141,7 @@ VertexCenteredBoundaryReconstruction::~VertexCenteredBoundaryReconstruction()
 void VertexCenteredBoundaryReconstruction::preprocess()
 {
 	pnormals.setup(m->gnbpoin(), m->gndim());
-	int ipoin, iface, idim, face, numfaces, inode, i, jed;
+	int ipoin, iface, idim, face, numfaces, inode, i,j, jed;
 	amc_real normmag;
 
 	amat::Matrix<amc_real>* pnormals = &(this->pnormals);
@@ -192,7 +190,7 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 		{
 			Q[ipoin](0,0) = s1;
 			Q[ipoin](1,0) = s2;
-			Q[ipoin](2,0) = (-s1*Q[ipoin](0,2) - s2*Q[ipoin](1,2))/Q(2,2);
+			Q[ipoin](2,0) = (-s1*Q[ipoin](0,2) - s2*Q[ipoin](1,2))/Q[ipoin](2,2);
 		}
 
 		Q[ipoin](0,1) = Q[ipoin](1,2)*Q[ipoin](2,0) - Q[ipoin](2,2)*Q[ipoin](1,0);
@@ -249,7 +247,7 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 	}
 }
 
-void VertexCenteredBoundaryReconstruction::xyz_from_uvw(const amc_int ibpoin, const std::vector<amc_real>& uvwpoint, std::vector<amc_real>& xyzpoint)
+void VertexCenteredBoundaryReconstruction::xyz_from_uvw(const amc_int ibpoin, const std::vector<amc_real>& uvwpoint, std::vector<amc_real>& xyzpoint) const
 {
 	// local coordinate directions are the columns of Q
 	int i,j;
@@ -261,7 +259,7 @@ void VertexCenteredBoundaryReconstruction::xyz_from_uvw(const amc_int ibpoin, co
 	}
 }
 
-void VertexCenteredBoundaryReconstruction::uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint)
+void VertexCenteredBoundaryReconstruction::uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const
 {
 	int i,j;
 	for(i = 0; i < m->gndim(); i++)
@@ -274,15 +272,15 @@ void VertexCenteredBoundaryReconstruction::uvw_from_xyz(const amc_int ibpoin, co
 
 void VertexCenteredBoundaryReconstruction::solve()
 {
-	UMesh* m = this->m;
+	const UMesh* m = this->m;
 	std::vector<int>* stencil = this->stencil;
-	amat::Matrix<amc_int>* Q = this->Q;
+	amat::Matrix<amc_real>* Q = this->Q;
 	amat::Matrix<amc_real>* pnormals = &(this->pnormals);
 	amat::Matrix<amc_real>* D = this->D;
 	/*amat::Matrix<amc_real>* V = this->V;
 	amat::Matrix<amc_real>* F = this->F;*/
 	std::vector<int>* mpo = &(this->mpo);
-	int mders = this->mders;
+	int nders = this->nders;
 	int degree = this->degree;
 
 	int ipoin;
@@ -315,7 +313,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 			}
 
 			// for debug
-			if(l != mders) std::cout << "VertexCenteredBoundaryReconstruction: solve(): ! LHS computation is wrong!!" << std::endl;
+			if(l != nders) std::cout << "VertexCenteredBoundaryReconstruction: solve(): ! LHS computation is wrong!!" << std::endl;
 
 			F(isp) = uvwp[2];
 			
@@ -330,13 +328,101 @@ void VertexCenteredBoundaryReconstruction::solve()
 			wd = pow(sqrt(wd + A_SMALL_NUMBER),degree/2.0);
 			weight = weight/wd;
 
-			for(i = 0; i < mders; i++)
+			for(i = 0; i < nders; i++)
 				V(isp,i) *= weight;
 			F(isp) *= weight;
 		}
 
 		leastSquares_NE(V, F, D[ipoin]);
 	}
+}
+
+void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const
+{
+	int ipoin, jpoin, ibp,jbp, idim;
+	ipoin = m->gintedge(edgenum,0);
+	jpoin = m->gintedge(edgenum,1);
+	ibp = m->gbpointsinv(ipoin);
+	jbp = m->gbpointsinv(jpoin);
+
+	std::vector<amc_real> xyzp(m->gndim()), xyzq(m->gndim()), uvw0(m->gndim()), uvw1(m->gndim());
+
+	for(idim = 0; idim < m->gndim(); idim++)
+		xyzp[idim] = m->gcoords(ipoin,idim) + ratio*(m->gcoords(jpoin,idim) - m->gcoords(ipoin,idim));
+
+	uvw_from_xyz(ibp,xyzp,uvw0);
+	uvw_from_xyz(jbp,xyzp,uvw1);
+
+	// evaluate 2D Taylor polynomial for each point
+	amc_real h1 = 0, h2 = 0;
+	int l = 0, i,j,k;
+	for(i = 1; i <= degree; i++)
+	{
+		for(j = i, k = 0; j >= 0, k <= i; j--, k++)
+		{
+			h1 += pow(uvw0[0],j)*pow(uvw0[1],k)/factorial(j)*factorial(k) * D[ibp].get(l);
+			h2 += pow(uvw1[0],j)*pow(uvw1[1],k)/factorial(j)*factorial(k) * D[jbp].get(l);
+			l++;
+		}
+	}
+
+	uvw0[2] = h1;
+	uvw1[2] = h2;
+	xyz_from_uvw(ibp,uvw0,xyzp);
+	xyz_from_uvw(jbp,uvw1,xyzq);
+
+	for(idim = 0; idim < m->gndim(); idim++)
+		point[idim] = (1.0-ratio)*xyzp[idim] + ratio*xyzq[idim];
+}
+	
+void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_real>& areacoords, const amc_int facenum, std::vector<amc_real>& point) const
+{
+	std::vector<int> spo(m->gnnofa()), sbpo(m->gnnofa());
+	int i;
+	
+	for(i = 0; i < m->gnnofa(); i++)
+	{
+		spo[i] = m->gbface(facenum,i);
+		sbpo[i] = m->gbpointsinv(m->gbface(facenum,i));
+	}
+
+	std::vector<std::vector<amc_real>> xyzp(m->gnnofa(),0), uvwp(m->gnnofa());
+	for(i = 0; i < m->gnnofa(); i++)
+	{
+		xyzp[i].resize(m->gndim());
+		uvwp[i].resize(m->gndim());
+	}
+
+	for(i = 0; i < m->gnnofa(); i++)
+		for(idim = 0; idim < m->gndim(); idim++)
+			xyzp[0][idim] += areacoords[i]*m->gcoords(spo[i],idim);
+
+	// get local coordinates of the point in the local frames of the three vertices
+	for(i = 0; i < m->gnnofa(); i++)
+		uvw_from_xyz(sbpo[i],xyzp[0],uvwp[i]);
+	
+	std::vector<amc_real> height(m->gnnofa(),0);
+	int l = 0,j,k,inofa;
+	for(i = 1; i <= degree; i++)
+	{
+		for(j = i, k = 0; j >= 0, k <= i; j--, k++)
+		{
+			for(inofa = 0; inofa < m->gnnofa(); inofa++)
+				height[inofa] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/factorial(j)*factorial(k) * D[sbpo[inofa]].get(l);
+			l++;
+		}
+	}
+
+	for(inofa = 0; inofa < m->gnnofa(); inofa++)
+		uvwp[inofa][2] = height[inofa];
+
+	for(inofa = 0; inofa < m->gnnofa(); inofa++)
+		xyz_from_uvw(sbpo[inofa], uvwp[inofa], xyzp[inofa]);
+
+	point.assign(m->gnnofa(),0.0);
+	for(inofa = 0; inofa < m->gnnofa(); inofa++)
+		for(idim = 0; idim < m->gndim(); idim++)
+			point[idim] += areacoords[inofa]*xyzp[inofa][idim];
 }
 
 }

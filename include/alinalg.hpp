@@ -152,7 +152,7 @@ void chol(Matrix<amc_real>& A, Matrix<amc_real>& b)
 	Matrix<amc_real> B;
 
 	std::cout << "\ncholesky: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
-	if(A.rows() != b.rows()) { std::cout << "\nInvalid dimensions of A and b!"; return B; }
+	if(A.rows() != b.rows()) { std::cout << "\nInvalid dimensions of A and b!"; return; }
 	int N = A.rows(), i, j, k;
 	amc_real bjk_sum, bsum, sum;
 
@@ -1137,9 +1137,9 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 /// solves the least squares problem (finds the minimum point x) \f$ \min(||Ax - b||_2) \f$ by solving the normal equations
 void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
 {
-	amc_int m = A->rows(), n = A->cols();
+	amc_int m = A.rows(), n = A.cols();
 #if(DEBUG==1)
-	if(b->rows() != n || x->rows() != m) 
+	if(b.rows() != n || x.rows() != m) 
 	{
 		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;
 		return;
