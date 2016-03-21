@@ -63,6 +63,7 @@ private:
 	amat::Matrix<amc_int> bface;
 	amat::Matrix<amc_int> flag_bpoin;		///< a boolean flag for each point. Contains 1 if the corresponding point is a boundary point
 	amat::Matrix<amc_int> vol_regions;		///< to hold volume region markers, if any
+	amat::Matrix<amc_int> bedge;			///< boundary edge structure, describing the containing nodes, and the left and right boundary faces
 	bool alloc_jacobians;
 	amat::Matrix<amc_real> jacobians;
 
@@ -157,6 +158,7 @@ public:
 
 	amc_int gbpoints(amc_int ipoin) const { return bpoints.get(ipoin); }
 	amc_int gbpointsinv(amc_int ipoin) const { return bpointsinv.get(ipoin); }
+	amc_int gbedge(amc_int ibedge, int index) const { return bedge.get(ibedge, index); }
 
 	/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
 	void scoords(const amc_int pointno, const int dim, const amc_real value)
@@ -580,15 +582,17 @@ public:
 	/** \brief Computes various connectivity data structures for the mesh.
 	 *
 	 * These include
-	 * (1) Elements surrounding points (esup and esup_p)
-	 * (2) Points surrounding points (psup)
-	 * (3) Elements surrounding elements (esuel)
-	 * (4) Elements surrounding edge (elsed)
-	 * (5) Edge data structure (intedge)
-	 * (6) Face data structure (intfac)
-	 * (7) Boundary points (bpoints and bpointsinv)
-	 * (8) Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
-	 * (9) Boundary faces surrounding boundary face (bfsubf)
+	 * - Elements surrounding points (esup and esup_p)
+	 * - Points surrounding points (psup)
+	 * - Elements surrounding elements (esuel)
+	 * - Elements surrounding edge (elsed)
+	 * - Edge data structure (intedge)
+	 * - Face data structure (intfac)
+	 * - Boundary points (bpoints and bpointsinv)
+	 * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
+	 * - Boundary faces surrounding boundary face (bfsubf)
+	 * - Boundary faces to the left and right of each boundary edge (bedge). 
+	 * bedge(.,0) to bedge(.,nnoded) contain global node numbers, and the last two position contain left and right bface indices.
 	 * 
 	 * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
 	 */
@@ -1062,6 +1066,39 @@ public:
 					lpoin(lhelp(i)) = 0;
 			}
 		}
+
+		// Now bedge. Note that this stores global point numbers, not boundary point numbers
+
+		int inoded, in, iface, jface;
+		amc_int nek = 0;
+		bedge.setup(nbedge, 2 + nnoded);
+		// first copy nodes
+		for(amc_int ied = 0; ied < nbedge; ied++)
+			for(inoded = 0; inoded < nnoded; inoded++)
+				bedge(ied,inoded) = intedge.get(ied,inoded);
+		// now get bfaces using bfaces surrounding bpoint (bfsubp)
+		int* inp = new int[nnoded];
+		for(iface = 0; iface < nface; iface++)
+		{
+			for(in = 0; in < nedfa; in++)
+			{
+				for(inoded = 0; inoded < nnoded; inoded++)
+					inp[inoded] = lpofab.get(in,inoded);
+
+				jface = bfsubf(iface,in);
+				if(jface > iface && jface < nface)
+				{
+					bedge(nek,nnoded+0) = iface;
+					bedge(nek,nnoded+1) = jface;
+					for(j = 0; j < nnoded; j++)
+						bedge(nek,j) = bface(iface,inp[j]);
+					nek++;
+				}
+
+			}
+		}
+		delete [] inp;
+
 		std::cout << "UMesh3d: compute_topological(): Done." << std::endl;
 	}
 
@@ -1071,6 +1108,7 @@ public:
 	 */
 	UMesh convertLinearToQuadratic()
 	{
+		int degree = 2;
 		UMesh q;
 
 		std::cout << "UMesh3d: convertLinearToQuadratic(): Producing a quadratic mesh from linear mesh..." << std::endl;
@@ -1083,20 +1121,21 @@ public:
 		q.nelem = nelem;
 		q.nface = nface; q.naface = naface; q.nbface = nbface;
 		q.nedfa = nedfa;
+		q.nedel = nedel;
 		q.nfael = nfael;
-		q.nnoded = nnoded + 1;
+		q.nnoded = nnoded + degree-1;
 		q.nedge = nedge;
 		q.nbedge = nbedge;
 
 		if(nnode == 8)												// for hex
 		{
-			q.nnode = nnode+nedel+nfael+1;
-			q.nnofa = nnofa+nedfa+1;
+			q.nnode = nnode + nedel*(degree-1) + nfael*(degree-1)^2 + 1;
+			q.nnofa = nnofa + nedfa*(degree-1) + (degree-1)^2;
 		}
 		else if(nnode == 4)											// for tet
 		{
-			q.nnode = nnode+nedel;
-			q.nnofa = nnofa+nedfa;
+			q.nnode = nnode + nedel*(degree-1);
+			q.nnofa = nnofa + nedfa*(degree-1);
 		}
 		else  {
 			std::cout << "! UMesh3d: convertLinearToQuadratic(): nnode is neither 4 nor 8 - mesh is not supported!" << std::endl;
@@ -1108,6 +1147,7 @@ public:
 		q.inpoel.setup(q.nelem, q.nnode);
 		q.bface.setup(q.nface, q.nnofa+q.nbtag);
 		q.vol_regions.setup(q.nelem, q.ndtag);
+		q.intedge.setup(nedge,q.nnoded);
 
 		// copy nodes, elements and bfaces
 
@@ -1132,6 +1172,11 @@ public:
 			for(int j = nnofa; j < nnofa+nbtag; j++)
 				q.bface(iface,q.nnofa-nnofa+j) = bface(iface,j);
 		}
+
+		// copy intedge for low-order nodes
+		for(amc_int iedge = 0; iedge < nedge; iedge++)
+			for(int inoded = 0; inoded < nnoded; inoded++)
+				q.intedge(iedge,inoded) = intedge.get(iedge,inoded);
 
 		double* centre = new double[ndim];
 
@@ -1538,6 +1583,9 @@ public:
 					else if((intedge(ied,0)==inpoel(elem,7)&&intedge(ied,1)==inpoel(elem,4)) || (intedge(ied,1)==inpoel(elem,7)&&intedge(ied,0)==inpoel(elem,4)))
 						q.inpoel(elem,19) = cono;
 				}
+
+				// add to intedge
+				q.intedge(ied,nnoded+1) = cono;
 	
 				//std::cout << "find bface" << std::endl;
 				// find bfaces that this edge belongs to
@@ -1621,6 +1669,9 @@ public:
 					else if((intedge(ied,0)==inpoel(elem,7)&&intedge(ied,1)==inpoel(elem,4)) || (intedge(ied,1)==inpoel(elem,7)&&intedge(ied,0)==inpoel(elem,4)))
 						q.inpoel(elem,19) = cono;
 				}
+				
+				// add to intedge
+				q.intedge(ied,nnoded+1) = cono;
 			}
 			delete [] centre;
 			return q;
@@ -1648,7 +1699,7 @@ public:
 			// add to elements surrounding edge NOTE: ordering of nodes is taken from Gmsh docs
 			for(int ielem = 0; ielem < elsed[ied].size(); ielem++)
 			{
-				int elem = elsed[ied].at(ielem);
+				int elem = elsed[ied][ielem];
 
 				if((intedge(ied,0)==inpoel(elem,0)&&intedge(ied,1)==inpoel(elem,1)) || (intedge(ied,1)==inpoel(elem,0)&&intedge(ied,0)==inpoel(elem,1)))
 					q.inpoel(elem,4) = cono;
@@ -1663,6 +1714,9 @@ public:
 				else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,3)))
 					q.inpoel(elem,9) = cono;
 			}
+
+			// add to intedge
+			q.intedge(ied,nnoded+1) = cono;
 
 			// find bfaces that this edge belongs to
 			std::vector<int> edfa;
@@ -1730,6 +1784,9 @@ public:
 				else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,3)))
 					q.inpoel(elem,9) = cono;
 			}
+				
+			// add to intedge
+			q.intedge(ied,nnoded+1) = cono;
 		}
 
 		delete [] centre;
