@@ -45,7 +45,7 @@ namespace amat
 /** Computes solution of Ax = b by Gaussian elimination.
 * A is mxm, b is mxk where k is the number of systems to be solved with the same LHS.
 */
-Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol=A_SMALL_NUMBER/100.0);
+void gausselim(Matrix<double>& A, Matrix<double>& b, Matrix<double>& x);
 
 #ifdef EIGEN_LIBRARY
 /// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
@@ -233,13 +233,12 @@ void chol(Matrix<amc_real>& A, Matrix<amc_real>& b)
 	}
 }
 
-Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
+void gausselim(Matrix<double>& A, Matrix<double>& b, Matrix<double>& x)
 {
 	//std::cout << "gausselim: Input LHS matrix is " << A.rows() << " x " << A.cols() << std::endl;
-	if(A.rows() != b.rows()) { std::cout << "gausselim: Invalid dimensions of A and b!\n"; return A; }
+	if(A.rows() != b.rows()) { std::cout << "gausselim: Invalid dimensions of A and b!\n"; return; }
 	int N = A.rows();
 
-	Matrix<double> x(N,b.cols());
 	x.zeros();
 	int l;
 	int k;
@@ -257,7 +256,7 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 				maxr = j;
 			}
 		}
-		if(max > tol)
+		if(max > ZERO_TOL)
 		{
 			//interchange rows i and maxr 
 			for(k = i; k < N; k++)
@@ -274,7 +273,7 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 				b(maxr,k) = temp;
 			}
 		}
-		else { std::cout << "! gausselim: Pivot not found!!\n"; return x; }
+		else { std::cout << "! gausselim: Pivot not found!!\n"; return; }
 
 		for(int j = i+1; j < N; j++)
 		{
@@ -306,7 +305,6 @@ Matrix<double> gausselim(Matrix<double>& A, Matrix<double>& b, double tol)
 			x(i,l) = (b(i,l) - sum)/A(i,i);
 		}
 	}
-	return x;
 }
 
 #ifdef EIGEN_LIBRARY
@@ -1139,7 +1137,7 @@ void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_rea
 {
 	amc_int m = A.rows(), n = A.cols();
 #if(DEBUG==1)
-	if(b.rows() != n || x.rows() != m) 
+	if(b.rows() != m || x.rows() != n) 
 	{
 		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;
 		return;
@@ -1163,7 +1161,8 @@ void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_rea
 	}
 	// we now have B = A^T A and c = A^T b
 	// solve by Cholesky
-	chol(B, c);
+	//chol(B, c);
+	gausselim(B, c, x);
 
 	for(i = 0; i < n; i++)
 		x(i) = c.get(i);

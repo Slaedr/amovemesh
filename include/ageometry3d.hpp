@@ -43,6 +43,8 @@ public:
 	BoundaryReconstruction(const UMesh* mesh, int deg);
 	virtual ~BoundaryReconstruction() { }
 
+	virtual void preprocess();
+	virtual void solve();
 	virtual void getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const = 0;
 	virtual void getFacePoint(const std::vector<amc_real>& areacoords, const amc_int facenum, std::vector<amc_real>& point) const = 0;
 };
@@ -72,6 +74,9 @@ BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg)
 		fnormals(iface,2) /= mag;
 	}
 }
+
+void BoundaryReconstruction::preprocess() { }
+void BoundaryReconstruction::solve() { }
 
 
 /// Implements WALF reconstruction according to Jiao and Wang's paper, ie, local fittings are calculated at each surface vertex
@@ -358,7 +363,7 @@ void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, co
 	int l = 0, i,j,k;
 	for(i = 1; i <= degree; i++)
 	{
-		for(j = i, k = 0; j >= 0, k <= i; j--, k++)
+		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
 			h1 += pow(uvw0[0],j)*pow(uvw0[1],k)/factorial(j)*factorial(k) * D[ibp].get(l);
 			h2 += pow(uvw1[0],j)*pow(uvw1[1],k)/factorial(j)*factorial(k) * D[jbp].get(l);
@@ -378,7 +383,7 @@ void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, co
 void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_real>& areacoords, const amc_int facenum, std::vector<amc_real>& point) const
 {
 	std::vector<int> spo(m->gnnofa()), sbpo(m->gnnofa());
-	int i;
+	int i,idim;
 	
 	for(i = 0; i < m->gnnofa(); i++)
 	{
@@ -386,12 +391,13 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 		sbpo[i] = m->gbpointsinv(m->gbface(facenum,i));
 	}
 
-	std::vector<std::vector<amc_real>> xyzp(m->gnnofa(),0), uvwp(m->gnnofa());
+	std::vector<std::vector<amc_real>> xyzp(m->gnnofa()), uvwp(m->gnnofa());
 	for(i = 0; i < m->gnnofa(); i++)
 	{
 		xyzp[i].resize(m->gndim());
 		uvwp[i].resize(m->gndim());
 	}
+	xyzp[0].assign(m->gndim(),0.0);
 
 	for(i = 0; i < m->gnnofa(); i++)
 		for(idim = 0; idim < m->gndim(); idim++)
@@ -405,7 +411,7 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 	int l = 0,j,k,inofa;
 	for(i = 1; i <= degree; i++)
 	{
-		for(j = i, k = 0; j >= 0, k <= i; j--, k++)
+		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
 			for(inofa = 0; inofa < m->gnnofa(); inofa++)
 				height[inofa] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/factorial(j)*factorial(k) * D[sbpo[inofa]].get(l);

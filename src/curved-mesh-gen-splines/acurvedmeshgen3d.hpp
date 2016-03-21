@@ -35,7 +35,7 @@ class CurvedMeshGen
 	int rbfchoice;					///< Parameters for mesh movement - the type of RBF to be used, if applicable
 	amc_real supportradius;			///< Parameters for mesh movement - the support radius to be used, if applicable
 	int nummovesteps;				///< Number of steps in which to accomplish the total mesh movement.
-	string rbfsolver;				///< string describing the method to use for solving the RBF equations
+	std::string rbfsolver;				///< string describing the method to use for solving the RBF equations
 
 	amc_int nbounpoin;						///< Number if boundary points.
 	amc_int ninpoin;						///< Number of interior points.
@@ -45,9 +45,10 @@ class CurvedMeshGen
 	amat::Matrix<amc_real> inpoints;
 	amat::Matrix<amc_int> bflagg;			///< This flag is true if the corresponding mesh node lies on a boundary.
 	amat::Matrix<amc_int> toRec;			///< This flag is true if a boundary face is to be reconstructed.
+	amat::Matrix<amc_real> allpoint_disps;	///< Initial displacements of all points in the high-order mesh; zero for interior points
 
 public:
-	void setup(UMesh* mesh, UMesh* meshq, Meshmove* mmove, int num_parts, std::vector<std::vector<int>> boundarymarkers, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, string rbf_solver);
+	void setup(UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver);
 
 	~CurvedMeshGen();
 
@@ -56,13 +57,12 @@ public:
 	void generate_curved_mesh();
 };
 
-void CurvedMeshGen::setup(UMesh* mesh, UMesh* meshq, Meshmove* mmove, int num_parts, std::vector<std::vector<int>> boundarymarkers, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, string rbf_solver)
+void CurvedMeshGen::setup(UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver)
 {
 	degree = 2;
 	
 	m = mesh;
 	mq = meshq;
-	mmv = mmove;
 	br = new VertexCenteredBoundaryReconstruction(m, degree);
 	tol = toler;
 	maxiter = maxitera;
@@ -72,15 +72,16 @@ void CurvedMeshGen::setup(UMesh* mesh, UMesh* meshq, Meshmove* mmove, int num_pa
 	disps.setup(m->gnface(),m->gndim());
 	disps.zeros();
 	bflagg.setup(mq->gnpoin(),1);
+	allpoint_disps.setup(mq->gnpoin(),mq->gndim());
 
 	// demarcate which faces are to be reconstructed
-	toRec.setup(m->gnface(),1);
+	/*toRec.setup(m->gnface(),1);
 	toRec.zeros();
 	for(amc_int iface = 0; iface < m->gnface(); iface++)
 		for(int i = 0; i < boundarymarkers.size(); i++)
 			for(int j = 0; j < boundarymarkers[i].size(); j++)
 				if(m->gbface(iface,m->gnnofa()) == boundarymarkers[i][j])
-					toRec(iface) = 1;
+					toRec(iface) = 1;*/
 }
 
 CurvedMeshGen::~CurvedMeshGen()
@@ -89,32 +90,122 @@ CurvedMeshGen::~CurvedMeshGen()
 }
 
 /// Computes displacement of midpoint of each face.
+/** \note NOTE: currently only for tetrahedral elements!
+ */
 void CurvedMeshGen::compute_boundary_displacements()
 {
-	br.preprocess();
-	br.solve();
+	int i, inode, idim;
+	amc_real sum;
 
-	// get coords of midpoints of each boundary edge
-	amat::Matrix<amc_real> edgemidpoints(m->gnface(),m->gndim());
-	for(amc_int iface = 0; iface < m->gnface(); iface++)
-		for(int idim = 0; idim < m->gndim(); idim++)
-		{
-			amc_real sum = 0;
-			for(int inode = 0; inode < m->gnnofa(); inode++)
-				sum += m->gcoords(m->gbface(iface,inode),idim);
-			facemidpoints(iface,idim) = sum/m->gnnofa();
-		}
-	
-	double uh = 0.5;
-	for(amc_int iface = 0; iface < m->gnface(); iface++)
+	br->preprocess();
+	br->solve();
+
+	allpoint_disps.zeros();
+
+	amat::Matrix<amc_real>* linearedgepoints;
+	amat::Matrix<amc_real>* linearfacepoints;
+	if(degree == 2)
 	{
-		// first check if iface was reconstructed!
-		if(toRec(iface))
-			for(int idim = 0; idim < m->gndim(); idim++)
-				disps(iface,idim) = br.getcoords(iface,idim,uh) - facemidpoints.get(iface,idim);
+		linearedgepoints = new amat::Matrix<amc_real>[m->gnbedge()];
+		for(i = 0; i < m->gnbedge(); i++)
+			linearedgepoints[i].setup(1,m->gndim());
+	}
+	else if(degree == 3)
+	{
+		linearedgepoints = new amat::Matrix<amc_real>[m->gnbedge()];
+		for(i = 0; i < m->gnbedge(); i++)
+			linearedgepoints[i].setup(2,m->gndim());
+		linearfacepoints = new amat::Matrix<amc_real>[m->gnface()];
+		for(i = 0; i < m->gnface(); i++)
+			linearfacepoints[i].setup(1,m->gndim());
 	}
 
+	// get coords of midpoints of each boundary edge and face, and their positions on the reconstructed surface
+	
+	std::vector<amc_real> recpoint(m->gndim());
+
+	if(degree == 2)
+	{
+		double uh = 0.5;
+		for(amc_int ied = 0; ied < m->gnbedge(); ied++)
+		{
+			br->getEdgePoint(uh,ied,recpoint);
+			for(idim = 0; idim < m->gndim(); idim++) std::cout << recpoint[idim] << ' ';
+			std::cout << std::endl;
+			for(idim = 0; idim < m->gndim(); idim++)
+			{
+				linearedgepoints[ied](0,idim) = 0;
+				for(inode = 0; inode < m->gnnoded(); inode++)
+					linearedgepoints[ied](0,idim) += m->gcoords(m->gintedge(ied,inode),idim);
+			}
+			for(idim = 0; idim < m->gndim(); idim++)
+				linearedgepoints[ied](0,idim) /= m->gnnoded();
+
+			for(idim = 0; idim < m->gndim(); idim++)
+				allpoint_disps(mq->gintedge(ied,2), idim) = recpoint[idim] - linearedgepoints[ied].get(0,idim);
+		}
+	}
+
+	if(degree == 3)
+	{
+		std::vector<amc_real> areacoords(m->gndim());
+		if(m->gnnofa() == 3)
+		{
+			areacoords[0] = areacoords[1] = areacoords[2] = 1.0/3.0;
+		}
+
+		std::vector<double> uh(2); uh[0] = 1.0/3.0; uh[1] = 2.0/3.0;
+
+		for(amc_int ied = 0; ied < m->gnbedge(); ied++)
+		{
+			for(i = 0; i < 2; i++)
+			{
+				br->getEdgePoint(uh[i],ied,recpoint);
+				for(idim = 0; idim < m->gndim(); idim++)
+				{
+					linearedgepoints[ied](i,idim) = 0;
+					for(inode = 0; inode < m->gnnoded(); inode++)
+						linearedgepoints[ied](i,idim) += m->gcoords(m->gintedge(ied,inode),idim);
+				}
+				for(idim = 0; idim < m->gndim(); idim++)
+				{
+					linearedgepoints[ied](i,idim) /= m->gnnoded();
+					// store displacement in linearedgepoints
+					linearedgepoints[ied](i,idim) = recpoint[idim] - linearedgepoints[ied](i,idim);
+				}
+			
+				for(idim = 0; idim < m->gndim(); idim++)
+					allpoint_disps(mq->gintedge(ied,2+i), idim) = linearedgepoints[ied].get(i,idim);
+			}
+		}
+		for(amc_int iface = 0; iface < m->gnface(); iface++)
+		{
+			br->getFacePoint(areacoords, iface, recpoint);
+			for(idim = 0; idim < m->gndim(); idim++)
+			{
+				sum = 0;
+				for(inode = 0; inode < m->gnnofa(); inode++)
+					sum += m->gcoords(m->gbface(iface,inode),idim);
+				linearfacepoints[iface](0,idim) = recpoint[idim] - sum/m->gnnofa();
+				allpoint_disps(mq->gbface(iface,9),idim) = linearfacepoints[iface](0,idim);
+			}
+		}
+	}
+
+	std::ofstream fout("testdisps.dat");
+	for(i = 0; i < mq->gnpoin(); i++)
+	{
+		for(idim = 0; idim < m->gndim(); idim++)
+			fout << allpoint_disps.get(i,idim) << " ";
+		fout << '\n';
+	}
+	fout.close();
+	
 	/// We do not need the linear mesh once we have the displacements of the faces' midpoints.
+	
+	delete [] linearedgepoints;
+	if(degree == 3)
+		delete [] linearfacepoints;
 }
 
 /** Uses the previously computed displacements of the face midpoints to curve the mesh.
@@ -123,17 +214,8 @@ void CurvedMeshGen::generate_curved_mesh()
 {
 	/** 
 	Note that this function works with the straight quadratic mesh.
-	We assume that the face numberings of the linear mesh and the quadratic mesh are the same.
+	We assume that the face numberings (bface) and edge numberings (intedge) of the linear mesh and the quadratic mesh are the same.
 	*/
-	
-	/// Get a vector of displacements for each node of the quadratic mesh
-	amat::Matrix<amc_real> allpoint_disps(mq->gnpoin(),mq->gndim());
-	allpoint_disps.zeros();
-	for(amc_int iface = 0; iface < mq->gnface(); iface++)
-	{
-		for(int idim = 0; idim < mq->gndim(); idim++)
-			allpoint_disps(mq->gbface(iface,mq->gnnofa()-1), idim) = disps(iface,idim);
-	}
 	
 	// first get bflag
 	bflagg.zeros();
@@ -175,7 +257,7 @@ void CurvedMeshGen::generate_curved_mesh()
 	/// We now have all we need to call the mesh-movement functions and generate the curved mesh.
 	//Call RBF functions here
 
-	mmv->setup(&inpoints, &bounpoints, &boundisps, rbfchoice, supportradius, nummovesteps, tol, maxiter, rbfsolver);
+	mmv = new RBFmove(&inpoints, &bounpoints, &boundisps, rbfchoice, supportradius, nummovesteps, tol, maxiter, rbfsolver);
 	mmv->move();
 
 	bounpoints = mmv->getBoundaryPoints();
@@ -201,6 +283,8 @@ void CurvedMeshGen::generate_curved_mesh()
 
 	// set it in mesh mq
 	mq->setcoords(&newcoords);
+
+	delete [] mmv;
 }
 
 // ------------ end --------------------

@@ -146,6 +146,10 @@ RBFmove::RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_po
 	maxiter = iter;
 	srad = support_radius;
 	lsolver = linear_solver;
+	
+	std::cout << "RBFmove: RBF to use: " << rbf_ch << std::endl;
+	std::cout << "RBFmove: Support radius = " << srad << std::endl;
+	std::cout << "RBFmove: Number of steps = " << nsteps << std::endl;
 }
 
 void RBFmove::setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, 
@@ -337,7 +341,7 @@ void RBFmove::move_step()
 			for(int j = 0; j < ndim; j++)
 				rhs(i,j) = b[j](i);
 		
-		coeffsm = gausselim(B, rhs);
+		gausselim(B, rhs, coeffsm);
 		
 		for(int i = 0; i < nbpoin; i++)
 			for(int j = 0; j < ndim; j++)

@@ -63,7 +63,7 @@ private:
 	amat::Matrix<amc_int> bface;
 	amat::Matrix<amc_int> flag_bpoin;		///< a boolean flag for each point. Contains 1 if the corresponding point is a boundary point
 	amat::Matrix<amc_int> vol_regions;		///< to hold volume region markers, if any
-	amat::Matrix<amc_int> bedge;			///< boundary edge structure, describing the containing nodes, and the left and right boundary faces
+	//amat::Matrix<amc_int> bedge;			///< boundary edge structure, describing the containing nodes, and the left and right boundary faces
 	bool alloc_jacobians;
 	amat::Matrix<amc_real> jacobians;
 
@@ -158,7 +158,7 @@ public:
 
 	amc_int gbpoints(amc_int ipoin) const { return bpoints.get(ipoin); }
 	amc_int gbpointsinv(amc_int ipoin) const { return bpointsinv.get(ipoin); }
-	amc_int gbedge(amc_int ibedge, int index) const { return bedge.get(ibedge, index); }
+	//amc_int gbedge(amc_int ibedge, int index) const { return bedge.get(ibedge, index); }
 
 	/// set coordinates of a certain point; 'set' counterpart of the 'get' function [gcoords](@ref gcoords).
 	void scoords(const amc_int pointno, const int dim, const amc_real value)
@@ -203,6 +203,7 @@ public:
 	amc_int gnaface() const {return naface; }
 	int gnfael() const { return nfael; }
 	int gnnofa() const { return nnofa; }
+	int gnnoded() const { return nnoded; }
 	int gnedel() const { return nedel; }
 	int gnbtag() const {return nbtag; }
 	int gndtag() const { return ndtag; }
@@ -591,8 +592,6 @@ public:
 	 * - Boundary points (bpoints and bpointsinv)
 	 * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
 	 * - Boundary faces surrounding boundary face (bfsubf)
-	 * - Boundary faces to the left and right of each boundary edge (bedge). 
-	 * bedge(.,0) to bedge(.,nnoded) contain global node numbers, and the last two position contain left and right bface indices.
 	 * 
 	 * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
 	 */
@@ -1069,7 +1068,7 @@ public:
 
 		// Now bedge. Note that this stores global point numbers, not boundary point numbers
 
-		int inoded, in, iface, jface;
+		/*int inoded, in, iface, jface;
 		amc_int nek = 0;
 		bedge.setup(nbedge, 2 + nnoded);
 		// first copy nodes
@@ -1097,7 +1096,7 @@ public:
 
 			}
 		}
-		delete [] inp;
+		delete [] inp;**/
 
 		std::cout << "UMesh3d: compute_topological(): Done." << std::endl;
 	}
@@ -1147,7 +1146,8 @@ public:
 		q.inpoel.setup(q.nelem, q.nnode);
 		q.bface.setup(q.nface, q.nnofa+q.nbtag);
 		q.vol_regions.setup(q.nelem, q.ndtag);
-		q.intedge.setup(nedge,q.nnoded);
+		//std::cout<< "Nodes per edge for P2 mesh = " << q.nnoded << ", number of edges " << q.nedge << std::endl;
+		q.intedge.setup(q.nedge,q.nnoded);
 
 		// copy nodes, elements and bfaces
 
@@ -1585,7 +1585,7 @@ public:
 				}
 
 				// add to intedge
-				q.intedge(ied,nnoded+1) = cono;
+				q.intedge(ied,nnoded) = cono;
 	
 				//std::cout << "find bface" << std::endl;
 				// find bfaces that this edge belongs to
@@ -1671,7 +1671,7 @@ public:
 				}
 				
 				// add to intedge
-				q.intedge(ied,nnoded+1) = cono;
+				q.intedge(ied,nnoded) = cono;
 			}
 			delete [] centre;
 			return q;
@@ -1716,7 +1716,7 @@ public:
 			}
 
 			// add to intedge
-			q.intedge(ied,nnoded+1) = cono;
+			q.intedge(ied,nnoded) = cono;
 
 			// find bfaces that this edge belongs to
 			std::vector<int> edfa;
@@ -1786,10 +1786,11 @@ public:
 			}
 				
 			// add to intedge
-			q.intedge(ied,nnoded+1) = cono;
+			q.intedge(ied,nnoded) = cono;
 		}
 
 		delete [] centre;
+		std::cout << "UMesh3d: convertLinearToQuadratic(): Quadratic mesh produced." << std::endl;
 		return q;
 	}
 };
