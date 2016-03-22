@@ -132,6 +132,7 @@ void CurvedMeshGen::compute_boundary_displacements()
 			br->getEdgePoint(uh,ied,recpoint);
 			for(idim = 0; idim < m->gndim(); idim++) std::cout << recpoint[idim] << ' ';
 			std::cout << std::endl;
+			
 			for(idim = 0; idim < m->gndim(); idim++)
 			{
 				linearedgepoints[ied](0,idim) = 0;

@@ -347,6 +347,7 @@ void RBFmove::move_step()
 			for(int j = 0; j < ndim; j++)
 				coeffs[j](i) = coeffsm.get(i,j);
 	}
+#ifdef EIGEN_LIBRARY
 	else
 	{
 		amat::Matrix<double> coeffsm(nbpoin,ndim);
@@ -362,6 +363,7 @@ void RBFmove::move_step()
 			for(int j = 0; j < ndim; j++)
 				coeffs[j](i) = coeffsm.get(i,j);
 	}
+#endif
 	
 	
 		//coeffs[idim] = sparsePCG(&A, b[idim], xold, "jacobi", tol, maxiter);

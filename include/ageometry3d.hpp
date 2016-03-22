@@ -206,9 +206,10 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 	// compute reconstruction stencils of each point and store
 	std::vector<int> pflags(m->gnbpoin());
 	std::vector<amc_int> sfaces;
-	std::vector<amc_int> facepo;		// for storing local node number of ipoin in each neighboring face
+	std::vector<amc_int> facepo;		// for storing local node number of ipoin in each surrounding face
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
+		std::cout << "Point " << m->gbpointsinv(ipoin) << " : ";
 		pflags.assign(m->gnbpoin(),0);
 		sfaces.clear();
 		facepo.clear();
@@ -235,6 +236,7 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 				{
 					jed = (facepo[i]+1) % m->gnnofa();										// get the edge opposite to ipoin
 					face = m->gbfsubf(sfaces[i],jed);										// get the face adjoining that edge
+					//std::cout << sfaces[i] << "-"  << face << ", ";
 					for(j = 0; j < m->gnnofa(); j++)										// add nodes of that face to stencil provided they have not already been added
 						if(pflags[m->gbpointsinv(m->gbface(face,j))] != 1)
 							stencil[ipoin].push_back(m->gbpointsinv(m->gbface(face,j)));
@@ -249,6 +251,9 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 		}
 
 		mpo[ipoin] = stencil[ipoin].size();
+		for(j = 0; j < mpo[ipoin]; j++)
+			std::cout << stencil[ipoin][j] << " ";
+		std::cout << std::endl;
 	}
 }
 
@@ -292,6 +297,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
+		std::cout << "VertexCenteredBoundaryReconstruction: solve(): Point " << m->gbpoints(ipoin) << " : ";
 		int isp, i, j, idim, k, l;
 		amc_int pno;
 		amc_real weight, wd;
@@ -304,6 +310,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 		for(isp = 0; isp < mpo->at(ipoin); isp++)
 		{
 			pno = stencil[ipoin][isp];
+			std::cout << m->gbpoints(pno) << " ";
 			for(idim = 0; idim < m->gndim(); idim++)
 				xyzp[idim] = m->gcoords(m->gbpoints(pno),idim);
 			uvw_from_xyz(ipoin, xyzp, uvwp);
@@ -339,6 +346,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 		}
 
 		leastSquares_NE(V, F, D[ipoin]);
+		std::cout << std::endl;
 	}
 }
 
@@ -360,13 +368,15 @@ void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, co
 
 	// evaluate 2D Taylor polynomial for each point
 	amc_real h1 = 0, h2 = 0;
-	int l = 0, i,j,k;
+	int l = 0, i,j,k, fj, fk;
 	for(i = 1; i <= degree; i++)
 	{
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
-			h1 += pow(uvw0[0],j)*pow(uvw0[1],k)/factorial(j)*factorial(k) * D[ibp].get(l);
-			h2 += pow(uvw1[0],j)*pow(uvw1[1],k)/factorial(j)*factorial(k) * D[jbp].get(l);
+			fj = factorial(j);
+			fk = factorial(k);
+			h1 += pow(uvw0[0],j)*pow(uvw0[1],k)/fj*fk * D[ibp].get(l);
+			h2 += pow(uvw1[0],j)*pow(uvw1[1],k)/fj*fk * D[jbp].get(l);
 			l++;
 		}
 	}

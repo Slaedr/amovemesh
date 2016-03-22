@@ -1164,8 +1164,8 @@ void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_rea
 	//chol(B, c);
 	gausselim(B, c, x);
 
-	for(i = 0; i < n; i++)
-		x(i) = c.get(i);
+	/*for(i = 0; i < n; i++)
+		x(i) = c.get(i);*/
 }
 
 }
