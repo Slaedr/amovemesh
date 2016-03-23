@@ -1168,4 +1168,63 @@ void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_rea
 		x(i) = c.get(i);*/
 }
 
+/// Computes the QR decomposition of a dense matrix by Householder algorithm given in Trefethen and Bau, Numerical Linear Algebra.
+/** \param A is an m x n matrix, replaced by the upper triangular matrix R at the end of the algorithm.
+ * \param v is the set of reflection vectors which can be used to compute Q, the action of Q and the action of Q*.
+ * v should contain n vectors: The first vector with size m, second with size m-1,...upto m-n+1.
+ */
+void qr(amat::Matrix<amc_real>& A, std::vector<amc_real>* v)
+{
+	amc_int m = A.rows(), n = A.cols(), k, i,j;
+	std::vector<amc_real> x(m);
+	amat::Matrix<amc_real> P(m,m);
+	std::vector<amc_real> va(m);
+	amc_real magx, sgnx0;
+
+	for(k = 0; k < n; k++)
+	{
+		// get rows k to m of the kth column of A
+		for(i = k; i < m; i++)
+			x[i-k] = A.get(i,k);
+
+		if(fabs(x[0]) > ZERO_TOL)
+			sgnx0 = x[0]/fabs(x[0]);
+		else sgnx0 = 1.0;		// arbitrary 1 or -1
+		magx = 0;
+		for(i = k; i < m; i++)
+			magx += x[i]*x[i];
+		magx = sqrt(magx);
+
+		v[k][0] = sgnx0 * magx + x[0];
+		magx = v[k][0]*v[k][0];
+
+		for(i = 1; i < m; i++)
+		{
+			v[k][i] = x[i];
+			magx += v[k][i]*v[k][i];
+		}
+		magx = sqrt(magx);
+		for(i = 0; i < m; i++)
+			v[k][i] /= magx;
+
+		// compute v* times A(k:m,k:n) to get a row matrix of size (m-k)x1
+		for(j = 0; j < n-k; j++)
+		{
+			va[j] = 0;
+			for(i = 0; i < m-k; i++)
+				va[j] += v[k][i]*A.get(k+i,k+j);
+		}
+
+		// compute outer product of v[k] and va
+		for(i = 0; i < m-k; i++)
+			for(j = 0; j < n-k; j++)
+				P(i,j) = v[k][i]*va[j];
+
+		// finally update A
+		for(i = k; i < m; i++)
+			for(j = k; j < n; j++)
+				A(i,j) -= 2.0*P(i-k,j-k);
+	}
+}
+
 }

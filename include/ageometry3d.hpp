@@ -54,7 +54,7 @@ BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg)
 {
 	fnormals.setup(m->gnface(), m->gndim());
 
-	// compute unit face normals
+	// compute unit face normals of triangular faces
 	int iface;
 	amc_real x1,y1,z1,x2,y2,z2,mag;
 	for(iface = 0; iface < m->gnface(); iface++)
@@ -179,23 +179,37 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 			Q[ipoin](idim,2) = pnormals->get(ipoin,idim);
 		}
 
+		normmag = 0;
+
 		if(fabs(Q[ipoin](0,2)) > ZERO_TOL)
 		{
 			Q[ipoin](1,0) = s1;
 			Q[ipoin](2,0) = s2;
 			Q[ipoin](0,0) = (-s1*Q[ipoin](1,2)-s2*Q[ipoin](2,2))/Q[ipoin](0,2);
+			normmag = sqrt(Q[ipoin].get(1,0)*Q[ipoin].get(1,0) + Q[ipoin].get(2,0)*Q[ipoin].get(2,0) + Q[ipoin].get(0,0)*Q[ipoin].get(0,0));
+			Q[ipoin](1,0) /= normmag;
+			Q[ipoin](2,0) /= normmag;
+			Q[ipoin](0,0) /= normmag;
 		}
 		else if(fabs(Q[ipoin](1,2)) > ZERO_TOL)
 		{
 			Q[ipoin](0,0) = s1;
 			Q[ipoin](2,0) = s2;
 			Q[ipoin](1,0) = (-s1*Q[ipoin](0,2) - s2*Q[ipoin](2,2))/Q[ipoin](1,2);
+			normmag = sqrt(Q[ipoin].get(1,0)*Q[ipoin].get(1,0) + Q[ipoin].get(2,0)*Q[ipoin].get(2,0) + Q[ipoin].get(0,0)*Q[ipoin].get(0,0));
+			Q[ipoin](1,0) /= normmag;
+			Q[ipoin](2,0) /= normmag;
+			Q[ipoin](0,0) /= normmag;
 		}
 		else
 		{
 			Q[ipoin](0,0) = s1;
 			Q[ipoin](1,0) = s2;
 			Q[ipoin](2,0) = (-s1*Q[ipoin](0,2) - s2*Q[ipoin](1,2))/Q[ipoin](2,2);
+			normmag = sqrt(Q[ipoin].get(1,0)*Q[ipoin].get(1,0) + Q[ipoin].get(2,0)*Q[ipoin].get(2,0) + Q[ipoin].get(0,0)*Q[ipoin].get(0,0));
+			Q[ipoin](1,0) /= normmag;
+			Q[ipoin](2,0) /= normmag;
+			Q[ipoin](0,0) /= normmag;
 		}
 
 		Q[ipoin](0,1) = Q[ipoin](1,2)*Q[ipoin](2,0) - Q[ipoin](2,2)*Q[ipoin](1,0);
@@ -209,8 +223,8 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 	std::vector<amc_int> facepo;		// for storing local node number of ipoin in each surrounding face
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
-		std::cout << "Point " << m->gbpointsinv(ipoin) << " : ";
 		pflags.assign(m->gnbpoin(),0);
+		pflags[ipoin] = 1;
 		sfaces.clear();
 		facepo.clear();
 
@@ -223,10 +237,12 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 					face = m->gbfsubp(iface);
 					for(inode = 0; inode != m->gnnofa(); inode++)
 					{
-						if(m->gbface(face,inode) != m->gbpoints(ipoin))
+						if(pflags[m->gbpointsinv(m->gbface(face,inode))] != 1)	
 							stencil[ipoin].push_back(m->gbpointsinv(m->gbface(face,inode)));
-						else
+
+						if(m->gbpointsinv(m->gbface(face,inode)) == ipoin)
 							facepo.push_back(inode);
+
 						pflags[m->gbpointsinv(m->gbface(face,inode))] = 1;
 					}
 					sfaces.push_back(face);
@@ -236,7 +252,6 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 				{
 					jed = (facepo[i]+1) % m->gnnofa();										// get the edge opposite to ipoin
 					face = m->gbfsubf(sfaces[i],jed);										// get the face adjoining that edge
-					//std::cout << sfaces[i] << "-"  << face << ", ";
 					for(j = 0; j < m->gnnofa(); j++)										// add nodes of that face to stencil provided they have not already been added
 						if(pflags[m->gbpointsinv(m->gbface(face,j))] != 1)
 							stencil[ipoin].push_back(m->gbpointsinv(m->gbface(face,j)));
@@ -251,9 +266,6 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 		}
 
 		mpo[ipoin] = stencil[ipoin].size();
-		for(j = 0; j < mpo[ipoin]; j++)
-			std::cout << stencil[ipoin][j] << " ";
-		std::cout << std::endl;
 	}
 }
 
@@ -287,8 +299,6 @@ void VertexCenteredBoundaryReconstruction::solve()
 	amat::Matrix<amc_real>* Q = this->Q;
 	amat::Matrix<amc_real>* pnormals = &(this->pnormals);
 	amat::Matrix<amc_real>* D = this->D;
-	/*amat::Matrix<amc_real>* V = this->V;
-	amat::Matrix<amc_real>* F = this->F;*/
 	std::vector<int>* mpo = &(this->mpo);
 	int nders = this->nders;
 	int degree = this->degree;
@@ -297,7 +307,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
-		std::cout << "VertexCenteredBoundaryReconstruction: solve(): Point " << m->gbpoints(ipoin) << " : ";
+		//std::cout << "VertexCenteredBoundaryReconstruction: solve(): Point " << m->gbpoints(ipoin) << " : ";
 		int isp, i, j, idim, k, l;
 		amc_int pno;
 		amc_real weight, wd;
@@ -310,7 +320,6 @@ void VertexCenteredBoundaryReconstruction::solve()
 		for(isp = 0; isp < mpo->at(ipoin); isp++)
 		{
 			pno = stencil[ipoin][isp];
-			std::cout << m->gbpoints(pno) << " ";
 			for(idim = 0; idim < m->gndim(); idim++)
 				xyzp[idim] = m->gcoords(m->gbpoints(pno),idim);
 			uvw_from_xyz(ipoin, xyzp, uvwp);
@@ -346,7 +355,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 		}
 
 		leastSquares_NE(V, F, D[ipoin]);
-		std::cout << std::endl;
+		//std::cout << std::endl;
 	}
 }
 

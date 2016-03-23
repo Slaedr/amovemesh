@@ -421,7 +421,6 @@ void RBFmove::move_step()
 		delete [] sum;
 		delete [] psum;
 	}
-	printf("\n");
 }
 
 void RBFmove::move()

@@ -603,12 +603,6 @@ public:
 		esup_p.setup(npoin+1,1);
 		esup_p.zeros();
 		
-		if(psup != nullptr)
-			delete [] psup;
-		psup = new std::vector<int>[npoin];
-		for(int i = 0; i < npoin; i++)
-			psup[i].reserve(10);
-
 		for(int i = 0; i < nelem; i++)
 		{
 			for(int j = 0; j < nnode; j++)
@@ -640,6 +634,12 @@ public:
 
 		//2. Points surrounding points - works only for tets and hexes!!
 		std::cout << "UMesh2d: compute_topological(): Points surrounding points\n";
+		if(psup != nullptr)
+			delete [] psup;
+		psup = new std::vector<int>[npoin];
+		for(int i = 0; i < npoin; i++)
+			psup[i].reserve(10);
+
 		amat::Matrix<int> lpoin(npoin,1);  // The ith member indicates the global point number of which the ith point is a surrounding point
 		for(int i = 0; i < npoin; i++)
 			lpoin(i,0) = -1;	// initialize this std::vector to -1
@@ -973,8 +973,6 @@ public:
 		lhelp.setup(nnoded,1);
 		lpoin.setup(nbpoin,1);
 
-		std::cout << "Bfaces surrounding bpoint" << std::endl;
-		
 		// bfaces surrounding bpoint
 
 		bfsubp_p.setup(nbpoin+1,1);
@@ -1008,7 +1006,6 @@ public:
 		bfsubp_p(0) = 0;
 
 		// bfaces surrounding bface
-		std::cout << "bfaces surrounding bface" << std::endl;
 		
 		int ii, jj;
 		bfsubf.setup(nface, nedfa);
@@ -1116,7 +1113,7 @@ public:
 			return q; }
 
 		q.ndim = ndim;
-		q.npoin = npoin+nedge+naface+nelem;
+		//q.npoin = npoin+nedge+naface+nelem;
 		q.nelem = nelem;
 		q.nface = nface; q.naface = naface; q.nbface = nbface;
 		q.nedfa = nedfa;
@@ -1128,11 +1125,13 @@ public:
 
 		if(nnode == 8)												// for hex
 		{
-			q.nnode = nnode + nedel*(degree-1) + nfael*(degree-1)^2 + 1;
-			q.nnofa = nnofa + nedfa*(degree-1) + (degree-1)^2;
+			q.npoin = npoin + (degree-1)*nedge + (degree-1)*(degree-1)*naface + (degree-1)*(degree-1)*(degree-1)*nelem;
+			q.nnode = nnode + nedel*(degree-1) + nfael*(degree-1)*(degree-1) + 1;
+			q.nnofa = nnofa + nedfa*(degree-1) + (degree-1)*(degree-1);
 		}
 		else if(nnode == 4)											// for tet
 		{
+			q.npoin = npoin + (degree-1)*nedge + (degree-1)*(degree-2)/2*naface + 0*nelem;		// the nelem part is only true for 2nd and 3rd degree elements
 			q.nnode = nnode + nedel*(degree-1);
 			q.nnofa = nnofa + nedfa*(degree-1);
 		}

@@ -20,24 +20,29 @@ int main(int argc, char* argv[])
 	conf >> dum; conf >> angle_limit;
 	conf >> dum; conf >> rbf_choice;
 	conf >> dum; conf >> suprad;
+	conf >> dum; conf >> rbf_steps;
 	conf >> dum; conf >> tol;
 	conf >> dum; conf >> maxiter;
 	conf >> dum; conf >> solver;
 	
 	conf.close();
 
-	rbf_steps = 1;
-
+	cout << "amc: Generating curved mesh with " << angle_limit << ", " << rbf_choice << ", " << suprad << ", " << tol << ", " << maxiter << ", " << solver << endl;
 
 	UMesh m;
 	m.readGmsh2(linmesh,3);
 	m.compute_topological();
 	
 	UMesh mq = m.convertLinearToQuadratic();
+	//mq.writeGmsh2("intermesh.msh");
 	
 	CurvedMeshGen cmg;
 	cmg.setup(&m, &mq, angle_limit, tol, maxiter, rbf_choice, suprad, rbf_steps, solver);
 	cmg.compute_boundary_displacements();
+	cmg.generate_curved_mesh();
+
+	mq.writeGmsh2(cmesh);
+	std::cout << std::endl;
 
 	return 0;
 }

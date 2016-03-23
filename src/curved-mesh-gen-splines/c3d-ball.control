@@ -15,4 +15,4 @@
 -Maximum-iterations
 2000
 -RBF-solver
-LU
+CG

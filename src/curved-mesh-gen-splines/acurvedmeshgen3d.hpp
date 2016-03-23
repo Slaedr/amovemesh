@@ -24,7 +24,7 @@ typedef RBFmove Meshmove;
 
 class CurvedMeshGen
 {
-	UMesh* m;						///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
+	const UMesh* m;					///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
 	UMesh* mq;						///< Data of the corresponding (straight-faced) quadratic mesh
 	Meshmove* mmv;					///< Pointer to parent class for the mesh-movement classes, such RBF, DGM or linear elasticity.
 	BoundaryReconstruction* br;		///< Object to reconstruct the boundary using cubic splines.
@@ -48,7 +48,7 @@ class CurvedMeshGen
 	amat::Matrix<amc_real> allpoint_disps;	///< Initial displacements of all points in the high-order mesh; zero for interior points
 
 public:
-	void setup(UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver);
+	void setup(const UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver);
 
 	~CurvedMeshGen();
 
@@ -57,7 +57,7 @@ public:
 	void generate_curved_mesh();
 };
 
-void CurvedMeshGen::setup(UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver)
+void CurvedMeshGen::setup(const UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver)
 {
 	degree = 2;
 	
@@ -130,17 +130,16 @@ void CurvedMeshGen::compute_boundary_displacements()
 		for(amc_int ied = 0; ied < m->gnbedge(); ied++)
 		{
 			br->getEdgePoint(uh,ied,recpoint);
-			for(idim = 0; idim < m->gndim(); idim++) std::cout << recpoint[idim] << ' ';
-			std::cout << std::endl;
 			
 			for(idim = 0; idim < m->gndim(); idim++)
 			{
 				linearedgepoints[ied](0,idim) = 0;
+				
 				for(inode = 0; inode < m->gnnoded(); inode++)
 					linearedgepoints[ied](0,idim) += m->gcoords(m->gintedge(ied,inode),idim);
-			}
-			for(idim = 0; idim < m->gndim(); idim++)
+				
 				linearedgepoints[ied](0,idim) /= m->gnnoded();
+			}
 
 			for(idim = 0; idim < m->gndim(); idim++)
 				allpoint_disps(mq->gintedge(ied,2), idim) = recpoint[idim] - linearedgepoints[ied].get(0,idim);
@@ -193,14 +192,14 @@ void CurvedMeshGen::compute_boundary_displacements()
 		}
 	}
 
-	std::ofstream fout("testdisps.dat");
+	/*std::ofstream fout("testdisps.dat");
 	for(i = 0; i < mq->gnpoin(); i++)
 	{
 		for(idim = 0; idim < m->gndim(); idim++)
 			fout << allpoint_disps.get(i,idim) << " ";
 		fout << '\n';
 	}
-	fout.close();
+	fout.close();*/
 	
 	/// We do not need the linear mesh once we have the displacements of the faces' midpoints.
 	
@@ -217,7 +216,27 @@ void CurvedMeshGen::generate_curved_mesh()
 	Note that this function works with the straight quadratic mesh.
 	We assume that the face numberings (bface) and edge numberings (intedge) of the linear mesh and the quadratic mesh are the same.
 	*/
-	
+
+	amc_int ipoin;
+	int idim;
+
+	// check
+	amat::Matrix<amc_real> diff(m->gnpoin(), m->gndim());
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		for(idim = 0; idim < m->gndim(); idim++)
+			diff(ipoin) = mq->gcoords(ipoin,idim) - m->gcoords(ipoin,idim);
+
+	std::vector<amc_real> err(3,0);
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		if(m->gbpointsinv(ipoin) >= 0)
+			for(idim = 0; idim < 3; idim++)
+				err[idim] += diff.get(ipoin,idim)*diff.get(ipoin,idim);
+	for(idim = 0; idim < 3; idim++)
+		err[idim] = sqrt(err[idim]);
+	std::cout << std::setprecision(14);
+	std::cout << "acmg3d: Initial error in positions of low-order nodes: " << err[0] << " " << err[1] << " " << err[2] << std::endl;
+
+
 	// first get bflag
 	bflagg.zeros();
 	for(amc_int iface = 0; iface < mq->gnface(); iface++)
@@ -239,10 +258,10 @@ void CurvedMeshGen::generate_curved_mesh()
 	
 	///We divide mesh nodes into boundary points and interior points. We also populate boundisp so that it holds the displacement of each boundary point.
 	amc_int k = 0, l = 0;
-	for(amc_int ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
+	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
 		if(bflagg(ipoin))
 		{
-			for(int idim = 0; idim < mq->gndim(); idim++){
+			for(idim = 0; idim < mq->gndim(); idim++){
 				bounpoints(k,idim) = mq->gcoords(ipoin,idim);
 				boundisps(k,idim) = allpoint_disps(ipoin,idim);
 			}
@@ -250,7 +269,7 @@ void CurvedMeshGen::generate_curved_mesh()
 		}
 		else
 		{
-			for(int idim = 0; idim < mq->gndim(); idim++)	
+			for(idim = 0; idim < mq->gndim(); idim++)	
 				inpoints(l,idim) = mq->gcoords(ipoin,idim);
 			l++;
 		}
@@ -268,15 +287,15 @@ void CurvedMeshGen::generate_curved_mesh()
 	//Get coord array of curved mesh
 	amat::Matrix<amc_real> newcoords(mq->gnpoin(),mq->gndim());
 	k = 0; l = 0;
-	for(amc_int ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
+	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
 	{
 		if(bflagg(ipoin)) {
-			for(int idim = 0; idim < mq->gndim(); idim++)
+			for(idim = 0; idim < mq->gndim(); idim++)
 				newcoords(ipoin,idim) = bounpoints(k,idim);
 			k++;
 		}
 		else {
-			for(int idim = 0; idim < mq->gndim(); idim++)
+			for(idim = 0; idim < mq->gndim(); idim++)
 				newcoords(ipoin,idim) = inpoints(l,idim);
 			l++;
 		}
@@ -285,7 +304,7 @@ void CurvedMeshGen::generate_curved_mesh()
 	// set it in mesh mq
 	mq->setcoords(&newcoords);
 
-	delete [] mmv;
+	delete mmv;
 }
 
 // ------------ end --------------------
