@@ -153,7 +153,7 @@ public:
 		isalloc = false;
 	}
 
-	Matrix<T>& operator=(Matrix<T> rhs)
+	Matrix<T>& operator=(const Matrix<T>& rhs)
 	{
 #ifdef DEBUG
 		if(this==&rhs) return *this;		// check for self-assignment

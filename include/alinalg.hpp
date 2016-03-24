@@ -296,10 +296,10 @@ void gausselim(Matrix<double>& A, Matrix<double>& b, Matrix<double>& x)
 		for(int i = N-2; i >= 0; i--)
 		{
 			sum = 0;
-			int k = i+1;
+			k = i+1;
 			do
 			{	
-				sum += A(i,k)*x(k,l);		// or A(k,i) ??
+				sum += A(i,k)*x(k,l);
 				k++;
 			} while(k <= N-1);
 			x(i,l) = (b(i,l) - sum)/A(i,i);
@@ -1133,7 +1133,9 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 }
 
 /// solves the least squares problem (finds the minimum point x) \f$ \min(||Ax - b||_2) \f$ by solving the normal equations
-void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
+/** The columns of the LHS matrix A are first scaled by the respective column-vector norms, so as to improve the condition number.
+ */
+void leastSquares_NE(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
 {
 	amc_int m = A.rows(), n = A.cols();
 #if(DEBUG==1)
@@ -1143,9 +1145,23 @@ void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_rea
 		return;
 	}
 #endif
+	std::vector<amc_real> scale(n);		// for scaling the column of A
+	amc_real csum;
+	amc_int i,j,k;
+	
+	// get norms of column-vectors and scale the columns of A
+	for(j = 0; j < n; j++)
+	{
+		csum = 0;
+		for(i = 0; i < m; i++)
+			csum += A.get(i,j)*A.get(i,j);
+		scale[j] = 1.0/sqrt(csum);
+		for(i = 0; i < m; i++)
+			A(i,j) *= scale[j];
+	}
+
 	amat::Matrix<amc_real> B(n,n);
 	amat::Matrix<amc_real> c(n,1);
-	amc_int i,j,k;
 	for(i = 0; i < n; i++)
 	{
 		c(i) = 0;
@@ -1164,8 +1180,8 @@ void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_rea
 	//chol(B, c);
 	gausselim(B, c, x);
 
-	/*for(i = 0; i < n; i++)
-		x(i) = c.get(i);*/
+	for(i = 0; i < n; i++)
+		x(i) *= scale[i];
 }
 
 /// Computes the QR decomposition of a dense matrix by Householder algorithm given in Trefethen and Bau, Numerical Linear Algebra.
@@ -1175,11 +1191,13 @@ void leastSquares_NE(const amat::Matrix<amc_real>& A, const amat::Matrix<amc_rea
  */
 void qr(amat::Matrix<amc_real>& A, std::vector<amc_real>* v)
 {
-	amc_int m = A.rows(), n = A.cols(), k, i,j;
-	std::vector<amc_real> x(m);
-	amat::Matrix<amc_real> P(m,m);
-	std::vector<amc_real> va(m);
+	int m = A.rows(), n = A.cols(), k, i,j;
+	//std::cout << "Problem size " << m << " " << n << std::endl;
 	amc_real magx, sgnx0;
+		
+	amat::Matrix<amc_real> P(m,m);
+	std::vector<amc_real> x(m);
+	std::vector<amc_real> va(m);
 
 	for(k = 0; k < n; k++)
 	{
@@ -1191,20 +1209,20 @@ void qr(amat::Matrix<amc_real>& A, std::vector<amc_real>* v)
 			sgnx0 = x[0]/fabs(x[0]);
 		else sgnx0 = 1.0;		// arbitrary 1 or -1
 		magx = 0;
-		for(i = k; i < m; i++)
+		for(i = 0; i < m-k; i++)
 			magx += x[i]*x[i];
 		magx = sqrt(magx);
 
 		v[k][0] = sgnx0 * magx + x[0];
 		magx = v[k][0]*v[k][0];
 
-		for(i = 1; i < m; i++)
+		for(i = 1; i < m-k; i++)
 		{
 			v[k][i] = x[i];
 			magx += v[k][i]*v[k][i];
 		}
 		magx = sqrt(magx);
-		for(i = 0; i < m; i++)
+		for(i = 0; i < m-k; i++)
 			v[k][i] /= magx;
 
 		// compute v* times A(k:m,k:n) to get a row matrix of size (m-k)x1
@@ -1224,7 +1242,75 @@ void qr(amat::Matrix<amc_real>& A, std::vector<amc_real>* v)
 		for(i = k; i < m; i++)
 			for(j = k; j < n; j++)
 				A(i,j) -= 2.0*P(i-k,j-k);
+
+		/*for(i = 0; i < m-k; i++)
+			std::cout << x[i] << " ";
+		std::cout << std::endl;*/
 	}
+}
+
+void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
+{
+	amc_int m = A.rows(), n = A.cols();
+#if(DEBUG==1)
+	if(b.rows() != m || x.rows() != n) 
+	{
+		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;
+		return;
+	}
+#endif
+	std::vector<amc_real> scale(n);		// for scaling the column of A
+	amc_real csum, dp;
+	amc_int i,j,k;
+	
+	// get norms of column-vectors of A and scale them
+	for(j = 0; j < n; j++)
+	{
+		csum = 0;
+		for(i = 0; i < m; i++)
+			csum += A.get(i,j)*A.get(i,j);
+		scale[j] = 1.0/sqrt(csum);
+		for(i = 0; i < m; i++)
+			A(i,j) *= scale[j];
+	}
+
+	std::vector<amc_real>* v = new std::vector<amc_real>[n];
+	for(i = 0; i < n; i++)
+		v[i].resize(m-i);
+
+	// get QR decomposition (R is stored in A, Q is determined by v)
+	qr(A,v);
+
+	// compute RHS b := Q^T b (note that b possibly has multiple columns corresponding to multiple least-squares problems with a common LHS)
+	for(j = 0; j < b.cols(); j++)
+		for(k = 0; k < n; k++)
+		{
+			dp = 0;
+			for(i = k; i < m; i++)
+				dp += v[k][i-k]*b(i,j);
+			
+			for(i = k; i < m; i++)
+				b(i,j) -= 2.0*dp*v[k][i-k];
+		}
+
+	// back-substitution
+	for(j = 0; j < b.cols(); j++)
+	{
+		x(n-1,j) = b(n-1,j)/A.get(n-1,n-1);
+		for(i = n-2; i >= 0; i--)
+		{
+			csum = 0;
+			for(k = i+1; k < n; k++)
+				csum += A.get(i,k)*x.get(k,j);
+			x(i,j) = (b(i,j) - csum)/A(i,i);
+		}
+	}
+
+	for(i = 0; i < n; i++)
+		for(j = 0; j < b.cols(); j++)
+			x(i,j) *= scale[i];
+
+	delete[] v;
 }
 
 }

@@ -221,10 +221,16 @@ void CurvedMeshGen::generate_curved_mesh()
 	int idim;
 
 	// check
-	amat::Matrix<amc_real> diff(m->gnpoin(), m->gndim());
+	/*amat::Matrix<amc_real> diff(m->gnpoin(), m->gndim());
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
 		for(idim = 0; idim < m->gndim(); idim++)
-			diff(ipoin) = mq->gcoords(ipoin,idim) - m->gcoords(ipoin,idim);
+			diff(ipoin,idim) = mq->gcoords(ipoin,idim) - m->gcoords(ipoin,idim);
+
+	std::ofstream fout("testdiff.dat");
+	fout << std::setprecision(14);
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		fout << diff.get(ipoin,0) << " " << diff.get(ipoin,1) << " " << diff.get(ipoin,2) << '\n';
+	fout.close();
 
 	std::vector<amc_real> err(3,0);
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
@@ -234,7 +240,7 @@ void CurvedMeshGen::generate_curved_mesh()
 	for(idim = 0; idim < 3; idim++)
 		err[idim] = sqrt(err[idim]);
 	std::cout << std::setprecision(14);
-	std::cout << "acmg3d: Initial error in positions of low-order nodes: " << err[0] << " " << err[1] << " " << err[2] << std::endl;
+	std::cout << "acmg3d: Initial error in positions of low-order nodes: " << err[0] << " " << err[1] << " " << err[2] << std::endl;*/
 
 
 	// first get bflag
@@ -304,6 +310,26 @@ void CurvedMeshGen::generate_curved_mesh()
 	// set it in mesh mq
 	mq->setcoords(&newcoords);
 
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		for(idim = 0; idim < m->gndim(); idim++)
+			diff(ipoin,idim) = mq->gcoords(ipoin,idim) - m->gcoords(ipoin,idim);
+
+	/*fout.open("testdiff.dat");
+	fout << std::setprecision(14);
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		fout << diff.get(ipoin,0) << " " << diff.get(ipoin,1) << " " << diff.get(ipoin,2) << '\n';
+	fout.close();
+
+	err.assign(3,0);
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		if(m->gbpointsinv(ipoin) >= 0)
+			for(idim = 0; idim < 3; idim++)
+				err[idim] += diff.get(ipoin,idim)*diff.get(ipoin,idim);
+	for(idim = 0; idim < 3; idim++)
+		err[idim] = sqrt(err[idim]);
+	std::cout << std::setprecision(14);
+	std::cout << "acmg3d: error in positions of low-order nodes: " << err[0] << " " << err[1] << " " << err[2] << std::endl;*/
+	
 	delete mmv;
 }
 

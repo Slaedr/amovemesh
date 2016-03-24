@@ -112,6 +112,8 @@ public:
 	void solve();
 	
 	/// Returns coords of a point lying on the 'edgenum' edge, having length coordinate 'ratio' along the edge from point 0 to point 1.
+	/** Uses WALF surfaces from the two edge points only.
+	 */
 	void getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const;
 	/// Returns coords of a point lying on the face 'facenum' and having area coordinates given by 'areacoords'
 	void getFacePoint(const std::vector<amc_real>& areacoords, const amc_int facenum, std::vector<amc_real>& point) const;
@@ -345,7 +347,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 				weight += pnormals->get(ipoin,i)*pnormals->get(pno,i);
 				wd += (m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i))*(m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i));
 			}
-			if(weight < A_SMALL_NUMBER) weight = A_SMALL_NUMBER;
+			if(weight < ZERO_TOL) weight = ZERO_TOL;
 			wd = pow(sqrt(wd + A_SMALL_NUMBER),degree/2.0);
 			weight = weight/wd;
 
@@ -355,7 +357,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 		}
 
 		leastSquares_NE(V, F, D[ipoin]);
-		//std::cout << std::endl;
+		//leastSquares_QR(V, F, D[ipoin]);
 	}
 }
 
@@ -427,13 +429,15 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 		uvw_from_xyz(sbpo[i],xyzp[0],uvwp[i]);
 	
 	std::vector<amc_real> height(m->gnnofa(),0);
-	int l = 0,j,k,inofa;
+	int l = 0,j,k,inofa, fj,fk;
 	for(i = 1; i <= degree; i++)
 	{
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
+			fj = factorial(j);
+			fk = factorial(k);
 			for(inofa = 0; inofa < m->gnnofa(); inofa++)
-				height[inofa] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/factorial(j)*factorial(k) * D[sbpo[inofa]].get(l);
+				height[inofa] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/fj*fk * D[sbpo[inofa]].get(l);
 			l++;
 		}
 	}
