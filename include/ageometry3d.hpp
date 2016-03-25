@@ -296,6 +296,7 @@ void VertexCenteredBoundaryReconstruction::uvw_from_xyz(const amc_int ibpoin, co
 
 void VertexCenteredBoundaryReconstruction::solve()
 {
+	std::cout << "VertexCenteredBoundaryReconstruction: solve(): Computing slopes, curvatures etc at each point" << std::endl;
 	const UMesh* m = this->m;
 	std::vector<int>* stencil = this->stencil;
 	amat::Matrix<amc_real>* Q = this->Q;
@@ -310,21 +311,25 @@ void VertexCenteredBoundaryReconstruction::solve()
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
 		//std::cout << "VertexCenteredBoundaryReconstruction: solve(): Point " << m->gbpoints(ipoin) << " : ";
-		int isp, i, j, idim, k, l;
+		int isp, i, j, idim, k, l, mp;
+		mp = mpo->at(ipoin);
 		amc_int pno;
-		amc_real weight, wd;
+		amc_real weight, wd = 0;
 
 		// assemble V and F
-		amat::Matrix<amc_real> V(mpo->at(ipoin), nders);			// least-squares LHS, Vandermonde matrix
-		amat::Matrix<amc_real> F(mpo->at(ipoin),1);					// least-squares RHS, height values of stencil points
+		amat::Matrix<amc_real> V(mp, nders);			// least-squares LHS, Vandermonde matrix
+		amat::Matrix<amc_real> F(mp,1);					// least-squares RHS, height values of stencil points
 		std::vector<amc_real> xyzp(m->gndim()), uvwp(m->gndim());
+		std::vector<amc_real> weightsn(mp);				// numerators of row-weights for weighted least-squares
+		std::vector<amc_real> weightsd(mp);				// denominators of row-weights
 
-		for(isp = 0; isp < mpo->at(ipoin); isp++)
+		for(isp = 0; isp < mp; isp++)
 		{
 			pno = stencil[ipoin][isp];
 			for(idim = 0; idim < m->gndim(); idim++)
 				xyzp[idim] = m->gcoords(m->gbpoints(pno),idim);
 			uvw_from_xyz(ipoin, xyzp, uvwp);
+
 			l = 0;
 			for(i = 1; i <= degree; i++)
 			{
@@ -341,23 +346,35 @@ void VertexCenteredBoundaryReconstruction::solve()
 			F(isp) = uvwp[2];
 			
 			// compute weights
-			weight = 0; wd = 0;
+			weightsn[isp] = 0; weightsd[isp] = 0;
 			for(i = 0; i < m->gndim(); i++)
 			{
-				weight += pnormals->get(ipoin,i)*pnormals->get(pno,i);
-				wd += (m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i))*(m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i));
+				weightsn[isp] += pnormals->get(ipoin,i)*pnormals->get(pno,i);
+				//weightsd[isp] += (m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i))*(m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i));
+				weightsd[isp] += uvwp[i]*uvwp[i];
 			}
-			if(weight < ZERO_TOL) weight = ZERO_TOL;
-			wd = pow(sqrt(wd + A_SMALL_NUMBER),degree/2.0);
-			weight = weight/wd;
-
+			if(weightsn[isp] < ZERO_TOL) weightsn[isp] = ZERO_TOL;
+			//wd = pow(sqrt(wd + A_SMALL_NUMBER),degree/2.0);
+			//weight = weight/wd;
+			wd += weightsd[isp];
+		}
+	
+		wd = wd / (100.0*mp);
+		for(isp = 0; isp < mp; isp++)
+		{
+			weightsd[isp] += wd;
+			weightsd[isp] = pow( sqrt(weightsd[isp]), degree/2.0 );
+		}
+		for(isp = 0; isp < mp; isp++)
+		{
 			for(i = 0; i < nders; i++)
-				V(isp,i) *= weight;
-			F(isp) *= weight;
+				V(isp,i) *= weightsn[isp]/weightsd[isp];
+			F(isp) *= weightsn[isp]/weightsd[isp];
 		}
 
 		leastSquares_NE(V, F, D[ipoin]);
 		//leastSquares_QR(V, F, D[ipoin]);
+		leastSquares_SVD(V, F, D[ipoin]);
 	}
 }
 

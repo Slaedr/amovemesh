@@ -310,11 +310,11 @@ void CurvedMeshGen::generate_curved_mesh()
 	// set it in mesh mq
 	mq->setcoords(&newcoords);
 
-	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+	/*for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
 		for(idim = 0; idim < m->gndim(); idim++)
 			diff(ipoin,idim) = mq->gcoords(ipoin,idim) - m->gcoords(ipoin,idim);
 
-	/*fout.open("testdiff.dat");
+	fout.open("testdiff.dat");
 	fout << std::setprecision(14);
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
 		fout << diff.get(ipoin,0) << " " << diff.get(ipoin,1) << " " << diff.get(ipoin,2) << '\n';

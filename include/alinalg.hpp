@@ -20,6 +20,9 @@
 #ifndef EIGEN_SPARSE_MODULE_H
 #include <Eigen/Sparse>
 #endif
+#ifndef EIGEN_SVD_MODULE_H
+#include <Eigen/SVD>
+#endif
 #endif
 
 // for getenv(), atoi()
@@ -50,12 +53,21 @@ void gausselim(Matrix<double>& A, Matrix<double>& b, Matrix<double>& x);
 #ifdef EIGEN_LIBRARY
 /// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
 Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b);
+
+/// Uses Eigen3's SVD module to solve linear least-squares 
+void leastSquares_SVD(Matrix<amc_real>& A, Matrix<amc_real>& b, Matrix<amc_real>& x);
 #endif
 
 #ifdef _OPENMP
 /// Uses the SuperLU direct sparse solver to solve Ax = b and stores the solution in ans
 void superLU_solve(const SpMatrix* A, const Matrix<double>* b, Matrix<double>* ans);
 #endif
+
+/// Solves Ax = b by Cholesky decomposition
+/** The output is finally stored in b.
+ */
+void chol(Matrix<amc_real>& A, Matrix<amc_real>& b);
+
 
 /* Note: Cholesky algorithm only implemented for a row-major matrix */
 Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
@@ -145,8 +157,10 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 	return b;
 }
 
-// TODO: optimize this function to factorize A in-place
 /// Solves Ax = b by Cholesky decomposition
+/** The output is finally stored in b.
+ * TODO: optimize this function to factorize A in-place
+ */
 void chol(Matrix<amc_real>& A, Matrix<amc_real>& b)
 {
 	Matrix<amc_real> B;
@@ -1312,5 +1326,41 @@ void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat:
 
 	delete[] v;
 }
+
+#ifdef EIGEN_LIBRARY
+/** b, the RHS, can contain several columns corresponding to different RHS vectors, but
+ * \note Eigen3 JacobiSVD::solve() does not necessarily support this!
+ */
+void leastSquares_SVD(Matrix<amc_real>& A, Matrix<amc_real>& b, Matrix<amc_real>& x)
+{
+	int m = A.rows(), n = A.cols(), nrhs = b.cols();
+	int i,j,k;
+#	if(DEBUG==1)
+	if(b.rows() != m || x.rows() != n) 
+	{
+		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;
+		return;
+	}
+#	endif
+
+	// first convert A and b into Eigen3 format
+	Eigen::MatrixXd Ae(m,n), be(m,nrhs);
+	for(i = 0; i < m; i++)
+	{
+		for(j = 0; j < n; j++)
+			Ae(i,j) = A.get(i,j);
+		for(j = 0; j < nrhs; j++)
+			be(i,j) = b.get(i,j);
+	}
+
+	Eigen::JacobiSVD<Eigen::MatrixXd> esvd(Ae, Eigen::ComputeThinU|Eigen::ComputeThinV);
+	auto so = esvd.solve(be);
+	Eigen::MatrixXd sol;
+	so.evalTo(sol);
+	for(i = 0; i < n; i++)
+		for(j = 0; j < nrhs; j++)
+			x(i,j) = sol(i,j);
+}
+#endif
 
 }
