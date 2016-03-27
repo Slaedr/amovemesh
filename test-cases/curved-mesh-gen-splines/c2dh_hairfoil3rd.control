@@ -1,0 +1,25 @@
+-input-linear-mesh-filename
+../../input/hairfoil3rd.msh
+-input-quadratic-mesh-filename
+../../output/curved-mesh-gen-spline/hairfoil3rd_quadratic.msh
+-output-curved-mesh-filename
+../../output/curved-mesh-gen-spline/hairfoil3rd_curved.msh
+-angle-threshold-for-corners
+40.0
+-RBF-choice
+2
+-Support-radius-for-RBF
+0.05
+-Number-of-RBF-steps
+1
+-Tolerance-for-RBF-move
+1e-6
+-Maximum-iterations
+5000
+-RBF-solver
+LU
+-Number-of-spline-parts
+1
+-Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers
+1 8
+

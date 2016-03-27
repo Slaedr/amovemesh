@@ -1,0 +1,22 @@
+-input-linear-mesh-filename
+../../input/sd7003.msh
+-input-quadratic-mesh-filename
+../../output/curved-mesh-gen-spline/sd7003_quadratic.msh
+-output-curved-mesh-filename
+../../output/curved-mesh-gen-spline/sd7003_curved-dgm.msh
+-angle-threshold-for-corners
+40.0
+-tolerance
+1e-6
+-max-iterations
+1000
+-Number-of-spline-parts
+1
+-Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers
+1 5
+
+30P30N_luo_1st_tri.msh
+3compairfoil_tri_quadratic.msh
+1 13
+1 12
+1 14

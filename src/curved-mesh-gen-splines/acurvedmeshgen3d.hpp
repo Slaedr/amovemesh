@@ -6,6 +6,10 @@
  * We could set the support radius automatically based on some function of the curvature of the boundary.
  */
 
+#ifndef __AMESH3D_H
+	#include <amesh3d.hpp>
+#endif
+
 #ifndef __AGEOMETRYH_H
 	#include <ageometry3d.hpp>
 #endif

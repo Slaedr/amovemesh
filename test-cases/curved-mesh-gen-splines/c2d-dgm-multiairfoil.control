@@ -1,0 +1,19 @@
+-input-linear-mesh-filename
+../../input/30P30N_3airfoil_tri.msh
+-input-quadratic-mesh-filename
+../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_quadratic.msh
+-output-curved-mesh-filename
+../../output/curved-mesh-gen-spline/30P30N_3airfoil_tri_curved-dgm.msh
+-angle-threshold-for-corners
+40.0
+-tolerance-for-spline-computation
+1e-6
+-max-iterations-for-spline-computation
+1000
+-Number-of-spline-parts
+3
+-Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers
+1 13
+1 12
+1 14
+

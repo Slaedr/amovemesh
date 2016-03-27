@@ -22,6 +22,9 @@ curvee:
 	$(GPP) linelast-curvedmeshgen2d.cpp -o curvee.out -std=c++11 -ggdb -I$(PRMM)/include
 	
 
-curve3d:
-	$(GPP) $(OPTIONS) -I../../include -o amc curve3d.cpp
+amc.o: curve3d.cpp
+	$(GPP) $(OPTIONS) -I.. -c -o $(PREFIX)/$@ curve3d.cpp
+
+amc: amc.o $(PREFIX)/alinalg.o $(PREFIX)/amatrix2.o
+	$(GPP) $(OPTIONS) -o$(PRMM)/test-cases/curved-mesh-gen-splines/$@ $(PREFIX)/amc.o $(PREFIX)/alinalg.o $(PREFIX)/amatrix2.o
 
