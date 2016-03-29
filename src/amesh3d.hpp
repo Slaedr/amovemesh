@@ -161,6 +161,8 @@ public:
 	void readGmsh2(std::string mfile, int dimensions);
 
 	/// Reads rDGFLO domn format containing only interconnectivity matrix and point coordinates
+	/** Computes boundary face data (bface) using intfac, for which esup, esuel and intfac are computed.
+	 */
 	void readDomn(std::string mfile);
 
 	void printmeshstats();

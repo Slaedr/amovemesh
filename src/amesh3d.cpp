@@ -285,27 +285,29 @@ void UMesh::readGmsh2(std::string mfile, int dimensions)
 	std::cout << "UMesh3d: readGmsh2(): Done. No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ",\n number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", number of faces per element: " << nfael << ", number of nodes per edge " << nnoded << "." << std::endl;
 }
 
-void readDomn(std::string mfile)
+void UMesh::readDomn(std::string mfile)
 {
 	std::ifstream fin(mfile);
-	if(!mfile) {
+	if(!fin) {
 		std::cout << "UMesh: readDomn(): could not open file " << mfile << "!" << std::endl;
 		return;
 	}
 
 	std::string line;
-	char dumc;
+	char dumc = 'a';
 	int i,j,idim, dumi;
 	amc_real dumd;
 
 	std::getline(fin, line);
 	fin >> nelem >> npoin >> nnode >> nedel >> nfael >> nnofa >> nedfa >> nnoded;
+	std::cout << "Started reading" << std::endl;
 	while(dumc != '\n')
-		fin >> dumc;
+		dumc = fin.get();
 	dumc = 'a';
+	std::getline(fin, line);
 
 	ndim = 3;
-	std::cout << "UMesh: readDomn(): nelem = " << nelem << ", npoin = " << npoin << ", nnode = " << nnode << std::endl;
+	std::cout << "UMesh: readDomn(): nelem = " << nelem << ", npoin = " << npoin << ", nnode = " << nnode << ", nedel = " << nedel << ", nfael = " << nfael << ", nnofa = " << nnofa << std::endl;
 
 	coords.setup(npoin,ndim);
 
@@ -317,15 +319,17 @@ void readDomn(std::string mfile)
 	}
 	else
 	{
+		std::cout << "Reading inpoel" << std::endl;
 		inpoel.setup(nelem,nnode);
 		for(i = 0; i < nelem; i++)
 		{
 			fin >> dumi;
 			for(j = 0; j < nnode; j++)
+			{
 				fin >> inpoel(i,j);
-			while(dumc != '\n')
-				fin >> dumc;
-			dumc = 'a';
+				inpoel(i,j) -= 1;
+			}
+			std::getline(fin,line);
 		}
 
 		std::getline(fin,line);
@@ -336,20 +340,226 @@ void readDomn(std::string mfile)
 			for(j = 0; j < ndim; j++)
 				fin >> coords(i,j);
 		}
-		
-		fin.close();
 	}
+	fin.close();
 
-	nbtags = 2; ndtags = 2;
-	vol_regions.setup(nelem,ndtags);
+	nbtag = 2; ndtag = 2;
+	vol_regions.setup(nelem,ndtag);
 	vol_regions.zeros();
 
-	compute_topological();
+	// Get elements surrounding points
+	esup_p.setup(npoin+1,1);
+	esup_p.zeros();
 
-	// compute bface from intfac
+	amat::Matrix<amc_int> lpoin(npoin,1);
+	lpoin.zeros();
+	
+	for(int i = 0; i < nelem; i++)
+	{
+		for(int j = 0; j < nnode; j++)
+		{
+			esup_p(inpoel(i,j)+1,0) += 1;	// inpoel(i,j) + 1 : the + 1 is there because the storage corresponding to the first node begins at 0, not at 1
+		}
+	}
+
+	// Now make the members of esup_p cumulative
+	for(int i = 1; i < npoin+1; i++)
+		esup_p(i,0) += esup_p(i-1,0);
+	// Now populate esup
+	esup.setup(esup_p(npoin,0),1);
+	esup.zeros();
+	for(int i = 0; i < nelem; i++)
+	{
+		for(int j = 0; j < nnode; j++)
+		{
+			int ipoin = inpoel(i,j);
+			esup(esup_p(ipoin,0),0) = i;		// now put that element no. in the space pointed to by esup_p(ipoin)
+			esup_p(ipoin,0) += 1;				// an element corresponding to ipoin has been found - increment esup_p for that point
+		}
+	}
+	
+	//But now esup_p holds increased values - each member increased by the number elements surrounding the corresponding point.
+	// So correct this.
+	for(int i = npoin; i >= 1; i--)
+		esup_p(i,0) = esup_p(i-1,0);
+	esup_p(0,0) = 0;
+
+	// Elements surrounding points is now done.
+	
+	//  Elements surrounding elements
+	std::cout << "UMesh3d: readDomn(): Elements surrounding elements...\n";
+
+	esuel.setup(nelem, nfael);
+	for(int ii = 0; ii < nelem; ii++)
+		for(int jj = 0; jj < nfael; jj++)
+			esuel(ii,jj) = -1;
+
+	lpofa.setup(nfael, nnofa);	// lpofa(i,j) holds local node number of jth node of ith face (j in [0:nnofa], i in [0:nfael])
+
+	if(nnode == 4)								// if tet
+		for(int i = 0; i < nfael; i++)
+		{
+			for(int j = 0; j < nnofa; j++)
+			{
+				//lpofa(i,j) = perm(0,nnode-1,i,j);
+				lpofa(i,j) = (i+j)%nnode;
+			}
+		}
+
+	if(nnode == 8)								// if hex
+	{
+		lpofa(0,0) = 0; lpofa(0,1) = 3; lpofa(0,2) = 2; lpofa(0,3) = 1;
+		lpofa(1,0) = 0; lpofa(1,1) = 1; lpofa(1,2) = 5; lpofa(1,3) = 4;
+		lpofa(2,0) = 0; lpofa(2,1) = 4; lpofa(2,2) = 7; lpofa(2,3) = 3;
+		lpofa(3,0) = 1; lpofa(3,1) = 2; lpofa(3,2) = 6; lpofa(3,3) = 5;
+		lpofa(4,0) = 2; lpofa(4,1) = 3; lpofa(4,2) = 7; lpofa(4,3) = 6;
+		lpofa(5,0) = 4; lpofa(5,1) = 5; lpofa(5,2) = 6; lpofa(5,3) = 7;
+	}
+
+	amat::Matrix<int> lhelp(nnofa,1);
+	lhelp.zeros();
+	lpoin.zeros();
+
+	for(int ielem = 0; ielem < nelem; ielem++)
+	{
+		for(int ifael = 0; ifael < nfael; ifael++)
+		{
+			for(int i = 0; i < nnofa; i++)
+			{
+				lhelp(i) = inpoel(ielem, lpofa(ifael,i));		// lhelp stores global node nos. of current face of current element
+				lpoin(lhelp(i)) = 1;
+			}
+			int ipoin = lhelp(0);								// ipoin is the global node number of first point of this face
+			for(int istor = esup_p(ipoin); istor < esup_p(ipoin+1); istor++)
+			{
+				int jelem = esup(istor);
+				if(jelem != ielem)
+				{
+					for(int jfael = 0; jfael < nfael; jfael++)
+					{
+						//Assume that no. of nodes in face ifael is same as that in face jfael
+						int icoun = 0;
+						for(int jnofa = 0; jnofa < nnofa; jnofa++)
+						{
+							int jpoin = inpoel(jelem, lpofa(jfael,jnofa));
+							if(lpoin(jpoin)==1) icoun++;
+						}
+						if(icoun == nnofa)		// if all nnofa points of face ifael are found in face jfael, they both are the same face
+						{
+							esuel(ielem,ifael) = jelem;
+							esuel(jelem,jfael) = ielem;
+						}
+					}
+				}
+			}
+			for(int i = 0; i < nnofa; i++)
+				lpoin(lhelp(i)) = 0;
+		}
+	}
+
+	/** Computes, for each face, the elements on either side, the starting node and the ending node of the face. This is stored in intfac.
+	The orientation of the face is such that the face points towards the element with larger index.
+	NOTE: After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before.*/
+
+	std::cout << "UMesh2d: readDomn(): Computing intfac..." << std::endl;
+	nbface = naface = 0;
+
+	// first run: calculate nbface
+	for(int ie = 0; ie < nelem; ie++)
+	{
+		for(int in = 0; in < nfael; in++)
+		{
+			int je = esuel(ie,in);
+			if(je == -1)
+				nbface++;
+		}
+	}
+	std::cout << "UMesh2d: compute_topological(): Number of boundary faces = " << nbface << std::endl;
+	// calculate number of internal faces
+	naface = nbface;
+	for(int ie = 0; ie < nelem; ie++)
+	{
+		for(int in = 0; in < nfael; in++)
+		{
+			int je = esuel(ie,in);
+			if(je > ie && je < nelem)
+				naface++;
+		}
+	}
+	std::cout << "UMesh2d: compute_topological(): Number of all faces = " << naface << std::endl;
+
+	//allocate intfac
+	intfac.setup(naface,nnofa+2);
+
+	//reset face totals
+	nbface = naface = 0;
+
+	//second run: populate intfac
+	for(int ie = 0; ie < nelem; ie++)
+	{
+		for(int in = 0; in < nfael; in++)
+		{
+			int* inp = new int[nnofa];
+			for(int inofa = 0; inofa < nnofa; inofa++)
+				inp[inofa] = lpofa.get(in,inofa);
+
+			int je = esuel.get(ie,in);
+			if(je == -1)
+			{
+				esuel(ie,in) = nelem+nbface;
+				intfac(nbface,0) = ie;
+				intfac(nbface,1) = nelem+nbface;
+				for(int j = 0; j < nnofa; j++)
+				{
+					intfac(nbface,2+j) = inpoel(ie,inp[j]);
+				}
+
+				nbface++;
+			}
+
+			delete [] inp;
+		}
+	}
+
+	naface = nbface;
+	for(int ie = 0; ie < nelem; ie++)
+	{
+		for(int in = 0; in < nfael; in++)
+		{
+			int* inp = new int[nnofa];
+			for(int inofa = 0; inofa < nnofa; inofa++)
+				inp[inofa] = lpofa.get(in,inofa);
+
+			int je = esuel(ie,in);
+			if(je > ie && je < nelem)
+			{
+				intfac(naface,0) = ie;
+				intfac(naface,1) = je;
+				for(int j = 0; j < nnofa; j++)
+					intfac(naface,2+j) = inpoel(ie,inp[j]);
+				naface++;
+			}
+
+			delete [] inp;
+		}
+	}
+
+	flag_bpoin.setup(nbface,1);
+	flag_bpoin.zeros();
+
+	// compute bface and set flag_bpoin using intfac
 	nface = nbface;
-	bface.setup(nface, nnofa+nbtags);
+	bface.setup(nface, nnofa+nbtag);
 	for(i = 0; i < nbface; i++)
+	{
+		for(j = 0; j < nnofa; j++)
+		{
+			bface(i,j) = intfac(i,2+j);
+			flag_bpoin(bface.get(i,j)) = 1;
+		}
+		for(j = nnofa; j < nnofa+nbtag; j++)
+			bface(i,j) = 0;
+	}
 }
 
 void UMesh::printmeshstats()
@@ -415,9 +625,9 @@ void UMesh::writeGmsh2(std::string mfile)
 	else if(nnofa == 9) face_type = 10;
 
 	std::ofstream outf(mfile);
-	//std::cout << "nodes\n";
 	outf << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n";
 	outf << "$Nodes\n" << npoin << '\n';
+	outf << std::setprecision(MESHDATA_DOUBLE_PRECISION);
 	for(int ip = 0; ip < npoin; ip++)
 	{
 		outf << ip+1;
@@ -513,7 +723,7 @@ void UMesh::compute_jacobians()
  */
 void UMesh::compute_topological()
 {
-	std::cout << "UMesh2d: compute_topological(): Calculating and storing topological information...\n";
+	std::cout << "UMesh: compute_topological(): Calculating and storing topological information..." << std::endl;
 	
 	//1. Elements surrounding points
 	esup_p.setup(npoin+1,1);
@@ -560,6 +770,7 @@ void UMesh::compute_topological()
 		psup[i].reserve(10);
 
 	amat::Matrix<int> lpoin(npoin,1);  // The ith member indicates the global point number of which the ith point is a surrounding point
+
 	for(int i = 0; i < npoin; i++)
 		lpoin(i,0) = -1;	// initialize this std::vector to -1
 
@@ -614,7 +825,9 @@ void UMesh::compute_topological()
 	//Points surrounding points is done.
 
 	// 3. calculate number of edges using psup
+	std::cout << "UMesh: compute_topological(): calculate number of edges using psup" << std::endl;
 	nedge = 0; nbedge = 0;
+	lpoin.zeros();
 
 	for(int ipoin = 0; ipoin < npoin; ipoin++)
 	{
@@ -869,9 +1082,10 @@ void UMesh::compute_topological()
  * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
  * - Boundary faces surrounding boundary face (bfsubf)
  */
-void compute_boundary_topological()
+void UMesh::compute_boundary_topological()
 {
 	// boundary data structures
+	std::cout << "UMesh: compute_boundary_topological(): Computing bpoints, bpointsinv, bfsubp and bfsubf..." << std::endl;
 
 	amc_int i, j, inode, ipoin, jpoin;
 	nbpoin = 0;
@@ -1022,7 +1236,7 @@ void compute_boundary_topological()
 	}
 	delete [] inp;**/
 
-	std::cout << "UMesh3d: compute_topological(): Done." << std::endl;
+	std::cout << "UMesh3d: compute_boundary_topological(): Done." << std::endl;
 }
 
 

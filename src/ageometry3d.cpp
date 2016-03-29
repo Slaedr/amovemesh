@@ -304,8 +304,8 @@ void VertexCenteredBoundaryReconstruction::solve()
 		}
 
 		//leastSquares_NE(V, F, D[ipoin]);
-		leastSquares_QR(V, F, D[ipoin]);
-		//leastSquares_SVD(V, F, D[ipoin]);
+		//leastSquares_QR(V, F, D[ipoin]);
+		leastSquares_SVD(V, F, D[ipoin]);
 
 		/*std::vector<amc_real> scale(nders);		// for scaling the column of A
 		

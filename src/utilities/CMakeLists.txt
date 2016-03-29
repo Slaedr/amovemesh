@@ -1,0 +1,3 @@
+
+add_executable(convertformat3d convertformat3d.cpp)
+target_link_libraries(convertformat3d amesh3d)

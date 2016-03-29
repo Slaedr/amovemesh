@@ -11,6 +11,10 @@
 	/// A small number likely smaller than most convergence tolerances
 	#define A_SMALL_NUMBER 1e-12
 	
+	#ifndef MESHDATA_DOUBLE_PRECISION
+	#define MESHDATA_DOUBLE_PRECISION 20
+	#endif
+	
 	namespace amc 
 	{
 		/// the floating point type to be used

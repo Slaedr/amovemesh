@@ -41,10 +41,6 @@
 
 #define __AMESH2DHYBRID_H
 
-#ifndef MESHDATA_DOUBLE_PRECISION
-#define MESHDATA_DOUBLE_PRECISION 20
-#endif
-
 namespace amc {
 
 /// General hybrid unstructured mesh class supporting triangular and quadrangular elements

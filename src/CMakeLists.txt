@@ -6,14 +6,24 @@ project (amocurve)
 set (CMAKE_C_COMPILER $ENV{GC})
 set (CMAKE_CXX_COMPILER $ENV{GPP})
 
-# set compile options
-set (CMAKE_CXX_FLAGS "-std=c++11 -ggdb")
-
-# un-comment compile with OpenMP
-#set (CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-fopenmp")
+# un-comment to compile with OpenMP
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
 # un-comment to compile with Eigen 3
 set (EIGEN_DIR ../eigen-3.2.8) 
+
+# set compile options
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
+
+
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -DDEBUG=1")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3")
+
+if(CMAKE_BUILD_TYPE MATCHES "Debug")
+    message(STATUS "Debug mode")
+else()
+	message(STATUS "Release mode")
+endif()
 
 if (DEFINED EIGEN_DIR)
 	message (STATUS "Will build with Eigen from ${EIGEN_DIR}")
@@ -49,3 +59,4 @@ add_library(adatastructures adatastructures.cpp)
 
 # for the final executable(s)
 add_subdirectory(curved-mesh-gen-splines)
+add_subdirectory(utilities)
