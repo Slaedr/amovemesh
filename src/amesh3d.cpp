@@ -285,6 +285,73 @@ void UMesh::readGmsh2(std::string mfile, int dimensions)
 	std::cout << "UMesh3d: readGmsh2(): Done. No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ",\n number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", number of faces per element: " << nfael << ", number of nodes per edge " << nnoded << "." << std::endl;
 }
 
+void readDomn(std::string mfile)
+{
+	std::ifstream fin(mfile);
+	if(!mfile) {
+		std::cout << "UMesh: readDomn(): could not open file " << mfile << "!" << std::endl;
+		return;
+	}
+
+	std::string line;
+	char dumc;
+	int i,j,idim, dumi;
+	amc_real dumd;
+
+	std::getline(fin, line);
+	fin >> nelem >> npoin >> nnode >> nedel >> nfael >> nnofa >> nedfa >> nnoded;
+	while(dumc != '\n')
+		fin >> dumc;
+	dumc = 'a';
+
+	ndim = 3;
+	std::cout << "UMesh: readDomn(): nelem = " << nelem << ", npoin = " << npoin << ", nnode = " << nnode << std::endl;
+
+	coords.setup(npoin,ndim);
+
+	if(nnode == 0)
+	{
+		// handle hybrid mesh
+		std::cout << "Error!" << std::endl;
+		return;
+	}
+	else
+	{
+		inpoel.setup(nelem,nnode);
+		for(i = 0; i < nelem; i++)
+		{
+			fin >> dumi;
+			for(j = 0; j < nnode; j++)
+				fin >> inpoel(i,j);
+			while(dumc != '\n')
+				fin >> dumc;
+			dumc = 'a';
+		}
+
+		std::getline(fin,line);
+
+		for(i = 0; i < npoin; i++)
+		{
+			fin >> dumi;
+			for(j = 0; j < ndim; j++)
+				fin >> coords(i,j);
+		}
+		
+		fin.close();
+	}
+
+	nbtags = 2; ndtags = 2;
+	vol_regions.setup(nelem,ndtags);
+	vol_regions.zeros();
+
+	compute_topological();
+
+	// compute bface from intfac
+	nface = nbface;
+	bface.setup(nface, nnofa+nbtags);
+	for(i = 0; i < nbface; i++)
+}
+
 void UMesh::printmeshstats()
 {
 	std::cout << "UMesh3d: No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ", number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", number of faces per element: " << nfael << std::endl;
@@ -441,17 +508,14 @@ void UMesh::compute_jacobians()
  * - Elements surrounding edge (elsed)
  * - Edge data structure (intedge)
  * - Face data structure (intfac)
- * - Boundary points (bpoints and bpointsinv)
- * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
- * - Boundary faces surrounding boundary face (bfsubf)
  * 
  * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
  */
 void UMesh::compute_topological()
 {
 	std::cout << "UMesh2d: compute_topological(): Calculating and storing topological information...\n";
+	
 	//1. Elements surrounding points
-	//std::cout << "UMesh2d: compute_topological(): Elements surrounding points\n";
 	esup_p.setup(npoin+1,1);
 	esup_p.zeros();
 	
@@ -462,6 +526,7 @@ void UMesh::compute_topological()
 			esup_p(inpoel(i,j)+1,0) += 1;	// inpoel(i,j) + 1 : the + 1 is there because the storage corresponding to the first node begins at 0, not at 1
 		}
 	}
+
 	// Now make the members of esup_p cumulative
 	for(int i = 1; i < npoin+1; i++)
 		esup_p(i,0) += esup_p(i-1,0);
@@ -477,11 +542,13 @@ void UMesh::compute_topological()
 			esup_p(ipoin,0) += 1;				// an element corresponding to ipoin has been found - increment esup_p for that point
 		}
 	}
+	
 	//But now esup_p holds increased values - each member increased by the number elements surrounding the corresponding point.
 	// So correct this.
 	for(int i = npoin; i >= 1; i--)
 		esup_p(i,0) = esup_p(i-1,0);
 	esup_p(0,0) = 0;
+
 	// Elements surrounding points is now done.
 
 	//2. Points surrounding points - works only for tets and hexes!!
@@ -498,7 +565,6 @@ void UMesh::compute_topological()
 
 	for(int ip = 0; ip < npoin; ip++)
 	{
-		//std::cout << "=" << flush;
 		lpoin(ip) = ip;
 		// iterate over elements surrounding point
 		for(int i = esup_p(ip); i < esup_p(ip+1); i++)
@@ -548,7 +614,6 @@ void UMesh::compute_topological()
 	//Points surrounding points is done.
 
 	// 3. calculate number of edges using psup
-	//std::cout << "UMesh3d: compute_topological(): Getting number of edges" << std::endl;
 	nedge = 0; nbedge = 0;
 
 	for(int ipoin = 0; ipoin < npoin; ipoin++)
@@ -796,7 +861,16 @@ void UMesh::compute_topological()
 			delete [] inp;
 		}
 	}
+}
 
+/// Computes topological properties of the boundary (surface) mesh
+/**
+ * - Boundary points (bpoints and bpointsinv)
+ * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
+ * - Boundary faces surrounding boundary face (bfsubf)
+ */
+void compute_boundary_topological()
+{
 	// boundary data structures
 
 	amc_int i, j, inode, ipoin, jpoin;
@@ -823,8 +897,8 @@ void UMesh::compute_topological()
 
 	std::cout << "UMesh3d: compute_topological(): The mesh has " << nbpoin << " boundary points." << std::endl;
 
-	lhelp.setup(nnoded,1);
-	lpoin.setup(nbpoin,1);
+	amat::Matrix<int> lhelp(nnoded,1);
+	amat::Matrix<int> lpoin(nbpoin,1);
 
 	// bfaces surrounding bpoint
 

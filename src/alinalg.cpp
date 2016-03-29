@@ -302,7 +302,7 @@ Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b)
 }
 #endif
 
-/** Re-stores matrix data in the form needed by SuperLU, and calls the SuperLU routine to solve.
+/* Re-stores matrix data in the form needed by SuperLU, and calls the SuperLU routine to solve.
  */
 /*void superLU_solve(const SpMatrix* aa, const Matrix<double>* b, Matrix<double>* ans)
 {
@@ -1214,7 +1214,7 @@ void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat:
 #if(DEBUG==1)
 	if(b.rows() != m || x.rows() != n) 
 	{
-		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;
+		std::cout << "leastSquares_QR(): ! Size error at input!" << std::endl;
 		return;
 	}
 #endif
@@ -1240,6 +1240,28 @@ void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat:
 	// get QR decomposition (R is stored in A, Q is determined by v)
 	qr(A,v);
 
+	solve_QR(v, A, b, x);
+
+	for(i = 0; i < n; i++)
+		for(j = 0; j < b.cols(); j++)
+			x(i,j) *= scale[i];
+
+	delete[] v;
+}
+
+void solve_QR(const std::vector<amc_real>* v, const amat::Matrix<amc_real>& R, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
+{
+	amc_int m = R.rows(), n = R.cols();
+#if(DEBUG==1)
+	if(b.rows() != m || x.rows() < n) 
+	{
+		std::cout << "solve_QR(): ! Size error at input!" << std::endl;
+		return;
+	}
+#endif
+	amc_real csum, dp;
+	amc_int i,j,k;
+	
 	// compute RHS b := Q^T b (note that b possibly has multiple columns corresponding to multiple least-squares problems with a common LHS)
 	for(j = 0; j < b.cols(); j++)
 		for(k = 0; k < n; k++)
@@ -1255,21 +1277,15 @@ void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat:
 	// back-substitution
 	for(j = 0; j < b.cols(); j++)
 	{
-		x(n-1,j) = b(n-1,j)/A.get(n-1,n-1);
+		x(n-1,j) = b(n-1,j)/R.get(n-1,n-1);
 		for(i = n-2; i >= 0; i--)
 		{
 			csum = 0;
 			for(k = i+1; k < n; k++)
-				csum += A.get(i,k)*x.get(k,j);
-			x(i,j) = (b(i,j) - csum)/A(i,i);
+				csum += R.get(i,k)*x.get(k,j);
+			x(i,j) = (b.get(i,j) - csum)/R.get(i,i);
 		}
 	}
-
-	for(i = 0; i < n; i++)
-		for(j = 0; j < b.cols(); j++)
-			x(i,j) *= scale[i];
-
-	delete[] v;
 }
 
 #ifdef EIGEN_LIBRARY

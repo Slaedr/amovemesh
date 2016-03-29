@@ -17,16 +17,6 @@
 #include <cmath>
 #endif
 
-
-// for getenv(), atoi()
-/*#ifndef _GLIBCXX_CSTDLIB
-#include <cstdlib>
-#endif
-
-#ifndef __SLU_MT_DDEFS
-#include <slu_mt_ddefs.h>
-#endif*/
-
 #ifdef _OPENMP
 #ifndef OMP_H
 #include <omp.h>
@@ -51,10 +41,8 @@ Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b);
 void leastSquares_SVD(Matrix<amc_real>& A, Matrix<amc_real>& b, Matrix<amc_real>& x);
 #endif
 
-#ifdef _OPENMP
-/// Uses the SuperLU direct sparse solver to solve Ax = b and stores the solution in ans
-void superLU_solve(const SpMatrix* A, const Matrix<double>* b, Matrix<double>* ans);
-#endif
+// Uses the SuperLU direct sparse solver to solve Ax = b and stores the solution in ans
+//void superLU_solve(const SpMatrix* A, const Matrix<double>* b, Matrix<double>* ans);
 
 /// Old (somewhat tested) implementation of Cholesky direct solver
 Matrix<double> cholesky(Matrix<double> A, Matrix<double> b);
@@ -103,6 +91,14 @@ void qr(amat::Matrix<amc_real>& A, std::vector<amc_real>* v);
 
 /// Computes solution to a linear least-squares problem by [QR decomposition](@ref qr)
 void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x);
+
+/// Given factors Q and R, solve QRx = b
+/** \param v is the set of vectors that determines Q
+ * \param R is the mxn upper triangular R
+ * \param b is the m-vector RHS
+ * \param x is the n-vector solution
+ */
+void solve_QR(const std::vector<amc_real>* v, const amat::Matrix<amc_real>& R, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x);
 
 }	// end namespace
 

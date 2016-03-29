@@ -157,8 +157,11 @@ public:
 	amc_int gnedge() const { return nedge; }
 	amc_int gnbedge() const { return nbedge; }
 
-	/// Reads mesh from Gmsh 2 format file. For quadratic meshes, mapping has to be applied for node-ordering.
+	/// Reads mesh from Gmsh 2 format file. For hexahedral quadratic meshes, mapping has to be applied for node-ordering.
 	void readGmsh2(std::string mfile, int dimensions);
+
+	/// Reads rDGFLO domn format containing only interconnectivity matrix and point coordinates
+	void readDomn(std::string mfile);
 
 	void printmeshstats();
 
@@ -182,14 +185,19 @@ public:
 	 * - Elements surrounding edge (elsed)
 	 * - Edge data structure (intedge)
 	 * - Face data structure (intfac)
-	 * - Boundary points (bpoints and bpointsinv)
-	 * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
-	 * - Boundary faces surrounding boundary face (bfsubf)
 	 * 
 	 * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
 	 */
 	void compute_topological();
 
+	/// Computes topological properties of the boundary (surface) mesh
+	/** Currently only works for linear mesh.
+	 * - Boundary points (bpoints and bpointsinv)
+	 * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
+	 * - Boundary faces surrounding boundary face (bfsubf)
+	 */
+	void compute_boundary_topological();
+	
 	/// Creates a UMesh object by adding one extra node at each edge centre, and also, in case of a hex mesh, one extra node at each face centre and cell centre.
 	/** \note Only works for tetrahedral and hexahedral elements.
 	 */
@@ -197,5 +205,5 @@ public:
 };
 
 
-}	// end namespace acfd
+}	// end namespace
 #endif

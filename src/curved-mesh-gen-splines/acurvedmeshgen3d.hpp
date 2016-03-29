@@ -67,7 +67,7 @@ void CurvedMeshGen::setup(const UMesh* mesh, UMesh* meshq, double angle_threshol
 	
 	m = mesh;
 	mq = meshq;
-	br = new VertexCenteredBoundaryReconstruction(m, degree);
+	br = new VertexCenteredBoundaryReconstruction(m, degree, true, 1.0e2);
 	tol = toler;
 	maxiter = maxitera;
 	rbfchoice = rbf_choice; supportradius = support_radius;

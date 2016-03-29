@@ -32,6 +32,7 @@ int main(int argc, char* argv[])
 	UMesh m;
 	m.readGmsh2(linmesh,3);
 	m.compute_topological();
+	m.compute_boundary_topological();
 	
 	UMesh mq = m.convertLinearToQuadratic();
 	//mq.writeGmsh2("intermesh.msh");

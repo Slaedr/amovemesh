@@ -45,11 +45,14 @@ void BoundaryReconstruction::preprocess() { }
 void BoundaryReconstruction::solve() { }
 
 
-VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg) : BoundaryReconstruction(mesh, deg)
+VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, bool _safeguard, double norm_limit) 
+	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg)
 {
+	std::cout << "VertexCenteredBoundaryReconstruction: Computing with safeguard - " << safeguard << std::endl;
 	D = new amat::Matrix<amc_real>[m->gnbpoin()];
 	Q = new amat::Matrix<amc_real>[m->gnbpoin()];
 	mpo.resize(m->gnbpoin());
+	rec_order.resize(m->gnbpoin(), degree);
 	for(int i = 0; i < m->gnbpoin(); i++)
 	{
 		Q[i].setup(m->gndim(), m->gndim());
@@ -233,6 +236,8 @@ void VertexCenteredBoundaryReconstruction::solve()
 	int degree = this->degree;
 
 	int ipoin;
+	amc_real norm1;
+	std::vector<amc_real>* v = new std::vector<amc_real>[nders];
 
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
@@ -240,7 +245,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 		int isp, i, j, idim, k, l, mp;
 		mp = mpo->at(ipoin);
 		amc_int pno;
-		amc_real weight, wd = 0;
+		amc_real weight, wd = 0, csum;
 
 		// assemble V and F
 		amat::Matrix<amc_real> V(mp, nders);			// least-squares LHS, Vandermonde matrix
@@ -298,10 +303,59 @@ void VertexCenteredBoundaryReconstruction::solve()
 			F(isp) *= weightsn[isp]/weightsd[isp];
 		}
 
-		leastSquares_NE(V, F, D[ipoin]);
-		//leastSquares_QR(V, F, D[ipoin]);
-		leastSquares_SVD(V, F, D[ipoin]);
+		//leastSquares_NE(V, F, D[ipoin]);
+		leastSquares_QR(V, F, D[ipoin]);
+		//leastSquares_SVD(V, F, D[ipoin]);
+
+		/*std::vector<amc_real> scale(nders);		// for scaling the column of A
+		
+		// get norms of column-vectors of A and scale them
+		for(j = 0; j < nders; j++)
+		{
+			csum = 0;
+			for(i = 0; i < mp; i++)
+				csum += V.get(i,j)*V.get(i,j);
+			scale[j] = 1.0/sqrt(csum);
+			for(i = 0; i < mp; i++)
+				V(i,j) *= scale[j];
+		}
+
+		for(i = 0; i < nders; i++)
+			v[i].resize(mp-i);
+
+		// get QR decomposition (R is stored in V, Q is determined by v)
+		qr(V,v);
+
+		norm1 = V.matrixNorm_1();
+
+		// if safeguard is on and the norm exceeds some limit, reduce the degree of reconstruction from 2 to 1 for this vertex
+		if(safeguard && norm1 > normlimit)
+		{
+			std::cout << "VertexCenteredBoundaryReconstruction: solve(): Point " << ipoin << " demoted!" << std::endl;
+			int n = nders-3;
+			amat::Matrix<amc_real> R(mp-3,n); R.zeros();
+			amat::Matrix<amc_real> b(mp-3,1);
+			for(i = 0; i < mp-3; i++)
+			{
+				for(j = 0; j < n; j++)
+					R(i,j) = V.get(i,j);
+				b(i) = F.get(i);
+			}
+			solve_QR(v,R,b,D[ipoin]);
+			for(i = 0; i < n; i++)
+				D[ipoin](i) *= scale[i];
+
+			rec_order[ipoin] = 1;
+		}
+		else
+		{
+			solve_QR(v,V,F,D[ipoin]);
+			for(i = 0; i < nders; i++)
+				D[ipoin](i) *= scale[i];
+		}*/
 	}
+
+	delete [] v;
 }
 
 void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const
@@ -329,8 +383,10 @@ void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, co
 		{
 			fj = factorial(j);
 			fk = factorial(k);
-			h1 += pow(uvw0[0],j)*pow(uvw0[1],k)/fj*fk * D[ibp].get(l);
-			h2 += pow(uvw1[0],j)*pow(uvw1[1],k)/fj*fk * D[jbp].get(l);
+			if(rec_order[ibp] >= i)
+				h1 += pow(uvw0[0],j)*pow(uvw0[1],k)/fj*fk * D[ibp].get(l);
+			if(rec_order[jbp] >= i)
+				h2 += pow(uvw1[0],j)*pow(uvw1[1],k)/fj*fk * D[jbp].get(l);
 			l++;
 		}
 	}
@@ -380,7 +436,8 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 			fj = factorial(j);
 			fk = factorial(k);
 			for(inofa = 0; inofa < m->gnnofa(); inofa++)
-				height[inofa] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/fj*fk * D[sbpo[inofa]].get(l);
+				if(rec_order[sbpo[inofa]] >= i)
+					height[inofa] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/fj*fk * D[sbpo[inofa]].get(l);
 			l++;
 		}
 	}

@@ -61,6 +61,10 @@ class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 
 	bool isalloc;
 
+	bool safeguard;								///< true if Jiao and Zha's safeguarded solution of least-squares is to be used
+	double normlimit;							///< 1-norm upper limit for order-downgrade to not be done
+	std::vector<int> rec_order;					///< Flag containing the reconstruction order at each surface point
+
 	int nders;									///< number of unknowns for the least-squares problems
 	std::vector<int> mpo;						///< number of points in stencil for each surface point
 	std::vector<int>* stencil;					///< List of bpoint indices of points lying in the stencil of each surface point
@@ -72,7 +76,7 @@ class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
 
 public:
-	VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg);
+	VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, bool _safeguard, double norm_limit);
 	~VertexCenteredBoundaryReconstruction();
 
 	/// compute normal, rotation matrix and stencil for each point

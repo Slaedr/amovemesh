@@ -612,13 +612,30 @@ public:
 		#endif
 		int i;
 		double ans = 0;
-		//#pragma omp parallel for if(size >= 4) default(none) private(i) shared(elems,elemsA,size) reduction(+: ans) num_threads(nthreads_m)
+		//#pragma omp parallel for if(size >= 64) default(none) private(i) shared(elems,elemsA,size) reduction(+: ans) num_threads(nthreads_m)
 		for(i = 0; i < size; i++)
 		{
 			T temp = elems[i]*elemsA[i];
 			ans += temp;
 		}
 		return ans;
+	}
+
+	/// Computes 1-norm (max column-sum norm) of the matrix
+	T matrixNorm_1() const
+	{
+		T max = 0, sum;
+		int i,j;
+		for(j = 0; j < ncols; j++)
+		{
+			sum = 0;
+			for(i = 0; i < nrows; i++)
+			{
+				sum += (T)( fabs(get(i,j)) );
+			}
+			if(max < sum) max = sum;
+		}
+		return max;
 	}
 
 	friend T determinant<>(const Matrix<T>& mat);
