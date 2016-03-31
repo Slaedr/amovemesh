@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -475,8 +477,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;movemesh2d_bs: Solving mesh-movement equations\n&quot;</span>;</div>
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">//      dx = cholesky(A,xb);</span></div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">//      dy = cholesky(A,yb);</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        dx = gausselim(A,xb);</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        dy = gausselim(A,yb);</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        dx = <a class="code" href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">gausselim</a>(A,xb);</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        dy = <a class="code" href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">gausselim</a>(A,yb);</div>
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">//      dx = pointjacobi(A, xb, initvals, 1e-6, 200, &#39;y&#39;);</span></div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment">//      dy = pointjacobi(A, yb, initvals, 1e-6, 200, &#39;y&#39;);</span></div>
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;movemesh2d_bs: Mesh-movement equations solved.\n&quot;</span>;</div>
@@ -491,12 +493,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;};</div>
 <div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
 <div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;} <span class="comment">// end namespace acfd</span></div>
-<div class="ttc" id="structNode_html"><div class="ttname"><a href="structNode.html">Node</a></div><div class="ttdef"><b>Definition:</b> adatastructures.hpp:170</div></div>
-<div class="ttc" id="classCircList_html"><div class="ttname"><a href="classCircList.html">CircList</a></div><div class="ttdef"><b>Definition:</b> adatastructures.hpp:177</div></div>
+<div class="ttc" id="structNode_html"><div class="ttname"><a href="structNode.html">Node</a></div><div class="ttdef"><b>Definition:</b> adatastructures.hpp:18</div></div>
+<div class="ttc" id="classCircList_html"><div class="ttname"><a href="classCircList.html">CircList</a></div><div class="ttdef"><b>Definition:</b> adatastructures.hpp:25</div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; double &gt;</a></div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:208</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:220</div></div>
+<div class="ttc" id="namespaceamat_html_afae9ae0c89f02718f6e68d3e5d3960ac"><div class="ttname"><a href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">amat::gausselim</a></div><div class="ttdeci">void gausselim(Matrix&lt; double &gt; &amp;A, Matrix&lt; double &gt; &amp;b, Matrix&lt; double &gt; &amp;x)</div><div class="ttdoc">Computes solution of Ax = b by Gaussian elimination. Reasonably well-tested. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:192</div></div>
 <div class="ttc" id="classacfd_1_1UTriMesh_html"><div class="ttname"><a href="classacfd_1_1UTriMesh.html">acfd::UTriMesh</a></div><div class="ttdef"><b>Definition:</b> amesh.h:56</div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_a9b8d4ee5fc716e0a2caf8988acd9aab1"><div class="ttname"><a href="classamat_1_1Matrix.html#a9b8d4ee5fc716e0a2caf8988acd9aab1">amat::Matrix::fprint</a></div><div class="ttdeci">void fprint(std::ofstream &amp;outfile) const </div><div class="ttdoc">Prints the matrix to file. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:300</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_a9b8d4ee5fc716e0a2caf8988acd9aab1"><div class="ttname"><a href="classamat_1_1Matrix.html#a9b8d4ee5fc716e0a2caf8988acd9aab1">amat::Matrix::fprint</a></div><div class="ttdeci">void fprint(std::ofstream &amp;outfile) const </div><div class="ttdoc">Prints the matrix to file. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:312</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

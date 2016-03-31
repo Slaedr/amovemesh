@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,12 +82,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">adgm.hpp File Reference</div>  </div>
@@ -94,21 +97,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <p>Mesh movement using Delaunay graph (DG) mapping technique of Liu, Qin and Xia.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;abowyerwatson.hpp&gt;</code><br/>
+<div class="textblock"><code>#include &lt;<a class="el" href="abowyerwatson_8hpp_source.html">abowyerwatson.hpp</a>&gt;</code><br/>
+<code>#include &lt;amesh2d.hpp&gt;</code><br/>
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for adgm.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="adgm_8hpp__incl.png" border="0" usemap="#adgm_8hpp" alt=""/></div>
 <map name="adgm_8hpp" id="adgm_8hpp">
-<area shape="rect" id="node3" href="abowyerwatson_8hpp_source.html" title="abowyerwatson.hpp" alt="" coords="160,80,300,107"/><area shape="rect" id="node15" href="amatrix2_8hpp.html" title="Defines a class to manipulate matrices. " alt="" coords="226,155,323,181"/><area shape="rect" id="node24" href="aconstants_8h_source.html" title="aconstants.h" alt="" coords="449,229,545,256"/></map>
+<area shape="rect" id="node3" href="abowyerwatson_8hpp.html" title="Delaunay triangulation of a given set of points, based on Bowyer&#45;Watson algorithm; also referenced fr..." alt="" coords="817,229,957,256"/><area shape="rect" id="node26" href="amesh2d_8hpp_source.html" title="amesh2d.hpp" alt="" coords="654,80,756,107"/><area shape="rect" id="node15" href="amatrix2_8hpp.html" title="Defines a class to manipulate matrices. " alt="" coords="197,304,293,331"/><area shape="rect" id="node24" href="aconstants_8h_source.html" title="aconstants.h" alt="" coords="99,379,196,405"/><area shape="rect" id="node35" href="alinalg_8hpp_source.html" title="alinalg.hpp" alt="" coords="510,155,596,181"/><area shape="rect" id="node50" href="adatastructures_8hpp_source.html" title="adatastructures.hpp" alt="" coords="1033,229,1172,256"/><area shape="rect" id="node38" href="asparsematrix_8hpp.html" title="Sparse storage schemes for matrices (header&#45;only library) " alt="" coords="428,229,557,256"/></map>
 </div>
 </div>
 <p><a href="adgm_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1DGmove.html">acfd::DGmove</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class to carry out mesh-movement using Delaunay graph mapping.  <a href="classacfd_1_1DGmove.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1DGmove.html">amc::DGmove</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class to carry out mesh-movement using Delaunay graph mapping.  <a href="classamc_1_1DGmove.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceamc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceamc.html">amc</a></td></tr>
+<tr class="memdesc:namespaceamc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing". <br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>

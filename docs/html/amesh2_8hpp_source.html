@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -917,23 +919,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;movemesh_basicspring: Solving mesh-movement equations\n&quot;</span>;</div>
 <div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;        <span class="keywordflow">if</span>(solver == <span class="stringliteral">&quot;cholesky&quot;</span>)</div>
 <div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;        {</div>
-<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;            dx = cholesky(A,xb);</div>
-<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;            dy = cholesky(A,yb);</div>
+<div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;            dx = <a class="code" href="namespaceamat.html#a2792c2bc650a2476343c001056620f0e">cholesky</a>(A,xb);</div>
+<div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;            dy = <a class="code" href="namespaceamat.html#a2792c2bc650a2476343c001056620f0e">cholesky</a>(A,yb);</div>
 <div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;        }</div>
 <div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;gausselim&quot;</span>)</div>
 <div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;        {</div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;            dx = gausselim(A,xb);</div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;            dy = gausselim(A,yb);</div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;            dx = <a class="code" href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">gausselim</a>(A,xb);</div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;            dy = <a class="code" href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">gausselim</a>(A,yb);</div>
 <div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;        }</div>
 <div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;pointjacobi&quot;</span>)</div>
 <div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;        {</div>
-<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;            dx = pointjacobi(A, xb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
-<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;            dy = pointjacobi(A, yb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l00847"></a><span class="lineno">  847</span>&#160;            dx = <a class="code" href="namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923">pointjacobi</a>(A, xb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l00848"></a><span class="lineno">  848</span>&#160;            dy = <a class="code" href="namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923">pointjacobi</a>(A, yb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
 <div class="line"><a name="l00849"></a><span class="lineno">  849</span>&#160;        }</div>
 <div class="line"><a name="l00850"></a><span class="lineno">  850</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;gaussseidel&quot;</span>)</div>
 <div class="line"><a name="l00851"></a><span class="lineno">  851</span>&#160;        {</div>
-<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;            dx = gaussseidel(A, xb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
-<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;            dy = gaussseidel(A, yb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l00852"></a><span class="lineno">  852</span>&#160;            dx = <a class="code" href="namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6">gaussseidel</a>(A, xb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l00853"></a><span class="lineno">  853</span>&#160;            dy = <a class="code" href="namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6">gaussseidel</a>(A, yb, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
 <div class="line"><a name="l00854"></a><span class="lineno">  854</span>&#160;        }</div>
 <div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;        <span class="keywordflow">else</span> cout &lt;&lt; <span class="stringliteral">&quot;movemesh_basicspring: Solver &quot;</span> &lt;&lt; solver &lt;&lt; <span class="stringliteral">&quot; not found.\n&quot;</span>;</div>
 <div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;movemesh_basicspring: Mesh-movement equations solved.\n&quot;</span>;</div>
@@ -1029,19 +1031,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;        initvals.zeros();</div>
 <div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;        <span class="keywordflow">if</span>(solver == <span class="stringliteral">&quot;cholesky&quot;</span>)</div>
 <div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;        {</div>
-<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;            dr = cholesky(Kg,b);</div>
+<div class="line"><a name="l00949"></a><span class="lineno">  949</span>&#160;            dr = <a class="code" href="namespaceamat.html#a2792c2bc650a2476343c001056620f0e">cholesky</a>(Kg,b);</div>
 <div class="line"><a name="l00950"></a><span class="lineno">  950</span>&#160;        }</div>
 <div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;gausselim&quot;</span>)</div>
 <div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;        {</div>
-<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;            dr = gausselim(Kg,b);</div>
+<div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;            dr = <a class="code" href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">gausselim</a>(Kg,b);</div>
 <div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;        }</div>
 <div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;pointjacobi&quot;</span>)</div>
 <div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;        {</div>
-<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;            dr = pointjacobi(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;            dr = <a class="code" href="namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923">pointjacobi</a>(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
 <div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;        }</div>
 <div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;gaussseidel&quot;</span>)</div>
 <div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;        {</div>
-<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;            dr = gaussseidel(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;            dr = <a class="code" href="namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6">gaussseidel</a>(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
 <div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;        }</div>
 <div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;        <span class="keywordflow">else</span> cout &lt;&lt; <span class="stringliteral">&quot;movemesh_farhat: Solver &quot;</span> &lt;&lt; solver &lt;&lt; <span class="stringliteral">&quot; not found.\n&quot;</span>;</div>
 <div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;movemesh_farhat: Mesh-movement equations solved.\n&quot;</span>;</div>
@@ -1187,19 +1189,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01104"></a><span class="lineno"> 1104</span>&#160;        initvals.zeros();</div>
 <div class="line"><a name="l01105"></a><span class="lineno"> 1105</span>&#160;        <span class="keywordflow">if</span>(solver == <span class="stringliteral">&quot;cholesky&quot;</span>)</div>
 <div class="line"><a name="l01106"></a><span class="lineno"> 1106</span>&#160;        {</div>
-<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;            dr = cholesky(Kg,b);</div>
+<div class="line"><a name="l01107"></a><span class="lineno"> 1107</span>&#160;            dr = <a class="code" href="namespaceamat.html#a2792c2bc650a2476343c001056620f0e">cholesky</a>(Kg,b);</div>
 <div class="line"><a name="l01108"></a><span class="lineno"> 1108</span>&#160;        }</div>
 <div class="line"><a name="l01109"></a><span class="lineno"> 1109</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;gausselim&quot;</span>)</div>
 <div class="line"><a name="l01110"></a><span class="lineno"> 1110</span>&#160;        {</div>
-<div class="line"><a name="l01111"></a><span class="lineno"> 1111</span>&#160;            dr = gausselim(Kg,b);</div>
+<div class="line"><a name="l01111"></a><span class="lineno"> 1111</span>&#160;            dr = <a class="code" href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">gausselim</a>(Kg,b);</div>
 <div class="line"><a name="l01112"></a><span class="lineno"> 1112</span>&#160;        }</div>
 <div class="line"><a name="l01113"></a><span class="lineno"> 1113</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;pointjacobi&quot;</span>)</div>
 <div class="line"><a name="l01114"></a><span class="lineno"> 1114</span>&#160;        {</div>
-<div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;            dr = pointjacobi(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l01115"></a><span class="lineno"> 1115</span>&#160;            dr = <a class="code" href="namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923">pointjacobi</a>(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
 <div class="line"><a name="l01116"></a><span class="lineno"> 1116</span>&#160;        }</div>
 <div class="line"><a name="l01117"></a><span class="lineno"> 1117</span>&#160;        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (solver == <span class="stringliteral">&quot;gaussseidel&quot;</span>)</div>
 <div class="line"><a name="l01118"></a><span class="lineno"> 1118</span>&#160;        {</div>
-<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160;            dr = gaussseidel(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
+<div class="line"><a name="l01119"></a><span class="lineno"> 1119</span>&#160;            dr = <a class="code" href="namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6">gaussseidel</a>(Kg, b, initvals, tol, maxiter, <span class="charliteral">&#39;n&#39;</span>);</div>
 <div class="line"><a name="l01120"></a><span class="lineno"> 1120</span>&#160;        }</div>
 <div class="line"><a name="l01121"></a><span class="lineno"> 1121</span>&#160;        <span class="keywordflow">else</span> cout &lt;&lt; <span class="stringliteral">&quot;movemesh_farhat: Solver &quot;</span> &lt;&lt; solver &lt;&lt; <span class="stringliteral">&quot; not found.\n&quot;</span>;</div>
 <div class="line"><a name="l01122"></a><span class="lineno"> 1122</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;movemesh_farhat: Mesh-movement equations solved.\n&quot;</span>;</div>
@@ -1221,13 +1223,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01138"></a><span class="lineno"> 1138</span>&#160;};</div>
 <div class="line"><a name="l01139"></a><span class="lineno"> 1139</span>&#160;</div>
 <div class="line"><a name="l01140"></a><span class="lineno"> 1140</span>&#160;} <span class="comment">// end namespace acfd</span></div>
+<div class="ttc" id="namespaceamat_html_a2792c2bc650a2476343c001056620f0e"><div class="ttname"><a href="namespaceamat.html#a2792c2bc650a2476343c001056620f0e">amat::cholesky</a></div><div class="ttdeci">Matrix&lt; double &gt; cholesky(Matrix&lt; double &gt; A, Matrix&lt; double &gt; b)</div><div class="ttdoc">Old (somewhat tested) implementation of Cholesky direct solver. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:15</div></div>
+<div class="ttc" id="namespaceamat_html_aa4ae493e01024d481b1ee27d5c79d6c6"><div class="ttname"><a href="namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6">amat::gaussseidel</a></div><div class="ttdeci">Matrix&lt; double &gt; gaussseidel(Matrix&lt; double &gt; A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter, char check)</div><div class="ttdoc">Solves Ax = b for dense A by forward Gauss-Seidel iterations. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:429</div></div>
 <div class="ttc" id="classacfd_1_1UTriMesh_html_aebb4a92572194c2d7c4d41d82eb11da6"><div class="ttname"><a href="classacfd_1_1UTriMesh.html#aebb4a92572194c2d7c4d41d82eb11da6">acfd::UTriMesh::movemesh_basicspring</a></div><div class="ttdeci">void movemesh_basicspring(Matrix&lt; double &gt; xb, Matrix&lt; double &gt; yb, string solver, double tol=1e-6, int maxiter=1000)</div><div class="ttdef"><b>Definition:</b> amesh2.hpp:795</div></div>
 <div class="ttc" id="classacfd_1_1UTriMesh_html_a11acb0d3f49e2420fc65db7e444b3b36"><div class="ttname"><a href="classacfd_1_1UTriMesh.html#a11acb0d3f49e2420fc65db7e444b3b36">acfd::UTriMesh::k</a></div><div class="ttdeci">double k(int i, int j)</div><div class="ttdoc">returns stiffness of the edge between global nodes i and j </div><div class="ttdef"><b>Definition:</b> amesh2.hpp:766</div></div>
 <div class="ttc" id="amatrix2_8hpp_html"><div class="ttname"><a href="amatrix2_8hpp.html">amatrix2.hpp</a></div><div class="ttdoc">Defines a class to manipulate matrices. </div></div>
+<div class="ttc" id="namespaceamat_html_aa656601bbd4193d1d21a150dc26d9923"><div class="ttname"><a href="namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923">amat::pointjacobi</a></div><div class="ttdeci">Matrix&lt; double &gt; pointjacobi(Matrix&lt; double &gt; A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter, char check)</div><div class="ttdoc">Solves Ax = b for dense A by point-Jacobi iterations. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:375</div></div>
 <div class="ttc" id="classacfd_1_1UTriMesh_html_a03983424e233f5375f60a1acad3fb978"><div class="ttname"><a href="classacfd_1_1UTriMesh.html#a03983424e233f5375f60a1acad3fb978">acfd::UTriMesh::intfac</a></div><div class="ttdeci">Matrix&lt; int &gt; intfac</div><div class="ttdoc">naface x 4 matrix: holds for each face: (1) index of left element, (2) index of right element...</div><div class="ttdef"><b>Definition:</b> amesh2.hpp:74</div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; double &gt;</a></div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:208</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:220</div></div>
 <div class="ttc" id="classacfd_1_1UTriMesh_html_a643e95c2db44bab6d2224438513e6e28"><div class="ttname"><a href="classacfd_1_1UTriMesh.html#a643e95c2db44bab6d2224438513e6e28">acfd::UTriMesh::gallfa</a></div><div class="ttdeci">Matrix&lt; double &gt; gallfa</div><div class="ttdoc">naface x 3 matrix: holds for each face: (1) x-component of normal (2) y-component of normal (3) Measu...</div><div class="ttdef"><b>Definition:</b> amesh2.hpp:75</div></div>
+<div class="ttc" id="namespaceamat_html_afae9ae0c89f02718f6e68d3e5d3960ac"><div class="ttname"><a href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">amat::gausselim</a></div><div class="ttdeci">void gausselim(Matrix&lt; double &gt; &amp;A, Matrix&lt; double &gt; &amp;b, Matrix&lt; double &gt; &amp;x)</div><div class="ttdoc">Computes solution of Ax = b by Gaussian elimination. Reasonably well-tested. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:192</div></div>
 <div class="ttc" id="classacfd_1_1UTriMesh_html"><div class="ttname"><a href="classacfd_1_1UTriMesh.html">acfd::UTriMesh</a></div><div class="ttdef"><b>Definition:</b> amesh.h:56</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

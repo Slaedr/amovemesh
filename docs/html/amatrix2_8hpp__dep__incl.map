@@ -1,30 +1,33 @@
 <map id="amatrix2.hpp" name="amatrix2.hpp">
 <area shape="rect" id="node3" href="$abbowyerwatson3d2_8hpp_source.html" title="abbowyerwatson3d2.hpp" alt="" coords="5,80,176,107"/>
-<area shape="rect" id="node5" href="$abowyerwatson_8hpp_source.html" title="abowyerwatson.hpp" alt="" coords="200,80,340,107"/>
-<area shape="rect" id="node9" href="$abowyerwatson3d_8hpp.html" title="This file contains a class that implements the Bowyer&#45;Watson algorithm for Delaunay tesselation in 3D..." alt="" coords="366,80,521,107"/>
-<area shape="rect" id="node11" href="$amesh2d_8hpp_source.html" title="amesh2d.hpp" alt="" coords="839,229,941,256"/>
-<area shape="rect" id="node15" href="$alinelast__p2__sparse_8hpp_source.html" title="alinelast_p2_sparse.hpp" alt="" coords="544,304,708,331"/>
-<area shape="rect" id="node17" href="$alinelast__p2__stiffened_8hpp_source.html" title="alinelast_p2_stiffened.hpp" alt="" coords="734,304,908,331"/>
-<area shape="rect" id="node19" href="$aoutput_8hpp_source.html" title="aoutput.hpp" alt="" coords="1159,379,1248,405"/>
-<area shape="rect" id="node21" href="$arotation2d_8hpp_source.html" title="arotation2d.hpp" alt="" coords="933,304,1045,331"/>
-<area shape="rect" id="node23" href="$alinalg_8hpp_source.html" title="alinalg.hpp" alt="" coords="1455,155,1541,181"/>
-<area shape="rect" id="node27" href="$amesh2dh_8hpp.html" title="Contains a class to handle 2D hybrid meshes containing triangles and quadrangles. ..." alt="" coords="1645,229,1755,256"/>
-<area shape="rect" id="node31" href="$amesh2b_8hpp_source.html" title="amesh2b.hpp" alt="" coords="1957,229,2059,256"/>
-<area shape="rect" id="node33" href="$alinelast__p1__sparse_8hpp_source.html" title="alinelast_p1_sparse.hpp" alt="" coords="2013,304,2177,331"/>
-<area shape="rect" id="node35" href="$arotation2db_8hpp_source.html" title="arotation2db.hpp" alt="" coords="1864,304,1984,331"/>
-<area shape="rect" id="node37" href="$amesh2_8hpp_source.html" title="amesh2.hpp" alt="" coords="1143,229,1237,256"/>
-<area shape="rect" id="node40" href="$amesh2d__backup__20150909_8hpp_source.html" title="amesh2d_backup_20150909.hpp" alt="" coords="1262,229,1476,256"/>
-<area shape="rect" id="node42" href="$amesh3d_8hpp_source.html" title="amesh3d.hpp" alt="" coords="1779,229,1881,256"/>
-<area shape="rect" id="node44" href="$amesh__c_8hpp_source.html" title="amesh_c.hpp" alt="" coords="1017,229,1119,256"/>
-<area shape="rect" id="node46" href="$amesh__curved_8hpp_source.html" title="amesh_curved.hpp" alt="" coords="1257,304,1391,331"/>
-<area shape="rect" id="node52" href="$alinalg-serial_8hpp_source.html" title="alinalg&#45;serial.hpp" alt="" coords="1769,155,1892,181"/>
-<area shape="rect" id="node54" href="$alinalg__backup__20151113_8hpp_source.html" title="alinalg_backup_20151113.hpp" alt="" coords="2017,155,2215,181"/>
-<area shape="rect" id="node56" href="$alinalg__noglobal_8hpp_source.html" title="alinalg_noglobal.hpp" alt="" coords="2059,80,2204,107"/>
-<area shape="rect" id="node68" href="$aproblem_8h_source.html" title="aproblem.h" alt="" coords="2289,155,2377,181"/>
-<area shape="rect" id="node72" href="$asparsematrix_8hpp_source.html" title="asparsematrix.hpp" alt="" coords="1853,80,1983,107"/>
-<area shape="rect" id="node80" href="$asparsematrix__serial_8hpp_source.html" title="asparsematrix_serial.hpp" alt="" coords="2331,80,2501,107"/>
-<area shape="rect" id="node7" href="$adgm_8hpp.html" title="Mesh movement using Delaunay graph (DG) mapping technique of Liu, Qin and Xia. " alt="" coords="230,155,311,181"/>
-<area shape="rect" id="node13" href="$ageometry_8hpp_source.html" title="ageometry.hpp" alt="" coords="1122,304,1232,331"/>
-<area shape="rect" id="node49" href="$arbf_8hpp_source.html" title="arbf.hpp" alt="" coords="1553,229,1620,256"/>
-<area shape="rect" id="node29" href="$ageometryh_8hpp_source.html" title="ageometryh.hpp" alt="" coords="1641,304,1759,331"/>
+<area shape="rect" id="node5" href="$abowyerwatson_8hpp.html" title="Delaunay triangulation of a given set of points, based on Bowyer&#45;Watson algorithm; also referenced fr..." alt="" coords="435,155,575,181"/>
+<area shape="rect" id="node9" href="$abowyerwatson3d_8hpp.html" title="This file contains a class that implements the Bowyer&#45;Watson algorithm for Delaunay tesselation in 3D..." alt="" coords="251,80,407,107"/>
+<area shape="rect" id="node13" href="$afiniteelements_8hpp.html" title="Classes for finite element basis functions. " alt="" coords="432,80,567,107"/>
+<area shape="rect" id="node15" href="$amesh2d_8hpp_source.html" title="amesh2d.hpp" alt="" coords="795,229,897,256"/>
+<area shape="rect" id="node20" href="$alinelast__p1_8hpp_source.html" title="alinelast_p1.hpp" alt="" coords="1241,304,1357,331"/>
+<area shape="rect" id="node22" href="$alinelast__p2__sparse_8hpp_source.html" title="alinelast_p2_sparse.hpp" alt="" coords="415,304,579,331"/>
+<area shape="rect" id="node24" href="$alinelast__p2__stiffened_8hpp_source.html" title="alinelast_p2_stiffened.hpp" alt="" coords="605,304,779,331"/>
+<area shape="rect" id="node26" href="$aoutput_8hpp.html" title="A collection of subroutines to write mesh data to various kinds of output formats. " alt="" coords="993,304,1081,331"/>
+<area shape="rect" id="node28" href="$aoutput__old_8hpp_source.html" title="aoutput_old.hpp" alt="" coords="1155,379,1269,405"/>
+<area shape="rect" id="node30" href="$arotation2d_8hpp_source.html" title="arotation2d.hpp" alt="" coords="803,304,916,331"/>
+<area shape="rect" id="node32" href="$alinalg_8hpp_source.html" title="alinalg.hpp" alt="" coords="1305,155,1391,181"/>
+<area shape="rect" id="node40" href="$amesh2_8hpp_source.html" title="amesh2.hpp" alt="" coords="1509,229,1603,256"/>
+<area shape="rect" id="node43" href="$amesh2b_8hpp_source.html" title="amesh2b.hpp" alt="" coords="1821,229,1923,256"/>
+<area shape="rect" id="node45" href="$arotation2db_8hpp_source.html" title="arotation2db.hpp" alt="" coords="1743,304,1863,331"/>
+<area shape="rect" id="node47" href="$amesh2d__backup__20150909_8hpp_source.html" title="amesh2d_backup_20150909.hpp" alt="" coords="1218,229,1432,256"/>
+<area shape="rect" id="node49" href="$amesh__c_8hpp_source.html" title="amesh_c.hpp" alt="" coords="2099,229,2200,256"/>
+<area shape="rect" id="node51" href="$amesh__curved_8hpp_source.html" title="amesh_curved.hpp" alt="" coords="2082,304,2216,331"/>
+<area shape="rect" id="node56" href="$amesh2dh_8hpp.html" title="Contains a class to handle 2D hybrid meshes containing triangles and quadrangles. ..." alt="" coords="973,155,1083,181"/>
+<area shape="rect" id="node60" href="$alinalg__backup__20151113_8hpp_source.html" title="alinalg_backup_20151113.hpp" alt="" coords="1567,155,1765,181"/>
+<area shape="rect" id="node62" href="$alinearsystem_8hpp_source.html" title="alinearsystem.hpp" alt="" coords="1789,155,1919,181"/>
+<area shape="rect" id="node70" href="$amesh3d_8hpp_source.html" title="amesh3d.hpp" alt="" coords="1995,155,2097,181"/>
+<area shape="rect" id="node75" href="$ameshbase_8hpp_source.html" title="ameshbase.hpp" alt="" coords="2096,80,2212,107"/>
+<area shape="rect" id="node81" href="$asparsematrix_8hpp.html" title="Sparse storage schemes for matrices (header&#45;only library) " alt="" coords="1467,80,1596,107"/>
+<area shape="rect" id="node88" href="$asparsematrix__old_8hpp_source.html" title="asparsematrix_old.hpp" alt="" coords="2288,80,2445,107"/>
+<area shape="rect" id="node7" href="$adgm_8hpp.html" title="Mesh movement using Delaunay graph (DG) mapping technique of Liu, Qin and Xia. " alt="" coords="309,304,389,331"/>
+<area shape="rect" id="node11" href="$testd_8cpp.html" title="testd.cpp" alt="" coords="292,155,365,181"/>
+<area shape="rect" id="node18" href="$ageometry_8hpp_source.html" title="ageometry.hpp" alt="" coords="1106,304,1216,331"/>
+<area shape="rect" id="node36" href="$ageometry3d_8hpp_source.html" title="ageometry3d.hpp" alt="" coords="1947,229,2073,256"/>
+<area shape="rect" id="node38" href="$ageometryh_8hpp_source.html" title="ageometryh.hpp" alt="" coords="1075,229,1193,256"/>
+<area shape="rect" id="node54" href="$arbf_8hpp_source.html" title="arbf.hpp" alt="" coords="1627,229,1695,256"/>
 </map>

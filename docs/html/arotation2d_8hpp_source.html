@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -88,100 +90,106 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">arotation2d.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef __AMATRIX2_H</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;<a class="code" href="amatrix2_8hpp.html">amatrix2.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifndef __AMESH2DGENRERAL_H</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;amesh2d.hpp&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifndef __ALINALG_H</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;alinalg.hpp&gt;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define __AROTATION2D_H 1</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using namespace </span>acfd;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="classMRotation2d.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="classMRotation2d.html">MRotation2d</a></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">double</span> theta;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">double</span> cx;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">double</span> cy;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> flag;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* m;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#ifndef __AMATRIX2_H</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;<a class="code" href="amatrix2_8hpp.html">amatrix2.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifndef __AMESH2DGENRERAL_H</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;amesh2d.hpp&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifndef __ALINALG_H</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;alinalg.hpp&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#define __AROTATION2D_H 1</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">namespace </span>amc {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="classamc_1_1MRotation2d.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="classamc_1_1MRotation2d.html">MRotation2d</a></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">double</span> theta;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">double</span> cx;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">double</span> cy;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> flag;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="classMRotation2d.html">MRotation2d</a>(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> flag_to_rotate)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: Initializing..\n&quot;</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        m = mesh;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        theta = t; cx = x; cy = y;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        flag = flag_to_rotate;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">double</span> drx(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* m;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classamc_1_1MRotation2d.html#adb92ad88f333ddd437a8df9d3abcb0f1">   35</a></span>&#160;    <a class="code" href="classamc_1_1MRotation2d.html#adb92ad88f333ddd437a8df9d3abcb0f1">MRotation2d</a>(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">double</span> t, <span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> flag_to_rotate)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> x*cos(theta) - y*sin(theta) - x;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">double</span> dry(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> x*sin(theta) + y*cos(theta) - y;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">//NOTE: In the following I assume that bface(i,3) contains &#39;flag&#39; if that bface is part of the surface to be rotated, and</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//      it is 1 if bface &#39;i&#39; is part of the fixed surface.</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> rhsvect_rotate()</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: Calculating RHS vector\n&quot;</span>;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> rhs(m-&gt;gnpoin(), 2, ROWMAJOR);       <span class="comment">//NOTE: Column major!!</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        rhs.<a class="code" href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">zeros</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">int</span> ip[2];</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> b = 0; b &lt; m-&gt;gnface(); b++)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnnofa(); i++)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">int</span> im = 0; im &lt; flag.msize(); im++)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="keywordflow">if</span>(m-&gt;gbface(b,m-&gt;gnnofa()) == flag(im))</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                        ip[i] = m-&gt;gbface(b,i);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                        rhs(ip[i],0) = drx(m-&gt;gcoords(ip[i],0)-cx, m-&gt;gcoords(ip[i], 1)-cy);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                        rhs(ip[i],1) = dry(m-&gt;gcoords(ip[i],0)-cx, m-&gt;gcoords(ip[i], 1)-cy);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: RHS vector calculated.\n&quot;</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">return</span> rhs;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    </div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classMRotation2d.html#a240654469f0884f203635e4d92cdba52">   74</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classMRotation2d.html#a240654469f0884f203635e4d92cdba52">rhsvect_angles</a>()</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: Calculating RHS vector&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> rhs(m-&gt;gnpoin(),1);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        rhs.<a class="code" href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">zeros</a>();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnface(); i++)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> im = 0; im &lt; flag.msize(); im++)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="keywordflow">if</span>(m-&gt;gbface(i,m-&gt;gnnofa()) == flag(im))</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; m-&gt;gnnofa(); j++)</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                        rhs(m-&gt;gbface(i,j)) = theta;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: RHS vector calculated.\n&quot;</span>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">return</span> rhs;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
-<div class="ttc" id="classacfd_1_1UMesh2d_html"><div class="ttname"><a href="classacfd_1_1UMesh2d.html">acfd::UMesh2d</a></div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:64</div></div>
-<div class="ttc" id="classMRotation2d_html"><div class="ttname"><a href="classMRotation2d.html">MRotation2d</a></div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:17</div></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: Initializing..\n&quot;</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        m = mesh;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        theta = t; cx = x; cy = y;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        flag = flag_to_rotate;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classamc_1_1MRotation2d.html#a572723704228de89f0cae22ae8160a20">   44</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classamc_1_1MRotation2d.html#a572723704228de89f0cae22ae8160a20">drx</a>(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> x*cos(theta) - y*sin(theta) - x;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classamc_1_1MRotation2d.html#ac5d36e738deffa6b4b61878169c48ecd">   50</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classamc_1_1MRotation2d.html#ac5d36e738deffa6b4b61878169c48ecd">dry</a>(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> x*sin(theta) + y*cos(theta) - y;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classamc_1_1MRotation2d.html#a87fab24e207b3f9820d58dbd50fabe8c">   56</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a> <a class="code" href="classamc_1_1MRotation2d.html#a87fab24e207b3f9820d58dbd50fabe8c">rhsvect_rotate</a>()</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: Calculating boundary displacements\n&quot;</span>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a> rhs(m-&gt;gnpoin(), 2);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        rhs.<a class="code" href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">zeros</a>();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordtype">int</span> ip[2];</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> b = 0; b &lt; m-&gt;gnface(); b++)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> im = 0; im &lt; flag.msize(); im++)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                <span class="keywordflow">if</span>(m-&gt;gbface(b,m-&gt;gnnofa()) == flag(im))</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnnofa(); i++)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                    {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                        ip[i] = m-&gt;gbface(b,i);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                        rhs(ip[i],0) = <a class="code" href="classamc_1_1MRotation2d.html#a572723704228de89f0cae22ae8160a20">drx</a>(m-&gt;<a class="code" href="classamc_1_1UMesh2d.html#a1b3fe2e00cb6ea297704e3a110a531ca">gcoords</a>(ip[i],0)-cx, m-&gt;<a class="code" href="classamc_1_1UMesh2d.html#a1b3fe2e00cb6ea297704e3a110a531ca">gcoords</a>(ip[i],1)-cy);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                        rhs(ip[i],1) = <a class="code" href="classamc_1_1MRotation2d.html#ac5d36e738deffa6b4b61878169c48ecd">dry</a>(m-&gt;<a class="code" href="classamc_1_1UMesh2d.html#a1b3fe2e00cb6ea297704e3a110a531ca">gcoords</a>(ip[i],0)-cx, m-&gt;<a class="code" href="classamc_1_1UMesh2d.html#a1b3fe2e00cb6ea297704e3a110a531ca">gcoords</a>(ip[i],1)-cy);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                    }</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: boundary displacements calculated.\n&quot;</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">return</span> rhs;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="classamc_1_1MRotation2d.html#af943eeaa27b9afa315a5a1447214c844">   84</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a> <a class="code" href="classamc_1_1MRotation2d.html#af943eeaa27b9afa315a5a1447214c844">rhsvect_angles</a>()</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: Calculating RHS vector&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a> rhs(m-&gt;gnpoin(),1);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        rhs.<a class="code" href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">zeros</a>();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; m-&gt;gnface(); i++)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> im = 0; im &lt; flag.msize(); im++)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keywordflow">if</span>(m-&gt;gbface(i,m-&gt;gnnofa()) == flag(im))</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> j = 0; j &lt; m-&gt;gnnofa(); j++)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                        rhs(m-&gt;gbface(i,j)) = theta;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;MRotation2d: RHS vector calculated.\n&quot;</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">return</span> rhs;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;};</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}       <span class="comment">// end namespace</span></div>
+<div class="ttc" id="classamc_1_1MRotation2d_html"><div class="ttname"><a href="classamc_1_1MRotation2d.html">amc::MRotation2d</a></div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:19</div></div>
+<div class="ttc" id="classamc_1_1UMesh2d_html_a1b3fe2e00cb6ea297704e3a110a531ca"><div class="ttname"><a href="classamc_1_1UMesh2d.html#a1b3fe2e00cb6ea297704e3a110a531ca">amc::UMesh2d::gcoords</a></div><div class="ttdeci">double gcoords(int pointno, int dim) const </div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:255</div></div>
+<div class="ttc" id="classamc_1_1MRotation2d_html_ac5d36e738deffa6b4b61878169c48ecd"><div class="ttname"><a href="classamc_1_1MRotation2d.html#ac5d36e738deffa6b4b61878169c48ecd">amc::MRotation2d::dry</a></div><div class="ttdeci">double dry(double x, double y)</div><div class="ttdoc">Returns y-displacement of a point with coords (x,y) </div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:50</div></div>
+<div class="ttc" id="classamc_1_1MRotation2d_html_af943eeaa27b9afa315a5a1447214c844"><div class="ttname"><a href="classamc_1_1MRotation2d.html#af943eeaa27b9afa315a5a1447214c844">amc::MRotation2d::rhsvect_angles</a></div><div class="ttdeci">amat::Matrix&lt; double &gt; rhsvect_angles()</div><div class="ttdoc">Return a vector of rotation angles for each point in the mesh. </div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:84</div></div>
 <div class="ttc" id="amatrix2_8hpp_html"><div class="ttname"><a href="amatrix2_8hpp.html">amatrix2.hpp</a></div><div class="ttdoc">Defines a class to manipulate matrices. </div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; int &gt;</a></div></div>
-<div class="ttc" id="classMRotation2d_html_a240654469f0884f203635e4d92cdba52"><div class="ttname"><a href="classMRotation2d.html#a240654469f0884f203635e4d92cdba52">MRotation2d::rhsvect_angles</a></div><div class="ttdeci">Matrix&lt; double &gt; rhsvect_angles()</div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:74</div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:208</div></div>
+<div class="ttc" id="classamc_1_1MRotation2d_html_a572723704228de89f0cae22ae8160a20"><div class="ttname"><a href="classamc_1_1MRotation2d.html#a572723704228de89f0cae22ae8160a20">amc::MRotation2d::drx</a></div><div class="ttdeci">double drx(double x, double y)</div><div class="ttdoc">Returns x-displacement of a point with coords (x,y) </div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:44</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:220</div></div>
+<div class="ttc" id="classamc_1_1UMesh2d_html"><div class="ttname"><a href="classamc_1_1UMesh2d.html">amc::UMesh2d</a></div><div class="ttdoc">Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout - h...</div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:61</div></div>
+<div class="ttc" id="classamc_1_1MRotation2d_html_adb92ad88f333ddd437a8df9d3abcb0f1"><div class="ttname"><a href="classamc_1_1MRotation2d.html#adb92ad88f333ddd437a8df9d3abcb0f1">amc::MRotation2d::MRotation2d</a></div><div class="ttdeci">MRotation2d(UMesh2d *mesh, double t, double x, double y, amat::Matrix&lt; int &gt; flag_to_rotate)</div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:35</div></div>
+<div class="ttc" id="classamc_1_1MRotation2d_html_a87fab24e207b3f9820d58dbd50fabe8c"><div class="ttname"><a href="classamc_1_1MRotation2d.html#a87fab24e207b3f9820d58dbd50fabe8c">amc::MRotation2d::rhsvect_rotate</a></div><div class="ttdeci">amat::Matrix&lt; double &gt; rhsvect_rotate()</div><div class="ttdoc">In this, I assume that the first boundary tag of a bface contains &amp;#39;flag&amp;#39; if that bface is part of the...</div><div class="ttdef"><b>Definition:</b> arotation2d.hpp:56</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -73,7 +74,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -90,167 +91,203 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock">
 <p><a href="hierarchy.html">Go to the textual class hierarchy</a></p>
 </div><table border="0" cellspacing="10" cellpadding="0">
-<tr><td><img src="inherit_graph_0.png" border="0" alt="" usemap="#acfd_1_1BoundaryReconstruction2d"/>
-<map name="acfd_1_1BoundaryReconstruction2d" id="acfd_1_1BoundaryReconstruction2d">
-<area shape="rect" id="node1" href="classacfd_1_1BoundaryReconstruction2d.html" title="acfd::BoundaryReconstruction2d" alt="" coords="6,5,223,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_1.png" border="0" alt="" usemap="#acfd_1_1CSpline"/>
-<map name="acfd_1_1CSpline" id="acfd_1_1CSpline">
-<area shape="rect" id="node1" href="classacfd_1_1CSpline.html" title="acfd::CSpline" alt="" coords="6,5,109,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#acfd_1_1DGmove"/>
-<map name="acfd_1_1DGmove" id="acfd_1_1DGmove">
-<area shape="rect" id="node1" href="classacfd_1_1DGmove.html" title="Class to carry out mesh&#45;movement using Delaunay graph mapping. " alt="" coords="6,5,117,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#acfd_1_1HermiteSpline2d"/>
-<map name="acfd_1_1HermiteSpline2d" id="acfd_1_1HermiteSpline2d">
-<area shape="rect" id="node1" href="classacfd_1_1HermiteSpline2d.html" title="acfd::HermiteSpline2d" alt="" coords="5,5,160,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#acfd_1_1LaplaceFEspaceP1"/>
+<tr><td><img src="inherit_graph_0.png" border="0" alt="" usemap="#acfd_1_1LaplaceFEspaceP1"/>
 <map name="acfd_1_1LaplaceFEspaceP1" id="acfd_1_1LaplaceFEspaceP1">
 <area shape="rect" id="node1" href="classacfd_1_1LaplaceFEspaceP1.html" title="acfd::LaplaceFEspaceP1" alt="" coords="5,5,179,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#acfd_1_1LinElastP1"/>
-<map name="acfd_1_1LinElastP1" id="acfd_1_1LinElastP1">
-<area shape="rect" id="node1" href="classacfd_1_1LinElastP1.html" title="acfd::LinElastP1" alt="" coords="6,5,125,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#acfd_1_1LinElastP2"/>
+<tr><td><img src="inherit_graph_1.png" border="0" alt="" usemap="#acfd_1_1LinElastP2"/>
 <map name="acfd_1_1LinElastP2" id="acfd_1_1LinElastP2">
 <area shape="rect" id="node1" href="classacfd_1_1LinElastP2.html" title="Class implementing solution of linear elasticity system by P2 Lagrange finite elements. " alt="" coords="6,5,125,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#acfd_1_1LoadBoundaryData"/>
-<map name="acfd_1_1LoadBoundaryData" id="acfd_1_1LoadBoundaryData">
-<area shape="rect" id="node1" href="classacfd_1_1LoadBoundaryData.html" title="acfd::LoadBoundaryData" alt="" coords="6,5,181,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#acfd_1_1LoadInitData"/>
-<map name="acfd_1_1LoadInitData" id="acfd_1_1LoadInitData">
-<area shape="rect" id="node1" href="classacfd_1_1LoadInitData.html" title="acfd::LoadInitData" alt="" coords="6,5,138,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#acfd_1_1RBFmove"/>
-<map name="acfd_1_1RBFmove" id="acfd_1_1RBFmove">
-<area shape="rect" id="node1" href="classacfd_1_1RBFmove.html" title="acfd::RBFmove" alt="" coords="6,5,122,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#acfd_1_1UMesh"/>
-<map name="acfd_1_1UMesh" id="acfd_1_1UMesh">
-<area shape="rect" id="node1" href="classacfd_1_1UMesh.html" title="acfd::UMesh" alt="" coords="5,5,104,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#acfd_1_1UMesh2d"/>
+<tr><td><img src="inherit_graph_2.png" border="0" alt="" usemap="#acfd_1_1UMesh2d"/>
 <map name="acfd_1_1UMesh2d" id="acfd_1_1UMesh2d">
 <area shape="rect" id="node1" href="classacfd_1_1UMesh2d.html" title="acfd::UMesh2d" alt="" coords="6,5,119,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#acfd_1_1UMesh2dh"/>
-<map name="acfd_1_1UMesh2dh" id="acfd_1_1UMesh2dh">
-<area shape="rect" id="node1" href="classacfd_1_1UMesh2dh.html" title="General hybrid unstructured mesh class supporting triangular and quadrangular elements. " alt="" coords="5,5,125,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#acfd_1_1UTriMesh"/>
+<tr><td><img src="inherit_graph_3.png" border="0" alt="" usemap="#acfd_1_1UTriMesh"/>
 <map name="acfd_1_1UTriMesh" id="acfd_1_1UTriMesh">
 <area shape="rect" id="node1" href="classacfd_1_1UTriMesh.html" title="acfd::UTriMesh" alt="" coords="5,5,120,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#acfd_1_1UTriMesh__c"/>
+<tr><td><img src="inherit_graph_4.png" border="0" alt="" usemap="#acfd_1_1UTriMesh__c"/>
 <map name="acfd_1_1UTriMesh__c" id="acfd_1_1UTriMesh__c">
 <area shape="rect" id="node1" href="classacfd_1_1UTriMesh__c.html" title="acfd::UTriMesh_c" alt="" coords="6,5,135,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#acfd_1_1UTriMeshCurved"/>
+<tr><td><img src="inherit_graph_5.png" border="0" alt="" usemap="#acfd_1_1UTriMeshCurved"/>
 <map name="acfd_1_1UTriMeshCurved" id="acfd_1_1UTriMeshCurved">
 <area shape="rect" id="node1" href="classacfd_1_1UTriMeshCurved.html" title="acfd::UTriMeshCurved" alt="" coords="6,5,165,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#AGraph"/>
-<map name="AGraph" id="AGraph">
-<area shape="rect" id="node1" href="classAGraph.html" title="AGraph" alt="" coords="6,5,74,32"/></map>
+<tr><td><img src="inherit_graph_6.png" border="0" alt="" usemap="#afem_1_1ReferenceFiniteElement"/>
+<map name="afem_1_1ReferenceFiniteElement" id="afem_1_1ReferenceFiniteElement">
+<area shape="rect" id="node1" href="classafem_1_1ReferenceFiniteElement.html" title="Abstract class for getting shape function values on an arbitrary reference element. " alt="" coords="5,5,208,32"/><area shape="rect" id="node3" href="classafem_1_1LagrangeFiniteElement.html" title="afem::LagrangeFiniteElement" alt="" coords="257,5,455,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#amat_1_1Array2d_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_7.png" border="0" alt="" usemap="#amat_1_1Array2d_3_01T_01_4"/>
 <map name="amat_1_1Array2d_3_01T_01_4" id="amat_1_1Array2d_3_01T_01_4">
 <area shape="rect" id="node1" href="classamat_1_1Array2d.html" title="amat::Array2d\&lt; T \&gt;" alt="" coords="5,5,147,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01double_01_4"/>
+<tr><td><img src="inherit_graph_8.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01amc__int_01_4"/>
+<map name="amat_1_1Matrix_3_01amc__int_01_4" id="amat_1_1Matrix_3_01amc__int_01_4">
+<area shape="rect" id="node1" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; amc_int \&gt;" alt="" coords="6,5,173,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_9.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01amc__real_01_4"/>
+<map name="amat_1_1Matrix_3_01amc__real_01_4" id="amat_1_1Matrix_3_01amc__real_01_4">
+<area shape="rect" id="node1" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; amc_real \&gt;" alt="" coords="5,5,181,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_10.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01double_01_4"/>
 <map name="amat_1_1Matrix_3_01double_01_4" id="amat_1_1Matrix_3_01double_01_4">
 <area shape="rect" id="node1" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="6,5,167,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01int_01_4"/>
+<tr><td><img src="inherit_graph_11.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01int_01_4"/>
 <map name="amat_1_1Matrix_3_01int_01_4" id="amat_1_1Matrix_3_01int_01_4">
 <area shape="rect" id="node1" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="5,5,139,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_12.png" border="0" alt="" usemap="#amat_1_1Matrix_3_01T_01_4"/>
 <map name="amat_1_1Matrix_3_01T_01_4" id="amat_1_1Matrix_3_01T_01_4">
 <area shape="rect" id="node1" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; T \&gt;" alt="" coords="5,5,136,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_21.png" border="0" alt="" usemap="#amat_1_1MatrixCOO2_3_01T_01_4"/>
-<map name="amat_1_1MatrixCOO2_3_01T_01_4" id="amat_1_1MatrixCOO2_3_01T_01_4">
-<area shape="rect" id="node1" href="classamat_1_1MatrixCOO2.html" title="amat::MatrixCOO2\&lt; T \&gt;" alt="" coords="6,5,173,32"/></map>
+<tr><td><img src="inherit_graph_13.png" border="0" alt="" usemap="#amat_1_1SMatrixCRS_3_01T_01_4"/>
+<map name="amat_1_1SMatrixCRS_3_01T_01_4" id="amat_1_1SMatrixCRS_3_01T_01_4">
+<area shape="rect" id="node1" href="structamat_1_1SMatrixCRS.html" title="Structure for matrix in compressed row storage. " alt="" coords="6,5,173,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_22.png" border="0" alt="" usemap="#amat_1_1SparseMatrix"/>
-<map name="amat_1_1SparseMatrix" id="amat_1_1SparseMatrix">
-<area shape="rect" id="node1" href="classamat_1_1SparseMatrix.html" title="amat::SparseMatrix" alt="" coords="5,31,144,57"/><area shape="rect" id="node3" href="classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="193,5,319,32"/><area shape="rect" id="node5" href="classamat_1_1MatrixCRS.html" title="amat::MatrixCRS" alt="" coords="194,56,318,83"/></map>
+<tr><td><img src="inherit_graph_14.png" border="0" alt="" usemap="#amat_1_1SparseMatrix_3_01double_01_4"/>
+<map name="amat_1_1SparseMatrix_3_01double_01_4" id="amat_1_1SparseMatrix_3_01double_01_4">
+<area shape="rect" id="node1" href="classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="5,67,179,93"/><area shape="rect" id="node3" href="classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="258,5,385,32"/><area shape="rect" id="node5" href="classamat_1_1MatrixCRS.html" title="Implements sparse matrix storage in row&#45;storage format, but with separate arrays for each row of the ..." alt="" coords="242,56,401,83"/><area shape="rect" id="node7" href="classamat_1_1MatrixCRS__traditional.html" title="amat::MatrixCRS_traditional" alt="" coords="227,107,416,133"/><area shape="rect" id="node9" href="classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; double \&gt;" alt="" coords="227,157,416,184"/><area shape="rect" id="node10" href="classamat_1_1SparseMatrix.html" title="amat::SparseMatrix\l\&lt; double \&gt;" alt="" coords="23,129,161,170"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_23.png" border="0" alt="" usemap="#CircList_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_15.png" border="0" alt="" usemap="#amc_1_1BoundaryReconstruction"/>
+<map name="amc_1_1BoundaryReconstruction" id="amc_1_1BoundaryReconstruction">
+<area shape="rect" id="node1" href="classamc_1_1BoundaryReconstruction.html" title="Abstract class for implementing a surface reconstruction using local Taylor expansion fittings..." alt="" coords="5,12,208,39"/><area shape="rect" id="node3" href="classamc_1_1VertexCenteredBoundaryReconstruction.html" title="Implements WALF reconstruction according to Jiao and Wang&#39;s paper, ie, local fittings are calculated ..." alt="" coords="257,5,466,46"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_16.png" border="0" alt="" usemap="#amc_1_1BoundaryReconstruction2d"/>
+<map name="amc_1_1BoundaryReconstruction2d" id="amc_1_1BoundaryReconstruction2d">
+<area shape="rect" id="node1" href="classamc_1_1BoundaryReconstruction2d.html" title="Class BoundaryReconstruction2d handles spline reconstruction of multiple parts of the boundary into s..." alt="" coords="6,5,223,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_17.png" border="0" alt="" usemap="#amc_1_1CSpline"/>
+<map name="amc_1_1CSpline" id="amc_1_1CSpline">
+<area shape="rect" id="node1" href="classamc_1_1CSpline.html" title="amc::CSpline" alt="" coords="6,5,109,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_18.png" border="0" alt="" usemap="#amc_1_1Delaunay2D"/>
+<map name="amc_1_1Delaunay2D" id="amc_1_1Delaunay2D">
+<area shape="rect" id="node1" href="classamc_1_1Delaunay2D.html" title="amc::Delaunay2D" alt="" coords="5,5,136,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_19.png" border="0" alt="" usemap="#amc_1_1Delaunay3d"/>
+<map name="amc_1_1Delaunay3d" id="amc_1_1Delaunay3d">
+<area shape="rect" id="node1" href="classamc_1_1Delaunay3d.html" title="Implements the &quot;Delaunay kernel&quot; for generating the tetrahedral Delaunay tessellation of the convex h..." alt="" coords="6,5,135,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_20.png" border="0" alt="" usemap="#amc_1_1DGmove"/>
+<map name="amc_1_1DGmove" id="amc_1_1DGmove">
+<area shape="rect" id="node1" href="classamc_1_1DGmove.html" title="Class to carry out mesh&#45;movement using Delaunay graph mapping. " alt="" coords="6,5,117,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_21.png" border="0" alt="" usemap="#amc_1_1Face"/>
+<map name="amc_1_1Face" id="amc_1_1Face">
+<area shape="rect" id="node1" href="structamc_1_1Face.html" title="Structure for triangular face. " alt="" coords="6,5,93,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_22.png" border="0" alt="" usemap="#amc_1_1HermiteSpline2d"/>
+<map name="amc_1_1HermiteSpline2d" id="amc_1_1HermiteSpline2d">
+<area shape="rect" id="node1" href="classamc_1_1HermiteSpline2d.html" title="amc::HermiteSpline2d" alt="" coords="5,5,160,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_23.png" border="0" alt="" usemap="#amc_1_1LinearSystem"/>
+<map name="amc_1_1LinearSystem" id="amc_1_1LinearSystem">
+<area shape="rect" id="node1" href="classamc_1_1LinearSystem.html" title="Abstract class from which to derive any class that requires solution to a linear system. " alt="" coords="5,5,144,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_24.png" border="0" alt="" usemap="#amc_1_1LinElastP1"/>
+<map name="amc_1_1LinElastP1" id="amc_1_1LinElastP1">
+<area shape="rect" id="node1" href="classamc_1_1LinElastP1.html" title="Solves equations of linear elasticity on a linear mesh using P1 Lagrange finite elements (no non&#45;homo..." alt="" coords="6,5,125,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_25.png" border="0" alt="" usemap="#amc_1_1LinElastP2"/>
+<map name="amc_1_1LinElastP2" id="amc_1_1LinElastP2">
+<area shape="rect" id="node1" href="classamc_1_1LinElastP2.html" title="Class implementing solution of linear elasticity system by P2 Lagrange finite elements. " alt="" coords="6,5,125,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_26.png" border="0" alt="" usemap="#amc_1_1Mesh"/>
+<map name="amc_1_1Mesh" id="amc_1_1Mesh">
+<area shape="rect" id="node1" href="classamc_1_1Mesh.html" title="Abstract generic mesh class. " alt="" coords="6,5,95,32"/><area shape="rect" id="node3" href="classamc_1_1Mesh3d.html" title="amc::Mesh3d" alt="" coords="144,5,248,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_27.png" border="0" alt="" usemap="#amc_1_1MeshMove"/>
+<map name="amc_1_1MeshMove" id="amc_1_1MeshMove">
+<area shape="rect" id="node1" href="classamc_1_1MeshMove.html" title="Abstract class for mesh movement. " alt="" coords="5,5,128,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_28.png" border="0" alt="" usemap="#amc_1_1MRotation2d"/>
+<map name="amc_1_1MRotation2d" id="amc_1_1MRotation2d">
+<area shape="rect" id="node1" href="classamc_1_1MRotation2d.html" title="amc::MRotation2d" alt="" coords="5,5,136,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_29.png" border="0" alt="" usemap="#amc_1_1Point2"/>
+<map name="amc_1_1Point2" id="amc_1_1Point2">
+<area shape="rect" id="node1" href="structamc_1_1Point2.html" title="amc::Point2" alt="" coords="5,5,99,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_30.png" border="0" alt="" usemap="#amc_1_1RBFmove"/>
+<map name="amc_1_1RBFmove" id="amc_1_1RBFmove">
+<area shape="rect" id="node1" href="classamc_1_1RBFmove.html" title="amc::RBFmove" alt="" coords="6,5,122,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_31.png" border="0" alt="" usemap="#amc_1_1Tet"/>
+<map name="amc_1_1Tet" id="amc_1_1Tet">
+<area shape="rect" id="node1" href="classamc_1_1Tet.html" title="Class representing a tetrahedron. " alt="" coords="5,5,83,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_32.png" border="0" alt="" usemap="#amc_1_1Triangle"/>
+<map name="amc_1_1Triangle" id="amc_1_1Triangle">
+<area shape="rect" id="node1" href="structamc_1_1Triangle.html" title="amc::Triangle" alt="" coords="5,5,112,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_33.png" border="0" alt="" usemap="#amc_1_1UMesh"/>
+<map name="amc_1_1UMesh" id="amc_1_1UMesh">
+<area shape="rect" id="node1" href="classamc_1_1UMesh.html" title="amc::UMesh" alt="" coords="5,5,104,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_34.png" border="0" alt="" usemap="#amc_1_1UMesh2d"/>
+<map name="amc_1_1UMesh2d" id="amc_1_1UMesh2d">
+<area shape="rect" id="node1" href="classamc_1_1UMesh2d.html" title="Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout &#45; h..." alt="" coords="6,5,119,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_35.png" border="0" alt="" usemap="#amc_1_1UMesh2dh"/>
+<map name="amc_1_1UMesh2dh" id="amc_1_1UMesh2dh">
+<area shape="rect" id="node1" href="classamc_1_1UMesh2dh.html" title="General hybrid unstructured mesh class supporting triangular and quadrangular elements. " alt="" coords="5,5,125,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_36.png" border="0" alt="" usemap="#amc_1_1Walkdata"/>
+<map name="amc_1_1Walkdata" id="amc_1_1Walkdata">
+<area shape="rect" id="node1" href="structamc_1_1Walkdata.html" title="Intended to encapsulate data required by &#39;walk&#45;through&#39; algorithms. " alt="" coords="5,5,120,32"/></map>
+</td></tr>
+<tr><td><img src="inherit_graph_37.png" border="0" alt="" usemap="#CircList_3_01T_01_4"/>
 <map name="CircList_3_01T_01_4" id="CircList_3_01T_01_4">
 <area shape="rect" id="node1" href="classCircList.html" title="CircList\&lt; T \&gt;" alt="" coords="6,5,106,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_24.png" border="0" alt="" usemap="#Delaunay2D"/>
-<map name="Delaunay2D" id="Delaunay2D">
-<area shape="rect" id="node1" href="classDelaunay2D.html" title="Delaunay2D" alt="" coords="6,5,103,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_25.png" border="0" alt="" usemap="#Delaunay3d"/>
+<tr><td><img src="inherit_graph_38.png" border="0" alt="" usemap="#Delaunay3d"/>
 <map name="Delaunay3d" id="Delaunay3d">
 <area shape="rect" id="node1" href="classDelaunay3d.html" title="Implements the &quot;Delaunay kernel&quot; for generating the tetrahedral Delaunay tessellation of the convex h..." alt="" coords="6,5,101,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_26.png" border="0" alt="" usemap="#Face"/>
+<tr><td><img src="inherit_graph_39.png" border="0" alt="" usemap="#Face"/>
 <map name="Face" id="Face">
 <area shape="rect" id="node1" href="structFace.html" title="Structure for triangular face. " alt="" coords="5,5,59,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_27.png" border="0" alt="" usemap="#Matrix"/>
+<tr><td><img src="inherit_graph_40.png" border="0" alt="" usemap="#Matrix"/>
 <map name="Matrix" id="Matrix">
 <area shape="rect" id="node1" href="classMatrix.html" title="Stores a dense matrix. " alt="" coords="5,5,64,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_28.png" border="0" alt="" usemap="#MRotation2d"/>
+<tr><td><img src="inherit_graph_41.png" border="0" alt="" usemap="#MRotation2d"/>
 <map name="MRotation2d" id="MRotation2d">
 <area shape="rect" id="node1" href="classMRotation2d.html" title="MRotation2d" alt="" coords="6,5,103,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_29.png" border="0" alt="" usemap="#Node_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_42.png" border="0" alt="" usemap="#Node_3_01T_01_4"/>
 <map name="Node_3_01T_01_4" id="Node_3_01T_01_4">
 <area shape="rect" id="node1" href="structNode.html" title="Node\&lt; T \&gt;" alt="" coords="6,5,95,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_30.png" border="0" alt="" usemap="#PList_3_01Face_01_4"/>
+<tr><td><img src="inherit_graph_43.png" border="0" alt="" usemap="#PList_3_01Face_01_4"/>
 <map name="PList_3_01Face_01_4" id="PList_3_01Face_01_4">
 <area shape="rect" id="node1" href="classPList.html" title="PList\&lt; Face \&gt;" alt="" coords="5,5,112,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_31.png" border="0" alt="" usemap="#PList_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_44.png" border="0" alt="" usemap="#PList_3_01T_01_4"/>
 <map name="PList_3_01T_01_4" id="PList_3_01T_01_4">
 <area shape="rect" id="node1" href="classPList.html" title="Class implementing a stack which is not compressed after arbitrary element deletion. New data can be written to unused entries rather than pushed back. " alt="" coords="5,5,91,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_32.png" border="0" alt="" usemap="#PList_3_01Tet_01_4"/>
+<tr><td><img src="inherit_graph_45.png" border="0" alt="" usemap="#PList_3_01Tet_01_4"/>
 <map name="PList_3_01Tet_01_4" id="PList_3_01Tet_01_4">
 <area shape="rect" id="node1" href="classPList.html" title="PList\&lt; Tet \&gt;" alt="" coords="5,5,101,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_33.png" border="0" alt="" usemap="#PListIterator_3_01T_01_4"/>
+<tr><td><img src="inherit_graph_46.png" border="0" alt="" usemap="#PListIterator_3_01T_01_4"/>
 <map name="PListIterator_3_01T_01_4" id="PListIterator_3_01T_01_4">
 <area shape="rect" id="node1" href="classPListIterator.html" title="Iterator for PList. " alt="" coords="6,5,133,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_34.png" border="0" alt="" usemap="#Point"/>
+<tr><td><img src="inherit_graph_47.png" border="0" alt="" usemap="#Point"/>
 <map name="Point" id="Point">
 <area shape="rect" id="node1" href="classPoint.html" title="Point" alt="" coords="6,5,58,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_35.png" border="0" alt="" usemap="#Point2"/>
-<map name="Point2" id="Point2">
-<area shape="rect" id="node1" href="structPoint2.html" title="Point2" alt="" coords="5,5,64,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_36.png" border="0" alt="" usemap="#Problem"/>
-<map name="Problem" id="Problem">
-<area shape="rect" id="node1" href="classProblem.html" title="Problem" alt="" coords="5,5,77,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_37.png" border="0" alt="" usemap="#Tet"/>
+<tr><td><img src="inherit_graph_48.png" border="0" alt="" usemap="#Tet"/>
 <map name="Tet" id="Tet">
 <area shape="rect" id="node1" href="classTet.html" title="Class representing a tetrahedron. " alt="" coords="5,5,48,32"/></map>
 </td></tr>
-<tr><td><img src="inherit_graph_38.png" border="0" alt="" usemap="#TNode_3_01T_01_4"/>
-<map name="TNode_3_01T_01_4" id="TNode_3_01T_01_4">
-<area shape="rect" id="node1" href="structTNode.html" title="Node structure for the graph data structure. " alt="" coords="5,5,104,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_39.png" border="0" alt="" usemap="#Triangle"/>
-<map name="Triangle" id="Triangle">
-<area shape="rect" id="node1" href="structTriangle.html" title="Triangle" alt="" coords="6,5,79,32"/></map>
-</td></tr>
-<tr><td><img src="inherit_graph_40.png" border="0" alt="" usemap="#Walkdata"/>
+<tr><td><img src="inherit_graph_49.png" border="0" alt="" usemap="#Walkdata"/>
 <map name="Walkdata" id="Walkdata">
 <area shape="rect" id="node1" href="structWalkdata.html" title="Intended to encapsulate data required by &#39;walk&#45;through&#39; algorithms. " alt="" coords="5,5,85,32"/></map>
 </td></tr>

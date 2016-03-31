@@ -68,8 +68,8 @@ private:
 	amat::Matrix<int> esup_p;			///< array containing index of esup where elements surrounding a certain point start
 	std::vector<int>* psup;				///< points surrounding points
 	amat::Matrix<amc_int> esuel;		///< elements surrounding elements
-	amat::Matrix<amc_int> intedge;		///< edge data structure. Stores the indices of the points making up the edge.
-	std::vector<int>* elsed;			///< elements surrounding edge
+	amat::Matrix<amc_int> edgepo;		///< edge data structure. Stores the indices of the points making up the edge.
+	std::vector<int>* elsed;			///< elements surrounding edge; note that ordering of edges is same as in [edgepo](@ref edgepo)
 	amat::Matrix<amc_int> intfac;		///< face data strcture
 	
 	amat::Matrix<amc_int> bpoints;		///< an ordering of the boundary points, containing corresponding node numbers in coords
@@ -78,6 +78,8 @@ private:
 	amat::Matrix<amc_int> bfsubp;		///< boundary faces surrounding boundary point
 	amat::Matrix<amc_int> bfsubp_p;		///< contains pointers into [bfsubp](@ref bfsubp) for each boundary point
 	amat::Matrix<amc_int> bfsubf;		///< boundary faces surrounding boundary face
+	amat::Matrix<amc_int> intbedge;		/**< boundary edge - boundary face connectivity. Ordering of edges is same as that of [edgepo](@ref edgepo). 
+											NOTE: The edge may not always point from smaller index cell to larger index cell! */
 
 public:
 
@@ -130,7 +132,7 @@ public:
 	amc_int gesup_p(amc_int i) const { return esup_p.get(i); }
 	amc_int gpsup(amc_int i, int j) const { return psup[i].at(j); }		// get jth surrounding point of ith node
 	amc_int gpsupsize(amc_int i) const { return psup[i].size(); }
-	amc_int gintedge(amc_int iedge, int ipoin) const { return intedge.get(iedge,ipoin); }
+	amc_int gedgepo(amc_int iedge, int ipoin) const { return edgepo.get(iedge,ipoin); }
 	amc_int gelsed(amc_int iedge, int ielem) const { return elsed[iedge].at(ielem); }
 	amc_int gelsedsize(amc_int iedge) const { return elsed[iedge].size(); }
 	amc_int gesuel(amc_int ielem, int jnode) const { return esuel.get(ielem, jnode); }
@@ -138,6 +140,7 @@ public:
 	amc_int gbfsubp_p(amc_int i) const { return bfsubp_p.get(i); }
 	amc_int gbfsubp(amc_int i) const { return bfsubp.get(i); }
 	amc_int gbfsubf(amc_int iface, int isurr) const { return bfsubf.get(iface,isurr); }
+	amc_int gintbedge(amc_int ied, int j) const { return intbedge(ied,j); }
 	amc_real gjacobians(amc_int ielem) const { return jacobians.get(ielem,0); }
 
 	amc_int gnpoin() const { return npoin; }
@@ -162,6 +165,18 @@ public:
 
 	/// Reads rDGFLO domn format containing only interconnectivity matrix and point coordinates
 	/** Computes boundary face data (bface) using intfac, for which esup, esuel and intfac are computed.
+	 * An example of the format is given below.
+	 *
+	 *     nelem   npoin   nnode nedel nfael nnofa nedfa nnoded       time           itime  (except for time and itime, everything else is required)
+	 *     175053   31630     4     6     4     3     3      2         0.0000E+00         0
+	 *     intmat: nodal points corresponding to each element 
+	 *     1        59      1067      1126      3928  1
+	 *     2        59      1126      1185      3928  1
+	 *     .
+	 *     .
+	 *     coordinates of points (necessary 1 line between last row of interconnectivity matrix and point coordinates)
+	 *     .
+	 *     .
 	 */
 	void readDomn(std::string mfile);
 
@@ -185,7 +200,7 @@ public:
 	 * - Points surrounding points (psup)
 	 * - Elements surrounding elements (esuel)
 	 * - Elements surrounding edge (elsed)
-	 * - Edge data structure (intedge)
+	 * - Edge data structure (edgepo)
 	 * - Face data structure (intfac)
 	 * 
 	 * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
@@ -197,6 +212,7 @@ public:
 	 * - Boundary points (bpoints and bpointsinv)
 	 * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
 	 * - Boundary faces surrounding boundary face (bfsubf)
+	 * - Boundary edge connectivity (intbedge) giving the two boundary faces adjoining each edge and global node numbers of nodes making up each edge
 	 */
 	void compute_boundary_topological();
 	

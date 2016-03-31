@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -98,7 +100,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef __ASPARSEMATRIX_H</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;asparsematrix.hpp&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;<a class="code" href="asparsematrix_8hpp.html">asparsematrix.hpp</a>&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#ifndef _GLIBCXX_CMATH</span></div>
@@ -121,7 +123,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;{</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">/* Note: Cholesky algorithm only implemented for a row-major matrix */</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> cholesky(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#a2792c2bc650a2476343c001056620f0e">cholesky</a>(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b)</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;{</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> B;</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
@@ -208,7 +210,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> b;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> gausselim(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <span class="keywordtype">double</span> tol=A_SMALL_NUMBER/100.0)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">gausselim</a>(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <span class="keywordtype">double</span> tol=A_SMALL_NUMBER/100.0)</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;gausselim: Input LHS matrix is &quot; &lt;&lt; A.rows() &lt;&lt; &quot; x &quot; &lt;&lt; A.cols() &lt;&lt; endl;</span></div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">if</span>(A.rows() != b.rows()) { cout &lt;&lt; <span class="stringliteral">&quot;gausselim: Invalid dimensions of A and b!\n&quot;</span>; <span class="keywordflow">return</span> A; }</div>
@@ -276,7 +278,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">//-------------------- Iterative Methods ----------------------------------------//</span></div>
 <div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> pointjacobi(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">char</span> check)</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923">pointjacobi</a>(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">char</span> check)</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;{</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;\npointjacobi: Input LHS matrix is &quot;</span> &lt;&lt; A.rows() &lt;&lt; <span class="stringliteral">&quot; x &quot;</span> &lt;&lt; A.cols() &lt;&lt; endl;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordflow">if</span>(A.rows() != b.rows()) { cout &lt;&lt; <span class="stringliteral">&quot;! pointjacobi: Invalid dimensions of A and b!\n&quot;</span>; <span class="keywordflow">return</span> b; }</div>
@@ -330,7 +332,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keywordflow">return</span> x;</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;}</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> gaussseidel(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">char</span> check=<span class="charliteral">&#39;n&#39;</span>)</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6">gaussseidel</a>(<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">char</span> check=<span class="charliteral">&#39;n&#39;</span>)</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;{</div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;\ngaussseidel: Input LHS matrix is &quot; &lt;&lt; A.rows() &lt;&lt; &quot; x &quot; &lt;&lt; A.cols() &lt;&lt; endl;</span></div>
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordflow">if</span>(A.rows() != b.rows()) { cout &lt;&lt; <span class="stringliteral">&quot;! gaussseidel: Invalid dimensions of A and b!\n&quot;</span>; <span class="keywordflow">return</span> b; }</div>
@@ -415,7 +417,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="keywordflow">return</span> x;</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;}</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> sparsegaussseidel(<a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">char</span> check=<span class="charliteral">&#39;n&#39;</span>)</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#a26d79a910ae5093e41c75ac885a99e5c">sparsegaussseidel</a>(<a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">char</span> check=<span class="charliteral">&#39;n&#39;</span>)</div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;{</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;sparsegaussseidel(): Input LHS matrix is &quot;</span> &lt;&lt; A-&gt;rows() &lt;&lt; <span class="stringliteral">&quot; x &quot;</span> &lt;&lt; A-&gt;cols() &lt;&lt; endl;</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;sparsegaussseidel(): b is &quot;</span> &lt;&lt; b.rows() &lt;&lt; <span class="stringliteral">&quot;, and xold is &quot;</span> &lt;&lt; xold.rows() &lt;&lt; endl;</div>
@@ -443,7 +445,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="comment">// diagonal matrix M</span></div>
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;sparsegaussseidel(): Getting diagonal of sparse matrix\n&quot;;</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    A-&gt;get_diagonal(&amp;M);</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">get_diagonal</a>(&amp;M);</div>
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;</div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="comment">//invert M</span></div>
 <div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; N; i++)</div>
@@ -473,7 +475,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">for</span>(i = 0; i &lt; N; i++)</div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        {</div>
 <div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            <span class="comment">//cout &lt;&lt; &quot;  Calling sparse getelem_multiply_parts\n&quot;;</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            Axold(i) = A-&gt;getelem_multiply_parts(i, &amp;x, &amp;xold, i, xold.get(i));</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            Axold(i) = A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#a490dadf1d58ec72ba6aac76390eb7f69">getelem_multiply_parts</a>(i, &amp;x, &amp;xold, i, xold.get(i));</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="comment">//cout &lt;&lt; &quot;  Setting inter\n&quot;;</span></div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            inter(i,0) = b(i,0) - Axold(i,0);</div>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            x(i,0) = M(i) * inter(i,0);</div>
@@ -507,7 +509,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    <span class="keywordflow">return</span> x;</div>
 <div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;}</div>
 <div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> sparseSOR(<a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">double</span> w=1.25, <span class="keywordtype">char</span> check=<span class="charliteral">&#39;n&#39;</span>)</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#a9ca11975301ac202ed0ba0123aceceb5">sparseSOR</a>(<a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter, <span class="keywordtype">double</span> w=1.25, <span class="keywordtype">char</span> check=<span class="charliteral">&#39;n&#39;</span>)</div>
 <div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;<span class="comment">// CAUTION: does not work in parallel due to some reason</span></div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;{</div>
 <div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;sparseSOR(): Input LHS matrix is &quot;</span> &lt;&lt; A-&gt;rows() &lt;&lt; <span class="stringliteral">&quot; x &quot;</span> &lt;&lt; A-&gt;cols() &lt;&lt; endl;</div>
@@ -535,7 +537,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;</div>
 <div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;    <span class="comment">// diagonal matrix M</span></div>
 <div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;sparsegaussseidel(): Getting diagonal of sparse matrix\n&quot;;</span></div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    A-&gt;get_diagonal(&amp;M);</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">get_diagonal</a>(&amp;M);</div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;</div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="comment">//invert M</span></div>
 <div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; N; i++)</div>
@@ -564,7 +566,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;        <span class="keywordflow">for</span>(i = 0; i &lt; N; i++)</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        {</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;            <span class="comment">//cout &lt;&lt; &quot;  Calling sparse getelem_multiply_parts\n&quot;;</span></div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;            Axold(i) = A-&gt;getelem_multiply_parts(i, &amp;x, &amp;xold, i, xold.get(i));</div>
+<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;            Axold(i) = A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#a490dadf1d58ec72ba6aac76390eb7f69">getelem_multiply_parts</a>(i, &amp;x, &amp;xold, i, xold.get(i));</div>
 <div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;            <span class="comment">//cout &lt;&lt; &quot;  Setting inter\n&quot;;</span></div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;            inter(i,0) = w*(b(i,0) - Axold(i,0));</div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;            x(i,0) = (1-w)*xold(i,0) + M(i) * inter(i,0);</div>
@@ -598,7 +600,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    <span class="keywordflow">return</span> x;</div>
 <div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;}</div>
 <div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> sparseCG_d(<a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#a88aef55ee9b1b5e9f9540fd143bd19a6">sparseCG_d</a>(<a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
 <div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;{</div>
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;sparseCG_d(): Solving &quot;</span> &lt;&lt; A-&gt;rows() &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; A-&gt;cols() &lt;&lt; <span class="stringliteral">&quot; system by conjugate gradient method with diagonal preconditioner\n&quot;</span>;</div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;</div>
@@ -625,7 +627,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;sparseCG_d(): Declared everything&quot; &lt;&lt; endl;</span></div>
 <div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;</div>
 <div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    M.zeros();</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    A-&gt;get_diagonal(&amp;M);</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">get_diagonal</a>(&amp;M);</div>
 <div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;    <span class="comment">//M.ones();</span></div>
 <div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; A-&gt;rows(); i++)</div>
 <div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;    {</div>
@@ -635,7 +637,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;    <span class="comment">//M.ones();     // disable preconditioner</span></div>
 <div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;sparseCG_d(): preconditioner enabled&quot; &lt;&lt; endl;</span></div>
 <div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;</div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">multiply</a>(xold, &amp;temp);       <span class="comment">// temp := A*xold</span></div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">multiply</a>(xold, &amp;temp);       <span class="comment">// temp := A*xold</span></div>
 <div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;    rold = b - temp;</div>
 <div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;    error  = rold.l2norm();     <span class="comment">// initial residue</span></div>
 <div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;    <span class="keywordflow">if</span>(error &lt; tol)</div>
@@ -662,7 +664,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;</div>
 <div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;        temp1 = rold.<a class="code" href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">dot_product</a>(zold);</div>
 <div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">multiply</a>(pold, &amp;temp);</div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">multiply</a>(pold, &amp;temp);</div>
 <div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;        <span class="comment">//temp.mprint();</span></div>
 <div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;</div>
 <div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;        temp2 = pold.<a class="code" href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">dot_product</a>(temp);</div>
@@ -719,11 +721,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;    <span class="keywordflow">return</span> x;</div>
 <div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;}</div>
 <div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;<span class="keywordtype">void</span> precon_jacobi(<a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* A, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; r, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; z)</div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;<span class="keywordtype">void</span> precon_jacobi(<a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* A, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; r, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; z)</div>
 <div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;<span class="comment">// Multiplies r by the Jacobi preconditioner matrix of A, and stores the result in z</span></div>
 <div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;{</div>
 <div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> diag(A-&gt;rows(), 1);</div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;    A-&gt;get_diagonal(&amp;diag);</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">get_diagonal</a>(&amp;diag);</div>
 <div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;    </div>
 <div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; A-&gt;rows(); i++)</div>
 <div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;        diag(i) = 1.0/diag(i);</div>
@@ -732,18 +734,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;        z(i) = diag(i)*r.get(i);</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;}</div>
 <div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;<span class="keywordtype">void</span> precon_lusgs(<a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* A, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; r, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; z)</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;<span class="keywordtype">void</span> precon_lusgs(<a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* A, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; r, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; z)</div>
 <div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;<span class="comment">// Multiplies r by the LU-SGS preconditioner matrix of A, and stores the result in z</span></div>
 <div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;{</div>
-<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> L;</div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> U;</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;    <a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a> L;</div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;    <a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a> U;</div>
 <div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> D(A-&gt;rows(), 1);</div>
 <div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> Dinv(A-&gt;rows(), 1);</div>
 <div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> z_initial(z.rows(), 1);</div>
 <div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; z.rows(); i++)</div>
 <div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;        z_initial(i) = z.get(i);</div>
 <div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;    </div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;    A-&gt;get_diagonal(&amp;D);</div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">get_diagonal</a>(&amp;D);</div>
 <div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; A-&gt;rows(); i++)</div>
 <div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;        Dinv(i) = 1.0/D(i);</div>
 <div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;    </div>
@@ -757,12 +759,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00670"></a><span class="lineno">  670</span>&#160;    </div>
 <div class="line"><a name="l00671"></a><span class="lineno">  671</span>&#160;}</div>
 <div class="line"><a name="l00672"></a><span class="lineno">  672</span>&#160;</div>
-<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> sparsePCG(<a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">string</span> precon, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
+<div class="line"><a name="l00673"></a><span class="lineno">  673</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> sparsePCG(<a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* A, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> xold, <span class="keywordtype">string</span> precon, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
 <div class="line"><a name="l00674"></a><span class="lineno">  674</span>&#160;<span class="comment">/* Calculates solution of Ax=b where A is a SPD matrix in sparse format. The preconditioner is supplied by a function pointer.*/</span></div>
 <div class="line"><a name="l00675"></a><span class="lineno">  675</span>&#160;{</div>
 <div class="line"><a name="l00676"></a><span class="lineno">  676</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;sparsePCG(): Solving &quot;</span> &lt;&lt; A-&gt;rows() &lt;&lt; <span class="stringliteral">&quot;x&quot;</span> &lt;&lt; A-&gt;cols() &lt;&lt; <span class="stringliteral">&quot; system by conjugate gradient method with diagonal preconditioner\n&quot;</span>;</div>
 <div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;    </div>
-<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;    void (*precond)(<a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* lhs, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; r, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; z);</div>
+<div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;    void (*precond)(<a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* lhs, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; r, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; z);</div>
 <div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;    <span class="comment">//const Matrix&lt;double&gt;&amp; z_initial,</span></div>
 <div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;    </div>
 <div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;    <span class="keywordflow">if</span>(precon == <span class="stringliteral">&quot;jacobi&quot;</span>) precond = &amp;precon_jacobi;</div>
@@ -792,7 +794,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;    M.ones();       <span class="comment">// disable preconditioner</span></div>
 <div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;sparseCG_d(): preconditioner enabled&quot; &lt;&lt; endl;</span></div>
 <div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">multiply</a>(xold, &amp;temp);       <span class="comment">// temp := A*xold</span></div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">multiply</a>(xold, &amp;temp);       <span class="comment">// temp := A*xold</span></div>
 <div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;    rold = b - temp;</div>
 <div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;    error = initres = rold.l2norm();        <span class="comment">// initial residue</span></div>
 <div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;    <span class="keywordflow">if</span>(error &lt; tol)</div>
@@ -818,7 +820,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;</div>
 <div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;        temp1 = rold.<a class="code" href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">dot_product</a>(zold);</div>
 <div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;</div>
-<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">multiply</a>(pold, &amp;temp);</div>
+<div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">multiply</a>(pold, &amp;temp);</div>
 <div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;        <span class="comment">//temp.mprint();</span></div>
 <div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;</div>
 <div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;        temp2 = pold.<a class="code" href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">dot_product</a>(temp);</div>
@@ -876,7 +878,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;}</div>
 <div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160;</div>
 <div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;</div>
-<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> sparse_bicgstab(<span class="keyword">const</span> <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a>* A, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
+<div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;<a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="namespaceamat.html#a2f4b66164e8f1022124ec774736d881e">sparse_bicgstab</a>(<span class="keyword">const</span> <a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a>* A, <span class="keyword">const</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; b, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>&amp; xold, <span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
 <div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;{</div>
 <div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> x(b.rows(), 1);</div>
 <div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;    <span class="comment">// checks</span></div>
@@ -902,13 +904,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;    <span class="keywordtype">double</span> resnormrel, resnorm, normalizer;</div>
 <div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;</div>
 <div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;    M.<a class="code" href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">zeros</a>();</div>
-<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;    A-&gt;get_diagonal(&amp;M);</div>
+<div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">get_diagonal</a>(&amp;M);</div>
 <div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; A-&gt;rows(); i++)</div>
 <div class="line"><a name="l00823"></a><span class="lineno">  823</span>&#160;    {</div>
 <div class="line"><a name="l00824"></a><span class="lineno">  824</span>&#160;        M(i) = 1.0/M(i);</div>
 <div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;    }</div>
 <div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160;    <span class="comment">// M now contains K^(-1), where K is the preconditioning matrix</span></div>
-<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">multiply</a>(xold, &amp;t);      <span class="comment">// t = A*xold, initially (t is only a temp variable here)</span></div>
+<div class="line"><a name="l00827"></a><span class="lineno">  827</span>&#160;    A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">multiply</a>(xold, &amp;t);      <span class="comment">// t = A*xold, initially (t is only a temp variable here)</span></div>
 <div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;    rold = b - t;</div>
 <div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;    resnorm = rold.l2norm();</div>
 <div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;    </div>
@@ -946,7 +948,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00862"></a><span class="lineno">  862</span>&#160;            y(i) = M.get(i)*p.get(i);</div>
 <div class="line"><a name="l00863"></a><span class="lineno">  863</span>&#160;        }</div>
 <div class="line"><a name="l00864"></a><span class="lineno">  864</span>&#160;        </div>
-<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">multiply</a>(y, &amp;v);         <span class="comment">// v = A*p</span></div>
+<div class="line"><a name="l00865"></a><span class="lineno">  865</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">multiply</a>(y, &amp;v);         <span class="comment">// v = A*p</span></div>
 <div class="line"><a name="l00866"></a><span class="lineno">  866</span>&#160;        alpha = rho / rhat.<a class="code" href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">dot_product</a>(v);</div>
 <div class="line"><a name="l00867"></a><span class="lineno">  867</span>&#160;</div>
 <div class="line"><a name="l00868"></a><span class="lineno">  868</span>&#160;        <span class="keywordflow">for</span>(i = 0; i &lt; b.rows(); i++)</div>
@@ -955,7 +957,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;            z(i) = M.get(i)*s.get(i);</div>
 <div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;        }</div>
 <div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;</div>
-<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">multiply</a>(z, &amp;t);         <span class="comment">// t = A*z</span></div>
+<div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;        A-&gt;<a class="code" href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">multiply</a>(z, &amp;t);         <span class="comment">// t = A*z</span></div>
 <div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;</div>
 <div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;        w = t.<a class="code" href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">dot_product</a>(s)/t.dot_product(t);</div>
 <div class="line"><a name="l00877"></a><span class="lineno">  877</span>&#160;</div>
@@ -987,13 +989,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;</div>
 <div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;</div>
 <div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;}</div>
-<div class="ttc" id="classamat_1_1MatrixCOO_html"><div class="ttname"><a href="classamat_1_1MatrixCOO.html">amat::MatrixCOO</a></div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:76</div></div>
-<div class="ttc" id="classamat_1_1MatrixCOO_html_ae20f297aae9a38cfb1cd74d7f5918620"><div class="ttname"><a href="classamat_1_1MatrixCOO.html#ae20f297aae9a38cfb1cd74d7f5918620">amat::MatrixCOO::multiply</a></div><div class="ttdeci">void multiply(Mat &amp;x, Mat *a, char paralel= 'n')</div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:599</div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_a6d05d3393c5f98780f91daf9d2bbf82a"><div class="ttname"><a href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">amat::Matrix::setup</a></div><div class="ttdeci">void setup(int nr, int nc, MStype st=ROWMAJOR)</div><div class="ttdoc">Separate setup function in case no-arg constructor has to be used. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:167</div></div>
+<div class="ttc" id="namespaceamat_html_a2792c2bc650a2476343c001056620f0e"><div class="ttname"><a href="namespaceamat.html#a2792c2bc650a2476343c001056620f0e">amat::cholesky</a></div><div class="ttdeci">Matrix&lt; double &gt; cholesky(Matrix&lt; double &gt; A, Matrix&lt; double &gt; b)</div><div class="ttdoc">Old (somewhat tested) implementation of Cholesky direct solver. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:15</div></div>
+<div class="ttc" id="namespaceamat_html_aa4ae493e01024d481b1ee27d5c79d6c6"><div class="ttname"><a href="namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6">amat::gaussseidel</a></div><div class="ttdeci">Matrix&lt; double &gt; gaussseidel(Matrix&lt; double &gt; A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter, char check)</div><div class="ttdoc">Solves Ax = b for dense A by forward Gauss-Seidel iterations. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:429</div></div>
+<div class="ttc" id="classamat_1_1MatrixCRS_html_af93f7eab4da58838961885d12c7eea27"><div class="ttname"><a href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">amat::MatrixCRS::get_diagonal</a></div><div class="ttdeci">void get_diagonal(Mat *D) const </div><div class="ttdoc">D is returned as a column-vector containing diagonal elements of this sparse matrix. </div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:432</div></div>
+<div class="ttc" id="namespaceamat_html_a9ca11975301ac202ed0ba0123aceceb5"><div class="ttname"><a href="namespaceamat.html#a9ca11975301ac202ed0ba0123aceceb5">amat::sparseSOR</a></div><div class="ttdeci">Matrix&lt; double &gt; sparseSOR(SpMatrix *A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter, double w, char check)</div><div class="ttdoc">Solves Ax=b for sparse A by forward SOR. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:606</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_a6d05d3393c5f98780f91daf9d2bbf82a"><div class="ttname"><a href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">amat::Matrix::setup</a></div><div class="ttdeci">void setup(int nr, int nc, MStype st=ROWMAJOR)</div><div class="ttdoc">Separate setup function in case no-arg constructor has to be used. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:179</div></div>
+<div class="ttc" id="namespaceamat_html_a26d79a910ae5093e41c75ac885a99e5c"><div class="ttname"><a href="namespaceamat.html#a26d79a910ae5093e41c75ac885a99e5c">amat::sparsegaussseidel</a></div><div class="ttdeci">Matrix&lt; double &gt; sparsegaussseidel(SpMatrix *A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter, char check)</div><div class="ttdoc">Solves Ax=b for sparse A by forward Gauss-Seidel iterations. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:514</div></div>
 <div class="ttc" id="amatrix2_8hpp_html"><div class="ttname"><a href="amatrix2_8hpp.html">amatrix2.hpp</a></div><div class="ttdoc">Defines a class to manipulate matrices. </div></div>
+<div class="ttc" id="asparsematrix_8hpp_html"><div class="ttname"><a href="asparsematrix_8hpp.html">asparsematrix.hpp</a></div><div class="ttdoc">Sparse storage schemes for matrices (header-only library) </div></div>
+<div class="ttc" id="namespaceamat_html_aa656601bbd4193d1d21a150dc26d9923"><div class="ttname"><a href="namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923">amat::pointjacobi</a></div><div class="ttdeci">Matrix&lt; double &gt; pointjacobi(Matrix&lt; double &gt; A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter, char check)</div><div class="ttdoc">Solves Ax = b for dense A by point-Jacobi iterations. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:375</div></div>
+<div class="ttc" id="classamat_1_1MatrixCRS_html_a490dadf1d58ec72ba6aac76390eb7f69"><div class="ttname"><a href="classamat_1_1MatrixCRS.html#a490dadf1d58ec72ba6aac76390eb7f69">amat::MatrixCRS::getelem_multiply_parts</a></div><div class="ttdeci">T getelem_multiply_parts(const int rownum, const Mat *x, const Mat *y, const int p, const T num) const </div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:406</div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; double &gt;</a></div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:208</div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_a4b2bdd19bc3271396a8c3999c6fb16c0"><div class="ttname"><a href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">amat::Matrix::dot_product</a></div><div class="ttdeci">T dot_product(const Matrix&lt; T &gt; &amp;A)</div><div class="ttdoc">Returns sum of products of respective elements of flattened arrays containing matrix elements of this...</div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:594</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:220</div></div>
+<div class="ttc" id="classamat_1_1MatrixCRS_html_abf7c0c1361de1e8d39f903a5051439af"><div class="ttname"><a href="classamat_1_1MatrixCRS.html#abf7c0c1361de1e8d39f903a5051439af">amat::MatrixCRS::multiply</a></div><div class="ttdeci">void multiply(const Mat &amp;x, Mat *const a, const char paralel= 'n') const </div><div class="ttdoc">Returns product of sparse matrix with std::vector x and stores it in a. </div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:349</div></div>
+<div class="ttc" id="namespaceamat_html_afae9ae0c89f02718f6e68d3e5d3960ac"><div class="ttname"><a href="namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac">amat::gausselim</a></div><div class="ttdeci">void gausselim(Matrix&lt; double &gt; &amp;A, Matrix&lt; double &gt; &amp;b, Matrix&lt; double &gt; &amp;x)</div><div class="ttdoc">Computes solution of Ax = b by Gaussian elimination. Reasonably well-tested. </div><div class="ttdef"><b>Definition:</b> alinalg.cpp:192</div></div>
+<div class="ttc" id="classamat_1_1MatrixCRS_html"><div class="ttname"><a href="classamat_1_1MatrixCRS.html">amat::MatrixCRS&lt; double &gt;</a></div></div>
+<div class="ttc" id="namespaceamat_html_a2f4b66164e8f1022124ec774736d881e"><div class="ttname"><a href="namespaceamat.html#a2f4b66164e8f1022124ec774736d881e">amat::sparse_bicgstab</a></div><div class="ttdeci">Matrix&lt; double &gt; sparse_bicgstab(const SpMatrix *A, const Matrix&lt; double &gt; &amp;b, Matrix&lt; double &gt; &amp;xold, double tol, int maxiter)</div><div class="ttdef"><b>Definition:</b> alinalg.cpp:985</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_a4b2bdd19bc3271396a8c3999c6fb16c0"><div class="ttname"><a href="classamat_1_1Matrix.html#a4b2bdd19bc3271396a8c3999c6fb16c0">amat::Matrix::dot_product</a></div><div class="ttdeci">T dot_product(const Matrix&lt; T &gt; &amp;A)</div><div class="ttdoc">Returns sum of products of respective elements of flattened arrays containing matrix elements of this...</div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:606</div></div>
+<div class="ttc" id="namespaceamat_html_a88aef55ee9b1b5e9f9540fd143bd19a6"><div class="ttname"><a href="namespaceamat.html#a88aef55ee9b1b5e9f9540fd143bd19a6">amat::sparseCG_d</a></div><div class="ttdeci">Matrix&lt; double &gt; sparseCG_d(SpMatrix *A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter)</div><div class="ttdoc">Calculates solution of Ax=b where A is a SPD matrix in sparse format. This function is well-tested...</div><div class="ttdef"><b>Definition:</b> alinalg.cpp:701</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

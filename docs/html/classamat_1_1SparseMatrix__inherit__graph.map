@@ -1,4 +1,6 @@
-<map id="amat::SparseMatrix" name="amat::SparseMatrix">
-<area shape="rect" id="node3" href="$classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="5,80,131,107"/>
-<area shape="rect" id="node6" href="$classamat_1_1MatrixCRS.html" title="amat::MatrixCRS" alt="" coords="155,80,279,107"/>
+<map id="amat::SparseMatrix&lt; T &gt;" name="amat::SparseMatrix&lt; T &gt;">
+<area shape="rect" id="node3" href="$classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="258,5,385,32"/>
+<area shape="rect" id="node5" href="$classamat_1_1MatrixCRS.html" title="Implements sparse matrix storage in row&#45;storage format, but with separate arrays for each row of the ..." alt="" coords="242,56,401,83"/>
+<area shape="rect" id="node8" href="$classamat_1_1MatrixCRS__traditional.html" title="amat::MatrixCRS_traditional" alt="" coords="227,107,416,133"/>
+<area shape="rect" id="node10" href="$classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; double \&gt;" alt="" coords="227,157,416,184"/>
 </map>

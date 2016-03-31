@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -99,43 +101,43 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define __AGEOMETRY_H 1</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using namespace </span>amat;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>acfd;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">namespace </span>acfd {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classacfd_1_1CSpline.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classacfd_1_1CSpline.html">CSpline</a></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* m;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> rfl;                    <span class="comment">//&lt; Contains boundary markers to be reconstructed to a spline</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    vector&lt;int&gt; facelist;               <span class="comment">//&lt; Alternative to rfl; stores an ordered list of faces to be reconstructed</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> ndf;                            <span class="comment">//&lt; number of degrees of freedom per spline - for cubic this is 4</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">int</span> dim;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">int</span> nseg;                           <span class="comment">//&lt; number of spline pieces</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">int</span> nspoin;                         <span class="comment">//&lt; number of control points</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> seq_spoin;              <span class="comment">//&lt; stores sequence of global point numbers for use in spline construction</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> seq_bface;              <span class="comment">//&lt; for each bface, stores an order number indicating its occurrence order according to contiguity</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> segface;                <span class="comment">//&lt; inverse of seq_bface; stores bface number for each segment</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>* scf;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> toRec;                  <span class="comment">//&lt; stores for each bface face whether that face is to be reconstricted</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">bool</span> isClosed;                      <span class="comment">//&lt; is the spline curve open or closed?</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">bool</span> issequenced;                   <span class="comment">//&lt; is the list of faces already in sequence?</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> face_list_available;           <span class="comment">//&lt; true if face list is available, false if rfl is available</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">double</span> tol;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> maxiter;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>* D;                  <span class="comment">//&lt; D[idim](i) will contain the slope at point 0 of the ith spline piece</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> slhs;                      <span class="comment">//&lt; LHS of the system which is solved for D</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>* srhs;               <span class="comment">//&lt; RHS for each dimention</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, vector&lt;int&gt; recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    ~<a class="code" href="classacfd_1_1CSpline.html">CSpline</a>();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">void</span> sequence();</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">namespace </span>amc {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>amat;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="classamc_1_1CSpline.html">CSpline</a></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;{</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* m;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a80e63de0eab748ff99687063c208d056">   30</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> <a class="code" href="classamc_1_1CSpline.html#a80e63de0eab748ff99687063c208d056">rfl</a>;                  </div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#acff5b55de13e0476bd11b6d1cdfb97e2">   31</a></span>&#160;    std::vector&lt;int&gt; <a class="code" href="classamc_1_1CSpline.html#acff5b55de13e0476bd11b6d1cdfb97e2">facelist</a>;              </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a7f3fa6ee92207191b27a9730a53fb492">   32</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classamc_1_1CSpline.html#a7f3fa6ee92207191b27a9730a53fb492">ndf</a>;                            </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> dim;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a79e4e8da3f0b77274794d2a025405209">   34</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classamc_1_1CSpline.html#a79e4e8da3f0b77274794d2a025405209">nseg</a>;                           </div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#ad02d52ff25b76bd7cf66a6b6eadbe96f">   35</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classamc_1_1CSpline.html#ad02d52ff25b76bd7cf66a6b6eadbe96f">nspoin</a>;                         </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#accb101ecb36105086780a955bc9e6adc">   36</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> <a class="code" href="classamc_1_1CSpline.html#accb101ecb36105086780a955bc9e6adc">seq_spoin</a>;                </div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a59149d5967e97678d49e4efc5d76ffae">   37</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> <a class="code" href="classamc_1_1CSpline.html#a59149d5967e97678d49e4efc5d76ffae">seq_bface</a>;                </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a680afc96d1b22d440ed862030d52ff30">   38</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> <a class="code" href="classamc_1_1CSpline.html#a680afc96d1b22d440ed862030d52ff30">segface</a>;              </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>* scf;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a7fcb988b80459928d8b28135a1f69b8c">   40</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> <a class="code" href="classamc_1_1CSpline.html#a7fcb988b80459928d8b28135a1f69b8c">toRec</a>;                    </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a0c37853bafeeb87f55f0c6222d4ed8d0">   41</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classamc_1_1CSpline.html#a0c37853bafeeb87f55f0c6222d4ed8d0">isClosed</a>;                      </div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a5853be1dc4f02e77af8ed9b5500f2e30">   42</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classamc_1_1CSpline.html#a5853be1dc4f02e77af8ed9b5500f2e30">issequenced</a>;                   </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#aefce75ab69d2decd60a4df1cbaf84a11">   43</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="classamc_1_1CSpline.html#aefce75ab69d2decd60a4df1cbaf84a11">face_list_available</a>;           </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">double</span> tol;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">int</span> maxiter;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a09a416e8f8d223538669c228832b0f24">   47</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>* <a class="code" href="classamc_1_1CSpline.html#a09a416e8f8d223538669c228832b0f24">D</a>;                    </div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a6bde1c8494213c118add9b0377632f0c">   48</a></span>&#160;    <a class="code" href="classamat_1_1MatrixCRS.html">amat::SpMatrix</a> <a class="code" href="classamc_1_1CSpline.html#a6bde1c8494213c118add9b0377632f0c">slhs</a>;                        </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#af54b49f8d213b2150eb3b8714f67ed76">   49</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>* <a class="code" href="classamc_1_1CSpline.html#af54b49f8d213b2150eb3b8714f67ed76">srhs</a>;             </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, std::vector&lt;int&gt; recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    ~<a class="code" href="classamc_1_1CSpline.html">CSpline</a>();</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> sequence();</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> compute();</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
@@ -144,7 +146,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">// --- CSpline implementation ---</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classacfd_1_1CSpline.html#aa4bcfc044e13c21dcc87a038416d7706">   76</a></span>&#160;<span class="keywordtype">void</span> CSpline::setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter)</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">   76</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">CSpline::setup</a>(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter)</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;{</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    face_list_available = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    </div>
@@ -184,15 +186,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">else</span> nspoin = nseg+1;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    </div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">if</span>(isClosed)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Closed curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; endl;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Closed curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Open curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; endl;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Open curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">// allocate stuff</span></div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    scf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[dim];</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    D = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[dim];</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    srhs = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[dim];</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    scf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[dim];</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    D = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[dim];</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    srhs = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[dim];</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; dim; idim++) {</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        scf[idim].<a class="code" href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">setup</a>(nseg,ndf);</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        D[idim].setup(nseg+1,1);</div>
@@ -209,7 +211,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        seq_spoin(i) = -1;</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
-<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="classacfd_1_1CSpline.html#a97f1dc3eeeccb515f084d7a657ade2f1">  141</a></span>&#160;<span class="keywordtype">void</span> CSpline::setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, vector&lt;int&gt; recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter)</div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a99e1367c05c2083a560ced0723a7990f">  141</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">CSpline::setup</a>(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, std::vector&lt;int&gt; recmarkers, <span class="keywordtype">bool</span> closed, <span class="keywordtype">bool</span> sequenced, <span class="keywordtype">double</span> _tol, <span class="keywordtype">int</span> _maxiter)</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;{</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    face_list_available = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    </div>
@@ -236,15 +238,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordflow">else</span> nspoin = nseg+1;</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    </div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">if</span>(isClosed)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Closed curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; endl;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Closed curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Open curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; endl;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;CSpline: setup(): Open curve. Number of pieces = &quot;</span> &lt;&lt; nseg &lt;&lt; <span class="stringliteral">&quot;, number of control points = &quot;</span> &lt;&lt; nspoin &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="comment">// allocate stuff</span></div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    </div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    scf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[dim];</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    D = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[dim];</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    srhs = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[dim];</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    scf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[dim];</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    D = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[dim];</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    srhs = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[dim];</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; dim; idim++) {</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        scf[idim].<a class="code" href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">setup</a>(nseg,ndf);</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        D[idim].setup(nseg+1,1);</div>
@@ -268,7 +270,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keyword">delete</span> [] srhs;</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="classacfd_1_1CSpline.html#a5cde414d0ce0ac1ff8a9a707a4ea6948">  200</a></span>&#160;<span class="keywordtype">void</span> CSpline::sequence()</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a831370e4b3a5095ef892865761ea8906">  200</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1CSpline.html#a831370e4b3a5095ef892865761ea8906">CSpline::sequence</a>()</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;{</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">if</span>(!issequenced)</div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    {</div>
@@ -297,7 +299,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                nextface = -1;</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                <span class="keywordflow">for</span>(<span class="keywordtype">int</span> iface = 0; iface &lt; m-&gt;gnface(); iface++)</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                    <span class="keywordflow">if</span>(toRec(iface) == 1 &amp;&amp; m-&gt;gbface(iface,0) == nextpoin) nextface = iface;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                <span class="keywordflow">if</span>(nextface == -1) cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): ! Point not found!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                <span class="keywordflow">if</span>(nextface == -1) std::cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): ! Point not found!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                <span class="keywordflow">if</span>(nextface == startface) <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;            }</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            seq_spoin(np) = seq_spoin(0);       <span class="comment">// close the point list</span></div>
@@ -307,7 +309,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            nextface = startface;</div>
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <span class="comment">//first find the last element</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): Finding first face of open boundary.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): Finding first face of open boundary.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="keywordflow">while</span>(<span class="keyword">true</span>)</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            {</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                curface = nextface;</div>
@@ -319,7 +321,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    <span class="keywordflow">if</span>(toRec(iface) == 1 &amp;&amp; m-&gt;gbface(iface,1) == nextpoin) nextface = iface;</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;                </div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                <span class="keywordflow">if</span>(nextface == -1) {</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                    cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): Reached start of boundary to be reconstructed.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): Reached start of boundary to be reconstructed.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                }</div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            }</div>
@@ -343,8 +345,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                    <span class="keywordflow">if</span>(toRec(iface) == 1 &amp;&amp; m-&gt;gbface(iface,0) == nextpoin) nextface = iface;</div>
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                </div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                <span class="keywordflow">if</span>(nextface == -1) {</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                    cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): &quot;</span> &lt;&lt; nf &lt;&lt; <span class="stringliteral">&quot; boundary faces and &quot;</span> &lt;&lt; np &lt;&lt; <span class="stringliteral">&quot; boundary points sequenced.&quot;</span>  &lt;&lt; endl;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                    <span class="keywordflow">if</span>(nf != nseg) cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): ! All faces are not accounted for!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): &quot;</span> &lt;&lt; nf &lt;&lt; <span class="stringliteral">&quot; boundary faces and &quot;</span> &lt;&lt; np &lt;&lt; <span class="stringliteral">&quot; boundary points sequenced.&quot;</span>  &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                    <span class="keywordflow">if</span>(nf != nseg) std::cout &lt;&lt; <span class="stringliteral">&quot;UMesh2d: sequence(): ! All faces are not accounted for!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                }</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            }</div>
@@ -357,7 +359,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    {</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="keywordflow">if</span>(!face_list_available) {</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;CSpline: sequence(): Boundary part is sequenced, but facelist is not available!!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;CSpline: sequence(): Boundary part is sequenced, but facelist is not available!!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordflow">return</span>;</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        }</div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        </div>
@@ -372,11 +374,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    }</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;}</div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div>
-<div class="line"><a name="l00304"></a><span class="lineno"><a class="line" href="classacfd_1_1CSpline.html#a96c07804c90a228843129b3a181f9b56">  304</a></span>&#160;<span class="keywordtype">void</span> CSpline::compute()</div>
+<div class="line"><a name="l00304"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a2a095424223e9bfd40079f10455d6528">  304</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1CSpline.html#a2a095424223e9bfd40079f10455d6528">CSpline::compute</a>()</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;{</div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="keywordflow">if</span>(isClosed)</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    {</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="comment">// Assemble RHS vector for each dimension</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="comment">// Assemble RHS std::vector for each dimension</span></div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; dim; idim++)</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        {</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            srhs[idim](0) = 3.0*(m-&gt;gcoords(seq_spoin(1),idim) - m-&gt;gcoords(seq_spoin(nseg-1),idim));</div>
@@ -406,7 +408,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;</div>
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    {</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="comment">// Assemble RHS vector for each dimension</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="comment">// Assemble RHS std::vector for each dimension</span></div>
 <div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; dim; idim++)</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        {</div>
 <div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            srhs[idim](0) = 3.0*(m-&gt;gcoords(seq_spoin(1),idim) - m-&gt;gcoords(seq_spoin(0),idim));</div>
@@ -433,14 +435,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    }</div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;</div>
 <div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="comment">// solve</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;CSpline: compute(): Solving linear systems&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> d0(nseg+1,1);</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;CSpline: compute(): Solving linear systems&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a> d0(nseg+1,1);</div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    d0.<a class="code" href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">zeros</a>();</div>
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; dim; idim++)</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        D[idim] = sparseCG_d(&amp;slhs, srhs[idim], d0, tol, maxiter);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        D[idim] = <a class="code" href="namespaceamat.html#a88aef55ee9b1b5e9f9540fd143bd19a6">sparseCG_d</a>(&amp;slhs, srhs[idim], d0, tol, maxiter);</div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    </div>
 <div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="comment">// get coeffs</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;CSpline: compute(): Getting spline coefficients&quot; &lt;&lt; endl;</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="comment">//std::cout &lt;&lt; &quot;CSpline: compute(): Getting spline coefficients&quot; &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keywordtype">double</span> yi, yip;</div>
 <div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; dim; idim++)</div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    {</div>
@@ -456,10 +458,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;            scf[idim](i,3) = 2*(yi - yip) + D[idim](i) + D[idim].<span class="keyword">get</span>(i+1);</div>
 <div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        }</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    }</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;CSpline: compute(): Done.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;CSpline: compute(): Done.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;}</div>
 <div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;</div>
-<div class="line"><a name="l00391"></a><span class="lineno"><a class="line" href="classacfd_1_1CSpline.html#ad88f290e3265e4f30738e099b6991ed7">  391</a></span>&#160;<span class="keywordtype">double</span> CSpline::getspline(<span class="keywordtype">int</span> iface, <span class="keywordtype">int</span> idim, <span class="keywordtype">double</span> t)</div>
+<div class="line"><a name="l00391"></a><span class="lineno"><a class="line" href="classamc_1_1CSpline.html#a6c7e0a879885f80efb4d1f004c81ef9c">  391</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="classamc_1_1CSpline.html#a6c7e0a879885f80efb4d1f004c81ef9c">CSpline::getspline</a>(<span class="keywordtype">int</span> iface, <span class="keywordtype">int</span> idim, <span class="keywordtype">double</span> t)</div>
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;{</div>
 <div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <span class="keywordflow">return</span> scf[idim].get(seq_bface.get(iface),0) + scf[idim].<span class="keyword">get</span>(seq_bface.get(iface),1)*t + scf[idim].<span class="keyword">get</span>(seq_bface.get(iface),2)*t*t + scf[idim].<span class="keyword">get</span>(seq_bface.get(iface),3)*t*t*t;</div>
 <div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;}</div>
@@ -467,41 +469,41 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="comment">// --------------------- End of class CSpline --------------------------------------------------------------------------------------------//</span></div>
 <div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;</div>
 <div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;</div>
-<div class="line"><a name="l00407"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html">  407</a></span>&#160;<span class="keyword">class </span><a class="code" href="classacfd_1_1BoundaryReconstruction2d.html">BoundaryReconstruction2d</a></div>
+<div class="line"><a name="l00407"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html">  407</a></span>&#160;<span class="keyword">class </span><a class="code" href="classamc_1_1BoundaryReconstruction2d.html">BoundaryReconstruction2d</a></div>
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;{</div>
-<div class="line"><a name="l00409"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a71ed12abe7755dc1c1c2edc59810901c">  409</a></span>&#160;    <a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#a71ed12abe7755dc1c1c2edc59810901c">m</a>;                             </div>
-<div class="line"><a name="l00410"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a2a819a200abdd115e3994db764346003">  410</a></span>&#160;    vector&lt;vector&lt;int&gt;&gt; <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#a2a819a200abdd115e3994db764346003">marks</a>;              </div>
-<div class="line"><a name="l00411"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a4ec061628edd6f589efa3e570255c5db">  411</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#a4ec061628edd6f589efa3e570255c5db">cangle</a>;                          </div>
+<div class="line"><a name="l00409"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a72d48389473ce51e7e62bde07c610251">  409</a></span>&#160;    <a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a72d48389473ce51e7e62bde07c610251">m</a>;                             </div>
+<div class="line"><a name="l00410"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a88d7446790ff2370807da7191fb95e5d">  410</a></span>&#160;    std::vector&lt;std::vector&lt;int&gt;&gt; <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a88d7446790ff2370807da7191fb95e5d">marks</a>;                </div>
+<div class="line"><a name="l00411"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#acd3cc7f3a126295d0f211e1c61f1f3f9">  411</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#acd3cc7f3a126295d0f211e1c61f1f3f9">cangle</a>;                          </div>
 <div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <span class="keywordtype">int</span> nparts;</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="keywordtype">int</span> nnparts;</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <a class="code" href="classacfd_1_1CSpline.html">CSpline</a>* sparts;</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    vector&lt;int&gt; ncorners;</div>
-<div class="line"><a name="l00416"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#add22cf7a27d214233c645b8cffbbf287">  416</a></span>&#160;    vector&lt;bool&gt; <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#add22cf7a27d214233c645b8cffbbf287">isClosed</a>;                  </div>
-<div class="line"><a name="l00417"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a0cab28c730bbd47cd23c8e65d3d35d09">  417</a></span>&#160;    vector&lt;bool&gt; <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#a0cab28c730bbd47cd23c8e65d3d35d09">isSplitClosed</a>;             </div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    vector&lt;int&gt; startface;</div>
-<div class="line"><a name="l00419"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#ae7963f8ca0ee5465970b6237b898241e">  419</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#ae7963f8ca0ee5465970b6237b898241e">toRec</a>;                      </div>
-<div class="line"><a name="l00420"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#afff6b159314b81947b31c4e987e1f1a4">  420</a></span>&#160;    vector&lt;vector&lt;vector&lt;int&gt;&gt;&gt; <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#afff6b159314b81947b31c4e987e1f1a4">corners</a>;    </div>
-<div class="line"><a name="l00421"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a52bdfecc179cbc4e5bc023a7f8635e48">  421</a></span>&#160;    vector&lt;vector&lt;int&gt;&gt; <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#a52bdfecc179cbc4e5bc023a7f8635e48">partfaces</a>;          </div>
-<div class="line"><a name="l00422"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#ae599236d2c20ca8d0418f3e140c9a784">  422</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> <a class="code" href="classacfd_1_1BoundaryReconstruction2d.html#ae599236d2c20ca8d0418f3e140c9a784">facepart</a>;                   </div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <a class="code" href="classamc_1_1CSpline.html">CSpline</a>* sparts;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    std::vector&lt;int&gt; ncorners;</div>
+<div class="line"><a name="l00416"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#adeecc68a17f4f1496c62c59972028072">  416</a></span>&#160;    std::vector&lt;bool&gt; <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#adeecc68a17f4f1496c62c59972028072">isClosed</a>;                 </div>
+<div class="line"><a name="l00417"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a962def70e2721b3387cf5a38f26e71b6">  417</a></span>&#160;    std::vector&lt;bool&gt; <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a962def70e2721b3387cf5a38f26e71b6">isSplitClosed</a>;                </div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    std::vector&lt;int&gt; startface;</div>
+<div class="line"><a name="l00419"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a4609024e8eaf8e1fd1c4c703ed0c8a98">  419</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a4609024e8eaf8e1fd1c4c703ed0c8a98">toRec</a>;                        </div>
+<div class="line"><a name="l00420"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a96c629b762bd0badd239eb7e618d0382">  420</a></span>&#160;    std::vector&lt;std::vector&lt;std::vector&lt;int&gt;&gt;&gt; <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a96c629b762bd0badd239eb7e618d0382">corners</a>; </div>
+<div class="line"><a name="l00421"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#ab7bf8ca2963e2ea638beacb03468e85b">  421</a></span>&#160;    std::vector&lt;std::vector&lt;int&gt;&gt; <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#ab7bf8ca2963e2ea638beacb03468e85b">partfaces</a>;            </div>
+<div class="line"><a name="l00422"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a6e772b6563aa7579db629f296bf48004">  422</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a6e772b6563aa7579db629f296bf48004">facepart</a>;                 </div>
 <div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">int</span> num_parts, vector&lt;vector&lt;int&gt;&gt; boundary_markers, <span class="keywordtype">double</span> angle_threshold);</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">int</span> num_parts, std::vector&lt;std::vector&lt;int&gt;&gt; boundary_markers, <span class="keywordtype">double</span> angle_threshold);</div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    ~<a class="code" href="classacfd_1_1BoundaryReconstruction2d.html">BoundaryReconstruction2d</a>();</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    ~<a class="code" href="classamc_1_1BoundaryReconstruction2d.html">BoundaryReconstruction2d</a>();</div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    </div>
 <div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    <span class="keywordtype">void</span> preprocess();</div>
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    <span class="keywordtype">void</span> detect_corners();</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    <span class="keywordtype">void</span> read_corners(<span class="keywordtype">string</span> cname);</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    <span class="keywordtype">void</span> read_corners(std::string cname);</div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;    <span class="keywordtype">void</span> split_parts();</div>
 <div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    <span class="keywordtype">void</span> compute_splines(<span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter);</div>
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    <span class="keywordtype">double</span> getcoords(<span class="keywordtype">int</span> iface, <span class="keywordtype">int</span> idim, <span class="keywordtype">double</span> u);</div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    </div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="comment">//void writeCoeffs(string fname);</span></div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="comment">//void writeCoeffs(std::string fname);</span></div>
 <div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    </div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;    <span class="comment">//void readCoeffs(string fname);</span></div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;    <span class="comment">//void readCoeffs(std::string fname);</span></div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;};</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="keywordtype">void</span> BoundaryReconstruction2d::setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">int</span> num_parts, vector&lt;vector&lt;int&gt;&gt; boundary_markers, <span class="keywordtype">double</span> angle_threshold)</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;<span class="keywordtype">void</span> BoundaryReconstruction2d::setup(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, <span class="keywordtype">int</span> num_parts, std::vector&lt;std::vector&lt;int&gt;&gt; boundary_markers, <span class="keywordtype">double</span> angle_threshold)</div>
 <div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;{</div>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    m = mesh;</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    nparts = num_parts;</div>
@@ -523,7 +525,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;    <span class="keyword">delete</span> [] sparts;</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;}</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;</div>
-<div class="line"><a name="l00477"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#ab0fd17d489e8cdc6905b15c02cefc2d3">  477</a></span>&#160;<span class="keywordtype">void</span> BoundaryReconstruction2d::preprocess()</div>
+<div class="line"><a name="l00477"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a6696d8441e1cf29ac9a89398d76731a7">  477</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a6696d8441e1cf29ac9a89398d76731a7">BoundaryReconstruction2d::preprocess</a>()</div>
 <div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;{</div>
 <div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;    <span class="comment">// populate toRec</span></div>
 <div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    toRec.zeros();</div>
@@ -536,7 +538,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;                    toRec(ipart,iface) = 1;</div>
 <div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;        }</div>
 <div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;    }</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: preprocess(): toRec populated.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: preprocess(): toRec populated.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ipart = 0; ipart &lt; nparts; ipart++)</div>
 <div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    {</div>
 <div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        <span class="keywordtype">int</span> startfac, nextface, curface, nextpoin;</div>
@@ -550,7 +552,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;            }</div>
 <div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;</div>
 <div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        <span class="comment">//next, determine if this part is open or closed</span></div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        <span class="comment">//cout &lt;&lt; &quot;BoundaryReconstruction2d: preprocess(): Determining whether part &quot; &lt;&lt; ipart &lt;&lt; &quot; is open or closed&quot; &lt;&lt; endl;</span></div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        <span class="comment">//std::cout &lt;&lt; &quot;BoundaryReconstruction2d: preprocess(): Determining whether part &quot; &lt;&lt; ipart &lt;&lt; &quot; is open or closed&quot; &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;        nextface = startfac;</div>
 <div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        <span class="keywordflow">while</span>(<span class="keyword">true</span>)</div>
 <div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        {</div>
@@ -585,15 +587,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;            startface[ipart] = curface;</div>
 <div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;        }</div>
 <div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    }</div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: preprocess(): Done.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: preprocess(): Done.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;}</div>
 <div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;</div>
-<div class="line"><a name="l00552"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a206435895d444f4a1c7778c09d9919bd">  552</a></span>&#160;<span class="keywordtype">void</span> BoundaryReconstruction2d::detect_corners()</div>
+<div class="line"><a name="l00552"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a3ba0df7950bafee2a7d2dc369ba541e3">  552</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a3ba0df7950bafee2a7d2dc369ba541e3">BoundaryReconstruction2d::detect_corners</a>()</div>
 <div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;{</div>
 <div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;    <span class="keywordtype">int</span> p1, p2, p3;</div>
 <div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;    <span class="keywordtype">double</span> n1x, n1y, n2x, n2y, mag1, mag2, dp;</div>
 <div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: detect_corners(): Searching each part for corners&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: detect_corners(): Searching each part for corners&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;    </div>
 <div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;    <span class="comment">// Scan each part. At each boundary point, calculate dot product of the two normals of the two faces containing that point.</span></div>
 <div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ipart = 0; ipart &lt; nparts; ipart++)</div>
@@ -624,7 +626,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;</div>
 <div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                <span class="keywordflow">if</span>(dp &lt; cos(cangle))</div>
 <div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;                {</div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                    vector&lt;int&gt; c(4);</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                    std::vector&lt;int&gt; c(4);</div>
 <div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                    c[0] = p2;                      <span class="comment">// global point number</span></div>
 <div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                    c[1] = ipoin;                   <span class="comment">// boundary point number</span></div>
 <div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                    c[2] = m-&gt;gbpointsb(ipoin,1);</div>
@@ -634,22 +636,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                }</div>
 <div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;            }</div>
 <div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;        }</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: detect_corners(): Part &quot;</span> &lt;&lt; ipart &lt;&lt; <span class="stringliteral">&quot; contains &quot;</span> &lt;&lt; ncorners[ipart] &lt;&lt; <span class="stringliteral">&quot; corner(s)&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;  at points &quot;</span>;</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: detect_corners(): Part &quot;</span> &lt;&lt; ipart &lt;&lt; <span class="stringliteral">&quot; contains &quot;</span> &lt;&lt; ncorners[ipart] &lt;&lt; <span class="stringliteral">&quot; corner(s)&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;  at points &quot;</span>;</div>
 <div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 0; i &lt; ncorners[ipart]; i++)</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;            cout &lt;&lt; corners[ipart][i][0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;        cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;            std::cout &lt;&lt; corners[ipart][i][0] &lt;&lt; <span class="stringliteral">&quot;, &quot;</span>;</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;        std::cout &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;    }</div>
 <div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;}</div>
 <div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;</div>
-<div class="line"><a name="l00606"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a23e1fd8efa842c81ceeede8c23d0cca9">  606</a></span>&#160;<span class="keywordtype">void</span> BoundaryReconstruction2d::read_corners(<span class="keywordtype">string</span> cname)</div>
+<div class="line"><a name="l00606"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#af7b1c03c6631164f3abcddcdd3ea97f1">  606</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#af7b1c03c6631164f3abcddcdd3ea97f1">BoundaryReconstruction2d::read_corners</a>(std::string cname)</div>
 <div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;{</div>
 <div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;    <span class="comment">// read corner data from file</span></div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;    ifstream fin(cname);</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;    std::ifstream fin(cname);</div>
 <div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;    </div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: read_corners(): Reading file&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: read_corners(): Reading file&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;    <span class="keywordtype">int</span> dum;</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;    vector&lt;int&gt; c(4,0);                             <span class="comment">// vector of 4 ints with value 0</span></div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;    std::vector&lt;int&gt; c(4,0);                                <span class="comment">// std::vector of 4 ints with value 0</span></div>
 <div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;</div>
 <div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ipart = 0; ipart &lt; nparts; ipart++)</div>
 <div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;    {</div>
@@ -664,7 +666,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;</div>
 <div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;    fin.close();</div>
 <div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: read_corners(): iterating over boundary points&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: read_corners(): iterating over boundary points&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;    </div>
 <div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;    <span class="comment">// also store bpointsb number by searching in bpointsb for each corner point</span></div>
 <div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ipart = 0; ipart &lt; nparts; ipart++)</div>
@@ -678,15 +680,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;    }</div>
 <div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;}</div>
 <div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;</div>
-<div class="line"><a name="l00642"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a3e33697c60da2ca7f7cc7fde9f04738b">  642</a></span>&#160;<span class="keywordtype">void</span> BoundaryReconstruction2d::split_parts()</div>
+<div class="line"><a name="l00642"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#a4f336df45b90eb0e63f4b8a1939d0167">  642</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#a4f336df45b90eb0e63f4b8a1939d0167">BoundaryReconstruction2d::split_parts</a>()</div>
 <div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;{</div>
 <div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;    nnparts = 0;        <span class="comment">// update to get total number of parts after all splits</span></div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: split_parts(): Splitting parts&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: split_parts(): Splitting parts&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;    </div>
 <div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;    <span class="comment">// Split parts containing corners</span></div>
 <div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ipart = 0; ipart &lt; nparts; ipart++)</div>
 <div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;    {</div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;        vector&lt;int&gt; facelist;</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;        std::vector&lt;int&gt; facelist;</div>
 <div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;</div>
 <div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;        <span class="keywordflow">if</span>(ncorners[ipart] == 0)</div>
 <div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;        {</div>
@@ -717,23 +719,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;        <span class="keywordflow">if</span>(isClosed[ipart])</div>
 <div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;        {</div>
 <div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;            <span class="keywordtype">int</span> nsplits = ncorners[ipart];</div>
-<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: split_parts(): Part &quot;</span> &lt;&lt; ipart &lt;&lt; <span class="stringliteral">&quot; is closed and contains &quot;</span> &lt;&lt; nsplits &lt;&lt; <span class="stringliteral">&quot; corners.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;            std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: split_parts(): Part &quot;</span> &lt;&lt; ipart &lt;&lt; <span class="stringliteral">&quot; is closed and contains &quot;</span> &lt;&lt; nsplits &lt;&lt; <span class="stringliteral">&quot; corners.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;</div>
 <div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;            <span class="comment">// Change startface for this part to get a corner point face as startface</span></div>
 <div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;            <span class="comment">// that is, set startface as the face to the right of the first corner point.</span></div>
 <div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;            startface[ipart] = m-&gt;gbpointsb(corners[ipart][0][1],2);</div>
 <div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;</div>
-<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;            vector&lt;int&gt; startfac(nsplits);</div>
+<div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;            std::vector&lt;int&gt; startfac(nsplits);</div>
 <div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;            startfac[0] = startface[ipart];</div>
 <div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 1; i &lt; ncorners[ipart]; i++)</div>
 <div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;                startfac[i] = m-&gt;gbpointsb(corners[ipart][i][1], 2);</div>
 <div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;            </div>
 <div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;            <span class="comment">// now traverse the parent part in order, looking for startfacs</span></div>
 <div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;            <span class="keywordtype">int</span> nextface = startface[ipart], curface, nextpoint; </div>
-<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;            <span class="comment">//cout &lt;&lt; &quot;Startface is &quot; &lt;&lt; nextface &lt;&lt; &quot; &quot; &lt;&lt; m-&gt;gbface(nextface,0)  &lt;&lt; endl;</span></div>
+<div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;            <span class="comment">//std::cout &lt;&lt; &quot;Startface is &quot; &lt;&lt; nextface &lt;&lt; &quot; &quot; &lt;&lt; m-&gt;gbface(nextface,0)  &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;            <span class="keywordtype">int</span> nspl = 0;</div>
 <div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;</div>
-<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;            <span class="comment">//cout &lt;&lt; &quot;BoundaryReconstruction2d: split_parts(): Starting loop&quot; &lt;&lt; endl;</span></div>
+<div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;            <span class="comment">//std::cout &lt;&lt; &quot;BoundaryReconstruction2d: split_parts(): Starting loop&quot; &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;</div>
 <div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;            <span class="keywordflow">while</span>(<span class="keyword">true</span>)</div>
 <div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;            {</div>
@@ -749,13 +751,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;                <span class="keywordflow">for</span>(i = 0; i &lt; nsplits; i++)</div>
 <div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;                    <span class="keywordflow">if</span>(nextface == startfac[i])             <span class="comment">// if we&#39;ve reached the beginning of the next part </span></div>
 <div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;                    {   </div>
-<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;                        <span class="comment">// add the new part to partfces vector</span></div>
+<div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;                        <span class="comment">// add the new part to partfces std::vector</span></div>
 <div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;                        partfaces.push_back(facelist);</div>
 <div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;</div>
 <div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;                        <span class="comment">// new split parts are always open</span></div>
 <div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;                        isSplitClosed.push_back(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;</div>
-<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                        <span class="comment">// reset vector facelist</span></div>
+<div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;                        <span class="comment">// reset std::vector facelist</span></div>
 <div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;                        facelist.clear();</div>
 <div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;</div>
 <div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;                        nnparts++;                                  <span class="comment">// new number of parts</span></div>
@@ -775,7 +777,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160;<span class="comment">                    nspl++;</span></div>
 <div class="line"><a name="l00737"></a><span class="lineno">  737</span>&#160;<span class="comment"></span></div>
 <div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;<span class="comment">                    // exit from loop</span></div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;<span class="comment">                    cout &lt;&lt; &quot;BoundaryReconstruction2d: split_parts(): Part &quot; &lt;&lt; ipart &lt;&lt; &quot; split into &quot; &lt;&lt; nspl &lt;&lt; &quot; part(s) (out of &quot; &lt;&lt; nsplits &lt;&lt; &quot; part(s)).&quot;  &lt;&lt; endl;</span></div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;<span class="comment">                    std::cout &lt;&lt; &quot;BoundaryReconstruction2d: split_parts(): Part &quot; &lt;&lt; ipart &lt;&lt; &quot; split into &quot; &lt;&lt; nspl &lt;&lt; &quot; part(s) (out of &quot; &lt;&lt; nsplits &lt;&lt; &quot; part(s)).&quot;  &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;<span class="comment">                    break;</span></div>
 <div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;<span class="comment">                }*/</span></div>
 <div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;            }</div>
@@ -786,7 +788,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00747"></a><span class="lineno">  747</span>&#160;            <span class="comment">// just split from startface to corner face 1, and then from corner face 2 to end face, etc</span></div>
 <div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;            <span class="comment">// Note, however, that the corners are not necessarily in order.</span></div>
 <div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;            <span class="keywordtype">int</span> nsplits = ncorners[ipart]+1;</div>
-<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;            vector&lt;int&gt; startfac(nsplits);</div>
+<div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;            std::vector&lt;int&gt; startfac(nsplits);</div>
 <div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160;            startfac[0] = startface[ipart];</div>
 <div class="line"><a name="l00752"></a><span class="lineno">  752</span>&#160;            <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 1; i &lt; ncorners[ipart]+1; i++)</div>
 <div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;                startfac[i] = m-&gt;gbpointsb(corners[ipart][i-1][1], 2);</div>
@@ -808,11 +810,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;                    <span class="keywordflow">if</span>(nextface == startfac[i]) </div>
 <div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;                    {   <span class="comment">// if we&#39;ve reached the beginning of the next part</span></div>
 <div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                        <span class="comment">// add the new part to partfces vector</span></div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;                        <span class="comment">// add the new part to partfces std::vector</span></div>
 <div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;                        partfaces.push_back(facelist);</div>
 <div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;                        isSplitClosed.push_back(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;</div>
-<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                        <span class="comment">// reset vector facelist</span></div>
+<div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;                        <span class="comment">// reset std::vector facelist</span></div>
 <div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;                        facelist.clear();</div>
 <div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;</div>
 <div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;                        nnparts++;                  <span class="comment">// new number of parts</span></div>
@@ -830,7 +832,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00791"></a><span class="lineno">  791</span>&#160;                    nspl++;</div>
 <div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;</div>
 <div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;                    <span class="comment">// exit from loop</span></div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;                    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: split_parts(): Part &quot;</span> &lt;&lt; ipart &lt;&lt; <span class="stringliteral">&quot;split into &quot;</span> &lt;&lt; nspl &lt;&lt; <span class="stringliteral">&quot;parts (out of &quot;</span> &lt;&lt; nsplits &lt;&lt; <span class="stringliteral">&quot; parts).&quot;</span>  &lt;&lt; endl;</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: split_parts(): Part &quot;</span> &lt;&lt; ipart &lt;&lt; <span class="stringliteral">&quot;split into &quot;</span> &lt;&lt; nspl &lt;&lt; <span class="stringliteral">&quot;parts (out of &quot;</span> &lt;&lt; nsplits &lt;&lt; <span class="stringliteral">&quot; parts).&quot;</span>  &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;                    <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;                }</div>
 <div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;            }</div>
@@ -838,20 +840,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;    }</div>
 <div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;}</div>
 <div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;</div>
-<div class="line"><a name="l00802"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#a52e0575703efd8b9bb15f0961b366905">  802</a></span>&#160;<span class="keywordtype">void</span> BoundaryReconstruction2d::compute_splines(<span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
+<div class="line"><a name="l00802"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#abf2d1aa32688f535f38f2a22a054502c">  802</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#abf2d1aa32688f535f38f2a22a054502c">BoundaryReconstruction2d::compute_splines</a>(<span class="keywordtype">double</span> tol, <span class="keywordtype">int</span> maxiter)</div>
 <div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;{</div>
-<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;    sparts = <span class="keyword">new</span> <a class="code" href="classacfd_1_1CSpline.html">CSpline</a>[nnparts];</div>
+<div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;    sparts = <span class="keyword">new</span> <a class="code" href="classamc_1_1CSpline.html">CSpline</a>[nnparts];</div>
 <div class="line"><a name="l00805"></a><span class="lineno">  805</span>&#160;</div>
 <div class="line"><a name="l00806"></a><span class="lineno">  806</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ipart = 0; ipart &lt; nnparts; ipart++)</div>
 <div class="line"><a name="l00807"></a><span class="lineno">  807</span>&#160;    {</div>
-<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;        sparts[ipart].<a class="code" href="classacfd_1_1CSpline.html#aa4bcfc044e13c21dcc87a038416d7706">setup</a>(m,partfaces[ipart],isSplitClosed[ipart],<span class="keyword">true</span>,tol,maxiter);</div>
+<div class="line"><a name="l00808"></a><span class="lineno">  808</span>&#160;        sparts[ipart].<a class="code" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">setup</a>(m,partfaces[ipart],isSplitClosed[ipart],<span class="keyword">true</span>,tol,maxiter);</div>
 <div class="line"><a name="l00809"></a><span class="lineno">  809</span>&#160;        sparts[ipart].sequence();</div>
 <div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;        sparts[ipart].compute();</div>
 <div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;    }</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: compute_splines(): Computed all spline pieces.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;    std::cout &lt;&lt; <span class="stringliteral">&quot;BoundaryReconstruction2d: compute_splines(): Computed all spline pieces.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;}</div>
 <div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;</div>
-<div class="line"><a name="l00815"></a><span class="lineno"><a class="line" href="classacfd_1_1BoundaryReconstruction2d.html#ae333da27a1b9ed29d8b91627f39cda3f">  815</a></span>&#160;<span class="keywordtype">double</span> BoundaryReconstruction2d::getcoords(<span class="keywordtype">int</span> iface, <span class="keywordtype">int</span> idim, <span class="keywordtype">double</span> u)</div>
+<div class="line"><a name="l00815"></a><span class="lineno"><a class="line" href="classamc_1_1BoundaryReconstruction2d.html#ad91f286d5228211bb335a50d985b9447">  815</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="classamc_1_1BoundaryReconstruction2d.html#ad91f286d5228211bb335a50d985b9447">BoundaryReconstruction2d::getcoords</a>(<span class="keywordtype">int</span> iface, <span class="keywordtype">int</span> idim, <span class="keywordtype">double</span> u)</div>
 <div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;{</div>
 <div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    <span class="keywordflow">return</span> sparts[facepart(iface,0)].getspline(iface,idim,u);</div>
 <div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;}</div>
@@ -859,19 +861,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;<span class="comment">// ---------------------------- End of class BoundaryReconstruction2d ---------------------------------------------------------------------//</span></div>
 <div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;</div>
 <div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;</div>
-<div class="line"><a name="l00831"></a><span class="lineno"><a class="line" href="classacfd_1_1HermiteSpline2d.html">  831</a></span>&#160;<span class="keyword">class </span><a class="code" href="classacfd_1_1HermiteSpline2d.html">HermiteSpline2d</a></div>
+<div class="line"><a name="l00831"></a><span class="lineno"><a class="line" href="classamc_1_1HermiteSpline2d.html">  831</a></span>&#160;<span class="keyword">class </span><a class="code" href="classamc_1_1HermiteSpline2d.html">HermiteSpline2d</a></div>
 <div class="line"><a name="l00832"></a><span class="lineno">  832</span>&#160;{</div>
-<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;    <span class="keyword">typedef</span> double(<a class="code" href="classacfd_1_1HermiteSpline2d.html">HermiteSpline2d</a>::*Basispointer)(double);</div>
-<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;    <a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* m;                                             <span class="comment">// NOTE: make sure compute_topological() has been done for this mesh before passing!</span></div>
-<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> rfl;                                        <span class="comment">// the markers of the boundaries to be reconstructed</span></div>
+<div class="line"><a name="l00833"></a><span class="lineno">  833</span>&#160;    <span class="keyword">typedef</span> double(<a class="code" href="classamc_1_1HermiteSpline2d.html">HermiteSpline2d</a>::*Basispointer)(double);</div>
+<div class="line"><a name="l00834"></a><span class="lineno">  834</span>&#160;    <a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* m;                                             <span class="comment">// NOTE: make sure compute_topological() has been done for this mesh before passing!</span></div>
+<div class="line"><a name="l00835"></a><span class="lineno">  835</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> rfl;                                      <span class="comment">// the markers of the boundaries to be reconstructed</span></div>
 <div class="line"><a name="l00836"></a><span class="lineno">  836</span>&#160;    <span class="keywordtype">int</span> nseg;                                               <span class="comment">// number of curve segments - equal to number of boundary faces to reconstruct</span></div>
 <div class="line"><a name="l00837"></a><span class="lineno">  837</span>&#160;    <span class="keywordtype">int</span> ndeg;                                               <span class="comment">// degree of spline interpolation - usually 3</span></div>
 <div class="line"><a name="l00838"></a><span class="lineno">  838</span>&#160;    <span class="keywordtype">int</span> ndf;                                                <span class="comment">// Number of &#39;degrees of freedom&#39; per face - this 1+ndeg.</span></div>
-<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>* cf;                                     <span class="comment">// to store geometric coefficients</span></div>
-<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> gallfa;                                  <span class="comment">// Normals etc of boundary faces in bfaces</span></div>
-<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> toRec;                                      <span class="comment">// Contains 1 if the corresponding intfac is to be reconstructed, otherwise contains 0</span></div>
-<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> isCorner;                                   <span class="comment">// contains 1 of this point is a corner point</span></div>
-<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> ptangents;                               <span class="comment">// Contains average tangent at each boundary point. Uses UMesh2d::bpoints.</span></div>
+<div class="line"><a name="l00839"></a><span class="lineno">  839</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>* cf;                                       <span class="comment">// to store geometric coefficients</span></div>
+<div class="line"><a name="l00840"></a><span class="lineno">  840</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a> gallfa;                                    <span class="comment">// Normals etc of boundary faces in bfaces</span></div>
+<div class="line"><a name="l00841"></a><span class="lineno">  841</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> toRec;                                        <span class="comment">// Contains 1 if the corresponding intfac is to be reconstructed, otherwise contains 0</span></div>
+<div class="line"><a name="l00842"></a><span class="lineno">  842</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> isCorner;                                 <span class="comment">// contains 1 of this point is a corner point</span></div>
+<div class="line"><a name="l00843"></a><span class="lineno">  843</span>&#160;    <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a> ptangents;                             <span class="comment">// Contains average tangent at each boundary point. Uses UMesh2d::bpoints.</span></div>
 <div class="line"><a name="l00844"></a><span class="lineno">  844</span>&#160;    Basispointer* F;                                        <span class="comment">// Array of function pointers for Hermite basis functions</span></div>
 <div class="line"><a name="l00845"></a><span class="lineno">  845</span>&#160;    <span class="keywordtype">double</span> angle_threshold;                                 <span class="comment">// Minimum angle (in radians) between two tangents for point to qualify as corner point</span></div>
 <div class="line"><a name="l00846"></a><span class="lineno">  846</span>&#160;</div>
@@ -886,7 +888,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00855"></a><span class="lineno">  855</span>&#160;    <span class="keywordtype">double</span> f3(<span class="keywordtype">double</span> u) { <span class="keywordflow">return</span> u*u*u - u*u; }</div>
 <div class="line"><a name="l00856"></a><span class="lineno">  856</span>&#160;</div>
 <div class="line"><a name="l00857"></a><span class="lineno">  857</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classacfd_1_1UMesh2d.html">UMesh2d</a>* mesh, <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;int&gt;</a> rflags, <span class="keywordtype">double</span> angle)</div>
+<div class="line"><a name="l00858"></a><span class="lineno">  858</span>&#160;    <span class="keywordtype">void</span> setup(<a class="code" href="classamc_1_1UMesh2d.html">UMesh2d</a>* mesh, <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;int&gt;</a> rflags, <span class="keywordtype">double</span> angle)</div>
 <div class="line"><a name="l00859"></a><span class="lineno">  859</span>&#160;    {</div>
 <div class="line"><a name="l00860"></a><span class="lineno">  860</span>&#160;        m = mesh;</div>
 <div class="line"><a name="l00861"></a><span class="lineno">  861</span>&#160;        rfl = rflags;</div>
@@ -901,7 +903,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00870"></a><span class="lineno">  870</span>&#160;        F[1] = &amp;HermiteSpline2d::f1;</div>
 <div class="line"><a name="l00871"></a><span class="lineno">  871</span>&#160;        F[2] = &amp;HermiteSpline2d::f2;</div>
 <div class="line"><a name="l00872"></a><span class="lineno">  872</span>&#160;        F[3] = &amp;HermiteSpline2d::f3;</div>
-<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;        <span class="comment">//cout &lt;&lt; (this-&gt;*F[0])(2.1);</span></div>
+<div class="line"><a name="l00873"></a><span class="lineno">  873</span>&#160;        <span class="comment">//std::cout &lt;&lt; (this-&gt;*F[0])(2.1);</span></div>
 <div class="line"><a name="l00874"></a><span class="lineno">  874</span>&#160;</div>
 <div class="line"><a name="l00875"></a><span class="lineno">  875</span>&#160;        toRec.setup(m-&gt;gnbface(),1);</div>
 <div class="line"><a name="l00876"></a><span class="lineno">  876</span>&#160;        toRec.zeros();</div>
@@ -919,7 +921,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00888"></a><span class="lineno">  888</span>&#160;        ptangents.setup(m-&gt;gnpoin(), m-&gt;gndim());           <span class="comment">// stores components of unit tangent at each boundary point by averaging tangents of faces around that point.</span></div>
 <div class="line"><a name="l00889"></a><span class="lineno">  889</span>&#160;        ptangents.zeros();</div>
 <div class="line"><a name="l00890"></a><span class="lineno">  890</span>&#160;</div>
-<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;        cf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[m-&gt;gndim()];</div>
+<div class="line"><a name="l00891"></a><span class="lineno">  891</span>&#160;        cf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[m-&gt;gndim()];</div>
 <div class="line"><a name="l00892"></a><span class="lineno">  892</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; m-&gt;gndim(); idim++) {</div>
 <div class="line"><a name="l00893"></a><span class="lineno">  893</span>&#160;            cf[idim].<a class="code" href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">setup</a>(m-&gt;gnbface(),ndeg+1);</div>
 <div class="line"><a name="l00894"></a><span class="lineno">  894</span>&#160;            cf[idim].zeros();</div>
@@ -931,7 +933,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00900"></a><span class="lineno">  900</span>&#160;        store_intfac = <span class="keyword">true</span>;</div>
 <div class="line"><a name="l00901"></a><span class="lineno">  901</span>&#160;    }</div>
 <div class="line"><a name="l00902"></a><span class="lineno">  902</span>&#160;</div>
-<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;    ~<a class="code" href="classacfd_1_1HermiteSpline2d.html">HermiteSpline2d</a>()</div>
+<div class="line"><a name="l00903"></a><span class="lineno">  903</span>&#160;    ~<a class="code" href="classamc_1_1HermiteSpline2d.html">HermiteSpline2d</a>()</div>
 <div class="line"><a name="l00904"></a><span class="lineno">  904</span>&#160;    {</div>
 <div class="line"><a name="l00905"></a><span class="lineno">  905</span>&#160;        <span class="keyword">delete</span> [] F;</div>
 <div class="line"><a name="l00906"></a><span class="lineno">  906</span>&#160;        <span class="keyword">delete</span> [] cf;</div>
@@ -940,22 +942,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00909"></a><span class="lineno">  909</span>&#160;    <span class="keywordtype">void</span> compute_splines()</div>
 <div class="line"><a name="l00910"></a><span class="lineno">  910</span>&#160;    {</div>
 <div class="line"><a name="l00911"></a><span class="lineno">  911</span>&#160;        <span class="comment">// get point tangents first</span></div>
-<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;HermiteSpline2D: compute_splines(): Getting tangents of boundary points.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00912"></a><span class="lineno">  912</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;HermiteSpline2D: compute_splines(): Getting tangents of boundary points.&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00913"></a><span class="lineno">  913</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> ipoin = 0; ipoin &lt; m-&gt;gnbpoin(); ipoin++)</div>
 <div class="line"><a name="l00914"></a><span class="lineno">  914</span>&#160;        {</div>
-<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;            <span class="comment">// in 2D, bpoints is not an array of stl vectors - we know there are only two faces surrounding each boundary point</span></div>
+<div class="line"><a name="l00915"></a><span class="lineno">  915</span>&#160;            <span class="comment">// in 2D, bpoints is not an array of stl std::vectors - we know there are only two faces surrounding each boundary point</span></div>
 <div class="line"><a name="l00916"></a><span class="lineno">  916</span>&#160;            <span class="comment">// if edge is bounded by (x1,y1) and (x2,y2), tangent to edge is (x2-x1)i + (y2-y1)j</span></div>
 <div class="line"><a name="l00917"></a><span class="lineno">  917</span>&#160;</div>
 <div class="line"><a name="l00918"></a><span class="lineno">  918</span>&#160;            <span class="comment">// first check if this point belongs to a face that needs to be reconstructed</span></div>
 <div class="line"><a name="l00919"></a><span class="lineno">  919</span>&#160;            <span class="keywordflow">if</span>(toRec(m-&gt;gbpoints(ipoin,1))==1  || toRec(m-&gt;gbpoints(ipoin,2))==1)</div>
 <div class="line"><a name="l00920"></a><span class="lineno">  920</span>&#160;            {</div>
 <div class="line"><a name="l00921"></a><span class="lineno">  921</span>&#160;</div>
-<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;                vector&lt;int&gt; en(2);</div>
+<div class="line"><a name="l00922"></a><span class="lineno">  922</span>&#160;                std::vector&lt;int&gt; en(2);</div>
 <div class="line"><a name="l00923"></a><span class="lineno">  923</span>&#160;</div>
 <div class="line"><a name="l00924"></a><span class="lineno">  924</span>&#160;                <span class="comment">// get intfac faces containing this point</span></div>
 <div class="line"><a name="l00925"></a><span class="lineno">  925</span>&#160;                en[0] = m-&gt;gbpoints(ipoin,1);</div>
 <div class="line"><a name="l00926"></a><span class="lineno">  926</span>&#160;                en[1] = m-&gt;gbpoints(ipoin,2);</div>
-<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;                <span class="comment">//cout &lt;&lt; en[0] &lt;&lt; &quot; &quot; &lt;&lt; en[1] &lt;&lt; endl;</span></div>
+<div class="line"><a name="l00927"></a><span class="lineno">  927</span>&#160;                <span class="comment">//std::cout &lt;&lt; en[0] &lt;&lt; &quot; &quot; &lt;&lt; en[1] &lt;&lt; std::endl;</span></div>
 <div class="line"><a name="l00928"></a><span class="lineno">  928</span>&#160;</div>
 <div class="line"><a name="l00929"></a><span class="lineno">  929</span>&#160;                <span class="keywordtype">double</span> xt, yt, dotx = 1, doty = 1, mag;</div>
 <div class="line"><a name="l00930"></a><span class="lineno">  930</span>&#160;</div>
@@ -973,7 +975,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00942"></a><span class="lineno">  942</span>&#160;                ptangents(m-&gt;gbpoints(ipoin,0),0) /= 2.0;</div>
 <div class="line"><a name="l00943"></a><span class="lineno">  943</span>&#160;                ptangents(m-&gt;gbpoints(ipoin,0),1) /= 2.0;</div>
 <div class="line"><a name="l00944"></a><span class="lineno">  944</span>&#160;</div>
-<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;                <span class="comment">// now normalize the averaged tangent vector</span></div>
+<div class="line"><a name="l00945"></a><span class="lineno">  945</span>&#160;                <span class="comment">// now normalize the averaged tangent std::vector</span></div>
 <div class="line"><a name="l00946"></a><span class="lineno">  946</span>&#160;                mag = sqrt(ptangents(m-&gt;gbpoints(ipoin,0),0)*ptangents(m-&gt;gbpoints(ipoin,0),0) + ptangents(m-&gt;gbpoints(ipoin,0),1)*ptangents(m-&gt;gbpoints(ipoin,0),1));</div>
 <div class="line"><a name="l00947"></a><span class="lineno">  947</span>&#160;                ptangents(m-&gt;gbpoints(ipoin,0),0) /= mag;</div>
 <div class="line"><a name="l00948"></a><span class="lineno">  948</span>&#160;                ptangents(m-&gt;gbpoints(ipoin,0),1) /= mag;</div>
@@ -982,14 +984,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00951"></a><span class="lineno">  951</span>&#160;                <span class="keywordtype">double</span> dotp = dotx+doty;            <span class="comment">// dot product of tangents of the two faces</span></div>
 <div class="line"><a name="l00952"></a><span class="lineno">  952</span>&#160;                <span class="keywordflow">if</span>(dotp &lt; cos(angle_threshold)) { </div>
 <div class="line"><a name="l00953"></a><span class="lineno">  953</span>&#160;                    isCorner(m-&gt;gbpoints(ipoin,0)) = 1;             <span class="comment">// set isCorner for global point number corresponding to boundary point ipoin</span></div>
-<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;                    cout &lt;&lt; <span class="stringliteral">&quot;Boundary point &quot;</span> &lt;&lt; m-&gt;gbpoints(ipoin,0) &lt;&lt; <span class="stringliteral">&quot; is a corner point!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00954"></a><span class="lineno">  954</span>&#160;                    std::cout &lt;&lt; <span class="stringliteral">&quot;Boundary point &quot;</span> &lt;&lt; m-&gt;gbpoints(ipoin,0) &lt;&lt; <span class="stringliteral">&quot; is a corner point!&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00955"></a><span class="lineno">  955</span>&#160;                }</div>
 <div class="line"><a name="l00956"></a><span class="lineno">  956</span>&#160;            }</div>
 <div class="line"><a name="l00957"></a><span class="lineno">  957</span>&#160;        }</div>
 <div class="line"><a name="l00958"></a><span class="lineno">  958</span>&#160;</div>
 <div class="line"><a name="l00959"></a><span class="lineno">  959</span>&#160;        <span class="comment">// iterate over boundary faces of the mesh</span></div>
-<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;HermiteSpline2D: compute_splines(): Iterating over boundary faces to get tangents.&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;        vector&lt;int&gt; pnts(m-&gt;gnnofa());      <span class="comment">// to store point numbers of points making up iface</span></div>
+<div class="line"><a name="l00960"></a><span class="lineno">  960</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;HermiteSpline2D: compute_splines(): Iterating over boundary faces to get tangents.&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00961"></a><span class="lineno">  961</span>&#160;        std::vector&lt;int&gt; pnts(m-&gt;gnnofa());     <span class="comment">// to store point numbers of points making up iface</span></div>
 <div class="line"><a name="l00962"></a><span class="lineno">  962</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> iface = 0; iface &lt; m-&gt;gnbface(); iface++)</div>
 <div class="line"><a name="l00963"></a><span class="lineno">  963</span>&#160;        {</div>
 <div class="line"><a name="l00964"></a><span class="lineno">  964</span>&#160;            <span class="keywordflow">if</span>(toRec(iface) == 1)</div>
@@ -1021,7 +1023,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00990"></a><span class="lineno">  990</span>&#160;        }</div>
 <div class="line"><a name="l00991"></a><span class="lineno">  991</span>&#160;</div>
 <div class="line"><a name="l00992"></a><span class="lineno">  992</span>&#160;        <span class="comment">// iterate over boundary faces of mesh again to calculate geometric spline coeffs from gallfa and intfac</span></div>
-<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;HermiteSpline2d: compute_splines(): Iterating over boundary faces again to compute geometric coefficients of the splines&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00993"></a><span class="lineno">  993</span>&#160;        std::cout &lt;&lt; <span class="stringliteral">&quot;HermiteSpline2d: compute_splines(): Iterating over boundary faces again to compute geometric coefficients of the splines&quot;</span> &lt;&lt; std::endl;</div>
 <div class="line"><a name="l00994"></a><span class="lineno">  994</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> iface = 0; iface &lt; m-&gt;gnbface(); iface++)</div>
 <div class="line"><a name="l00995"></a><span class="lineno">  995</span>&#160;            <span class="keywordflow">if</span>(toRec(iface) == 1)</div>
 <div class="line"><a name="l00996"></a><span class="lineno">  996</span>&#160;            {</div>
@@ -1044,9 +1046,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01013"></a><span class="lineno"> 1013</span>&#160;        <span class="keywordflow">return</span> val;</div>
 <div class="line"><a name="l01014"></a><span class="lineno"> 1014</span>&#160;    }</div>
 <div class="line"><a name="l01015"></a><span class="lineno"> 1015</span>&#160;</div>
-<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;    <span class="keywordtype">void</span> writeGeomCoeffsToFile(<span class="keywordtype">string</span> fname)</div>
+<div class="line"><a name="l01016"></a><span class="lineno"> 1016</span>&#160;    <span class="keywordtype">void</span> writeGeomCoeffsToFile(std::string fname)</div>
 <div class="line"><a name="l01017"></a><span class="lineno"> 1017</span>&#160;    {</div>
-<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;        ofstream ofs(fname);</div>
+<div class="line"><a name="l01018"></a><span class="lineno"> 1018</span>&#160;        std::ofstream ofs(fname);</div>
 <div class="line"><a name="l01019"></a><span class="lineno"> 1019</span>&#160;        <span class="keywordflow">if</span>(store_intfac == <span class="keyword">true</span>)</div>
 <div class="line"><a name="l01020"></a><span class="lineno"> 1020</span>&#160;        {</div>
 <div class="line"><a name="l01021"></a><span class="lineno"> 1021</span>&#160;            ofs &lt;&lt; <span class="stringliteral">&quot;Dims &quot;</span> &lt;&lt; m-&gt;gndim() &lt;&lt;  <span class="stringliteral">&quot; DFs &quot;</span> &lt;&lt; ndf &lt;&lt; <span class="stringliteral">&quot; nbface &quot;</span> &lt;&lt; m-&gt;gnbface() &lt;&lt;  <span class="charliteral">&#39;\n&#39;</span>;</div>
@@ -1080,12 +1082,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01049"></a><span class="lineno"> 1049</span>&#160;        ofs.close();</div>
 <div class="line"><a name="l01050"></a><span class="lineno"> 1050</span>&#160;    }</div>
 <div class="line"><a name="l01051"></a><span class="lineno"> 1051</span>&#160;</div>
-<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;    <span class="keywordtype">void</span> readGeomCoeffsFromFile(<span class="keywordtype">string</span> fname)</div>
+<div class="line"><a name="l01052"></a><span class="lineno"> 1052</span>&#160;    <span class="keywordtype">void</span> readGeomCoeffsFromFile(std::string fname)</div>
 <div class="line"><a name="l01053"></a><span class="lineno"> 1053</span>&#160;    <span class="comment">// Reads a file written by writeGeomCoeffsToFile() and stores the data in cf.</span></div>
 <div class="line"><a name="l01054"></a><span class="lineno"> 1054</span>&#160;    <span class="comment">// NOTE: Faces are arranged in cf according to BFACE numbers now.</span></div>
 <div class="line"><a name="l01055"></a><span class="lineno"> 1055</span>&#160;    {</div>
-<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;        ifstream fin(fname);</div>
-<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;        <span class="keywordtype">string</span> dum; <span class="keywordtype">int</span> ddim; <span class="keywordtype">int</span> nbface;</div>
+<div class="line"><a name="l01056"></a><span class="lineno"> 1056</span>&#160;        std::ifstream fin(fname);</div>
+<div class="line"><a name="l01057"></a><span class="lineno"> 1057</span>&#160;        std::string dum; <span class="keywordtype">int</span> ddim; <span class="keywordtype">int</span> nbface;</div>
 <div class="line"><a name="l01058"></a><span class="lineno"> 1058</span>&#160;        fin &gt;&gt; dum; fin &gt;&gt; nndim; fin &gt;&gt; dum; fin &gt;&gt; ndf; fin &gt;&gt; dum; fin &gt;&gt; nnbface;</div>
 <div class="line"><a name="l01059"></a><span class="lineno"> 1059</span>&#160;        F = <span class="keyword">new</span> Basispointer[ndf];</div>
 <div class="line"><a name="l01060"></a><span class="lineno"> 1060</span>&#160;</div>
@@ -1094,7 +1096,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01063"></a><span class="lineno"> 1063</span>&#160;        F[2] = &amp;HermiteSpline2d::f2;</div>
 <div class="line"><a name="l01064"></a><span class="lineno"> 1064</span>&#160;        F[3] = &amp;HermiteSpline2d::f3;</div>
 <div class="line"><a name="l01065"></a><span class="lineno"> 1065</span>&#160;</div>
-<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;        cf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a>[nndim];</div>
+<div class="line"><a name="l01066"></a><span class="lineno"> 1066</span>&#160;        cf = <span class="keyword">new</span> <a class="code" href="classamat_1_1Matrix.html">amat::Matrix&lt;double&gt;</a>[nndim];</div>
 <div class="line"><a name="l01067"></a><span class="lineno"> 1067</span>&#160;        <span class="keywordflow">for</span>(<span class="keywordtype">int</span> idim = 0; idim &lt; nndim; idim++) {</div>
 <div class="line"><a name="l01068"></a><span class="lineno"> 1068</span>&#160;            cf[idim].<a class="code" href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">setup</a>(nnbface,ndf);</div>
 <div class="line"><a name="l01069"></a><span class="lineno"> 1069</span>&#160;            cf[idim].zeros();</div>
@@ -1118,25 +1120,50 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l01087"></a><span class="lineno"> 1087</span>&#160;    }</div>
 <div class="line"><a name="l01088"></a><span class="lineno"> 1088</span>&#160;};</div>
 <div class="line"><a name="l01089"></a><span class="lineno"> 1089</span>&#160;</div>
-<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;}</div>
-<div class="ttc" id="classamat_1_1MatrixCOO_html"><div class="ttname"><a href="classamat_1_1MatrixCOO.html">amat::MatrixCOO</a></div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:76</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_a71ed12abe7755dc1c1c2edc59810901c"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#a71ed12abe7755dc1c1c2edc59810901c">acfd::BoundaryReconstruction2d::m</a></div><div class="ttdeci">UMesh2d * m</div><div class="ttdoc">NOTE: make sure bpointsb has been computed! </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:409</div></div>
-<div class="ttc" id="classacfd_1_1UMesh2d_html"><div class="ttname"><a href="classacfd_1_1UMesh2d.html">acfd::UMesh2d</a></div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:64</div></div>
-<div class="ttc" id="classacfd_1_1CSpline_html_aa4bcfc044e13c21dcc87a038416d7706"><div class="ttname"><a href="classacfd_1_1CSpline.html#aa4bcfc044e13c21dcc87a038416d7706">acfd::CSpline::setup</a></div><div class="ttdeci">void setup(UMesh2d *mesh, Matrix&lt; int &gt; recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:76</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_a52bdfecc179cbc4e5bc023a7f8635e48"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#a52bdfecc179cbc4e5bc023a7f8635e48">acfd::BoundaryReconstruction2d::partfaces</a></div><div class="ttdeci">vector&lt; vector&lt; int &gt; &gt; partfaces</div><div class="ttdoc">stores a list of ordered faces for each part </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:421</div></div>
-<div class="ttc" id="classacfd_1_1CSpline_html"><div class="ttname"><a href="classacfd_1_1CSpline.html">acfd::CSpline</a></div><div class="ttdef"><b>Definition:</b> ageometry.hpp:28</div></div>
-<div class="ttc" id="classacfd_1_1HermiteSpline2d_html"><div class="ttname"><a href="classacfd_1_1HermiteSpline2d.html">acfd::HermiteSpline2d</a></div><div class="ttdef"><b>Definition:</b> ageometry.hpp:831</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_afff6b159314b81947b31c4e987e1f1a4"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#afff6b159314b81947b31c4e987e1f1a4">acfd::BoundaryReconstruction2d::corners</a></div><div class="ttdeci">vector&lt; vector&lt; vector&lt; int &gt; &gt; &gt; corners</div><div class="ttdoc">contains a list of point number and two containing bfaces for each corner point in each part...</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:420</div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_a6d05d3393c5f98780f91daf9d2bbf82a"><div class="ttname"><a href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">amat::Matrix::setup</a></div><div class="ttdeci">void setup(int nr, int nc, MStype st=ROWMAJOR)</div><div class="ttdoc">Separate setup function in case no-arg constructor has to be used. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:167</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_ae599236d2c20ca8d0418f3e140c9a784"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#ae599236d2c20ca8d0418f3e140c9a784">acfd::BoundaryReconstruction2d::facepart</a></div><div class="ttdeci">Matrix&lt; int &gt; facepart</div><div class="ttdoc">stores part no. and local face number in that part, for each boundary face </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:422</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_ae7963f8ca0ee5465970b6237b898241e"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#ae7963f8ca0ee5465970b6237b898241e">acfd::BoundaryReconstruction2d::toRec</a></div><div class="ttdeci">Matrix&lt; int &gt; toRec</div><div class="ttdoc">nparts x nface array that stores 1 if a face belongs to a part. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:419</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_a2a819a200abdd115e3994db764346003"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#a2a819a200abdd115e3994db764346003">acfd::BoundaryReconstruction2d::marks</a></div><div class="ttdeci">vector&lt; vector&lt; int &gt; &gt; marks</div><div class="ttdoc">to hold boundary markers of all parts </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:410</div></div>
+<div class="line"><a name="l01090"></a><span class="lineno"> 1090</span>&#160;} <span class="comment">// end namespace amc</span></div>
+<div class="ttc" id="classamc_1_1CSpline_html_accb101ecb36105086780a955bc9e6adc"><div class="ttname"><a href="classamc_1_1CSpline.html#accb101ecb36105086780a955bc9e6adc">amc::CSpline::seq_spoin</a></div><div class="ttdeci">amat::Matrix&lt; int &gt; seq_spoin</div><div class="ttdoc">stores sequence of global point numbers for use in spline construction </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:36</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a80e63de0eab748ff99687063c208d056"><div class="ttname"><a href="classamc_1_1CSpline.html#a80e63de0eab748ff99687063c208d056">amc::CSpline::rfl</a></div><div class="ttdeci">amat::Matrix&lt; int &gt; rfl</div><div class="ttdoc">Contains boundary markers to be reconstructed to a spline. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:30</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_acd3cc7f3a126295d0f211e1c61f1f3f9"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#acd3cc7f3a126295d0f211e1c61f1f3f9">amc::BoundaryReconstruction2d::cangle</a></div><div class="ttdeci">double cangle</div><div class="ttdoc">minimum corner angle, above which an intersection is considered a corner </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:411</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_af7b1c03c6631164f3abcddcdd3ea97f1"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#af7b1c03c6631164f3abcddcdd3ea97f1">amc::BoundaryReconstruction2d::read_corners</a></div><div class="ttdeci">void read_corners(std::string cname)</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:606</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_ad02d52ff25b76bd7cf66a6b6eadbe96f"><div class="ttname"><a href="classamc_1_1CSpline.html#ad02d52ff25b76bd7cf66a6b6eadbe96f">amc::CSpline::nspoin</a></div><div class="ttdeci">int nspoin</div><div class="ttdoc">number of control points </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:35</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_af54b49f8d213b2150eb3b8714f67ed76"><div class="ttname"><a href="classamc_1_1CSpline.html#af54b49f8d213b2150eb3b8714f67ed76">amc::CSpline::srhs</a></div><div class="ttdeci">amat::Matrix&lt; double &gt; * srhs</div><div class="ttdoc">RHS for each dimention. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:49</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_abf2d1aa32688f535f38f2a22a054502c"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#abf2d1aa32688f535f38f2a22a054502c">amc::BoundaryReconstruction2d::compute_splines</a></div><div class="ttdeci">void compute_splines(double tol, int maxiter)</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:802</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a4609024e8eaf8e1fd1c4c703ed0c8a98"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a4609024e8eaf8e1fd1c4c703ed0c8a98">amc::BoundaryReconstruction2d::toRec</a></div><div class="ttdeci">amat::Matrix&lt; int &gt; toRec</div><div class="ttdoc">nparts x nface array that stores 1 if a face belongs to a part. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:419</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a6c7e0a879885f80efb4d1f004c81ef9c"><div class="ttname"><a href="classamc_1_1CSpline.html#a6c7e0a879885f80efb4d1f004c81ef9c">amc::CSpline::getspline</a></div><div class="ttdeci">double getspline(int iface, int idim, double t)</div><div class="ttdoc">returns idim-coordinate of iface-th spline segement with parameter t </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:391</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_acff5b55de13e0476bd11b6d1cdfb97e2"><div class="ttname"><a href="classamc_1_1CSpline.html#acff5b55de13e0476bd11b6d1cdfb97e2">amc::CSpline::facelist</a></div><div class="ttdeci">std::vector&lt; int &gt; facelist</div><div class="ttdoc">Alternative to rfl; stores an ordered list of faces to be reconstructed. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:31</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html"><div class="ttname"><a href="classamc_1_1CSpline.html">amc::CSpline</a></div><div class="ttdef"><b>Definition:</b> ageometry.hpp:27</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a09a416e8f8d223538669c228832b0f24"><div class="ttname"><a href="classamc_1_1CSpline.html#a09a416e8f8d223538669c228832b0f24">amc::CSpline::D</a></div><div class="ttdeci">amat::Matrix&lt; double &gt; * D</div><div class="ttdoc">D[idim](i) will contain the slope at point 0 of the ith spline piece. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:47</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a831370e4b3a5095ef892865761ea8906"><div class="ttname"><a href="classamc_1_1CSpline.html#a831370e4b3a5095ef892865761ea8906">amc::CSpline::sequence</a></div><div class="ttdeci">void sequence()</div><div class="ttdoc">This function arranges the faces to be reconstructed in their sequence of contiguity. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:200</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a680afc96d1b22d440ed862030d52ff30"><div class="ttname"><a href="classamc_1_1CSpline.html#a680afc96d1b22d440ed862030d52ff30">amc::CSpline::segface</a></div><div class="ttdeci">amat::Matrix&lt; int &gt; segface</div><div class="ttdoc">inverse of seq_bface; stores bface number for each segment </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:38</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a962def70e2721b3387cf5a38f26e71b6"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a962def70e2721b3387cf5a38f26e71b6">amc::BoundaryReconstruction2d::isSplitClosed</a></div><div class="ttdeci">std::vector&lt; bool &gt; isSplitClosed</div><div class="ttdoc">contains true if a split part is closed. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:417</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_adeecc68a17f4f1496c62c59972028072"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#adeecc68a17f4f1496c62c59972028072">amc::BoundaryReconstruction2d::isClosed</a></div><div class="ttdeci">std::vector&lt; bool &gt; isClosed</div><div class="ttdoc">contins true if a (parent) part is closed. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:416</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a5853be1dc4f02e77af8ed9b5500f2e30"><div class="ttname"><a href="classamc_1_1CSpline.html#a5853be1dc4f02e77af8ed9b5500f2e30">amc::CSpline::issequenced</a></div><div class="ttdeci">bool issequenced</div><div class="ttdoc">is the list of faces already in sequence? </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:42</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a99403461aec328874c007772a366f7e9"><div class="ttname"><a href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">amc::CSpline::setup</a></div><div class="ttdeci">void setup(UMesh2d *mesh, amat::Matrix&lt; int &gt; recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:76</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a88d7446790ff2370807da7191fb95e5d"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a88d7446790ff2370807da7191fb95e5d">amc::BoundaryReconstruction2d::marks</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; int &gt; &gt; marks</div><div class="ttdoc">to hold boundary markers of all parts </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:410</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_a6d05d3393c5f98780f91daf9d2bbf82a"><div class="ttname"><a href="classamat_1_1Matrix.html#a6d05d3393c5f98780f91daf9d2bbf82a">amat::Matrix::setup</a></div><div class="ttdeci">void setup(int nr, int nc, MStype st=ROWMAJOR)</div><div class="ttdoc">Separate setup function in case no-arg constructor has to be used. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:179</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a7fcb988b80459928d8b28135a1f69b8c"><div class="ttname"><a href="classamc_1_1CSpline.html#a7fcb988b80459928d8b28135a1f69b8c">amc::CSpline::toRec</a></div><div class="ttdeci">amat::Matrix&lt; int &gt; toRec</div><div class="ttdoc">stores for each bface face whether that face is to be reconstricted </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:40</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_ad91f286d5228211bb335a50d985b9447"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#ad91f286d5228211bb335a50d985b9447">amc::BoundaryReconstruction2d::getcoords</a></div><div class="ttdeci">double getcoords(int iface, int idim, double u)</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:815</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a96c629b762bd0badd239eb7e618d0382"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a96c629b762bd0badd239eb7e618d0382">amc::BoundaryReconstruction2d::corners</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; std::vector&lt; int &gt; &gt; &gt; corners</div><div class="ttdoc">contains a list of point number and two containing bfaces for each corner point in each part...</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:420</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a3ba0df7950bafee2a7d2dc369ba541e3"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a3ba0df7950bafee2a7d2dc369ba541e3">amc::BoundaryReconstruction2d::detect_corners</a></div><div class="ttdeci">void detect_corners()</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:552</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_ab7bf8ca2963e2ea638beacb03468e85b"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#ab7bf8ca2963e2ea638beacb03468e85b">amc::BoundaryReconstruction2d::partfaces</a></div><div class="ttdeci">std::vector&lt; std::vector&lt; int &gt; &gt; partfaces</div><div class="ttdoc">stores a list of ordered faces for each part </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:421</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a6bde1c8494213c118add9b0377632f0c"><div class="ttname"><a href="classamc_1_1CSpline.html#a6bde1c8494213c118add9b0377632f0c">amc::CSpline::slhs</a></div><div class="ttdeci">amat::SpMatrix slhs</div><div class="ttdoc">LHS of the system which is solved for D. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:48</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a6e772b6563aa7579db629f296bf48004"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a6e772b6563aa7579db629f296bf48004">amc::BoundaryReconstruction2d::facepart</a></div><div class="ttdeci">amat::Matrix&lt; int &gt; facepart</div><div class="ttdoc">stores part no. and local face number in that part, for each boundary face </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:422</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a0c37853bafeeb87f55f0c6222d4ed8d0"><div class="ttname"><a href="classamc_1_1CSpline.html#a0c37853bafeeb87f55f0c6222d4ed8d0">amc::CSpline::isClosed</a></div><div class="ttdeci">bool isClosed</div><div class="ttdoc">is the spline curve open or closed? </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:41</div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; int &gt;</a></div></div>
-<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:208</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_a0cab28c730bbd47cd23c8e65d3d35d09"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#a0cab28c730bbd47cd23c8e65d3d35d09">acfd::BoundaryReconstruction2d::isSplitClosed</a></div><div class="ttdeci">vector&lt; bool &gt; isSplitClosed</div><div class="ttdoc">contains true if a split part is closed. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:417</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_add22cf7a27d214233c645b8cffbbf287"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#add22cf7a27d214233c645b8cffbbf287">acfd::BoundaryReconstruction2d::isClosed</a></div><div class="ttdeci">vector&lt; bool &gt; isClosed</div><div class="ttdoc">contins true if a (parent) part is closed. </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:416</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html_a4ec061628edd6f589efa3e570255c5db"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html#a4ec061628edd6f589efa3e570255c5db">acfd::BoundaryReconstruction2d::cangle</a></div><div class="ttdeci">double cangle</div><div class="ttdoc">minimum corner angle, above which an intersection is considered a corner </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:411</div></div>
-<div class="ttc" id="classacfd_1_1BoundaryReconstruction2d_html"><div class="ttname"><a href="classacfd_1_1BoundaryReconstruction2d.html">acfd::BoundaryReconstruction2d</a></div><div class="ttdef"><b>Definition:</b> ageometry.hpp:407</div></div>
+<div class="ttc" id="classamat_1_1Matrix_html_aeb847f9a2e94bd529d3881e8c21d726c"><div class="ttname"><a href="classamat_1_1Matrix.html#aeb847f9a2e94bd529d3881e8c21d726c">amat::Matrix::zeros</a></div><div class="ttdeci">void zeros()</div><div class="ttdoc">Fill the matrix with zeros. </div><div class="ttdef"><b>Definition:</b> amatrix2.hpp:220</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a79e4e8da3f0b77274794d2a025405209"><div class="ttname"><a href="classamc_1_1CSpline.html#a79e4e8da3f0b77274794d2a025405209">amc::CSpline::nseg</a></div><div class="ttdeci">int nseg</div><div class="ttdoc">number of spline pieces </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:34</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a72d48389473ce51e7e62bde07c610251"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a72d48389473ce51e7e62bde07c610251">amc::BoundaryReconstruction2d::m</a></div><div class="ttdeci">UMesh2d * m</div><div class="ttdoc">NOTE: make sure bpointsb has been computed! </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:409</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html">amc::BoundaryReconstruction2d</a></div><div class="ttdoc">Class BoundaryReconstruction2d handles spline reconstruction of multiple parts of the boundary into s...</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:407</div></div>
+<div class="ttc" id="classamat_1_1MatrixCRS_html"><div class="ttname"><a href="classamat_1_1MatrixCRS.html">amat::MatrixCRS&lt; double &gt;</a></div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a6696d8441e1cf29ac9a89398d76731a7"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a6696d8441e1cf29ac9a89398d76731a7">amc::BoundaryReconstruction2d::preprocess</a></div><div class="ttdeci">void preprocess()</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:477</div></div>
+<div class="ttc" id="namespaceamat_html_a88aef55ee9b1b5e9f9540fd143bd19a6"><div class="ttname"><a href="namespaceamat.html#a88aef55ee9b1b5e9f9540fd143bd19a6">amat::sparseCG_d</a></div><div class="ttdeci">Matrix&lt; double &gt; sparseCG_d(SpMatrix *A, Matrix&lt; double &gt; b, Matrix&lt; double &gt; xold, double tol, int maxiter)</div><div class="ttdoc">Calculates solution of Ax=b where A is a SPD matrix in sparse format. This function is well-tested...</div><div class="ttdef"><b>Definition:</b> alinalg.cpp:701</div></div>
+<div class="ttc" id="classamc_1_1UMesh2d_html"><div class="ttname"><a href="classamc_1_1UMesh2d.html">amc::UMesh2d</a></div><div class="ttdoc">Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout - h...</div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:61</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a59149d5967e97678d49e4efc5d76ffae"><div class="ttname"><a href="classamc_1_1CSpline.html#a59149d5967e97678d49e4efc5d76ffae">amc::CSpline::seq_bface</a></div><div class="ttdeci">amat::Matrix&lt; int &gt; seq_bface</div><div class="ttdoc">for each bface, stores an order number indicating its occurrence order according to contiguity ...</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:37</div></div>
+<div class="ttc" id="classamc_1_1HermiteSpline2d_html"><div class="ttname"><a href="classamc_1_1HermiteSpline2d.html">amc::HermiteSpline2d</a></div><div class="ttdef"><b>Definition:</b> ageometry.hpp:831</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a7f3fa6ee92207191b27a9730a53fb492"><div class="ttname"><a href="classamc_1_1CSpline.html#a7f3fa6ee92207191b27a9730a53fb492">amc::CSpline::ndf</a></div><div class="ttdeci">int ndf</div><div class="ttdoc">number of degrees of freedom per spline - for cubic this is 4 </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:32</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_a2a095424223e9bfd40079f10455d6528"><div class="ttname"><a href="classamc_1_1CSpline.html#a2a095424223e9bfd40079f10455d6528">amc::CSpline::compute</a></div><div class="ttdeci">void compute()</div><div class="ttdoc">This function computes the spline coeffs and stores them in scf. Depends on sequenced bfaces and poin...</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:304</div></div>
+<div class="ttc" id="classamc_1_1CSpline_html_aefce75ab69d2decd60a4df1cbaf84a11"><div class="ttname"><a href="classamc_1_1CSpline.html#aefce75ab69d2decd60a4df1cbaf84a11">amc::CSpline::face_list_available</a></div><div class="ttdeci">bool face_list_available</div><div class="ttdoc">true if face list is available, false if rfl is available </div><div class="ttdef"><b>Definition:</b> ageometry.hpp:43</div></div>
+<div class="ttc" id="classamc_1_1BoundaryReconstruction2d_html_a4f336df45b90eb0e63f4b8a1939d0167"><div class="ttname"><a href="classamc_1_1BoundaryReconstruction2d.html#a4f336df45b90eb0e63f4b8a1939d0167">amc::BoundaryReconstruction2d::split_parts</a></div><div class="ttdeci">void split_parts()</div><div class="ttdef"><b>Definition:</b> ageometry.hpp:642</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

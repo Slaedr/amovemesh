@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,12 +82,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">amesh2dh.hpp File Reference</div>  </div>
@@ -101,7 +104,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <code>#include &lt;cmath&gt;</code><br/>
 <code>#include &lt;vector&gt;</code><br/>
 <code>#include &lt;<a class="el" href="amatrix2_8hpp_source.html">amatrix2.hpp</a>&gt;</code><br/>
-<code>#include &lt;alinalg.hpp&gt;</code><br/>
 <code>#include &lt;adatastructures.hpp&gt;</code><br/>
 <code>#include &lt;aconstants.h&gt;</code><br/>
 </div><div class="textblock"><div class="dynheader">
@@ -109,32 +111,29 @@ Include dependency graph for amesh2dh.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="amesh2dh_8hpp__incl.png" border="0" usemap="#amesh2dh_8hpp" alt=""/></div>
 <map name="amesh2dh_8hpp" id="amesh2dh_8hpp">
-<area shape="rect" id="node15" href="amatrix2_8hpp.html" title="Defines a class to manipulate matrices. " alt="" coords="198,229,295,256"/><area shape="rect" id="node23" href="aconstants_8h_source.html" title="aconstants.h" alt="" coords="99,304,196,331"/><area shape="rect" id="node25" href="alinalg_8hpp_source.html" title="alinalg.hpp" alt="" coords="331,80,417,107"/><area shape="rect" id="node38" href="adatastructures_8hpp_source.html" title="adatastructures.hpp" alt="" coords="681,155,820,181"/><area shape="rect" id="node28" href="asparsematrix_8hpp_source.html" title="asparsematrix.hpp" alt="" coords="416,155,545,181"/></map>
+<area shape="rect" id="node15" href="amatrix2_8hpp.html" title="Defines a class to manipulate matrices. " alt="" coords="213,80,309,107"/><area shape="rect" id="node23" href="aconstants_8h_source.html" title="aconstants.h" alt="" coords="350,155,447,181"/><area shape="rect" id="node25" href="adatastructures_8hpp_source.html" title="adatastructures.hpp" alt="" coords="487,80,625,107"/></map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="amesh2dh_8hpp__dep__incl.png" border="0" usemap="#amesh2dh_8hppdep" alt=""/></div>
 <map name="amesh2dh_8hppdep" id="amesh2dh_8hppdep">
-<area shape="rect" id="node3" href="ageometryh_8hpp_source.html" title="ageometryh.hpp" alt="" coords="5,80,123,107"/></map>
+<area shape="rect" id="node3" href="ageometryh_8hpp_source.html" title="ageometryh.hpp" alt="" coords="5,80,123,107"/><area shape="rect" id="node5" href="aoutput_8hpp.html" title="A collection of subroutines to write mesh data to various kinds of output formats. " alt="" coords="147,80,236,107"/></map>
 </div>
 </div>
 <p><a href="amesh2dh_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classacfd_1_1UMesh2dh.html">acfd::UMesh2dh</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">General hybrid unstructured mesh class supporting triangular and quadrangular elements.  <a href="classacfd_1_1UMesh2dh.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1UMesh2dh.html">amc::UMesh2dh</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">General hybrid unstructured mesh class supporting triangular and quadrangular elements.  <a href="classamc_1_1UMesh2dh.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:aab49c1364984ca3752a1d95a20050724"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab49c1364984ca3752a1d95a20050724"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>__AMESH2DHYBRID_H</b></td></tr>
-<tr class="separator:aab49c1364984ca3752a1d95a20050724"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58d461d47cc36f0b433caf3c6bbf698b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a58d461d47cc36f0b433caf3c6bbf698b"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>MESHDATA_DOUBLE_PRECISION</b>&#160;&#160;&#160;20</td></tr>
-<tr class="separator:a58d461d47cc36f0b433caf3c6bbf698b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespaceamc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceamc.html">amc</a></td></tr>
+<tr class="memdesc:namespaceamc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing". <br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Contains a class to handle 2D hybrid meshes containing triangles and quadrangles. </p>

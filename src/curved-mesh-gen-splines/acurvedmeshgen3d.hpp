@@ -32,6 +32,7 @@ class CurvedMeshGen
 	UMesh* mq;						///< Data of the corresponding (straight-faced) quadratic mesh
 	Meshmove* mmv;					///< Pointer to parent class for the mesh-movement classes, such RBF, DGM or linear elasticity.
 	BoundaryReconstruction* br;		///< Object to reconstruct the boundary using cubic splines.
+	std::string brtype;				///< Type of boundary reconstruction, can be FACE or VERTEX
 	int degree;						///< Degree of the generated mesh (2 or 3; currently only 2 is supported)
 	
 	double tol;						///< Tolerance for linear solver used for computing spline coefficients.
@@ -52,7 +53,7 @@ class CurvedMeshGen
 	amat::Matrix<amc_real> allpoint_disps;	///< Initial displacements of all points in the high-order mesh; zero for interior points
 
 public:
-	void setup(const UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver);
+	void setup(const UMesh* mesh, UMesh* meshq, std::string br_type, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver);
 
 	~CurvedMeshGen();
 
@@ -61,13 +62,19 @@ public:
 	void generate_curved_mesh();
 };
 
-void CurvedMeshGen::setup(const UMesh* mesh, UMesh* meshq, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver)
+void CurvedMeshGen::setup(const UMesh* mesh, UMesh* meshq, std::string br_type, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver)
 {
 	degree = 2;
 	
 	m = mesh;
 	mq = meshq;
-	br = new VertexCenteredBoundaryReconstruction(m, degree, true, 1.0e2);
+
+	brtype = br_type;
+	if(br_type == "VERTEX")
+		br = new VertexCenteredBoundaryReconstruction(m, degree, true, 1.0e2);
+	else
+		br = new FaceCenteredBoundaryReconstruction(m, degree, true, 1.0e2);
+
 	tol = toler;
 	maxiter = maxitera;
 	rbfchoice = rbf_choice; supportradius = support_radius;
@@ -140,13 +147,13 @@ void CurvedMeshGen::compute_boundary_displacements()
 				linearedgepoints[ied](0,idim) = 0;
 				
 				for(inode = 0; inode < m->gnnoded(); inode++)
-					linearedgepoints[ied](0,idim) += m->gcoords(m->gintedge(ied,inode),idim);
+					linearedgepoints[ied](0,idim) += m->gcoords(m->gedgepo(ied,inode),idim);
 				
 				linearedgepoints[ied](0,idim) /= m->gnnoded();
 			}
 
 			for(idim = 0; idim < m->gndim(); idim++)
-				allpoint_disps(mq->gintedge(ied,2), idim) = recpoint[idim] - linearedgepoints[ied].get(0,idim);
+				allpoint_disps(mq->gedgepo(ied,2), idim) = recpoint[idim] - linearedgepoints[ied].get(0,idim);
 		}
 	}
 
@@ -169,7 +176,7 @@ void CurvedMeshGen::compute_boundary_displacements()
 				{
 					linearedgepoints[ied](i,idim) = 0;
 					for(inode = 0; inode < m->gnnoded(); inode++)
-						linearedgepoints[ied](i,idim) += m->gcoords(m->gintedge(ied,inode),idim);
+						linearedgepoints[ied](i,idim) += m->gcoords(m->gedgepo(ied,inode),idim);
 				}
 				for(idim = 0; idim < m->gndim(); idim++)
 				{
@@ -179,7 +186,7 @@ void CurvedMeshGen::compute_boundary_displacements()
 				}
 			
 				for(idim = 0; idim < m->gndim(); idim++)
-					allpoint_disps(mq->gintedge(ied,2+i), idim) = linearedgepoints[ied].get(i,idim);
+					allpoint_disps(mq->gedgepo(ied,2+i), idim) = linearedgepoints[ied].get(i,idim);
 			}
 		}
 		for(amc_int iface = 0; iface < m->gnface(); iface++)

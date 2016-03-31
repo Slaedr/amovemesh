@@ -26,7 +26,7 @@ Part of Amocurve.
 #ifndef __AMATRIX2_H
 
 // Comment out the following line for removing array index-range checks and thus improving performance
-#define DEBUG 1
+//#define DEBUG 1
 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
@@ -349,6 +349,16 @@ public:
 
 	/// Getter/setter function for expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141
 	T& operator()(const int x, const int y=0)
+	{
+#ifdef DEBUG
+		if(x>=nrows || y>=ncols) { std::cout << "Matrix (): Index beyond array size(s)\n"; return elems[0]; }
+#endif
+		if(storage == COLMAJOR) return elems[y*nrows + x];
+		else return elems[x*ncols + y];
+	}
+	
+	/// Const Getter/setter function for expressions like A(1,2) = 141 to set the element at 1st row and 2nd column to 141
+	const T& operator()(const int x, const int y=0) const
 	{
 #ifdef DEBUG
 		if(x>=nrows || y>=ncols) { std::cout << "Matrix (): Index beyond array size(s)\n"; return elems[0]; }

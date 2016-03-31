@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['torec',['toRec',['../classacfd_1_1BoundaryReconstruction2d.html#ae7963f8ca0ee5465970b6237b898241e',1,'acfd::BoundaryReconstruction2d']]],
-  ['total_5farea',['total_area',['../classacfd_1_1UMesh2d.html#a162fada36ab61edcad1a711634972b70',1,'acfd::UMesh2d']]]
+  ['torec',['toRec',['../classamc_1_1CSpline.html#a7fcb988b80459928d8b28135a1f69b8c',1,'amc::CSpline::toRec()'],['../classamc_1_1BoundaryReconstruction2d.html#a4609024e8eaf8e1fd1c4c703ed0c8a98',1,'amc::BoundaryReconstruction2d::toRec()']]],
+  ['total_5farea',['total_area',['../classamc_1_1UMesh2d.html#a3f104479e2761903db1d370a3bb954f6',1,'amc::UMesh2d']]]
 ];

@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -72,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -83,7 +84,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>amat</b></li><li class="navelem"><a class="el" href="classamat_1_1MatrixCOO.html">MatrixCOO</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceamat.html">amat</a></li><li class="navelem"><a class="el" href="classamat_1_1MatrixCOO.html">MatrixCOO</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -96,20 +97,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="asparsematrix_8hpp_source.html">asparsematrix.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="asparsematrix__old_8hpp_source.html">asparsematrix_old.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for amat::MatrixCOO:</div>
 <div class="dyncontent">
 <div class="center"><img src="classamat_1_1MatrixCOO__inherit__graph.png" border="0" usemap="#amat_1_1MatrixCOO_inherit__map" alt="Inheritance graph"/></div>
 <map name="amat_1_1MatrixCOO_inherit__map" id="amat_1_1MatrixCOO_inherit__map">
-<area shape="rect" id="node2" href="classamat_1_1SparseMatrix.html" title="amat::SparseMatrix" alt="" coords="5,5,144,32"/></map>
+<area shape="rect" id="node2" href="classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="5,5,179,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
 Collaboration diagram for amat::MatrixCOO:</div>
 <div class="dyncontent">
 <div class="center"><img src="classamat_1_1MatrixCOO__coll__graph.png" border="0" usemap="#amat_1_1MatrixCOO_coll__map" alt="Collaboration graph"/></div>
 <map name="amat_1_1MatrixCOO_coll__map" id="amat_1_1MatrixCOO_coll__map">
-<area shape="rect" id="node2" href="classamat_1_1SparseMatrix.html" title="amat::SparseMatrix" alt="" coords="5,5,144,32"/></map>
+<area shape="rect" id="node2" href="classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="5,5,179,32"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
@@ -176,73 +177,52 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>get_upper_triangle</b
 <tr class="memitem:aad2dfc0a7a4121f671ed4f4546f3c209"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad2dfc0a7a4121f671ed4f4546f3c209"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>combine_sparse_matrices</b> (const <a class="el" href="classamat_1_1MatrixCOO.html">MatrixCOO</a> &amp;A11, const <a class="el" href="classamat_1_1MatrixCOO.html">MatrixCOO</a> &amp;A12, const <a class="el" href="classamat_1_1MatrixCOO.html">MatrixCOO</a> &amp;A21, const <a class="el" href="classamat_1_1MatrixCOO.html">MatrixCOO</a> &amp;A22)</td></tr>
 <tr class="separator:aad2dfc0a7a4121f671ed4f4546f3c209"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ba297a75124ad3ef3fab269b51c6596"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ba297a75124ad3ef3fab269b51c6596"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MatrixCOO</b> (int num_rows, int num_cols)</td></tr>
-<tr class="separator:a5ba297a75124ad3ef3fab269b51c6596"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af3306ae16af45921ed8d7513939fe827"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3306ae16af45921ed8d7513939fe827"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set</b> (int x, int y, double value)</td></tr>
-<tr class="separator:af3306ae16af45921ed8d7513939fe827"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36084fab35a9625549931ab6fb077f60"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36084fab35a9625549931ab6fb077f60"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> (int x, int y)</td></tr>
-<tr class="separator:a36084fab35a9625549931ab6fb077f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c4ee051a199dc57d237e434ee55b94f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c4ee051a199dc57d237e434ee55b94f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>row_sort</b> (double *v, int *r, int *c, int len)</td></tr>
-<tr class="separator:a9c4ee051a199dc57d237e434ee55b94f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aefc6ae6f7572e90901350e5a58248679"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aefc6ae6f7572e90901350e5a58248679"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>col_sort</b> ()</td></tr>
-<tr class="separator:aefc6ae6f7572e90901350e5a58248679"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a13aafb2585a6d71f1a7afec59d41fbce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a13aafb2585a6d71f1a7afec59d41fbce"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>sort</b> ()</td></tr>
-<tr class="separator:a13aafb2585a6d71f1a7afec59d41fbce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d302dda6730eb10a6f6b748be20827a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d302dda6730eb10a6f6b748be20827a"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>print_data</b> ()</td></tr>
-<tr class="separator:a3d302dda6730eb10a6f6b748be20827a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee394850e41b7a2f89df6e0a82c6144f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee394850e41b7a2f89df6e0a82c6144f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>mprint</b> ()</td></tr>
-<tr class="separator:aee394850e41b7a2f89df6e0a82c6144f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb56b0ffbdb49d318e3cf1400151b097"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb56b0ffbdb49d318e3cf1400151b097"></a>
-<a class="el" href="classamat_1_1Matrix.html">Mat</a>&#160;</td><td class="memItemRight" valign="bottom"><b>multiply</b> (<a class="el" href="classamat_1_1Matrix.html">Mat</a> &amp;x)</td></tr>
-<tr class="separator:aeb56b0ffbdb49d318e3cf1400151b097"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2b5a8fb6d5b5c2e6454a7ab2595cf8e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab2b5a8fb6d5b5c2e6454a7ab2595cf8e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>multiply_parts</b> (<a class="el" href="classamat_1_1Matrix.html">Mat</a> *x, <a class="el" href="classamat_1_1Matrix.html">Mat</a> *y, <a class="el" href="classamat_1_1Matrix.html">Mat</a> *ans, int p)</td></tr>
-<tr class="separator:ab2b5a8fb6d5b5c2e6454a7ab2595cf8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bd0b91847f56cba73fcefe0b1caadc9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bd0b91847f56cba73fcefe0b1caadc9"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getelem_multiply_parts</b> (int rownum, <a class="el" href="classamat_1_1Matrix.html">Mat</a> *x, <a class="el" href="classamat_1_1Matrix.html">Mat</a> *y, int p)</td></tr>
-<tr class="separator:a6bd0b91847f56cba73fcefe0b1caadc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cc9ed8a92b749ce22e6d1134ad6df7b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0cc9ed8a92b749ce22e6d1134ad6df7b"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>get_diagonal</b> (<a class="el" href="classamat_1_1Matrix.html">Mat</a> *D)</td></tr>
-<tr class="separator:a0cc9ed8a92b749ce22e6d1134ad6df7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classamat_1_1SparseMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classamat_1_1SparseMatrix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classamat_1_1SparseMatrix.html">amat::SparseMatrix</a></td></tr>
-<tr class="memitem:af1784d64b9f87605f56d3b250186927e inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1784d64b9f87605f56d3b250186927e"></a>
+<tr class="inherit_header pub_methods_classamat_1_1SparseMatrix"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classamat_1_1SparseMatrix')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classamat_1_1SparseMatrix.html">amat::SparseMatrix&lt; T &gt;</a></td></tr>
+<tr class="memitem:a8e60a8ab187e765cb320dd3179746f41 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e60a8ab187e765cb320dd3179746f41"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>SparseMatrix</b> (int num_rows, int num_cols)</td></tr>
-<tr class="separator:af1784d64b9f87605f56d3b250186927e inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9242f3271096d225c3e41a48d3f989c6 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9242f3271096d225c3e41a48d3f989c6"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>rows</b> ()</td></tr>
-<tr class="separator:a9242f3271096d225c3e41a48d3f989c6 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0765e56b3064cac194019d34e38b48dd inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0765e56b3064cac194019d34e38b48dd"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>cols</b> ()</td></tr>
-<tr class="separator:a0765e56b3064cac194019d34e38b48dd inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1784d64b9f87605f56d3b250186927e inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1784d64b9f87605f56d3b250186927e"></a>
+<tr class="separator:a8e60a8ab187e765cb320dd3179746f41 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa57f3055fbb8c3035b35bbaee6065db1 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa57f3055fbb8c3035b35bbaee6065db1"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>rows</b> () const </td></tr>
+<tr class="separator:aa57f3055fbb8c3035b35bbaee6065db1 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7dffe70f8a14781f1324a8c7f5d3c988 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7dffe70f8a14781f1324a8c7f5d3c988"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>cols</b> () const </td></tr>
+<tr class="separator:a7dffe70f8a14781f1324a8c7f5d3c988 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd646e7ad169770b6dc8ff250c8f43f2 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afd646e7ad169770b6dc8ff250c8f43f2"></a>
+virtual T&#160;</td><td class="memItemRight" valign="bottom"><b>get</b> (const int x, const int y) const =0</td></tr>
+<tr class="separator:afd646e7ad169770b6dc8ff250c8f43f2 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacf61eb4860a48620827f74f6b17fe55 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aacf61eb4860a48620827f74f6b17fe55"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>mprint</b> () const =0</td></tr>
+<tr class="separator:aacf61eb4860a48620827f74f6b17fe55 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab682c6d74addadaefd32a4a4000f5639 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab682c6d74addadaefd32a4a4000f5639"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>multiply</b> (const <a class="el" href="classamat_1_1Matrix.html">Mat</a> &amp;x, <a class="el" href="classamat_1_1Matrix.html">Mat</a> *const a, const char paralel) const =0</td></tr>
+<tr class="separator:ab682c6d74addadaefd32a4a4000f5639 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c460a471ab97fdeb59c96ce97f343ce inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c460a471ab97fdeb59c96ce97f343ce"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>multiply_parts</b> (const <a class="el" href="classamat_1_1Matrix.html">Mat</a> *x, const <a class="el" href="classamat_1_1Matrix.html">Mat</a> *y, <a class="el" href="classamat_1_1Matrix.html">Mat</a> *const ans, const int p) const =0</td></tr>
+<tr class="separator:a8c460a471ab97fdeb59c96ce97f343ce inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afaa5c33d8c813dca898db2e91030cf97 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afaa5c33d8c813dca898db2e91030cf97"></a>
+virtual double&#160;</td><td class="memItemRight" valign="bottom"><b>getelem_multiply_parts</b> (const int rownum, const <a class="el" href="classamat_1_1Matrix.html">Mat</a> *x, const <a class="el" href="classamat_1_1Matrix.html">Mat</a> *y, const int p, const double num) const =0</td></tr>
+<tr class="separator:afaa5c33d8c813dca898db2e91030cf97 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e60a8ab187e765cb320dd3179746f41 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e60a8ab187e765cb320dd3179746f41"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>SparseMatrix</b> (int num_rows, int num_cols)</td></tr>
-<tr class="separator:af1784d64b9f87605f56d3b250186927e inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9242f3271096d225c3e41a48d3f989c6 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9242f3271096d225c3e41a48d3f989c6"></a>
+<tr class="separator:a8e60a8ab187e765cb320dd3179746f41 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e90a192a117986eb0dd2a4061908461 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e90a192a117986eb0dd2a4061908461"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>rows</b> ()</td></tr>
-<tr class="separator:a9242f3271096d225c3e41a48d3f989c6 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0765e56b3064cac194019d34e38b48dd inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0765e56b3064cac194019d34e38b48dd"></a>
+<tr class="separator:a8e90a192a117986eb0dd2a4061908461 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b669012790a5e099aad9c655c7a6af9 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1b669012790a5e099aad9c655c7a6af9"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>cols</b> ()</td></tr>
-<tr class="separator:a0765e56b3064cac194019d34e38b48dd inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a1b669012790a5e099aad9c655c7a6af9 inherit pub_methods_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a625f717b67f10d2ed2ed30f5c8f66f1a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a625f717b67f10d2ed2ed30f5c8f66f1a"></a>
 double *&#160;</td><td class="memItemRight" valign="bottom"><b>val</b></td></tr>
 <tr class="separator:a625f717b67f10d2ed2ed30f5c8f66f1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b83fe4b3c873e6707932c6646ac73f5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5b83fe4b3c873e6707932c6646ac73f5"></a>
+<tr class="memitem:a1364bce1b70476514bd4135786511691"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1364bce1b70476514bd4135786511691"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><b>col_ind</b></td></tr>
-<tr class="separator:a5b83fe4b3c873e6707932c6646ac73f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acc619cc7b1b086f4304a78e2e1c1fbc9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acc619cc7b1b086f4304a78e2e1c1fbc9"></a>
+<tr class="separator:a1364bce1b70476514bd4135786511691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47ee2772800ac7fc91343c4b487a54f9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47ee2772800ac7fc91343c4b487a54f9"></a>
 int *&#160;</td><td class="memItemRight" valign="bottom"><b>row_ind</b></td></tr>
-<tr class="separator:acc619cc7b1b086f4304a78e2e1c1fbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a47ee2772800ac7fc91343c4b487a54f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afafcdecf69e91b39d44b9a72ab6a57bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afafcdecf69e91b39d44b9a72ab6a57bd"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>sorted</b></td></tr>
 <tr class="separator:afafcdecf69e91b39d44b9a72ab6a57bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -252,22 +232,19 @@ const double&#160;</td><td class="memItemRight" valign="bottom"><b>tol</b> = 1e-
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_attribs_classamat_1_1SparseMatrix"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classamat_1_1SparseMatrix')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classamat_1_1SparseMatrix.html">amat::SparseMatrix</a></td></tr>
-<tr class="memitem:ab049625178b862d16962f1d14712e085 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab049625178b862d16962f1d14712e085"></a>
+<tr class="inherit_header pro_attribs_classamat_1_1SparseMatrix"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classamat_1_1SparseMatrix')"><img src="closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="classamat_1_1SparseMatrix.html">amat::SparseMatrix&lt; T &gt;</a></td></tr>
+<tr class="memitem:a3ca59cc0e48628866613fd8fbde6d841 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3ca59cc0e48628866613fd8fbde6d841"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>nnz</b></td></tr>
-<tr class="separator:ab049625178b862d16962f1d14712e085 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2fa21926c6d4f69613578bc2e4085249 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2fa21926c6d4f69613578bc2e4085249"></a>
+<tr class="separator:a3ca59cc0e48628866613fd8fbde6d841 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb60c3f01e1a5f0a691c66b70fc5d6a1 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adb60c3f01e1a5f0a691c66b70fc5d6a1"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>nrows</b></td></tr>
-<tr class="separator:a2fa21926c6d4f69613578bc2e4085249 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14c3440e6f2658788a1662603fd1335d inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a14c3440e6f2658788a1662603fd1335d"></a>
+<tr class="separator:adb60c3f01e1a5f0a691c66b70fc5d6a1 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56ae26589e9bfef23312954c80d9721c inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a56ae26589e9bfef23312954c80d9721c"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>ncols</b></td></tr>
-<tr class="separator:a14c3440e6f2658788a1662603fd1335d inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a52262c4c7d919611e049e22faa3a30fb inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a52262c4c7d919611e049e22faa3a30fb"></a>
+<tr class="separator:a56ae26589e9bfef23312954c80d9721c inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4521a02a3df6900b7fb910e86de0f4d9 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4521a02a3df6900b7fb910e86de0f4d9"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>valsize</b></td></tr>
-<tr class="separator:a52262c4c7d919611e049e22faa3a30fb inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad944cb24ebcbf7597f9e85b32746b9f0 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad944cb24ebcbf7597f9e85b32746b9f0"></a>
-double *&#160;</td><td class="memItemRight" valign="bottom"><b>val</b></td></tr>
-<tr class="separator:ad944cb24ebcbf7597f9e85b32746b9f0 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a4521a02a3df6900b7fb910e86de0f4d9 inherit pro_attribs_classamat_1_1SparseMatrix"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implements sparse matrix storage in coordinate format. val contains non-zero values, col_ind and row_ind contain corresponding column and row indices; all three have length nnz after all values are stored. </p>
@@ -311,13 +288,12 @@ double *&#160;</td><td class="memItemRight" valign="bottom"><b>val</b></td></tr>
 </div><div class="memdoc">
 <p>Returns product of sparse matrix with vector x and stores it in a. NOTE: Parallel version does NOT work!! </p>
 
-<p>Implements <a class="el" href="classamat_1_1SparseMatrix.html">amat::SparseMatrix</a>.</p>
+<p>Implements <a class="el" href="classamat_1_1SparseMatrix.html">amat::SparseMatrix&lt; T &gt;</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following files:<ul>
-<li><a class="el" href="asparsematrix_8hpp_source.html">asparsematrix.hpp</a></li>
-<li><a class="el" href="asparsematrix__serial_8hpp_source.html">asparsematrix_serial.hpp</a></li>
+<hr/>The documentation for this class was generated from the following file:<ul>
+<li><a class="el" href="asparsematrix__old_8hpp_source.html">asparsematrix_old.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

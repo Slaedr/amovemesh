@@ -1,0 +1,10 @@
+<map id="amc::CSpline" name="amc::CSpline">
+<area shape="rect" id="node2" href="$classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; double \&gt;" alt="" coords="472,47,661,73"/>
+<area shape="rect" id="node4" href="$classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="177,71,351,97"/>
+<area shape="rect" id="node6" href="$classamat_1_1SparseMatrix.html" title="amat::SparseMatrix\l\&lt; double \&gt;" alt="" coords="195,5,333,46"/>
+<area shape="rect" id="node8" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="183,221,345,248"/>
+<area shape="rect" id="node10" href="$classamc_1_1UMesh2d.html" title="Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout &#45; h..." alt="" coords="510,336,623,363"/>
+<area shape="rect" id="node15" href="$classamc_1_1UMesh2dh.html" title="General hybrid unstructured mesh class supporting triangular and quadrangular elements. " alt="" coords="507,683,627,709"/>
+<area shape="rect" id="node13" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="197,561,331,588"/>
+<area shape="rect" id="node18" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; amc_real \&gt;" alt="" coords="176,788,352,815"/>
+</map>

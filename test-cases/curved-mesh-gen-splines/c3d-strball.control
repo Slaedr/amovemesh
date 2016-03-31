@@ -2,6 +2,8 @@
 ../../input/ball-str.msh
 -output-curved-mesh
 ../../output/curved-mesh-gen-spline/ball-str_curvedp2.msh
+-WALF-type(VERTEX-or-FACE)
+FACE
 -angle-threshold-for-corners
 40.0
 -RBF-choice

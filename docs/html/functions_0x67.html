@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -92,6 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_0x6e.html#index_n"><span>n</span></a></li>
       <li><a href="functions_0x6f.html#index_o"><span>o</span></a></li>
       <li><a href="functions_0x70.html#index_p"><span>p</span></a></li>
+      <li><a href="functions_0x71.html#index_q"><span>q</span></a></li>
       <li><a href="functions_0x72.html#index_r"><span>r</span></a></li>
       <li><a href="functions_0x73.html#index_s"><span>s</span></a></li>
       <li><a href="functions_0x74.html#index_t"><span>t</span></a></li>
@@ -108,7 +110,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -125,31 +127,53 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="classacfd_1_1UTriMesh.html#a643e95c2db44bab6d2224438513e6e28">acfd::UTriMesh</a>
 </li>
 <li>gcoords()
-: <a class="el" href="classacfd_1_1UMesh2d.html#a66c019c554f0ca7cea7e9a7b7b55cb1d">acfd::UMesh2d</a>
-, <a class="el" href="classacfd_1_1UMesh2dh.html#abf32bd4929ecc406d755a964371a3271">acfd::UMesh2dh</a>
+: <a class="el" href="classamc_1_1UMesh2d.html#a1b3fe2e00cb6ea297704e3a110a531ca">amc::UMesh2d</a>
+, <a class="el" href="classamc_1_1UMesh.html#aaec8c78ba88ee0f645b6b3f3d2f61c2c">amc::UMesh</a>
 </li>
 <li>geoel
 : <a class="el" href="classacfd_1_1LaplaceFEspaceP1.html#a5fed28aedf6032e6b057364fffe2c954">acfd::LaplaceFEspaceP1</a>
-, <a class="el" href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">acfd::LinElastP2</a>
+, <a class="el" href="classamc_1_1LinElastP1.html#ad66209b1cc7997d74da190b16d29cd8a">amc::LinElastP1</a>
+, <a class="el" href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">acfd::LinElastP2</a>
+, <a class="el" href="classamc_1_1LinElastP2.html#abd5d2e7f4731e8c49710186966a48de1">amc::LinElastP2</a>
 </li>
 <li>geofa
 : <a class="el" href="classacfd_1_1LaplaceFEspaceP1.html#a31aa68fb6236dcfc155eba231be1da9a">acfd::LaplaceFEspaceP1</a>
-, <a class="el" href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">acfd::LinElastP2</a>
+, <a class="el" href="classamc_1_1LinElastP1.html#a9112f0bc7d9b6af48414cb7f72c85ac6">amc::LinElastP1</a>
+, <a class="el" href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">acfd::LinElastP2</a>
+, <a class="el" href="classamc_1_1LinElastP2.html#a721eef80815d7a41ead6422ff721e4b7">amc::LinElastP2</a>
+</li>
+<li>get_CRS_matrix()
+: <a class="el" href="classamat_1_1MatrixCRS.html#a00728170e128211aeab794b6f3511f46">amat::MatrixCRS&lt; T &gt;</a>
 </li>
 <li>get_diagonal()
-: <a class="el" href="classamat_1_1MatrixCOO2.html#aeb93a752a640fa30d2ae61c764e7982e">amat::MatrixCOO2&lt; T &gt;</a>
+: <a class="el" href="classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27">amat::MatrixCRS&lt; T &gt;</a>
 </li>
 <li>getBoundaryPoints()
-: <a class="el" href="classacfd_1_1RBFmove.html#a2814d7a7bf9637765bc594f2ba6c18f7">acfd::RBFmove</a>
+: <a class="el" href="classamc_1_1RBFmove.html#afe33f60238949652fde5d0bf2299bcb9">amc::RBFmove</a>
 </li>
 <li>getcoords()
-: <a class="el" href="classacfd_1_1BoundaryReconstruction2d.html#ae333da27a1b9ed29d8b91627f39cda3f">acfd::BoundaryReconstruction2d</a>
+: <a class="el" href="classamc_1_1BoundaryReconstruction2d.html#ad91f286d5228211bb335a50d985b9447">amc::BoundaryReconstruction2d</a>
+</li>
+<li>getCRSMatrix()
+: <a class="el" href="classamat_1_1MatrixCRS.html#aa1623bb596c1546c1d071c44d992483a">amat::MatrixCRS&lt; T &gt;</a>
+</li>
+<li>getDelaunayGraph()
+: <a class="el" href="classamc_1_1DGmove.html#a26a8a88abca80c72ed6b3df3a22ce698">amc::DGmove</a>
+</li>
+<li>getEdgePoint()
+: <a class="el" href="classamc_1_1VertexCenteredBoundaryReconstruction.html#a264feedd0c3bc619ea729bafa29bd710">amc::VertexCenteredBoundaryReconstruction</a>
+</li>
+<li>getelem_multiply_parts()
+: <a class="el" href="classamat_1_1MatrixCRS.html#ab6a0d2db10813cb05883c5107667f6a8">amat::MatrixCRS&lt; T &gt;</a>
+</li>
+<li>getFacePoint()
+: <a class="el" href="classamc_1_1VertexCenteredBoundaryReconstruction.html#ac25827deb56c2742f5f6bc4050e143b8">amc::VertexCenteredBoundaryReconstruction</a>
 </li>
 <li>getInteriorPoints()
-: <a class="el" href="classacfd_1_1RBFmove.html#ad0b113ddbf01393a83bc8da1079b28f3">acfd::RBFmove</a>
+: <a class="el" href="classamc_1_1RBFmove.html#ae714a500a453590cc9563d2632bc8f76">amc::RBFmove</a>
 </li>
 <li>getspline()
-: <a class="el" href="classacfd_1_1CSpline.html#ad88f290e3265e4f30738e099b6991ed7">acfd::CSpline</a>
+: <a class="el" href="classamc_1_1CSpline.html#a6c7e0a879885f80efb4d1f004c81ef9c">amc::CSpline</a>
 </li>
 </ul>
 </div><!-- contents -->

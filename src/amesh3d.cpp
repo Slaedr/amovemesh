@@ -47,7 +47,7 @@ UMesh::UMesh(const UMesh& other)
 			elsed[i] = other.elsed[i];
 	}
 	esuel = other.esuel;
-	intedge = other.intedge;
+	edgepo = other.edgepo;
 	elsed = other.elsed;
 	intfac = other.intfac;
 	alloc_jacobians = other.alloc_jacobians;
@@ -296,7 +296,6 @@ void UMesh::readDomn(std::string mfile)
 	std::string line;
 	char dumc = 'a';
 	int i,j,idim, dumi;
-	amc_real dumd;
 
 	std::getline(fin, line);
 	fin >> nelem >> npoin >> nnode >> nedel >> nfael >> nnofa >> nedfa >> nnoded;
@@ -458,8 +457,10 @@ void UMesh::readDomn(std::string mfile)
 	}
 
 	/** Computes, for each face, the elements on either side, the starting node and the ending node of the face. This is stored in intfac.
-	The orientation of the face is such that the face points towards the element with larger index.
-	NOTE: After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before.*/
+	 * The orientation of the face is such that the face points towards the element with larger index.
+	 * NOTE: After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before.
+	 * \sa compute_topological
+	 */
 
 	std::cout << "UMesh2d: readDomn(): Computing intfac..." << std::endl;
 	nbface = naface = 0;
@@ -716,7 +717,7 @@ void UMesh::compute_jacobians()
  * - Points surrounding points (psup)
  * - Elements surrounding elements (esuel)
  * - Elements surrounding edge (elsed)
- * - Edge data structure (intedge)
+ * - Edge data structure (edgepo)
  * - Face data structure (intfac)
  * 
  * \note NOTE: Currently only works for linear mesh - and psup works only for tetrahedral or hexahedral linear mesh
@@ -849,10 +850,10 @@ void UMesh::compute_topological()
 	elsed = new std::vector<int>[nedge];
 	for(int i = 0; i < nedge; i++)
 		elsed[i].reserve(8);
-	intedge.setup(nedge, nnoded);
+	edgepo.setup(nedge, nnoded);
 
-	// 4. get intedge
-	std::cout << "UMesh3d: compute_topological(): Calculating intedge" << std::endl;
+	// 4. get edgepo
+	std::cout << "UMesh3d: compute_topological(): Calculating edgepo" << std::endl;
 
 	// first, boundary edges
 	nbedge = 0;
@@ -865,17 +866,18 @@ void UMesh::compute_topological()
 			int jpoin = psup[ipoin].at(jp);
 			if(lpoin.get(jpoin) != 1 && flag_bpoin.get(ipoin)==1 && flag_bpoin.get(jpoin)==1)
 			{
-				intedge(nbedge,0) = ipoin;
-				intedge(nbedge,1) = jpoin;
+				edgepo(nbedge,0) = ipoin;
+				edgepo(nbedge,1) = jpoin;
 				nbedge++;
 			}
 		}
 	}
 
+	std::cout << "UMesh3d: compute_topological(): Number of boundary edges = " << nbedge << std::endl;
 	for(int i = 0; i < npoin; i++)
 		lpoin(i) = 0;
 
-	//std::cout << "UMesh3d: compute_topological(): Calculating intedge - interior" << std::endl;
+	//std::cout << "UMesh3d: compute_topological(): Calculating edgepo - interior" << std::endl;
 	nedge = nbedge;
 	for(int ipoin = 0; ipoin < npoin; ipoin++)
 	{
@@ -885,8 +887,8 @@ void UMesh::compute_topological()
 			int jpoin = psup[ipoin].at(jp);
 			if(lpoin(jpoin) != 1 && !(flag_bpoin.get(ipoin)==1 && flag_bpoin.get(jpoin)==1) )
 			{
-				intedge(nedge,0) = ipoin;
-				intedge(nedge,1) = jpoin;
+				edgepo(nedge,0) = ipoin;
+				edgepo(nedge,1) = jpoin;
 				nedge++;
 			}
 		}
@@ -900,7 +902,7 @@ void UMesh::compute_topological()
 	for(int ied = 0; ied < nedge; ied++)
 	{
 		for(int i = 0; i < nnoded; i++)
-			ip[i] = intedge(ied,i);
+			ip[i] = edgepo(ied,i);
 
 		lelem.zeros();
 		for(int iel = esup_p(ip[0]); iel < esup_p(ip[0]+1); iel++)
@@ -1076,11 +1078,12 @@ void UMesh::compute_topological()
 	}
 }
 
-/// Computes topological properties of the boundary (surface) mesh
-/**
+// Computes topological properties of the boundary (surface) mesh
+/*
  * - Boundary points (bpoints and bpointsinv)
  * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
  * - Boundary faces surrounding boundary face (bfsubf)
+ * - Boundary faces adjoining boundary face (intbedge)
  */
 void UMesh::compute_boundary_topological()
 {
@@ -1166,7 +1169,8 @@ void UMesh::compute_boundary_topological()
 	lhelp.zeros();
 	lpoin.zeros();
 
-	int iface, jface, istor, ied, jed, icoun, jnoded;
+	int iface, jface, istor, ied, jed, icoun, inoded, jnoded, iedfa;
+
 	for(int iface = 0; iface < nface; iface++)
 	{
 		for(ied = 0; ied < nedfa; ied++)
@@ -1204,15 +1208,86 @@ void UMesh::compute_boundary_topological()
 		}
 	}
 
-	// Now bedge. Note that this stores global point numbers, not boundary point numbers
 
+	// lbpoed(i,j) stores the local (bface) number of the jth node of the ith edge of a bface
+	amat::Matrix<int> lbpoed(nedfa,nnoded);
+
+	for(int i = 0; i < nedfa; i++)
+		for(int j = 0; j < nnoded; j++)
+			lbpoed(i,j) = (i+j)%nnofa;
+
+	intbedge.setup(nbedge,nnoded+2);
+
+	//reset b edge totals
+	nbedge = 0;
+
+	int* inp = new int[nnoded];
+	nbedge = 0;
+	for(iface = 0; iface < nface; iface++)
+	{
+		for( iedfa = 0; iedfa < nedfa; iedfa++)
+		{
+			for(inoded = 0; inoded < nnoded; inoded++)
+				inp[inoded] = lbpoed.get(iedfa,inoded);
+
+			jface = bfsubf(iface,iedfa);
+			if(jface > iface && jface < nface)
+			{
+				intbedge(nbedge,0) = iface;
+				intbedge(nbedge,1) = jface;
+				for(j = 0; j < nnoded; j++)
+					intbedge(nbedge,2+j) = bface(iface,inp[j]);
+				nbedge++;
+			}
+
+		}
+	}
+	delete [] inp;
+	std::cout << "UMesh3d: compute_boundary_topological(): Number of boundary edges = " << nbedge << std::endl;
+
+	// finally, re-arrange intbedge so that its order matches that of edgepo and elsed
+	// We're doing this the naive way.
+	
+	std::vector<int> temp(2+nnoded);
+	for(ied = 0; ied < nbedge; ied++)
+	{
+		for(jed = ied; jed < nbedge; jed++)
+		{
+			// here we're assuming nnoded == 2, ie, linear mesh
+			if(edgepo.get(ied,0)==intbedge.get(jed,2) && edgepo.get(ied,1)==intbedge.get(jed,3))
+			{
+				for(i = 0; i < 4; i++)
+				{
+					temp[i] = intbedge.get(ied,i);
+					intbedge(ied,i) = intbedge.get(jed,i);
+					intbedge(jed,i) = temp[i];
+				}
+			}
+			else if(edgepo.get(ied,0)==intbedge.get(jed,3) && edgepo.get(ied,1)==intbedge.get(jed,2))
+			{
+				for(i = 0; i < 4; i++)
+					temp[i] = intbedge.get(ied,i);
+
+				// invert local point ordering and left-right face ordering
+				intbedge(ied,0) = intbedge.get(jed,1);
+				intbedge(ied,1) = intbedge.get(jed,0);
+				intbedge(ied,2) = intbedge.get(jed,3);
+				intbedge(ied,3) = intbedge.get(jed,2);
+
+				for(i = 0; i < 4; i++)
+					intbedge(jed,i) = temp[i];
+			}
+		}
+	}
+
+	// Now bedge. Note that this stores global point numbers, not boundary point numbers
 	/*int inoded, in, iface, jface;
 	amc_int nek = 0;
 	bedge.setup(nbedge, 2 + nnoded);
 	// first copy nodes
 	for(amc_int ied = 0; ied < nbedge; ied++)
 		for(inoded = 0; inoded < nnoded; inoded++)
-			bedge(ied,inoded) = intedge.get(ied,inoded);
+			bedge(ied,inoded) = edgepo.get(ied,inoded);
 	// now get bfaces using bfaces surrounding bpoint (bfsubp)
 	int* inp = new int[nnoded];
 	for(iface = 0; iface < nface; iface++)
@@ -1287,7 +1362,7 @@ UMesh UMesh::convertLinearToQuadratic()
 	q.bface.setup(q.nface, q.nnofa+q.nbtag);
 	q.vol_regions.setup(q.nelem, q.ndtag);
 	//std::cout<< "Nodes per edge for P2 mesh = " << q.nnoded << ", number of edges " << q.nedge << std::endl;
-	q.intedge.setup(q.nedge,q.nnoded);
+	q.edgepo.setup(q.nedge,q.nnoded);
 
 	// copy nodes, elements and bfaces
 
@@ -1313,10 +1388,10 @@ UMesh UMesh::convertLinearToQuadratic()
 			q.bface(iface,q.nnofa-nnofa+j) = bface(iface,j);
 	}
 
-	// copy intedge for low-order nodes
+	// copy edgepo for low-order nodes
 	for(amc_int iedge = 0; iedge < nedge; iedge++)
 		for(int inoded = 0; inoded < nnoded; inoded++)
-			q.intedge(iedge,inoded) = intedge.get(iedge,inoded);
+			q.edgepo(iedge,inoded) = edgepo.get(iedge,inoded);
 
 	double* centre = new double[ndim];
 
@@ -1683,7 +1758,7 @@ UMesh UMesh::convertLinearToQuadratic()
 
 			for(int ifnode = 0; ifnode < nnoded; ifnode++)
 				for(int idim = 0; idim < ndim; idim++)
-					centre[idim] += coords(intedge(ied,ifnode), idim);
+					centre[idim] += coords(edgepo(ied,ifnode), idim);
 			for(int idim = 0; idim < ndim; idim++)
 				centre[idim] /= nnoded;
 
@@ -1698,34 +1773,34 @@ UMesh UMesh::convertLinearToQuadratic()
 			{
 				int elem = elsed[ied].at(ielem);
 
-				if((intedge.get(ied,0)==inpoel(elem,0)&&intedge.get(ied,1)==inpoel(elem,1)) || (intedge.get(ied,1)==inpoel(elem,0)&&intedge.get(ied,0)==inpoel(elem,1)))
+				if((edgepo.get(ied,0)==inpoel(elem,0)&&edgepo.get(ied,1)==inpoel(elem,1)) || (edgepo.get(ied,1)==inpoel(elem,0)&&edgepo.get(ied,0)==inpoel(elem,1)))
 					q.inpoel(elem,8) = cono;
-				else if((intedge.get(ied,0)==inpoel(elem,1)&&intedge.get(ied,1)==inpoel(elem,2)) || (intedge.get(ied,1)==inpoel(elem,1)&&intedge.get(ied,0)==inpoel(elem,2)))
+				else if((edgepo.get(ied,0)==inpoel(elem,1)&&edgepo.get(ied,1)==inpoel(elem,2)) || (edgepo.get(ied,1)==inpoel(elem,1)&&edgepo.get(ied,0)==inpoel(elem,2)))
 					q.inpoel(elem,9) = cono;
-				else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,3)))
+				else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,3)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,3)))
 					q.inpoel(elem,10) = cono;
-				else if((intedge(ied,0)==inpoel(elem,3)&&intedge(ied,1)==inpoel(elem,0)) || (intedge(ied,1)==inpoel(elem,3)&&intedge(ied,0)==inpoel(elem,0)))
+				else if((edgepo(ied,0)==inpoel(elem,3)&&edgepo(ied,1)==inpoel(elem,0)) || (edgepo(ied,1)==inpoel(elem,3)&&edgepo(ied,0)==inpoel(elem,0)))
 					q.inpoel(elem,11) = cono;
-				else if((intedge(ied,0)==inpoel(elem,0)&&intedge(ied,1)==inpoel(elem,4)) || (intedge(ied,1)==inpoel(elem,0)&&intedge(ied,0)==inpoel(elem,4)))
+				else if((edgepo(ied,0)==inpoel(elem,0)&&edgepo(ied,1)==inpoel(elem,4)) || (edgepo(ied,1)==inpoel(elem,0)&&edgepo(ied,0)==inpoel(elem,4)))
 					q.inpoel(elem,12) = cono;
-				else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,5)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,5)))
+				else if((edgepo(ied,0)==inpoel(elem,1)&&edgepo(ied,1)==inpoel(elem,5)) || (edgepo(ied,1)==inpoel(elem,1)&&edgepo(ied,0)==inpoel(elem,5)))
 					q.inpoel(elem,13) = cono;
-				else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,6)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,6)))
+				else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,6)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,6)))
 					q.inpoel(elem,14) = cono;
-				else if((intedge(ied,0)==inpoel(elem,3)&&intedge(ied,1)==inpoel(elem,7)) || (intedge(ied,1)==inpoel(elem,3)&&intedge(ied,0)==inpoel(elem,7)))
+				else if((edgepo(ied,0)==inpoel(elem,3)&&edgepo(ied,1)==inpoel(elem,7)) || (edgepo(ied,1)==inpoel(elem,3)&&edgepo(ied,0)==inpoel(elem,7)))
 					q.inpoel(elem,15) = cono;
-				else if((intedge(ied,0)==inpoel(elem,4)&&intedge(ied,1)==inpoel(elem,5)) || (intedge(ied,1)==inpoel(elem,4)&&intedge(ied,0)==inpoel(elem,5)))
+				else if((edgepo(ied,0)==inpoel(elem,4)&&edgepo(ied,1)==inpoel(elem,5)) || (edgepo(ied,1)==inpoel(elem,4)&&edgepo(ied,0)==inpoel(elem,5)))
 					q.inpoel(elem,16) = cono;
-				else if((intedge(ied,0)==inpoel(elem,5)&&intedge(ied,1)==inpoel(elem,6)) || (intedge(ied,1)==inpoel(elem,5)&&intedge(ied,0)==inpoel(elem,6)))
+				else if((edgepo(ied,0)==inpoel(elem,5)&&edgepo(ied,1)==inpoel(elem,6)) || (edgepo(ied,1)==inpoel(elem,5)&&edgepo(ied,0)==inpoel(elem,6)))
 					q.inpoel(elem,17) = cono;
-				else if((intedge(ied,0)==inpoel(elem,6)&&intedge(ied,1)==inpoel(elem,7)) || (intedge(ied,1)==inpoel(elem,6)&&intedge(ied,0)==inpoel(elem,7)))
+				else if((edgepo(ied,0)==inpoel(elem,6)&&edgepo(ied,1)==inpoel(elem,7)) || (edgepo(ied,1)==inpoel(elem,6)&&edgepo(ied,0)==inpoel(elem,7)))
 					q.inpoel(elem,18) = cono;
-				else if((intedge(ied,0)==inpoel(elem,7)&&intedge(ied,1)==inpoel(elem,4)) || (intedge(ied,1)==inpoel(elem,7)&&intedge(ied,0)==inpoel(elem,4)))
+				else if((edgepo(ied,0)==inpoel(elem,7)&&edgepo(ied,1)==inpoel(elem,4)) || (edgepo(ied,1)==inpoel(elem,7)&&edgepo(ied,0)==inpoel(elem,4)))
 					q.inpoel(elem,19) = cono;
 			}
 
-			// add to intedge
-			q.intedge(ied,nnoded) = cono;
+			// add to edgepo
+			q.edgepo(ied,nnoded) = cono;
 
 			//std::cout << "find bface" << std::endl;
 			// find bfaces that this edge belongs to
@@ -1735,10 +1810,10 @@ UMesh UMesh::convertLinearToQuadratic()
 			{
 				bmatch1 = bmatch2 = false;
 				for(int inode = 0; inode < nnofa; inode++)
-					if(intedge(ied,0)==bface(ibface,inode))
+					if(edgepo(ied,0)==bface(ibface,inode))
 						bmatch1 = true;
 				for(int inode = 0; inode < nnofa; inode++)
-					if(intedge(ied,1)==bface(ibface,inode))
+					if(edgepo(ied,1)==bface(ibface,inode))
 						bmatch2 = true;
 
 				if(bmatch1 && bmatch2) edfa.push_back(ibface);
@@ -1750,13 +1825,13 @@ UMesh UMesh::convertLinearToQuadratic()
 			{
 				int ibface = edfa.at(ibf);
 
-				if((intedge.get(ied,0)==bface.get(ibface,0) && intedge.get(ied,1)==bface.get(ibface,1)) || (intedge.get(ied,1)==bface.get(ibface,0) && intedge.get(ied,0)==bface.get(ibface,1)))
+				if((edgepo.get(ied,0)==bface.get(ibface,0) && edgepo.get(ied,1)==bface.get(ibface,1)) || (edgepo.get(ied,1)==bface.get(ibface,0) && edgepo.get(ied,0)==bface.get(ibface,1)))
 					q.bface(ibface,4) = cono;
-				else if((intedge(ied,0)==bface(ibface,1) && intedge(ied,1)==bface(ibface,2)) || (intedge(ied,1)==bface(ibface,1) && intedge(ied,0)==bface(ibface,2)))
+				else if((edgepo(ied,0)==bface(ibface,1) && edgepo(ied,1)==bface(ibface,2)) || (edgepo(ied,1)==bface(ibface,1) && edgepo(ied,0)==bface(ibface,2)))
 					q.bface(ibface,5) = cono;
-				else if((intedge(ied,0)==bface(ibface,2) && intedge(ied,1)==bface(ibface,3)) || (intedge(ied,1)==bface(ibface,2) && intedge(ied,0)==bface(ibface,3)))
+				else if((edgepo(ied,0)==bface(ibface,2) && edgepo(ied,1)==bface(ibface,3)) || (edgepo(ied,1)==bface(ibface,2) && edgepo(ied,0)==bface(ibface,3)))
 					q.bface(ibface,6) = cono;
-				else if((intedge(ied,0)==bface(ibface,3) && intedge(ied,1)==bface(ibface,0)) || (intedge(ied,1)==bface(ibface,3) && intedge(ied,0)==bface(ibface,0)))
+				else if((edgepo(ied,0)==bface(ibface,3) && edgepo(ied,1)==bface(ibface,0)) || (edgepo(ied,1)==bface(ibface,3) && edgepo(ied,0)==bface(ibface,0)))
 					q.bface(ibface,7) = cono;
 			}
 		}
@@ -1770,7 +1845,7 @@ UMesh UMesh::convertLinearToQuadratic()
 
 			for(int ifnode = 0; ifnode < nnoded; ifnode++)
 				for(int idim = 0; idim < ndim; idim++)
-					centre[idim] += coords(intedge(ied,ifnode), idim);
+					centre[idim] += coords(edgepo(ied,ifnode), idim);
 			for(int idim = 0; idim < ndim; idim++)
 				centre[idim] /= nnoded;
 
@@ -1784,34 +1859,34 @@ UMesh UMesh::convertLinearToQuadratic()
 			{
 				int elem = elsed[ied].at(ielem);
 
-				if((intedge(ied,0)==inpoel(elem,0)&&intedge(ied,1)==inpoel(elem,1)) || (intedge(ied,1)==inpoel(elem,0)&&intedge(ied,0)==inpoel(elem,1)))
+				if((edgepo(ied,0)==inpoel(elem,0)&&edgepo(ied,1)==inpoel(elem,1)) || (edgepo(ied,1)==inpoel(elem,0)&&edgepo(ied,0)==inpoel(elem,1)))
 					q.inpoel(elem,8) = cono;
-				else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,2)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,2)))
+				else if((edgepo(ied,0)==inpoel(elem,1)&&edgepo(ied,1)==inpoel(elem,2)) || (edgepo(ied,1)==inpoel(elem,1)&&edgepo(ied,0)==inpoel(elem,2)))
 					q.inpoel(elem,9) = cono;
-				else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,3)))
+				else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,3)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,3)))
 					q.inpoel(elem,10) = cono;
-				else if((intedge(ied,0)==inpoel(elem,3)&&intedge(ied,1)==inpoel(elem,0)) || (intedge(ied,1)==inpoel(elem,3)&&intedge(ied,0)==inpoel(elem,0)))
+				else if((edgepo(ied,0)==inpoel(elem,3)&&edgepo(ied,1)==inpoel(elem,0)) || (edgepo(ied,1)==inpoel(elem,3)&&edgepo(ied,0)==inpoel(elem,0)))
 					q.inpoel(elem,11) = cono;
-				else if((intedge(ied,0)==inpoel(elem,0)&&intedge(ied,1)==inpoel(elem,4)) || (intedge(ied,1)==inpoel(elem,0)&&intedge(ied,0)==inpoel(elem,4)))
+				else if((edgepo(ied,0)==inpoel(elem,0)&&edgepo(ied,1)==inpoel(elem,4)) || (edgepo(ied,1)==inpoel(elem,0)&&edgepo(ied,0)==inpoel(elem,4)))
 					q.inpoel(elem,12) = cono;
-				else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,5)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,5)))
+				else if((edgepo(ied,0)==inpoel(elem,1)&&edgepo(ied,1)==inpoel(elem,5)) || (edgepo(ied,1)==inpoel(elem,1)&&edgepo(ied,0)==inpoel(elem,5)))
 					q.inpoel(elem,13) = cono;
-				else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,6)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,6)))
+				else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,6)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,6)))
 					q.inpoel(elem,14) = cono;
-				else if((intedge(ied,0)==inpoel(elem,3)&&intedge(ied,1)==inpoel(elem,7)) || (intedge(ied,1)==inpoel(elem,3)&&intedge(ied,0)==inpoel(elem,7)))
+				else if((edgepo(ied,0)==inpoel(elem,3)&&edgepo(ied,1)==inpoel(elem,7)) || (edgepo(ied,1)==inpoel(elem,3)&&edgepo(ied,0)==inpoel(elem,7)))
 					q.inpoel(elem,15) = cono;
-				else if((intedge(ied,0)==inpoel(elem,4)&&intedge(ied,1)==inpoel(elem,5)) || (intedge(ied,1)==inpoel(elem,4)&&intedge(ied,0)==inpoel(elem,5)))
+				else if((edgepo(ied,0)==inpoel(elem,4)&&edgepo(ied,1)==inpoel(elem,5)) || (edgepo(ied,1)==inpoel(elem,4)&&edgepo(ied,0)==inpoel(elem,5)))
 					q.inpoel(elem,16) = cono;
-				else if((intedge(ied,0)==inpoel(elem,5)&&intedge(ied,1)==inpoel(elem,6)) || (intedge(ied,1)==inpoel(elem,5)&&intedge(ied,0)==inpoel(elem,6)))
+				else if((edgepo(ied,0)==inpoel(elem,5)&&edgepo(ied,1)==inpoel(elem,6)) || (edgepo(ied,1)==inpoel(elem,5)&&edgepo(ied,0)==inpoel(elem,6)))
 					q.inpoel(elem,17) = cono;
-				else if((intedge(ied,0)==inpoel(elem,6)&&intedge(ied,1)==inpoel(elem,7)) || (intedge(ied,1)==inpoel(elem,6)&&intedge(ied,0)==inpoel(elem,7)))
+				else if((edgepo(ied,0)==inpoel(elem,6)&&edgepo(ied,1)==inpoel(elem,7)) || (edgepo(ied,1)==inpoel(elem,6)&&edgepo(ied,0)==inpoel(elem,7)))
 					q.inpoel(elem,18) = cono;
-				else if((intedge(ied,0)==inpoel(elem,7)&&intedge(ied,1)==inpoel(elem,4)) || (intedge(ied,1)==inpoel(elem,7)&&intedge(ied,0)==inpoel(elem,4)))
+				else if((edgepo(ied,0)==inpoel(elem,7)&&edgepo(ied,1)==inpoel(elem,4)) || (edgepo(ied,1)==inpoel(elem,7)&&edgepo(ied,0)==inpoel(elem,4)))
 					q.inpoel(elem,19) = cono;
 			}
 			
-			// add to intedge
-			q.intedge(ied,nnoded) = cono;
+			// add to edgepo
+			q.edgepo(ied,nnoded) = cono;
 		}
 		delete [] centre;
 		return q;
@@ -1827,7 +1902,7 @@ UMesh UMesh::convertLinearToQuadratic()
 
 		for(int ifnode = 0; ifnode < nnoded; ifnode++)
 			for(int idim = 0; idim < ndim; idim++)
-				centre[idim] += coords(intedge(ied,ifnode), idim);
+				centre[idim] += coords(edgepo(ied,ifnode), idim);
 		for(int idim = 0; idim < ndim; idim++)
 			centre[idim] /= nnoded;
 
@@ -1841,22 +1916,22 @@ UMesh UMesh::convertLinearToQuadratic()
 		{
 			int elem = elsed[ied][ielem];
 
-			if((intedge(ied,0)==inpoel(elem,0)&&intedge(ied,1)==inpoel(elem,1)) || (intedge(ied,1)==inpoel(elem,0)&&intedge(ied,0)==inpoel(elem,1)))
+			if((edgepo(ied,0)==inpoel(elem,0)&&edgepo(ied,1)==inpoel(elem,1)) || (edgepo(ied,1)==inpoel(elem,0)&&edgepo(ied,0)==inpoel(elem,1)))
 				q.inpoel(elem,4) = cono;
-			else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,2)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,2)))
+			else if((edgepo(ied,0)==inpoel(elem,1)&&edgepo(ied,1)==inpoel(elem,2)) || (edgepo(ied,1)==inpoel(elem,1)&&edgepo(ied,0)==inpoel(elem,2)))
 				q.inpoel(elem,5) = cono;
-			else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,3)))
+			else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,3)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,3)))
 				q.inpoel(elem,8) = cono;
-			else if((intedge(ied,0)==inpoel(elem,3)&&intedge(ied,1)==inpoel(elem,0)) || (intedge(ied,1)==inpoel(elem,3)&&intedge(ied,0)==inpoel(elem,0)))
+			else if((edgepo(ied,0)==inpoel(elem,3)&&edgepo(ied,1)==inpoel(elem,0)) || (edgepo(ied,1)==inpoel(elem,3)&&edgepo(ied,0)==inpoel(elem,0)))
 				q.inpoel(elem,7) = cono;
-			else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,0)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,0)))
+			else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,0)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,0)))
 				q.inpoel(elem,6) = cono;
-			else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,3)))
+			else if((edgepo(ied,0)==inpoel(elem,1)&&edgepo(ied,1)==inpoel(elem,3)) || (edgepo(ied,1)==inpoel(elem,1)&&edgepo(ied,0)==inpoel(elem,3)))
 				q.inpoel(elem,9) = cono;
 		}
 
-		// add to intedge
-		q.intedge(ied,nnoded) = cono;
+		// add to edgepo
+		q.edgepo(ied,nnoded) = cono;
 
 		// find bfaces that this edge belongs to
 		std::vector<int> edfa;
@@ -1866,10 +1941,10 @@ UMesh UMesh::convertLinearToQuadratic()
 			bmatch1 = bmatch2 = false;
 
 			for(int inode = 0; inode < nnofa; inode++)
-				if(intedge(ied,0)==bface(ibface,inode))
+				if(edgepo(ied,0)==bface(ibface,inode))
 					bmatch1 = true;
 			for(int inode = 0; inode < nnofa; inode++)
-				if(intedge(ied,1)==bface(ibface,inode))
+				if(edgepo(ied,1)==bface(ibface,inode))
 					bmatch2 = true;
 
 			if(bmatch1 && bmatch2) edfa.push_back(ibface);
@@ -1880,11 +1955,11 @@ UMesh UMesh::convertLinearToQuadratic()
 		{
 			int ibface = edfa.at(ibf);
 
-			if((intedge(ied,0)==bface(ibface,0) && intedge(ied,1)==bface(ibface,1)) || (intedge(ied,1)==bface(ibface,0) && intedge(ied,0)==bface(ibface,1)))
+			if((edgepo(ied,0)==bface(ibface,0) && edgepo(ied,1)==bface(ibface,1)) || (edgepo(ied,1)==bface(ibface,0) && edgepo(ied,0)==bface(ibface,1)))
 				q.bface(ibface,3) = cono;
-			else if((intedge(ied,0)==bface(ibface,1) && intedge(ied,1)==bface(ibface,2)) || (intedge(ied,1)==bface(ibface,1) && intedge(ied,0)==bface(ibface,2)))
+			else if((edgepo(ied,0)==bface(ibface,1) && edgepo(ied,1)==bface(ibface,2)) || (edgepo(ied,1)==bface(ibface,1) && edgepo(ied,0)==bface(ibface,2)))
 				q.bface(ibface,4) = cono;
-			else if((intedge(ied,0)==bface(ibface,2) && intedge(ied,1)==bface(ibface,0)) || (intedge(ied,1)==bface(ibface,2) && intedge(ied,0)==bface(ibface,0)))
+			else if((edgepo(ied,0)==bface(ibface,2) && edgepo(ied,1)==bface(ibface,0)) || (edgepo(ied,1)==bface(ibface,2) && edgepo(ied,0)==bface(ibface,0)))
 				q.bface(ibface,5) = cono;
 		}
 	}
@@ -1897,7 +1972,7 @@ UMesh UMesh::convertLinearToQuadratic()
 
 		for(int ifnode = 0; ifnode < nnoded; ifnode++)
 			for(int idim = 0; idim < ndim; idim++)
-				centre[idim] += coords(intedge(ied,ifnode), idim);
+				centre[idim] += coords(edgepo(ied,ifnode), idim);
 		for(int idim = 0; idim < ndim; idim++)
 			centre[idim] /= nnoded;
 
@@ -1911,22 +1986,22 @@ UMesh UMesh::convertLinearToQuadratic()
 		{
 			int elem = elsed[ied].at(ielem);
 
-			if((intedge(ied,0)==inpoel(elem,0)&&intedge(ied,1)==inpoel(elem,1)) || (intedge(ied,1)==inpoel(elem,0)&&intedge(ied,0)==inpoel(elem,1)))
+			if((edgepo(ied,0)==inpoel(elem,0)&&edgepo(ied,1)==inpoel(elem,1)) || (edgepo(ied,1)==inpoel(elem,0)&&edgepo(ied,0)==inpoel(elem,1)))
 				q.inpoel(elem,4) = cono;
-			else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,2)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,2)))
+			else if((edgepo(ied,0)==inpoel(elem,1)&&edgepo(ied,1)==inpoel(elem,2)) || (edgepo(ied,1)==inpoel(elem,1)&&edgepo(ied,0)==inpoel(elem,2)))
 				q.inpoel(elem,5) = cono;
-			else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,3)))
+			else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,3)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,3)))
 				q.inpoel(elem,8) = cono;
-			else if((intedge(ied,0)==inpoel(elem,3)&&intedge(ied,1)==inpoel(elem,0)) || (intedge(ied,1)==inpoel(elem,3)&&intedge(ied,0)==inpoel(elem,0)))
+			else if((edgepo(ied,0)==inpoel(elem,3)&&edgepo(ied,1)==inpoel(elem,0)) || (edgepo(ied,1)==inpoel(elem,3)&&edgepo(ied,0)==inpoel(elem,0)))
 				q.inpoel(elem,7) = cono;
-			else if((intedge(ied,0)==inpoel(elem,2)&&intedge(ied,1)==inpoel(elem,0)) || (intedge(ied,1)==inpoel(elem,2)&&intedge(ied,0)==inpoel(elem,0)))
+			else if((edgepo(ied,0)==inpoel(elem,2)&&edgepo(ied,1)==inpoel(elem,0)) || (edgepo(ied,1)==inpoel(elem,2)&&edgepo(ied,0)==inpoel(elem,0)))
 				q.inpoel(elem,6) = cono;
-			else if((intedge(ied,0)==inpoel(elem,1)&&intedge(ied,1)==inpoel(elem,3)) || (intedge(ied,1)==inpoel(elem,1)&&intedge(ied,0)==inpoel(elem,3)))
+			else if((edgepo(ied,0)==inpoel(elem,1)&&edgepo(ied,1)==inpoel(elem,3)) || (edgepo(ied,1)==inpoel(elem,1)&&edgepo(ied,0)==inpoel(elem,3)))
 				q.inpoel(elem,9) = cono;
 		}
 			
-		// add to intedge
-		q.intedge(ied,nnoded) = cono;
+		// add to edgepo
+		q.edgepo(ied,nnoded) = cono;
 	}
 
 	delete [] centre;

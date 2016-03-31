@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -64,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,20 +81,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="classacfd_1_1UMesh2d.html#a24601f44a5bd986c3976e2bee6b266d1">acfd::UMesh2d::compute_mesh_stats</a>  ()</dt>
+<dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="classamc_1_1UMesh2d.html#a809e2d97f94a90bc94e1282a80c35892">amc::UMesh2d::compute_mesh_stats</a>  ()</dt>
 <dd><ol type="1">
 <li>largest and smallest aspect ratio of cells</li>
 <li>distance of nearest mesh point from a boundary point (perhaps average of this for all boundary points?  </li>
 </ol>
 </dd>
-<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="classacfd_1_1UMesh2dh.html#a63e2a4491ea719522ad4dc0595f242d3">acfd::UMesh2dh::compute_jacobians</a>  ()</dt>
+<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="classamc_1_1UMesh2dh.html#a20fba9716e8ca8607cff20e2a8019ced">amc::UMesh2dh::compute_jacobians</a>  ()</dt>
 <dd>TODO: Generalize so that it works for quadrilateral meshes also  </dd>
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="classacfd_1_1UMesh2dh.html#a58b6584d4a0767115694401bc4586470">acfd::UMesh2dh::compute_topological</a>  ()</dt>
+<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="classamc_1_1UMesh2dh.html#aba6b42060dd43763421662ee41896651">amc::UMesh2dh::compute_topological</a>  ()</dt>
 <dd>: TODO: There is an issue with psup for some boundary nodes belonging to elements of different types. Correct this.  </dd>
 <dt><a class="anchor" id="_todo000001"></a>Class <a class="el" href="classDelaunay3d.html">Delaunay3d</a>  </dt>
 <dd>Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done). </dd>
 <dt><a class="anchor" id="_todo000002"></a>Class <a class="el" href="classMatrix.html">Matrix</a>  </dt>
-<dd>TODO: Make 'storage' a template parameter rather than class member, OR, eliminate storage order choice - make everything rowmajor TODO: (Not really needed) Make a Vector class, maybe as a sub-class of <a class="el" href="classMatrix.html" title="Stores a dense matrix. ">Matrix</a> </dd>
+<dd>Make 'storage' a template parameter rather than class member, OR, eliminate storage order choice - make everything rowmajor </dd>
 </dl>
 </div></div><!-- contents -->
 <!-- start footer part -->

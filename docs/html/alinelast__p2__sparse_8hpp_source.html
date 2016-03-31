@@ -39,6 +39,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -62,6 +63,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
       <li><a href="files.html"><span>File&#160;List</span></a></li>
+      <li><a href="globals.html"><span>File&#160;Members</span></a></li>
     </ul>
   </div>
 <!-- window showing the filter options -->
@@ -69,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -80,7 +82,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -131,13 +133,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">int</span> ngeoel;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> ngeofa;</div>
 <div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">   48</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">ndofe</a>;                  </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">   49</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">geoel</a>;       </div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">   50</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">geofa</a>;       </div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">   51</a></span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> <a class="code" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">K</a>;                 </div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ab691e7c8d5372f8c6b4316ec434f100e">   52</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#ab691e7c8d5372f8c6b4316ec434f100e">f</a>;           </div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">   49</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">geoel</a>;       </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">   50</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">geofa</a>;       </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">   51</a></span>&#160;    <a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a> <a class="code" href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">K</a>;                 </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#aad8276ca77d303df9b46d08680c41425">   52</a></span>&#160;    <a class="code" href="classamat_1_1Matrix.html">Matrix&lt;double&gt;</a> <a class="code" href="classacfd_1_1LinElastP2.html#aad8276ca77d303df9b46d08680c41425">f</a>;           </div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
 <div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">   54</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">muE</a>;                 </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067">   55</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067">lambdaE</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">double</span> lambdaE;</div>
 <div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">   56</a></span>&#160;    <span class="keywordtype">double</span> <a class="code" href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">cbig</a>;                </div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">public</span>:</div>
@@ -363,7 +365,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">void</span> assembleStiffnessMatrix()</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    {</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> K11, K22, K12;</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a> K11, K22, K12;</div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        K11.setup(m-&gt;gnpoin(),m-&gt;gnpoin()); K22.setup(m-&gt;gnpoin(), m-&gt;gnpoin()); K12.setup(m-&gt;gnpoin(), m-&gt;gnpoin());</div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="comment">//K11.zeros(); K22.zeros(); K12.zeros();</span></div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        vector&lt;int&gt; ip(m-&gt;gnnode());</div>
@@ -394,10 +396,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">        K12.trim();</span></div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">        K22.trim();*/</span></div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> K21(m-&gt;gnpoin(), m-&gt;gnpoin());</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a> K21(m-&gt;gnpoin(), m-&gt;gnpoin());</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        K21 = K12.transpose();</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        K.combine_sparse_matrices(K11,K12,K21,K22);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        K.<a class="code" href="classamat_1_1MatrixCRS.html#a10a78e2f75a5f1ebb5a0227ff628c197">combine_sparse_matrices</a>(K11,K12,K21,K22);</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    }</div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="keywordtype">void</span> assembleLoadVector()</div>
@@ -406,7 +408,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        f.zeros();</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    }</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <a class="code" href="classamat_1_1MatrixCOO.html">SpMatrix</a> stiffnessMatrix()</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <a class="code" href="classamat_1_1MatrixCRS.html">SpMatrix</a> stiffnessMatrix()</div>
 <div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    {</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <span class="keywordflow">return</span> K;</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    }</div>
@@ -457,22 +459,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;};</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;</div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;} <span class="comment">// end namespace</span></div>
-<div class="ttc" id="classamat_1_1MatrixCOO_html"><div class="ttname"><a href="classamat_1_1MatrixCOO.html">amat::MatrixCOO</a></div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:76</div></div>
-<div class="ttc" id="classacfd_1_1UMesh2d_html"><div class="ttname"><a href="classacfd_1_1UMesh2d.html">acfd::UMesh2d</a></div><div class="ttdef"><b>Definition:</b> amesh2d.hpp:64</div></div>
+<div class="ttc" id="classacfd_1_1UMesh2d_html"><div class="ttname"><a href="classacfd_1_1UMesh2d.html">acfd::UMesh2d</a></div><div class="ttdef"><b>Definition:</b> amesh2d_backup_20150909.hpp:61</div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html_ab04c23e02638a977dfb74251c9f95f66"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ab04c23e02638a977dfb74251c9f95f66">acfd::LinElastP2::LinElastP2</a></div><div class="ttdeci">LinElastP2(UMesh2d *mesh, double mu, double lambd)</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:64</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_a842d212644a1fbf7979c81a30baeb1f2"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a842d212644a1fbf7979c81a30baeb1f2">acfd::LinElastP2::geoel</a></div><div class="ttdeci">Matrix&lt; double &gt; geoel</div><div class="ttdoc">holds 2*area of element, and derivatives of barycentric coordinate functions lambdas ...</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:49</div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html"><div class="ttname"><a href="classacfd_1_1LinElastP2.html">acfd::LinElastP2</a></div><div class="ttdoc">Class implementing solution of linear elasticity system by P2 Lagrange finite elements. </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:43</div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html_a5fd5246407c87ffa0eba8b5918e49a06"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a5fd5246407c87ffa0eba8b5918e49a06">acfd::LinElastP2::K</a></div><div class="ttdeci">SpMatrix K</div><div class="ttdoc">global stiffness matrix </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:51</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a3302bea218e86ab6ceecb09ec318d067"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a3302bea218e86ab6ceecb09ec318d067">acfd::LinElastP2::lambdaE</a></div><div class="ttdeci">double lambdaE</div><div class="ttdoc">isotropic elasticity constant lambda </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:55</div></div>
 <div class="ttc" id="amatrix2_8hpp_html"><div class="ttname"><a href="amatrix2_8hpp.html">amatrix2.hpp</a></div><div class="ttdoc">Defines a class to manipulate matrices. </div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a287c4e5724037941c2ac8ee223b3b9d4"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a287c4e5724037941c2ac8ee223b3b9d4">acfd::LinElastP2::geoel</a></div><div class="ttdeci">Matrix&lt; double &gt; geoel</div><div class="ttdoc">holds 2*area of element, and derivatives of barycentric coordinate functions lambdas ...</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:49</div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html_ac6f577f313fde9a36c9252a946883e8d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ac6f577f313fde9a36c9252a946883e8d">acfd::LinElastP2::setup</a></div><div class="ttdeci">void setup(UMesh2d *mesh, double mu, double lambd)</div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:113</div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html_a97d2d32d1c4bce92517c9ad606a070b2"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a97d2d32d1c4bce92517c9ad606a070b2">acfd::LinElastP2::dirichletBC_onAllBface</a></div><div class="ttdeci">void dirichletBC_onAllBface(const Matrix&lt; double &gt; &amp;bdata, const Matrix&lt; int &gt; &amp;bflags)</div><div class="ttdoc">Applies Dirichlet BC on high-order nodes of all boundary faces. </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:344</div></div>
 <div class="ttc" id="classamat_1_1Matrix_html"><div class="ttname"><a href="classamat_1_1Matrix.html">amat::Matrix&lt; double &gt;</a></div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_a64d9a39d033ae32355379de78c089edc"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a64d9a39d033ae32355379de78c089edc">acfd::LinElastP2::geofa</a></div><div class="ttdeci">Matrix&lt; double &gt; geofa</div><div class="ttdoc">holds normals to and length of boundary faces </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:50</div></div>
-<div class="ttc" id="classacfd_1_1LinElastP2_html_ab691e7c8d5372f8c6b4316ec434f100e"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ab691e7c8d5372f8c6b4316ec434f100e">acfd::LinElastP2::f</a></div><div class="ttdeci">Matrix&lt; double &gt; f</div><div class="ttdoc">global load vector </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:52</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_ac89b93ce1ca26c595aa66e7b8e955251"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ac89b93ce1ca26c595aa66e7b8e955251">acfd::LinElastP2::geofa</a></div><div class="ttdeci">Matrix&lt; double &gt; geofa</div><div class="ttdoc">holds normals to and length of boundary faces </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:50</div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html_a562b257ebe00346cdb5fa79766759d4d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a562b257ebe00346cdb5fa79766759d4d">acfd::LinElastP2::muE</a></div><div class="ttdeci">double muE</div><div class="ttdoc">isotropic elasticity constants </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:54</div></div>
+<div class="ttc" id="classamat_1_1MatrixCRS_html"><div class="ttname"><a href="classamat_1_1MatrixCRS.html">amat::MatrixCRS&lt; double &gt;</a></div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html_a4fec90fbbbda051888a2f56ae048fc5d"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#a4fec90fbbbda051888a2f56ae048fc5d">acfd::LinElastP2::ndofe</a></div><div class="ttdeci">int ndofe</div><div class="ttdoc">Number of DOFs per element. </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:48</div></div>
+<div class="ttc" id="classacfd_1_1LinElastP2_html_aad8276ca77d303df9b46d08680c41425"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#aad8276ca77d303df9b46d08680c41425">acfd::LinElastP2::f</a></div><div class="ttdeci">Matrix&lt; double &gt; f</div><div class="ttdoc">global load vector </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:52</div></div>
 <div class="ttc" id="classacfd_1_1LinElastP2_html_ab8e650d1575837d08207fcc50bdb1168"><div class="ttname"><a href="classacfd_1_1LinElastP2.html#ab8e650d1575837d08207fcc50bdb1168">acfd::LinElastP2::cbig</a></div><div class="ttdeci">double cbig</div><div class="ttdoc">for Dirichlet BCs </div><div class="ttdef"><b>Definition:</b> alinelast_p2_sparse.hpp:56</div></div>
+<div class="ttc" id="classamat_1_1MatrixCRS_html_a10a78e2f75a5f1ebb5a0227ff628c197"><div class="ttname"><a href="classamat_1_1MatrixCRS.html#a10a78e2f75a5f1ebb5a0227ff628c197">amat::MatrixCRS::combine_sparse_matrices</a></div><div class="ttdeci">void combine_sparse_matrices(const MatrixCRS &amp;A11, const MatrixCRS &amp;A12, const MatrixCRS &amp;A21, const MatrixCRS &amp;A22)</div><div class="ttdoc">Combines A, B, C, and D (4 n-by-n matrices) into one 2n-by-2n matrix. </div><div class="ttdef"><b>Definition:</b> asparsematrix.hpp:533</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

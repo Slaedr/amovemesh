@@ -1,7 +1,8 @@
 var searchData=
 [
-  ['a',['A',['../classacfd_1_1RBFmove.html#a7cdf54b09eae7bce3afaac7b0ec6eb83',1,'acfd::RBFmove']]],
-  ['alloc_5fjacobians',['alloc_jacobians',['../classacfd_1_1UMesh2dh.html#a248db1eaa1ec0e87abaea385e0e1db38',1,'acfd::UMesh2dh']]],
-  ['alloc_5flambda',['alloc_lambda',['../classacfd_1_1UMesh2d.html#a4c909c906db87db4b88827698350205a',1,'acfd::UMesh2d::alloc_lambda()'],['../classacfd_1_1UMesh2dh.html#ab6aa096fd5c557f9db508a59710dabb7',1,'acfd::UMesh2dh::alloc_lambda()']]],
-  ['alpha',['alpha',['../classacfd_1_1UMesh2d.html#a6aaf213002652c2231392aa32e580bdb',1,'acfd::UMesh2d::alpha()'],['../classacfd_1_1UMesh2dh.html#acbfa05a3d54169686d11f97c07afc47c',1,'acfd::UMesh2dh::alpha()']]]
+  ['a',['A',['../classamc_1_1RBFmove.html#a8fe8042a67bbb8227ab92194092c0126',1,'amc::RBFmove']]],
+  ['alloc_5fjacobians',['alloc_jacobians',['../classamc_1_1UMesh2dh.html#ac1ed230d5ebb3e21b5859d57b4f058e8',1,'amc::UMesh2dh']]],
+  ['alloc_5flambda',['alloc_lambda',['../classamc_1_1UMesh2d.html#abefde737f93d6cefe2fe405d852d6593',1,'amc::UMesh2d::alloc_lambda()'],['../classamc_1_1UMesh2dh.html#a34a7638cf60505b0f8be3914860f9f49',1,'amc::UMesh2dh::alloc_lambda()']]],
+  ['allocated',['allocated',['../structamat_1_1SMatrixCRS.html#a02d0a4d9d72b9925f7959ef479166892',1,'amat::SMatrixCRS']]],
+  ['alpha',['alpha',['../classamc_1_1UMesh2d.html#afd7b52c11efbae2d26e016e7b838fe33',1,'amc::UMesh2d::alpha()'],['../classamc_1_1UMesh2dh.html#ab70256e12f5febc629278b8c381e7c9c',1,'amc::UMesh2dh::alpha()']]]
 ];
