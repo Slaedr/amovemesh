@@ -36,7 +36,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 # libraries to be compiled
 
 add_library(amesh3d amesh3d.cpp)
-target_link_libraries(amesh3d amatrix2)
+target_link_libraries(amesh3d amatrix2 adatastructures)
 
 add_library(alinalg alinalg.cpp)
 target_link_libraries(alinalg amatrix2)

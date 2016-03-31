@@ -725,6 +725,7 @@ void UMesh::compute_jacobians()
 void UMesh::compute_topological()
 {
 	std::cout << "UMesh: compute_topological(): Calculating and storing topological information..." << std::endl;
+	amc_int ied, i, iel, jel;
 	
 	//1. Elements surrounding points
 	esup_p.setup(npoin+1,1);
@@ -897,20 +898,20 @@ void UMesh::compute_topological()
 	// 5. Get elsed (elements surrounding each edge) using esup
 	std::cout << "UMesh3d: compute_topological(): Calculating elsed" << std::endl;
 	amat::Matrix<int> lelem(nelem,1);
-	int* ip = new int[nnoded];
+	amc_int* ip = new amc_int[nnoded];
 
-	for(int ied = 0; ied < nedge; ied++)
+	for( ied = 0; ied < nedge; ied++)
 	{
-		for(int i = 0; i < nnoded; i++)
+		for( i = 0; i < nnoded; i++)
 			ip[i] = edgepo(ied,i);
 
 		lelem.zeros();
-		for(int iel = esup_p(ip[0]); iel < esup_p(ip[0]+1); iel++)
+		for( iel = esup_p(ip[0]); iel < esup_p(ip[0]+1); iel++)
 		{
 			lelem(esup(iel)) = 1;
 		}
 
-		for(int jel = esup_p(ip[1]+1)-1; jel >= esup_p(ip[1]); jel--)
+		for( jel = esup_p(ip[1]+1)-1; jel >= esup_p(ip[1]); jel--)
 		{
 			if(lelem(esup(jel)) == 1)
 				elsed[ied].push_back(esup(jel));
@@ -994,7 +995,7 @@ void UMesh::compute_topological()
 	The orientation of the face is such that the face points towards the element with larger index.
 	NOTE: After the following portion, esuel holds (nelem + face no.) for each ghost cell, instead of -1 as before.*/
 
-	//std::cout << "UMesh2d: compute_topological(): Computing intfac..." << std::endl;
+	//std::cout << "UMesh3d: compute_topological(): Computing intfac..." << std::endl;
 	nbface = naface = 0;
 
 	// first run: calculate nbface
@@ -1090,7 +1091,9 @@ void UMesh::compute_boundary_topological()
 	// boundary data structures
 	std::cout << "UMesh: compute_boundary_topological(): Computing bpoints, bpointsinv, bfsubp and bfsubf..." << std::endl;
 
-	amc_int i, j, inode, ipoin, jpoin;
+	amc_int i, j, ipoin, jpoin;
+	int ifa, iface, jface, istor, ied, jed, icoun, inode, jnode, inoded, jnoded, iedfa;
+
 	nbpoin = 0;
 	for(i = 0; i < npoin; i++)
 	{
@@ -1149,6 +1152,111 @@ void UMesh::compute_boundary_topological()
 		bfsubp_p(i) = bfsubp_p(i-1);
 	bfsubp_p(0) = 0;
 
+	// bpoints surrounding bpoint
+	
+	std::cout << "UMesh2d: compute_boundary_topological(): Points surrounding points\n";
+	bpsubp_p.setup(nbpoin+1,1,amat::ROWMAJOR);
+	bpsubp_p.zeros();
+	bpsubp_p(0) = 0;
+	
+	// lpoin: the ith member indicates the boundary point number of which the ith point is a surrounding point
+	for(i = 0; i < nbpoin; i++) 
+		lpoin(i) = -1;	// initialize this vector to -1
+	istor = 0;
+	
+	std::vector<bool> nbd(nnofa);		// contains true if that local node number is connected to inode
+
+	// first pass: calculate storage needed for psup
+	for(int ip = 0; ip < nbpoin; ip++)
+	{
+		lpoin(ip) = ip;		// the point ip itself is not counted as a surrounding point of ip
+		// Loop over elements surrounding this point
+		for(ifa = bfsubp_p(ip); ifa < bfsubp_p(ip+1); ifa++)
+		{
+			iface = bfsubp(ifa,0);
+
+			// find local node number of ip in iface
+			for(jnode = 0; jnode < nnofa; jnode++)
+				if(bface.get(iface,jnode) == ip) inode = jnode;
+
+			for(j = 0; j < nnofa; j++)
+				nbd[j] = false;
+
+			if(nnofa == 3)
+				for(i = 0; i < nbd.size(); i++)
+					nbd[i] = true;
+			else if(nnofa == 4)
+				for(jnode = 0; jnode < nnofa; jnode++)
+				{
+					if(jnode == (inode+1)%nnofa /*perm(0,nnode-1,inode,1)*/ || jnode == perm(0,nnofa-1, inode, -1))
+						nbd[jnode] = true;
+				}
+
+			//loop over nodes of the face
+			for(inode = 0; inode < nnofa; inode++)
+			{
+				//Get global index of this node
+				jpoin = bface.get(iface, inode);
+				if(lpoin(jpoin,0) != ip && nbd[inode])		// test of this point as already been counted as a surrounding point of ip
+				{
+					istor++;
+					lpoin(jpoin,0) = ip;		// set this point as a surrounding point of ip
+				}
+			}
+		}
+		bpsubp_p(ip+1) = istor;
+	}
+
+	bpsubp.setup(istor,1);
+
+	//second pass: populate bpsubp
+	istor = 0;
+	for(i = 0; i < nbpoin; i++) 
+		lpoin(i,0) = -1;	// initialize lpoin to -1
+	
+	for(int ip = 0; ip < nbpoin; ip++)
+	{
+		lpoin(ip,0) = ip;		// the point ip itself is not counted as a surrounding point of ip
+		// Loop over elements surrounding this point
+		for(ifa = bfsubp_p(ip); ifa < bfsubp_p(ip+1); ifa++)
+		{
+			iface = bfsubp(ifa);		// element number
+
+			// find local node number of ip in ielem
+			for(jnode = 0; jnode < nnofa; jnode++)
+				if(bface.get(iface,jnode) == ip) 
+					inode = jnode;
+
+			for(j = 0; j < nnofa; j++)
+				nbd[j] = false;
+
+			if(nnofa == 3)
+				for(i = 0; i < nbd.size(); i++)
+					nbd[i] = true;
+			else if(nnofa == 4)
+				for(jnode = 0; jnode < nnofa; jnode++)
+				{
+					if(jnode == (inode+1)%nnofa || jnode == perm(0,nnode-1, inode, -1))
+						nbd[jnode] = true;
+				}
+
+			//loop over nodes of the face
+			for(inode = 0; inode < nnofa; inode++)
+			{
+				//Get global index of this node
+				jpoin = bface.get(iface, inode);
+				if(lpoin(jpoin,0) != ip && nbd[inode])		// test of this point as already been counted as a surrounding point of ip
+				{
+					bpsubp(istor,0) = jpoin;
+					istor++;
+					lpoin(jpoin) = ip;		// set this point as a surrounding point of ip
+				}
+			}
+		}
+	}
+
+	istor = 0;
+
 	// bfaces surrounding bface
 	
 	int ii, jj;
@@ -1169,7 +1277,6 @@ void UMesh::compute_boundary_topological()
 	lhelp.zeros();
 	lpoin.zeros();
 
-	int iface, jface, istor, ied, jed, icoun, inoded, jnoded, iedfa;
 
 	for(int iface = 0; iface < nface; iface++)
 	{

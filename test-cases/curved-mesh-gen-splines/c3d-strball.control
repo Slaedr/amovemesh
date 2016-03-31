@@ -4,6 +4,8 @@
 ../../output/curved-mesh-gen-spline/ball-str_curvedp2.msh
 -WALF-type(VERTEX-or-FACE)
 FACE
+-stencil-type
+full
 -angle-threshold-for-corners
 40.0
 -RBF-choice

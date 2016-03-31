@@ -15,10 +15,11 @@ inline int factorial(int x)
 		return x * factorial(x-1);
 }
 
-BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg) 
-	: m(mesh), degree(deg), s1(1.0), s2(2.0)
+BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type) 
+	: m(mesh), degree(deg), stencilType(stencil_type), s1(1.0), s2(2.0)
 {
 	fnormals.setup(m->gnface(), m->gndim());
+	std::cout << "BoundaryReconstruction: Stencil type is " << stencilType << std::endl;
 
 	// compute unit face normals of triangular faces
 	int iface;
@@ -45,8 +46,8 @@ void BoundaryReconstruction::preprocess() { }
 void BoundaryReconstruction::solve() { }
 
 
-VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, bool _safeguard, double norm_limit) 
-	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg)
+VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, bool _safeguard, double norm_limit) 
+	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type)
 {
 	std::cout << "VertexCenteredBoundaryReconstruction: Computing with safeguard - " << safeguard << std::endl;
 	D = new amat::Matrix<amc_real>[m->gnbpoin()];
@@ -77,7 +78,7 @@ VertexCenteredBoundaryReconstruction::~VertexCenteredBoundaryReconstruction()
 void VertexCenteredBoundaryReconstruction::preprocess()
 {
 	pnormals.setup(m->gnbpoin(), m->gndim());
-	int ipoin, iface, idim, face, numfaces, inode, i,j, jed;
+	int ipoin, jpoin, kpoin, iface, idim, face, numfaces, inode, i,j,k, jed;
 	amc_real normmag;
 
 	amat::Matrix<amc_real>* pnormals = &(this->pnormals);
@@ -152,51 +153,102 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 	std::vector<int> pflags(m->gnbpoin());
 	std::vector<amc_int> sfaces;
 	std::vector<amc_int> facepo;		// for storing local node number of ipoin in each surrounding face
-	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
+	if(stencilType == "half")
 	{
-		pflags.assign(m->gnbpoin(),0);
-		pflags[ipoin] = 1;
-		sfaces.clear();
-		facepo.clear();
-
-		if(m->gnnofa() == 3)
+		for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 		{
-			if(degree == 2)
+			pflags.assign(m->gnbpoin(),0);
+			pflags[ipoin] = 1;
+			sfaces.clear();
+			facepo.clear();
+
+			if(m->gnnofa() == 3)
 			{
-				for(iface = m->gbfsubp_p(ipoin); iface < m->gbfsubp_p(ipoin+1); iface++)
+				if(degree == 2)
 				{
-					face = m->gbfsubp(iface);
-					for(inode = 0; inode != m->gnnofa(); inode++)
+					for(iface = m->gbfsubp_p(ipoin); iface < m->gbfsubp_p(ipoin+1); iface++)
 					{
-						if(pflags[m->gbpointsinv(m->gbface(face,inode))] != 1)	
-							stencil[ipoin].push_back(m->gbpointsinv(m->gbface(face,inode)));
+						face = m->gbfsubp(iface);
+						for(inode = 0; inode != m->gnnofa(); inode++)
+						{
+							if(pflags[m->gbpointsinv(m->gbface(face,inode))] != 1)	
+								stencil[ipoin].push_back(m->gbpointsinv(m->gbface(face,inode)));
 
-						if(m->gbpointsinv(m->gbface(face,inode)) == ipoin)
-							facepo.push_back(inode);
+							if(m->gbpointsinv(m->gbface(face,inode)) == ipoin)
+								facepo.push_back(inode);
 
-						pflags[m->gbpointsinv(m->gbface(face,inode))] = 1;
+							pflags[m->gbpointsinv(m->gbface(face,inode))] = 1;
+						}
+						sfaces.push_back(face);
 					}
-					sfaces.push_back(face);
+					// 1-ring points added, now add points for the 1.5-ring
+					for(i = 0; i < sfaces.size(); i++)
+					{
+						jed = (facepo[i]+1) % m->gnnofa();										// get the edge opposite to ipoin
+						face = m->gbfsubf(sfaces[i],jed);										// get the face adjoining that edge
+						for(j = 0; j < m->gnnofa(); j++)										// add nodes of that face to stencil provided they have not already been added
+							if(pflags[m->gbpointsinv(m->gbface(face,j))] != 1)
+								stencil[ipoin].push_back(m->gbpointsinv(m->gbface(face,j)));
+					}
 				}
-				// 1-ring points added, now add points for the 1.5-ring
-				for(i = 0; i < sfaces.size(); i++)
+				else if(degree == 3)
 				{
-					jed = (facepo[i]+1) % m->gnnofa();										// get the edge opposite to ipoin
-					face = m->gbfsubf(sfaces[i],jed);										// get the face adjoining that edge
-					for(j = 0; j < m->gnnofa(); j++)										// add nodes of that face to stencil provided they have not already been added
-						if(pflags[m->gbpointsinv(m->gbface(face,j))] != 1)
-							stencil[ipoin].push_back(m->gbpointsinv(m->gbface(face,j)));
 				}
 			}
-			else if(degree == 3)
+			else if(m->gnnofa() == 4)
 			{
 			}
-		}
-		else if(m->gnnofa() == 4)
-		{
-		}
 
-		mpo[ipoin] = stencil[ipoin].size();
+			mpo[ipoin] = stencil[ipoin].size();
+		}
+	}
+	else if (stencilType == "full")
+	{
+		// currently only for a 2-ring (refer Jiao and Wang) in a triangular surface mesh
+		// but can be generalized without much difficulty to n-ring stencils, by putting the loop over surpoints in a n-loop.
+		std::vector<int> surpoints;
+		amc_int fa;
+		for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
+		{
+			if(m->gnnofa() == 3)
+			{
+				surpoints.clear();
+				pflags.assign(m->gnbpoin(),0);
+				pflags[ipoin] = 1;
+
+				// 1-ring
+				for(j = m->gbpsubp_p(ipoin); j < m->gbpsubp_p(ipoin+1); j++)
+				{
+					jpoin = m->gbpsubp(j);
+					if(pflags[jpoin] == 0)
+					{
+						pflags[jpoin] = 1;
+						stencil[ipoin].push_back(jpoin);
+						surpoints.push_back(jpoin);
+					}
+				}
+				
+				// 2-ring
+				for(j = 0; j != surpoints.size(); j++)
+				{
+					jpoin = surpoints[j];
+					for(k = m->gbpsubp_p(jpoin); k < m->gbpsubp_p(jpoin+1); k++)
+					{
+						kpoin = m->gbpsubp(k);
+						if(pflags[kpoin] != 1) 
+						{
+							stencil[ipoin].push_back(kpoin);
+							pflags[kpoin] = 1;
+						}
+					}
+				}
+				mpo[ipoin] = stencil[ipoin].size();
+			}
+			else
+			{
+				std::cout << "VertexCenteredBoundaryReconstruction: Not implemented for this type of face!" << std::endl;
+			}
+		}
 	}
 }
 
@@ -459,8 +511,8 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 
 // Implementation of face-centered reconstruction follows
 
-FaceCenteredBoundaryReconstruction::FaceCenteredBoundaryReconstruction(const UMesh* mesh, int deg, bool _safeguard, double norm_limit) 
-	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg)
+FaceCenteredBoundaryReconstruction::FaceCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, bool _safeguard, double norm_limit) 
+	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type)
 {
 	std::cout << "FaceCenteredBoundaryReconstruction: Computing with safeguard - " << safeguard << std::endl;
 	D = new amat::Matrix<amc_real>[m->gnface()];
@@ -478,6 +530,7 @@ FaceCenteredBoundaryReconstruction::FaceCenteredBoundaryReconstruction(const UMe
 
 		D[i].setup(nders,1);
 	}
+	std::cout << "FaceCenteredBoundaryReconstruction: Number of unknowns per face = " << nders << std::endl;
 	stencil = new std::vector<int>[m->gnface()];
 	face_center.setup(m->gnface(),m->gndim());
 }
@@ -627,6 +680,7 @@ void FaceCenteredBoundaryReconstruction::solve()
 		mp = mpo->at(iface);
 		amc_int fno;
 		amc_real weight, wd = 0, csum;
+		//std::cout << "FaceCenteredBoundaryReconstruction: solve(): Face " << iface << ": m = " << mp << ", n = " << nders << std::endl;
 
 		// assemble V and F
 		amat::Matrix<amc_real> V(mp, nders);			// least-squares LHS, Vandermonde matrix
@@ -685,9 +739,8 @@ void FaceCenteredBoundaryReconstruction::solve()
 		}
 
 		//leastSquares_NE(V, F, D[iface]);
-		//leastSquares_QR(V, F, D[iface]);
-		leastSquares_SVD(V, F, D[iface]);
-		std::cout << "c0 = " << D[iface].get(0) << ", ";
+		leastSquares_QR(V, F, D[iface]);
+		//leastSquares_SVD(V, F, D[iface]);
 
 		/*std::vector<amc_real> scale(nders);		// for scaling the column of A
 		

@@ -53,7 +53,8 @@ class CurvedMeshGen
 	amat::Matrix<amc_real> allpoint_disps;	///< Initial displacements of all points in the high-order mesh; zero for interior points
 
 public:
-	void setup(const UMesh* mesh, UMesh* meshq, std::string br_type, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver);
+	void setup(const UMesh* mesh, UMesh* meshq, std::string br_type, std::string stencil_type, double angle_threshold,
+			double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver);
 
 	~CurvedMeshGen();
 
@@ -62,7 +63,8 @@ public:
 	void generate_curved_mesh();
 };
 
-void CurvedMeshGen::setup(const UMesh* mesh, UMesh* meshq, std::string br_type, double angle_threshold, double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver)
+void CurvedMeshGen::setup(const UMesh* mesh, UMesh* meshq, std::string br_type, std::string stencil_type, double angle_threshold, 
+		double toler, int maxitera, int rbf_choice, amc_real support_radius, int rbf_steps, std::string rbf_solver)
 {
 	degree = 2;
 	
@@ -71,9 +73,9 @@ void CurvedMeshGen::setup(const UMesh* mesh, UMesh* meshq, std::string br_type, 
 
 	brtype = br_type;
 	if(br_type == "VERTEX")
-		br = new VertexCenteredBoundaryReconstruction(m, degree, true, 1.0e2);
+		br = new VertexCenteredBoundaryReconstruction(m, degree, stencil_type, true, 1.0e2);
 	else
-		br = new FaceCenteredBoundaryReconstruction(m, degree, true, 1.0e2);
+		br = new FaceCenteredBoundaryReconstruction(m, degree, stencil_type, true, 1.0e2);
 
 	tol = toler;
 	maxiter = maxitera;

@@ -38,11 +38,12 @@ protected:
 	amat::Matrix<amc_real>* V;			///< Vandermonde matrices for surface points
 	amat::Matrix<amc_real>* D;			///< unknowns (various derivatives)
 	amat::Matrix<amc_real>* F;			///< RHS of least-squares problem, consisting of point heights or coordinates
+	std::string stencilType;			///< A string describing the type of stencil to use - "regular" or "noisy". "noisy" results in a more extended stencil
 	const amc_real s1;					///< Any number (to use for deciding the local coordinate frames)
 	const amc_real s2;					///< Any number (to use for deciding the local coordinate frames)
 
 public:
-	BoundaryReconstruction(const UMesh* mesh, int deg);
+	BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type);
 	virtual ~BoundaryReconstruction() { }
 
 	virtual void preprocess();
@@ -79,7 +80,7 @@ class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
 
 public:
-	VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, bool _safeguard, double norm_limit);
+	VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencilsize, bool _safeguard, double norm_limit);
 	~VertexCenteredBoundaryReconstruction();
 
 	/// compute normal, rotation matrix and stencil for each point
@@ -122,7 +123,7 @@ class FaceCenteredBoundaryReconstruction : public BoundaryReconstruction
 	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
 
 public:
-	FaceCenteredBoundaryReconstruction(const UMesh* mesh, int deg, bool _safeguard, double norm_limit);
+	FaceCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencilsize, bool _safeguard, double norm_limit);
 	~FaceCenteredBoundaryReconstruction();
 
 	/// compute normal, rotation matrix and stencil for each point

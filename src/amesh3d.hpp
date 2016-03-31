@@ -29,6 +29,10 @@
 #include "amatrix2.hpp"
 #endif
 
+#ifndef __ADATASTRUCTURES_H
+#include "adatastructures.hpp"
+#endif
+
 #define __AMESH3D_H
 
 namespace amc {
@@ -78,6 +82,8 @@ private:
 	amat::Matrix<amc_int> bfsubp;		///< boundary faces surrounding boundary point
 	amat::Matrix<amc_int> bfsubp_p;		///< contains pointers into [bfsubp](@ref bfsubp) for each boundary point
 	amat::Matrix<amc_int> bfsubf;		///< boundary faces surrounding boundary face
+	amat::Matrix<amc_int> bpsubp;		///< boundary points surrounding boundary point
+	amat::Matrix<amc_int> bpsubp_p;		///< contains pointers into [bpsubp](@ref bpsubp) for each boundary point
 	amat::Matrix<amc_int> intbedge;		/**< boundary edge - boundary face connectivity. Ordering of edges is same as that of [edgepo](@ref edgepo). 
 											NOTE: The edge may not always point from smaller index cell to larger index cell! */
 
@@ -140,6 +146,8 @@ public:
 	amc_int gbfsubp_p(amc_int i) const { return bfsubp_p.get(i); }
 	amc_int gbfsubp(amc_int i) const { return bfsubp.get(i); }
 	amc_int gbfsubf(amc_int iface, int isurr) const { return bfsubf.get(iface,isurr); }
+	amc_int gbpsubp_p(amc_int i) const { return bpsubp_p.get(i); }
+	amc_int gbpsubp(amc_int i) const { return bpsubp.get(i); }
 	amc_int gintbedge(amc_int ied, int j) const { return intbedge(ied,j); }
 	amc_real gjacobians(amc_int ielem) const { return jacobians.get(ielem,0); }
 
@@ -211,6 +219,7 @@ public:
 	/** Currently only works for linear mesh.
 	 * - Boundary points (bpoints and bpointsinv)
 	 * - Boundary faces surrounding boudnary point (bfsubp and bfsubp_p)
+	 * - Boundary points surrounding boundary point
 	 * - Boundary faces surrounding boundary face (bfsubf)
 	 * - Boundary edge connectivity (intbedge) giving the two boundary faces adjoining each edge and global node numbers of nodes making up each edge
 	 */
