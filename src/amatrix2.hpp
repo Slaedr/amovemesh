@@ -9,7 +9,7 @@ Part of Amocurve.
 
 /**
  * \namespace amat
- * \brief Includes all array and matrix storage classes.
+ * \brief Includes all array and matrix storage classes, as well as linear algebra.
  */
 
 /**

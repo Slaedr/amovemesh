@@ -1,4 +1,6 @@
 /** \brief Implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing".
+ * 
+ * See the corresponding header file for documentation of functions.
  * \date March 14, 2016
  * \author Aditya Kashi
  */
@@ -15,8 +17,8 @@ inline int factorial(int x)
 		return x * factorial(x-1);
 }
 
-BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type) 
-	: m(mesh), degree(deg), stencilType(stencil_type), s1(1.0), s2(2.0)
+BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, int i_start) 
+	: m(mesh), degree(deg), stencilType(stencil_type), s1(1.0), s2(2.0), istart(i_start)
 {
 	fnormals.setup(m->gnface(), m->gndim());
 	std::cout << "BoundaryReconstruction: Stencil type is " << stencilType << std::endl;
@@ -47,7 +49,7 @@ void BoundaryReconstruction::solve() { }
 
 
 VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, bool _safeguard, double norm_limit) 
-	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type)
+	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type, 1)
 {
 	std::cout << "VertexCenteredBoundaryReconstruction: Computing with safeguard - " << safeguard << std::endl;
 	D = new amat::Matrix<amc_real>[m->gnbpoin()];
@@ -59,7 +61,7 @@ VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const
 		Q[i].setup(m->gndim(), m->gndim());
 		
 		if(degree == 2)
-			nders = 5;
+			nders = 5+(1-istart);
 		else
 			nders = 9;
 
@@ -73,6 +75,12 @@ VertexCenteredBoundaryReconstruction::~VertexCenteredBoundaryReconstruction()
 	delete [] D;
 	delete [] Q;
 	delete [] stencil;
+}
+
+void VertexCenteredBoundaryReconstruction::computePointNormalsInverseDistance()
+{
+	amc_int ipoin;
+	int idim;
 }
 
 void VertexCenteredBoundaryReconstruction::preprocess()
@@ -106,10 +114,19 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 		normmag = sqrt(normmag);
 
 		for(idim = 0; idim < m->gndim(); idim++)
-		{
 			(*pnormals)(ipoin,idim) /= normmag;				// normalize the normal vector
+
+		// true normals for a sphere centered at the origin
+		/*for(idim = 0; idim < m->gndim(); idim++)
+			normmag += m->gcoords(m->gbpoints(ipoin),idim)*m->gcoords(m->gbpoints(ipoin),idim);
+		normmag = sqrt(normmag);
+		for(idim = 0; idim < m->gndim(); idim++)
+			(*pnormals)(ipoin,idim) = m->gcoords(m->gbpoints(ipoin),idim)/normmag;*/
+		
+		// next, get the rotation matrix to for the local coord system at this vertex
+		
+		for(idim = 0; idim < m->gndim(); idim++)
 			Q[ipoin](idim,2) = pnormals->get(ipoin,idim);
-		}
 
 		normmag = 0;
 
@@ -275,6 +292,8 @@ void VertexCenteredBoundaryReconstruction::uvw_from_xyz(const amc_int ibpoin, co
 	}
 }
 
+/** \todo After implementation of templated Matrix class, use column-major arrays for storing V, F and D
+ */
 void VertexCenteredBoundaryReconstruction::solve()
 {
 	std::cout << "VertexCenteredBoundaryReconstruction: solve(): Computing slopes, curvatures etc at each point" << std::endl;
@@ -286,6 +305,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 	std::vector<int>* mpo = &(this->mpo);
 	int nders = this->nders;
 	int degree = this->degree;
+	const int istart = this->istart;
 
 	int ipoin;
 	amc_real norm1;
@@ -314,7 +334,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 			uvw_from_xyz(ipoin, xyzp, uvwp);
 
 			l = 0;
-			for(i = 1; i <= degree; i++)
+			for(i = istart; i <= degree; i++)
 			{
 				for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 				{
@@ -431,7 +451,7 @@ void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, co
 	// evaluate 2D Taylor polynomial for each point
 	amc_real h1 = 0, h2 = 0;
 	int l = 0, i,j,k, fj, fk;
-	for(i = 1; i <= degree; i++)
+	for(i = istart; i <= degree; i++)
 	{
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
@@ -483,7 +503,7 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 	
 	std::vector<amc_real> height(m->gnnofa(),0);
 	int l = 0,j,k,inofa, fj,fk;
-	for(i = 1; i <= degree; i++)
+	for(i = istart; i <= degree; i++)
 	{
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
@@ -512,7 +532,7 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 // Implementation of face-centered reconstruction follows
 
 FaceCenteredBoundaryReconstruction::FaceCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, bool _safeguard, double norm_limit) 
-	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type)
+	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type, 0)
 {
 	std::cout << "FaceCenteredBoundaryReconstruction: Computing with safeguard - " << safeguard << std::endl;
 	D = new amat::Matrix<amc_real>[m->gnface()];
@@ -524,9 +544,9 @@ FaceCenteredBoundaryReconstruction::FaceCenteredBoundaryReconstruction(const UMe
 		Q[i].setup(m->gndim(), m->gndim());
 		
 		if(degree == 2)
-			nders = 6;
+			nders = 5+(1-istart);
 		else
-			nders = 10;
+			nders = 9+(1-istart);
 
 		D[i].setup(nders,1);
 	}
@@ -800,6 +820,8 @@ void FaceCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, cons
 	jpoin = m->gintbedge(edgenum,3);
 	ifa = m->gintbedge(edgenum,0);
 	jfa = m->gintbedge(edgenum,1);
+
+	//std::cout << "Getting edge point for edge " << edgenum << " with points " << ipoin << ", " << jpoin << " and faces " << ifa << ", " << jfa << std::endl;
 
 	std::vector<amc_real> xyzp(m->gndim()), xyzq(m->gndim()), uvw0(m->gndim()), uvw1(m->gndim());
 

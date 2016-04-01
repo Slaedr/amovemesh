@@ -309,7 +309,6 @@ public:
 	}
 
 	/**	Sorts each row by column index using insertion sort.
-	 * NOTE: Make sure to call this function before calling [LUfactor](@ref LUfactor).
 	 * We expect each row to have no more than tens of elements, so insertion sort is a good candidate.
 	 */
 	void sort_rows()

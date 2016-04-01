@@ -1,4 +1,4 @@
-/// @brief Data structure and setup for 3D unstructured mesh.
+
 /// @author Aditya Kashi
 /// @date August 20, 2015
 
@@ -35,8 +35,16 @@
 
 #define __AMESH3D_H
 
+/**
+ * \namespace amc
+ * \brief Namespace for all identifiers in AMoCurve, except for arrays/matrices and linear algebra.
+ * 
+ * Includes classes for meshes, mesh movement, geometry reconstruction and more.
+ */
+
 namespace amc {
 
+/// Data structure and setup for 3D unstructured mesh
 class UMesh
 {
 private:
@@ -85,7 +93,8 @@ private:
 	amat::Matrix<amc_int> bpsubp;		///< boundary points surrounding boundary point
 	amat::Matrix<amc_int> bpsubp_p;		///< contains pointers into [bpsubp](@ref bpsubp) for each boundary point
 	amat::Matrix<amc_int> intbedge;		/**< boundary edge - boundary face connectivity. Ordering of edges is same as that of [edgepo](@ref edgepo). 
-											NOTE: The edge may not always point from smaller index cell to larger index cell! */
+											NOTE: The edge may not always point from smaller index cell to larger index cell! 
+											The edge direction may not be consistent. */
 
 public:
 

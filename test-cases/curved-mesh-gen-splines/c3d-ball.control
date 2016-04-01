@@ -1,9 +1,9 @@
 -input-linear-mesh
 ../../input/ball-coarse.msh
 -output-curved-mesh
-../../output/curved-mesh-gen-spline/ball-coarse_curvedp2-face-half.msh
+../../output/curved-mesh-gen-spline/ball-coarse_curvedp2-vertex-half.msh
 -WALF-type(VERTEX-or-FACE)
-FACE
+VERTEX
 -stencil-type
 half
 -angle-threshold-for-corners

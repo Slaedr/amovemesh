@@ -20,6 +20,7 @@
 
 namespace amc {
 
+/// Recursively computes the factorial of an integer
 int factorial(int x);
 
 /// Abstract class for implementing a surface reconstruction using local Taylor expansion fittings
@@ -41,9 +42,10 @@ protected:
 	std::string stencilType;			///< A string describing the type of stencil to use - "regular" or "noisy". "noisy" results in a more extended stencil
 	const amc_real s1;					///< Any number (to use for deciding the local coordinate frames)
 	const amc_real s2;					///< Any number (to use for deciding the local coordinate frames)
+	const int istart;					///< starting index for Taylor polynomials - 0 for allowing a constant term in the Taylor series and 1 for starting the series with first-order terms
 
 public:
-	BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type);
+	BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, int i_start);
 	virtual ~BoundaryReconstruction() { }
 
 	virtual void preprocess();
@@ -78,6 +80,12 @@ class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 
 	/// convert a point from global coord system to the local uvw coord system of point ibpoin
 	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
+
+	/// computes vertex normals by using inverse distance to face-centers as weights
+	void computePointNormalsInverseDistance();
+
+	/// computes vertex normals by using area of faces as weights
+	void computePointNormalsArea();
 
 public:
 	VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencilsize, bool _safeguard, double norm_limit);
