@@ -1,4 +1,4 @@
-#include "amatrix2.hpp"
+#include "amatrixt.hpp"
 
 using namespace amat;
 using namespace std;
@@ -6,9 +6,9 @@ using namespace std;
 int main()
 {
 	int m = 4, n = 3;
-	Matrix<double> A(4,3);
+	Matrix<double,COLMAJOR> A(4,3);
 	double Ad[] = {1,-1,4, 1,4,-2, 1,4,2, 1,-1,0};
-	A.setdata(Ad, 12);
+	A.setdata_rowmajor(Ad, 12);
 	A.mprint();
 	cout << "Matrix printed above\n";
 	cout << "1-norm " << A.matrixNorm_1() << endl;

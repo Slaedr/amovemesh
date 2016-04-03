@@ -38,6 +38,7 @@ protected:
 	amat::Matrix<amc_real> fnormals;	///< Face normals
 	amat::Matrix<amc_real> pnormals;	///< normals at each point
 	amat::Matrix<amc_real> face_center;	///< contains coordinates of center of each face
+	std::vector<amc_real> farea;		///< Areas of boundary faces
 	amat::Matrix<amc_real>* V;			///< Vandermonde matrices for surface points
 	amat::Matrix<amc_real>* D;			///< unknowns (various derivatives)
 	amat::Matrix<amc_real>* F;			///< RHS of least-squares problem, consisting of point heights or coordinates
