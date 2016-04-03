@@ -36,6 +36,8 @@ protected:
 	const UMesh* m;
 	int degree;							///< Polynomial degree of reconstructed surface
 	amat::Matrix<amc_real> fnormals;	///< Face normals
+	amat::Matrix<amc_real> pnormals;	///< normals at each point
+	amat::Matrix<amc_real> face_center;	///< contains coordinates of center of each face
 	amat::Matrix<amc_real>* V;			///< Vandermonde matrices for surface points
 	amat::Matrix<amc_real>* D;			///< unknowns (various derivatives)
 	amat::Matrix<amc_real>* F;			///< RHS of least-squares problem, consisting of point heights or coordinates
@@ -43,8 +45,15 @@ protected:
 	const amc_real s1;					///< Any number (to use for deciding the local coordinate frames)
 	const amc_real s2;					///< Any number (to use for deciding the local coordinate frames)
 	const int istart;					///< starting index for Taylor polynomials - 0 for allowing a constant term in the Taylor series and 1 for starting the series with first-order terms
+	
+	/// computes vertex normals by using inverse distance to face-centers as weights
+	void computePointNormalsInverseDistance();
+
+	/// computes vertex normals by using area of faces as weights
+	void computePointNormalsArea();
 
 public:
+	/// constructor; also computes face-normals for each b-face
 	BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, int i_start);
 	virtual ~BoundaryReconstruction() { }
 
@@ -61,8 +70,6 @@ public:
  */
 class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 {
-	amat::Matrix<amc_real> pnormals;			///< normals at each point, calculated as average of face normals surrounding the point
-
 	amat::Matrix<amc_real>* Q;					///< coordinate transformation (rotation) matrix for each point
 
 	bool isalloc;
@@ -80,12 +87,6 @@ class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 
 	/// convert a point from global coord system to the local uvw coord system of point ibpoin
 	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
-
-	/// computes vertex normals by using inverse distance to face-centers as weights
-	void computePointNormalsInverseDistance();
-
-	/// computes vertex normals by using area of faces as weights
-	void computePointNormalsArea();
 
 public:
 	VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencilsize, bool _safeguard, double norm_limit);
@@ -112,7 +113,6 @@ public:
 class FaceCenteredBoundaryReconstruction : public BoundaryReconstruction
 {
 	amat::Matrix<amc_real>* Q;					///< coordinate transformation (rotation) matrix for each point
-	amat::Matrix<amc_real> face_center;			///< contains coordinates of center of each face
 
 	bool isalloc;
 
@@ -129,12 +129,17 @@ class FaceCenteredBoundaryReconstruction : public BoundaryReconstruction
 
 	/// convert a point from global coord system to the local uvw coord system of point ibpoin
 	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
+	
+	/// computes vertex normals by using a weighted average of face normals of faces surrounding the vertex
+	/** Needed for computing weights of our weighted least-squares procedure.
+	 */
+	void computePointNormals();
 
 public:
 	FaceCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencilsize, bool _safeguard, double norm_limit);
 	~FaceCenteredBoundaryReconstruction();
 
-	/// compute normal, rotation matrix and stencil for each point
+	/// rotation matrix and stencil for each face
 	void preprocess();
 	/// solve linear least-squares problem at each point
 	void solve();

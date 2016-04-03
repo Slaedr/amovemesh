@@ -1470,28 +1470,31 @@ UMesh UMesh::convertLinearToQuadratic()
 	q.vol_regions.setup(q.nelem, q.ndtag);
 	//std::cout<< "Nodes per edge for P2 mesh = " << q.nnoded << ", number of edges " << q.nedge << std::endl;
 	q.edgepo.setup(q.nedge,q.nnoded);
+	q.flag_bpoin.setup(q.npoin,1);
 
+	int ipoin, inode, idim, i, j, inofa, jnofa, ifnode, elem, ielem, iface, ibface;
+	
 	// copy nodes, elements and bfaces
 
-	for(int ipoin = 0; ipoin < npoin; ipoin++)
+	for(ipoin = 0; ipoin < npoin; ipoin++)
 	{
-		for(int idim = 0; idim < ndim; idim++)
+		for(idim = 0; idim < ndim; idim++)
 			q.coords(ipoin, idim) = coords(ipoin,idim);
 	}
 
 	for(int iel = 0; iel < nelem; iel++)
 	{
-		for(int inode = 0; inode < nnode; inode++)
+		for(inode = 0; inode < nnode; inode++)
 			q.inpoel(iel,inode) = inpoel(iel,inode);
 		for(int itag = 0; itag < ndtag; itag++)
 			q.vol_regions(iel,itag) = vol_regions(iel,itag);
 	}
 
-	for(int iface = 0; iface < nface; iface++)
+	for(iface = 0; iface < nface; iface++)
 	{
-		for(int j = 0; j < nnofa; j++)
+		for(j = 0; j < nnofa; j++)
 			q.bface(iface,j) = bface(iface,j);
-		for(int j = nnofa; j < nnofa+nbtag; j++)
+		for(j = nnofa; j < nnofa+nbtag; j++)
 			q.bface(iface,q.nnofa-nnofa+j) = bface(iface,j);
 	}
 
@@ -1509,20 +1512,20 @@ UMesh UMesh::convertLinearToQuadratic()
 
 		for(int iel = 0; iel < nelem; iel++)
 		{
-			for(int i = 0; i < ndim; i++)
+			for(i = 0; i < ndim; i++)
 				centre[i] = 0;
 
-			for(int inode = 0; inode < nnode; inode++)
+			for(inode = 0; inode < nnode; inode++)
 			{
-				for(int idim = 0; idim < ndim; idim++)
+				for(idim = 0; idim < ndim; idim++)
 					centre[idim] += coords(inpoel(iel,inode),idim);
 			}
 
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				centre[idim] /= nnode;
 
 			//add centre node to q.coords and update q.inpoel
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				q.coords(npoin+iel,idim) = centre[idim];
 
 			q.inpoel(iel,q.nnode-1) = npoin+iel;
@@ -1531,19 +1534,19 @@ UMesh UMesh::convertLinearToQuadratic()
 		// face centre nodes
 		std::cout << "UMesh3d: convertLinearToQuadratic(): Adding nodes at face centres." << std::endl;
 
-		for(int iface = 0; iface < nbface; iface++)
+		for(iface = 0; iface < nbface; iface++)
 		{
-			for(int i = 0; i < ndim; i++)
+			for(i = 0; i < ndim; i++)
 				centre[i] = 0;
 
-			for(int ifnode = 2; ifnode < 2+nnofa; ifnode++)
-				for(int idim = 0; idim < ndim; idim++)
+			for(ifnode = 2; ifnode < 2+nnofa; ifnode++)
+				for(idim = 0; idim < ndim; idim++)
 					centre[idim] += coords(intfac(iface,ifnode), idim);
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				centre[idim] /= nnofa;
 
 			// add node to coords
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				q.coords(npoin+nelem+iface, idim) = centre[idim];
 
 			// search for the bface corresponding to this face
@@ -1552,14 +1555,14 @@ UMesh UMesh::convertLinearToQuadratic()
 
 			for(int ibface = 0; ibface < nface; ibface++)
 			{
-				for(int inofa = 0; inofa < nnofa; inofa++)
+				for(inofa = 0; inofa < nnofa; inofa++)
 					match[inofa] = false;
 
 				finmatch = true;
 
-				for(int inofa = 0; inofa < nnofa; inofa++)
+				for(inofa = 0; inofa < nnofa; inofa++)
 				{
-					for(int jnofa = 0; jnofa < nnofa; jnofa++)
+					for(jnofa = 0; jnofa < nnofa; jnofa++)
 					{
 						if(intfac(iface,inofa+2) == bface(ibface,jnofa)) {	// if ith node of iface matches any node of ibface, flag true
 							match[inofa] = true;
@@ -1571,7 +1574,7 @@ UMesh UMesh::convertLinearToQuadratic()
 					std::cout << " " << match[inofa];
 				std::cout << std::endl;*/
 
-				for(int inofa = 0; inofa < nnofa; inofa++)
+				for(inofa = 0; inofa < nnofa; inofa++)
 				{
 					if(match[inofa] == false) {					// if any node of iface did not match some node of ibface, there's no match
 						finmatch = false;
@@ -1592,10 +1595,10 @@ UMesh UMesh::convertLinearToQuadratic()
 			// --- add point to inpoel ---
 
 			int nodenum = -1;
-			int elem = intfac(iface,0);
+			elem = intfac(iface,0);
 
 			bool ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,0)))
 					{ ematch = false; break; }
@@ -1608,7 +1611,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,0) || intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,5) || intfac(iface,2+inode)==inpoel(elem,4)))
 					{ ematch = false; break; }
@@ -1621,7 +1624,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,0) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,7) || intfac(iface,2+inode)==inpoel(elem,4)))
 					{ ematch = false; break; }
@@ -1634,7 +1637,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,6) || intfac(iface,2+inode)==inpoel(elem,5)))
 					{ ematch = false; break; }
@@ -1647,7 +1650,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,7) || intfac(iface,2+inode)==inpoel(elem,6)))
 					{ ematch = false; break; }
@@ -1660,7 +1663,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,4) || intfac(iface,2+inode)==inpoel(elem,5) || intfac(iface,2+inode)==inpoel(elem,6) || intfac(iface,2+inode)==inpoel(elem,7)))
 					{ ematch = false; break; }
@@ -1674,27 +1677,27 @@ UMesh UMesh::convertLinearToQuadratic()
 		}
 
 		// next, internal faces
-		for(int iface = nbface; iface < naface; iface++)
+		for(iface = nbface; iface < naface; iface++)
 		{
-			for(int i = 0; i < ndim; i++)
+			for(i = 0; i < ndim; i++)
 				centre[i] = 0;
 
-			for(int ifnode = 2; ifnode < 2+nnofa; ifnode++)
-				for(int idim = 0; idim < ndim; idim++)
+			for(ifnode = 2; ifnode < 2+nnofa; ifnode++)
+				for(idim = 0; idim < ndim; idim++)
 					centre[idim] += coords(intfac(iface,ifnode), idim);
 			for(int idim = 0; idim < ndim; idim++)
 				centre[idim] /= nnofa;
 
 			// add node to coords
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				q.coords(npoin+nelem+iface, idim) = centre[idim];
 
 			// add point to inpoel
 			int nodenum = -1;
-			int elem = intfac(iface,0);
+			elem = intfac(iface,0);
 
 			bool ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,0)))
 					{ ematch = false; break; }
@@ -1707,7 +1710,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,0) || intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,5) || intfac(iface,2+inode)==inpoel(elem,4)))
 					{ ematch = false; break; }
@@ -1720,7 +1723,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,0) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,7) || intfac(iface,2+inode)==inpoel(elem,4)))
 					{ ematch = false; break; }
@@ -1733,7 +1736,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,6) || intfac(iface,2+inode)==inpoel(elem,5)))
 					{ ematch = false; break; }
@@ -1746,7 +1749,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,7) || intfac(iface,2+inode)==inpoel(elem,6)))
 					{ ematch = false; break; }
@@ -1759,7 +1762,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,4) || intfac(iface,2+inode)==inpoel(elem,5) || intfac(iface,2+inode)==inpoel(elem,6) || intfac(iface,2+inode)==inpoel(elem,7)))
 					{ ematch = false; break; }
@@ -1776,7 +1779,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			elem = intfac(iface,1);
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,0)))
 					{ ematch = false; break; }
@@ -1789,7 +1792,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,0) || intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,5) || intfac(iface,2+inode)==inpoel(elem,4)))
 					{ ematch = false; break; }
@@ -1802,7 +1805,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,0) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,7) || intfac(iface,2+inode)==inpoel(elem,4)))
 					{ ematch = false; break; }
@@ -1815,7 +1818,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,1) || intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,6) || intfac(iface,2+inode)==inpoel(elem,5)))
 					{ ematch = false; break; }
@@ -1828,7 +1831,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,2) || intfac(iface,2+inode)==inpoel(elem,3) || intfac(iface,2+inode)==inpoel(elem,7) || intfac(iface,2+inode)==inpoel(elem,6)))
 					{ ematch = false; break; }
@@ -1841,7 +1844,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			}
 
 			ematch = true;
-			for(int inode = 0; inode < nnofa; inode++)
+			for(inode = 0; inode < nnofa; inode++)
 			{
 				if(!(intfac(iface,2+inode)==inpoel(elem,4) || intfac(iface,2+inode)==inpoel(elem,5) || intfac(iface,2+inode)==inpoel(elem,6) || intfac(iface,2+inode)==inpoel(elem,7)))
 					{ ematch = false; break; }
@@ -1860,25 +1863,25 @@ UMesh UMesh::convertLinearToQuadratic()
 		// first, boundary edges
 		for(int ied = 0; ied < nbedge; ied++)
 		{
-			for(int i = 0; i < ndim; i++)
+			for(i = 0; i < ndim; i++)
 				centre[i] = 0;
 
-			for(int ifnode = 0; ifnode < nnoded; ifnode++)
-				for(int idim = 0; idim < ndim; idim++)
+			for(ifnode = 0; ifnode < nnoded; ifnode++)
+				for(idim = 0; idim < ndim; idim++)
 					centre[idim] += coords(edgepo(ied,ifnode), idim);
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				centre[idim] /= nnoded;
 
 			// add node to coords
 			int cono = npoin+nelem+naface+ied;
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				q.coords(cono, idim) = centre[idim];
 
 			// add to elements surrounding edge
 			//std::cout << "add to elements surr edge" << std::endl;
-			for(int ielem = 0; ielem < elsed[ied].size(); ielem++)
+			for(ielem = 0; ielem < elsed[ied].size(); ielem++)
 			{
-				int elem = elsed[ied].at(ielem);
+				elem = elsed[ied].at(ielem);
 
 				if((edgepo.get(ied,0)==inpoel(elem,0)&&edgepo.get(ied,1)==inpoel(elem,1)) || (edgepo.get(ied,1)==inpoel(elem,0)&&edgepo.get(ied,0)==inpoel(elem,1)))
 					q.inpoel(elem,8) = cono;
@@ -1916,10 +1919,10 @@ UMesh UMesh::convertLinearToQuadratic()
 			for(int ibface = 0; ibface < nface; ibface++)
 			{
 				bmatch1 = bmatch2 = false;
-				for(int inode = 0; inode < nnofa; inode++)
+				for(inode = 0; inode < nnofa; inode++)
 					if(edgepo(ied,0)==bface(ibface,inode))
 						bmatch1 = true;
-				for(int inode = 0; inode < nnofa; inode++)
+				for(inode = 0; inode < nnofa; inode++)
 					if(edgepo(ied,1)==bface(ibface,inode))
 						bmatch2 = true;
 
@@ -1930,7 +1933,7 @@ UMesh UMesh::convertLinearToQuadratic()
 			// add new point to the bfaces that were found
 			for(int ibf = 0; ibf < edfa.size(); ibf++)
 			{
-				int ibface = edfa.at(ibf);
+				ibface = edfa.at(ibf);
 
 				if((edgepo.get(ied,0)==bface.get(ibface,0) && edgepo.get(ied,1)==bface.get(ibface,1)) || (edgepo.get(ied,1)==bface.get(ibface,0) && edgepo.get(ied,0)==bface.get(ibface,1)))
 					q.bface(ibface,4) = cono;
@@ -1947,24 +1950,24 @@ UMesh UMesh::convertLinearToQuadratic()
 		//std::cout << "internal edges" << std::endl;
 		for(int ied = nbedge; ied < nedge; ied++)
 		{
-			for(int i = 0; i < ndim; i++)
+			for(i = 0; i < ndim; i++)
 				centre[i] = 0;
 
-			for(int ifnode = 0; ifnode < nnoded; ifnode++)
-				for(int idim = 0; idim < ndim; idim++)
+			for(ifnode = 0; ifnode < nnoded; ifnode++)
+				for(idim = 0; idim < ndim; idim++)
 					centre[idim] += coords(edgepo(ied,ifnode), idim);
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				centre[idim] /= nnoded;
 
 			// add node to coords
 			int cono = npoin+nelem+naface+ied;
-			for(int idim = 0; idim < ndim; idim++)
+			for(idim = 0; idim < ndim; idim++)
 				q.coords(cono, idim) = centre[idim];
 
 			// add to elements surrounding edge
-			for(int ielem = 0; ielem < elsed[ied].size(); ielem++)
+			for(ielem = 0; ielem < elsed[ied].size(); ielem++)
 			{
-				int elem = elsed[ied].at(ielem);
+				elem = elsed[ied].at(ielem);
 
 				if((edgepo(ied,0)==inpoel(elem,0)&&edgepo(ied,1)==inpoel(elem,1)) || (edgepo(ied,1)==inpoel(elem,0)&&edgepo(ied,0)==inpoel(elem,1)))
 					q.inpoel(elem,8) = cono;
@@ -2110,6 +2113,17 @@ UMesh UMesh::convertLinearToQuadratic()
 		// add to edgepo
 		q.edgepo(ied,nnoded) = cono;
 	}
+	
+	// set flag_bpoin
+	q.flag_bpoin.zeros();
+	for(int i = 0; i < q.nface; i++)
+		for(int j = 0; j < q.nnofa; j++)
+			q.flag_bpoin(q.bface(i,j)) = 1;
+
+	// set nbpoin
+	q.nbpoin = 0;
+	for(int i = 0; i < q.npoin; i++)
+		q.nbpoin += q.flag_bpoin.get(i);
 
 	delete [] centre;
 	std::cout << "UMesh3d: convertLinearToQuadratic(): Quadratic mesh produced." << std::endl;

@@ -47,6 +47,113 @@ BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg, std::
 void BoundaryReconstruction::preprocess() { }
 void BoundaryReconstruction::solve() { }
 
+// currently only for triangular surface mesh!
+void BoundaryReconstruction::computePointNormalsInverseDistance()
+{
+	amc_int ipoin, ifa, iface;
+	int idim;
+	amc_real weight, weightsum, normmag, exponent = 1.0, a,b,c,s;
+	pnormals.setup(m->gnbpoin(),m->gndim());
+	pnormals.zeros();
+
+	// compute face-areas using Heron's formula
+	/*std::vector<amc_real> farea(m->gnface());
+	for(iface = 0; iface < m->gnface(); iface++)
+	{
+		a = b = c = 0;
+		for(idim = 0; idim < m->gndim(); idim++)
+		{
+			a += (m->gcoords(m->gbface(iface,1),idim) - m->gcoords(m->gbface(iface,0),idim))*(m->gcoords(m->gbface(iface,1),idim) - m->gcoords(m->gbface(iface,0),idim));
+			b += (m->gcoords(m->gbface(iface,2),idim) - m->gcoords(m->gbface(iface,1),idim))*(m->gcoords(m->gbface(iface,2),idim) - m->gcoords(m->gbface(iface,1),idim));
+			c += (m->gcoords(m->gbface(iface,0),idim) - m->gcoords(m->gbface(iface,2),idim))*(m->gcoords(m->gbface(iface,0),idim) - m->gcoords(m->gbface(iface,2),idim));
+		}
+		a = sqrt(a); b = sqrt(b); c = sqrt(c);
+		s = (a+b+c)*0.5;
+		farea[iface] = sqrt(s*(s-a)*(s-b)*(s-c));
+	}*/
+
+	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
+	{
+		weightsum = 0;
+		normmag = 0;
+		for(ifa = m->gbfsubp_p(ipoin); ifa < m->gbfsubp_p(ipoin+1); ifa++)
+		{
+			iface = m->gbfsubp(ifa);
+			weight = 0;
+			for(idim = 0; idim < m->gndim(); idim++)
+				weight += (face_center.get(iface,idim) - m->gcoords(m->gbpoints(ipoin),idim)) * (face_center.get(iface,idim) - m->gcoords(m->gbpoints(ipoin),idim));
+			weight = 1.0/pow(sqrt(weight),exponent);
+			weightsum += weight;
+			for(idim = 0; idim < m->gndim(); idim++)
+				pnormals(ipoin,idim) += fnormals(iface,idim)*weight;
+		}
+
+		for(idim = 0; idim < m->gndim(); idim++)
+		{
+			pnormals(ipoin,idim) /= weightsum;
+			// also, for normalizing the normals
+			normmag += pnormals.get(ipoin,idim)*pnormals.get(ipoin,idim);
+		}
+		normmag = sqrt(normmag);
+		
+		pnormals(ipoin,0) /= normmag;
+		pnormals(ipoin,1) /= normmag;
+		pnormals(ipoin,2) /= normmag;
+	}
+}
+
+// currently only for triangular surface mesh!
+void BoundaryReconstruction::computePointNormalsArea()
+{
+	amc_int ipoin, ifa, iface;
+	int idim;
+	amc_real weight, weightsum, normmag, exponent = 1.0, a,b,c,s;
+	pnormals.setup(m->gnbpoin(),m->gndim());
+	pnormals.zeros();
+	std::vector<amc_real> farea(m->gnface());
+
+	// compute face-areas using Heron's formula
+	for(iface = 0; iface < m->gnface(); iface++)
+	{
+		a = b = c = 0;
+		for(idim = 0; idim < m->gndim(); idim++)
+		{
+			a += (m->gcoords(m->gbface(iface,1),idim) - m->gcoords(m->gbface(iface,0),idim))*(m->gcoords(m->gbface(iface,1),idim) - m->gcoords(m->gbface(iface,0),idim));
+			b += (m->gcoords(m->gbface(iface,2),idim) - m->gcoords(m->gbface(iface,1),idim))*(m->gcoords(m->gbface(iface,2),idim) - m->gcoords(m->gbface(iface,1),idim));
+			c += (m->gcoords(m->gbface(iface,0),idim) - m->gcoords(m->gbface(iface,2),idim))*(m->gcoords(m->gbface(iface,0),idim) - m->gcoords(m->gbface(iface,2),idim));
+		}
+		a = sqrt(a); b = sqrt(b); c = sqrt(c);
+		s = (a+b+c)*0.5;
+		farea[iface] = sqrt(s*(s-a)*(s-b)*(s-c));
+	}
+
+	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
+	{
+		weightsum = 0;
+		normmag = 0;
+		for(ifa = m->gbfsubp_p(ipoin); ifa < m->gbfsubp_p(ipoin+1); ifa++)
+		{
+			iface = m->gbfsubp(ifa);
+			weight = 0;
+			weight = farea[iface];
+			weightsum += weight;
+			for(idim = 0; idim < m->gndim(); idim++)
+				pnormals(ipoin,idim) += fnormals(iface,idim)*weight;
+		}
+
+		for(idim = 0; idim < m->gndim(); idim++)
+		{
+			pnormals(ipoin,idim) /= weightsum;
+			// also, for normalizing the normals
+			normmag += pnormals.get(ipoin,idim)*pnormals.get(ipoin,idim);
+		}
+		normmag = sqrt(normmag);
+		
+		pnormals(ipoin,0) /= normmag;
+		pnormals(ipoin,1) /= normmag;
+		pnormals(ipoin,2) /= normmag;
+	}
+}
 
 VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, bool _safeguard, double norm_limit) 
 	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type, 1)
@@ -68,6 +175,7 @@ VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const
 		D[i].setup(nders,1);
 	}
 	stencil = new std::vector<int>[m->gnbpoin()];
+	face_center.setup(m->gnface(), m->gndim());
 }
 
 VertexCenteredBoundaryReconstruction::~VertexCenteredBoundaryReconstruction()
@@ -77,45 +185,32 @@ VertexCenteredBoundaryReconstruction::~VertexCenteredBoundaryReconstruction()
 	delete [] stencil;
 }
 
-void VertexCenteredBoundaryReconstruction::computePointNormalsInverseDistance()
-{
-	amc_int ipoin;
-	int idim;
-}
 
 void VertexCenteredBoundaryReconstruction::preprocess()
 {
-	pnormals.setup(m->gnbpoin(), m->gndim());
-	int ipoin, jpoin, kpoin, iface, idim, face, numfaces, inode, i,j,k, jed;
+	int ipoin, jpoin, kpoin, iface, idim, face, inode, i,j,k, jed;
 	amc_real normmag;
 
 	amat::Matrix<amc_real>* pnormals = &(this->pnormals);
 	
+	// compute coordinates of face centers
+	face_center.zeros();
+	for(iface = 0; iface < m->gnface(); iface++)
+	{
+		for(inode = 0; inode < m->gnnofa(); inode++)
+			for(idim = 0; idim < m->gndim(); idim++)
+				face_center(iface,idim) += m->gcoords(m->gbface(iface,inode),idim);
+
+		for(idim = 0; idim < m->gndim(); idim++)
+			face_center(iface,idim) /= m->gnnofa();
+	}
+	
 	// get point normals and rotation matrices
+	
+	computePointNormalsInverseDistance();
+
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
-		numfaces = 0;
-		normmag = 0;
-		for(idim = 0; idim < m->gndim(); idim++)
-			(*pnormals)(ipoin,idim) = 0.0;
-
-		for(iface = m->gbfsubp_p(ipoin); iface < m->gbfsubp_p(ipoin+1); iface++)
-		{
-			face = m->gbfsubp(iface);
-			for(idim = 0; idim < m->gndim(); idim++)
-				(*pnormals)(ipoin,idim) += fnormals.get(face,idim);
-			numfaces++;
-		}
-		for(idim = 0; idim < m->gndim(); idim++)
-		{
-			(*pnormals)(ipoin,idim) /= numfaces;
-			normmag += pnormals->get(ipoin,idim)*pnormals->get(ipoin,idim);
-		}
-		normmag = sqrt(normmag);
-
-		for(idim = 0; idim < m->gndim(); idim++)
-			(*pnormals)(ipoin,idim) /= normmag;				// normalize the normal vector
-
 		// true normals for a sphere centered at the origin
 		/*for(idim = 0; idim < m->gndim(); idim++)
 			normmag += m->gcoords(m->gbpoints(ipoin),idim)*m->gcoords(m->gbpoints(ipoin),idim);
@@ -562,6 +657,9 @@ FaceCenteredBoundaryReconstruction::~FaceCenteredBoundaryReconstruction()
 	delete [] stencil;
 }
 
+/** For face-centered reconstruction, the stencil for a b-face consists of all b-points contained in all vertex-neighbors of the b-face.
+ * This is for a P2 reconstruction; we may need a second layer for P3 (and we don't care beyond that).
+ */
 void FaceCenteredBoundaryReconstruction::preprocess()
 {
 	amc_int ipoin, iface, jface;
@@ -580,6 +678,8 @@ void FaceCenteredBoundaryReconstruction::preprocess()
 		for(idim = 0; idim < m->gndim(); idim++)
 			face_center(iface,idim) /= m->gnnofa();
 	}
+	
+	computePointNormalsArea();
 
 	// get rotation matrices
 	for(iface = 0; iface < m->gnface(); iface++)
@@ -626,28 +726,40 @@ void FaceCenteredBoundaryReconstruction::preprocess()
 	}
 
 	// compute reconstruction stencils of each point and store
-	std::vector<int> fflags(m->gnface());
+	std::vector<int> pflags(m->gnbpoin());
 	std::vector<amc_int> sfaces;
-	std::vector<amc_int> facepo;		// for storing local node number of ipoin in each surrounding face
-	int poin;
+	int poin, jpoin;
 
 	for(iface = 0; iface < m->gnface(); iface++)
 	{
-		fflags.assign(m->gnface(),0);
-		fflags[iface] = 1;
-		// for each point of the face, get surrounding boundary points
-		for(inode = 0; inode < m->gnnofa(); inode++)
+		pflags.assign(m->gnbpoin(),0);
+
+		if(m->gnnofa() == 3)
 		{
-			poin = m->gbpointsinv(m->gbface(iface,inode));
-			for(j = m->gbfsubp_p(poin); j < m->gbfsubp_p(poin+1); j++)
+			// triangular face: for each point of the face, add the point and get surrounding boundary points
+			for(inode = 0; inode < m->gnnofa(); inode++)
 			{
-				jface = m->gbfsubp(j);
-				if(fflags[jface] == 0)
+				poin = m->gbpointsinv(m->gbface(iface,inode));
+				if(pflags[poin] == 0)
 				{
-					fflags[jface] = 1;
-					stencil[iface].push_back(jface);
+					stencil[iface].push_back(poin);
+					pflags[poin] = 1;
+				}
+				for(j = m->gbpsubp_p(poin); j < m->gbpsubp_p(poin+1); j++)
+				{
+					jpoin = m->gbpsubp(j);
+					if(pflags[jpoin] == 0)
+					{
+						pflags[jpoin] = 1;
+						stencil[iface].push_back(jpoin);
+					}
 				}
 			}
+		}
+		else
+		{
+			// \todo TODO: implement stencil for quad faces using only points of face-neighbors
+			std::cout << "FaceCenteredBoundaryReconstruction: preprocess(): ! Not implemented for quad faces yet!" << std::endl;
 		}
 		mpo[iface] = stencil[iface].size();
 	}
@@ -683,6 +795,7 @@ void FaceCenteredBoundaryReconstruction::solve()
 	std::vector<int>* stencil = this->stencil;
 	amat::Matrix<amc_real>* Q = this->Q;
 	amat::Matrix<amc_real>* fnormals = &(this->fnormals);
+	amat::Matrix<amc_real>* pnormals = &(this->pnormals);
 	amat::Matrix<amc_real>* face_center = &(this->face_center);
 	amat::Matrix<amc_real>* D = this->D;
 	std::vector<int>* mpo = &(this->mpo);
@@ -698,7 +811,7 @@ void FaceCenteredBoundaryReconstruction::solve()
 		//std::cout << "FaceCenteredBoundaryReconstruction: solve(): Point " << m->gbpoints(ipoin) << " : ";
 		int isp, i, j, idim, k, l, mp;
 		mp = mpo->at(iface);
-		amc_int fno;
+		amc_int pno;
 		amc_real weight, wd = 0, csum;
 		//std::cout << "FaceCenteredBoundaryReconstruction: solve(): Face " << iface << ": m = " << mp << ", n = " << nders << std::endl;
 
@@ -711,13 +824,14 @@ void FaceCenteredBoundaryReconstruction::solve()
 
 		for(isp = 0; isp < mp; isp++)
 		{
-			fno = stencil[iface][isp];
+			pno = stencil[iface][isp];
 			for(idim = 0; idim < m->gndim(); idim++)
-				xyzp[idim] = face_center->get(fno,idim);
+				xyzp[idim] = m->gcoords(m->gbpointsinv(pno),idim);
+			
 			uvw_from_xyz(iface, xyzp, uvwp);
 
 			l = 0;
-			for(i = 0; i <= degree; i++)
+			for(i = istart; i <= degree; i++)
 			{
 				for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 				{
@@ -735,7 +849,7 @@ void FaceCenteredBoundaryReconstruction::solve()
 			weightsn[isp] = 0; weightsd[isp] = 0;
 			for(i = 0; i < m->gndim(); i++)
 			{
-				weightsn[isp] += fnormals->get(iface,i)*fnormals->get(fno,i);
+				weightsn[isp] += fnormals->get(iface,i)*pnormals->get(pno,i);
 				//weightsd[isp] += (m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i))*(m->gcoords(m->gbpoints(ipoin),i) - m->gcoords(m->gbpoints(pno),i));
 				weightsd[isp] += uvwp[i]*uvwp[i];
 			}
@@ -834,7 +948,7 @@ void FaceCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, cons
 	// evaluate 2D Taylor polynomial for each point
 	amc_real h1 = 0, h2 = 0;
 	int l = 0, i,j,k, fj, fk;
-	for(i = 0; i <= degree; i++)
+	for(i = istart; i <= degree; i++)
 	{
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
@@ -879,7 +993,7 @@ void FaceCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_real
 	
 	amc_real height = 0;
 	int l = 0,j,k, fj,fk;
-	for(i = 0; i <= degree; i++)
+	for(i = istart; i <= degree; i++)
 	{
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{

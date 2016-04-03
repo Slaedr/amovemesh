@@ -52,6 +52,7 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b);
  */
 void chol(Matrix<amc_real>& A, Matrix<amc_real>& b);
 
+
 /// Solves Ax = b for dense A by point-Jacobi iterations
 /** \param check should be set to 'y' for testing diagonal dominance before solving.
  */
@@ -68,6 +69,7 @@ Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> x
 /// Solves Ax=b for sparse A by forward SOR.
 Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter, double w=1.25, char check='n');
 
+
 /// Calculates solution of Ax=b where A is a SPD matrix in sparse format. This function is well-tested.
 /** The preconditioner is a diagonal matrix.
  * NOTE: The parallel version is actually slower, due to some reason.
@@ -78,6 +80,7 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
  * NOTE: The initial guess vector xold is modified by this function.
  */
 Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matrix<double>& xold, double tol, int maxiter);
+
 
 /// solves the least squares problem (finds the minimum point x) \f$ \min(||Ax - b||_2) \f$ by solving the normal equations
 void leastSquares_NE(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x);

@@ -48,6 +48,29 @@ int main(int argc, char* argv[])
 	cmg.generate_curved_mesh();
 	mq.writeGmsh2(cmesh);
 
+	// compute norm of error for unit ball case
+	vector<amc_real> errors(mq.gnbpoin(),0);
+	int i,j,k,idim;
+	amc_real errnorm = 0;
+	k = 0;
+	for(i = 0; i < mq.gnpoin(); i++)
+		if(mq.gflag_bpoin(i) == 1)
+		{
+			for(idim = 0; idim < 3; idim++)
+				errors[k] += mq.gcoords(i,idim)*mq.gcoords(i,idim);
+			k++;
+		}
+
+	cout << setprecision(20);
+	for(i = 0; i < mq.gnbpoin(); i++)
+	{
+		//cout << " " << errors[i] << endl;
+		errors[i] = fabs(sqrt(errors[i]) - 1.0);
+		errnorm += errors[i]*errors[i];
+	}
+	errnorm = sqrt(errnorm);
+	cout << "The error l2 norm is " << errnorm << endl;
+	
 	std::cout << std::endl;
 
 	return 0;

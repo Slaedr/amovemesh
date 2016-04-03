@@ -1,6 +1,9 @@
 /** @brief Class to serve as abstract generic mesh class
  * @author Aditya Kashi
  * @date Feb 24, 2016
+ * 
+ * \note
+ * - We could template the number of dimensions ndim, so that loops over ndim can be unrolled
  */
 
 #ifndef __AMESHBASE_H
