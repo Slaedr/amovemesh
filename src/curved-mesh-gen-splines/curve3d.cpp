@@ -76,5 +76,31 @@ int main(int argc, char* argv[])
 	
 	std::cout << std::endl;
 
+	std::cout << "Computing the error for straight mesh... \n";
+	string stmesh = "../../input/ball-coarse_p2.msh";
+	mq.readGmsh2(stmesh, 3);
+	errnorm = 0; errmax = 0; k = 0;
+	errors.assign(mq.gnbpoin(),0);
+	for(i = 0; i < mq.gnpoin(); i++)
+		if(mq.gflag_bpoin(i) == 1)
+		{
+			for(idim = 0; idim < 3; idim++)
+				errors[k] += mq.gcoords(i,idim)*mq.gcoords(i,idim);
+			k++;
+		}
+
+	cout << setprecision(20);
+	for(i = 0; i < mq.gnbpoin(); i++)
+	{
+		//cout << " " << errors[i] << endl;
+		errors[i] = fabs(sqrt(errors[i]) - 1.0);
+		
+		if(errors[i] > errmax) errmax = errors[i];
+		
+		errnorm += errors[i]*errors[i];
+	}
+	errnorm = sqrt(errnorm);
+	cout << "The error l2 norm for straight mesh is " << errnorm << ", and the max norm is " << errmax << endl;
+
 	return 0;
 }

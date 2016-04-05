@@ -2,7 +2,9 @@
 srad = 1.0;
 
 // mesh size at inner circle
-hi = 0.5;
+//hi = 0.5;
+//hi = 0.25;
+hi = 0.125;
 
 //center
 Point(1) = {   0,   0,  0, 0.1};

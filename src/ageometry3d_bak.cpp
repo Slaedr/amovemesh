@@ -23,11 +23,9 @@ BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg, std::
 	fnormals.setup(m->gnface(), m->gndim());
 	std::cout << "BoundaryReconstruction: Stencil type is " << stencilType << std::endl;
 	farea.resize(m->gnface());
-	face_center.setup(m->gnface(),m->gndim());
-	face_center.zeros();
 
 	// compute unit face normals (by cross product) and areas (by Heron's formula) of triangular faces
-	int iface, inode, idim;
+	int iface, idim;
 	amc_real x1,y1,z1,x2,y2,z2,mag, a,b,c,s;
 	for(iface = 0; iface < m->gnface(); iface++)
 	{
@@ -55,25 +53,6 @@ BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg, std::
 		a = sqrt(a); b = sqrt(b); c = sqrt(c);
 		s = (a+b+c)*0.5;
 		farea[iface] = sqrt(s*(s-a)*(s-b)*(s-c));
-		
-		// get face centers
-		for(inode = 0; inode < m->gnnofa(); inode++)
-			for(idim = 0; idim < m->gndim(); idim++)
-				face_center(iface,idim) += m->gcoords(m->gbface(iface,inode),idim);
-
-		for(idim = 0; idim < m->gndim(); idim++)
-			face_center(iface,idim) /= m->gnnofa();
-
-		// impose true normals
-		/*mag = 0;
-		for(idim=0; idim < m->gndim(); idim++)
-		{
-			fnormals(iface,idim) = face_center.get(iface,idim);
-			mag += fnormals(iface,idim)*fnormals(iface,idim);
-		}
-		mag = sqrt(mag);
-		for(idim = 0; idim < m->gndim(); idim++)
-			fnormals(iface,idim) /= mag;*/
 	}
 }
 
@@ -153,22 +132,11 @@ void BoundaryReconstruction::computePointNormalsArea()
 		pnormals(ipoin,0) /= normmag;
 		pnormals(ipoin,1) /= normmag;
 		pnormals(ipoin,2) /= normmag;
-
-		// set true normals for unit ball
-		/*normmag = 0;
-		for(idim = 0; idim < m->gndim(); idim++)
-		{
-			pnormals(ipoin,idim) = m->gcoords(m->gbpoints(ipoin),idim);
-			normmag += pnormals(ipoin,idim)*pnormals(ipoin,idim);
-		}
-		normmag = sqrt(normmag);
-		for(idim = 0; idim < m->gndim(); idim++)
-			pnormals(ipoin,idim) /= normmag;*/
 	}
 }
 
 VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, bool _safeguard, double norm_limit) 
-	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type, 0)
+	: safeguard(_safeguard), normlimit(norm_limit), BoundaryReconstruction(mesh, deg, stencil_type, 1)
 {
 	std::cout << "VertexCenteredBoundaryReconstruction: Computing with safeguard - " << safeguard << std::endl;
 	D = new amat::Matrix<amc_real>[m->gnbpoin()];
@@ -184,9 +152,10 @@ VertexCenteredBoundaryReconstruction::VertexCenteredBoundaryReconstruction(const
 		else
 			nders = 9;
 
-		D[i].setup(nders, m->gndim());
+		D[i].setup(nders,1);
 	}
 	stencil = new std::vector<int>[m->gnbpoin()];
+	face_center.setup(m->gnface(), m->gndim());
 }
 
 VertexCenteredBoundaryReconstruction::~VertexCenteredBoundaryReconstruction()
@@ -204,9 +173,21 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 
 	amat::Matrix<amc_real>* pnormals = &(this->pnormals);
 	
+	// compute coordinates of face centers
+	face_center.zeros();
+	for(iface = 0; iface < m->gnface(); iface++)
+	{
+		for(inode = 0; inode < m->gnnofa(); inode++)
+			for(idim = 0; idim < m->gndim(); idim++)
+				face_center(iface,idim) += m->gcoords(m->gbface(iface,inode),idim);
+
+		for(idim = 0; idim < m->gndim(); idim++)
+			face_center(iface,idim) /= m->gnnofa();
+	}
+	
 	// get point normals and rotation matrices
 	
-	computePointNormalsArea();
+	computePointNormalsInverseDistance();
 
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{
@@ -272,9 +253,6 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 			pflags[ipoin] = 1;
 			sfaces.clear();
 			facepo.clear();
-
-			// NOTE: adding the point itself in its stencil
-			stencil[ipoin].push_back(ipoin);
 
 			if(m->gnnofa() == 3)
 			{
@@ -417,11 +395,11 @@ void VertexCenteredBoundaryReconstruction::solve()
 		amc_real weight, wd = 0, csum;
 
 		// assemble V and F
-		amat::Matrix<amc_real> V(mp, nders);				// least-squares LHS, Vandermonde matrix
-		amat::Matrix<amc_real> F(mp, m->gndim());			// least-squares RHS, coords of stencil points
+		amat::Matrix<amc_real> V(mp, nders);			// least-squares LHS, Vandermonde matrix
+		amat::Matrix<amc_real> F(mp,1);					// least-squares RHS, height values of stencil points
 		std::vector<amc_real> xyzp(m->gndim()), uvwp(m->gndim());
-		std::vector<amc_real> weightsn(mp);					// numerators of row-weights for weighted least-squares
-		std::vector<amc_real> weightsd(mp);					// denominators of row-weights
+		std::vector<amc_real> weightsn(mp);				// numerators of row-weights for weighted least-squares
+		std::vector<amc_real> weightsd(mp);				// denominators of row-weights
 
 		for(isp = 0; isp < mp; isp++)
 		{
@@ -443,8 +421,7 @@ void VertexCenteredBoundaryReconstruction::solve()
 			// for debug
 			if(l != nders) std::cout << "VertexCenteredBoundaryReconstruction: solve(): ! LHS computation is wrong!!" << std::endl;
 
-			for(idim = 0; idim < m->gndim(); idim++)
-				F(isp,idim) = xyzp[idim];
+			F(isp) = uvwp[2];
 			
 			// compute weights
 			weightsn[isp] = 0; weightsd[isp] = 0;
@@ -470,13 +447,12 @@ void VertexCenteredBoundaryReconstruction::solve()
 		{
 			for(i = 0; i < nders; i++)
 				V(isp,i) *= weightsn[isp]/weightsd[isp];
-			for(idim = 0; idim < m->gndim(); idim++)
-				F(isp,idim) *= weightsn[isp]/weightsd[isp];
+			F(isp) *= weightsn[isp]/weightsd[isp];
 		}
 
 		//leastSquares_NE(V, F, D[ipoin]);
-		leastSquares_QR(V, F, D[ipoin]);
-		//leastSquares_SVD(V, F, D[ipoin]);
+		//leastSquares_QR(V, F, D[ipoin]);
+		leastSquares_SVD(V, F, D[ipoin]);
 
 		/*std::vector<amc_real> scale(nders);		// for scaling the column of A
 		
@@ -497,10 +473,33 @@ void VertexCenteredBoundaryReconstruction::solve()
 		// get QR decomposition (R is stored in V, Q is determined by v)
 		qr(V,v);
 
-		solve_QR(v,V,F,D[ipoin]);
-		for(i = 0; i < nders; i++)
-			for(idim = 0; idim < m->gndim(); idim++)
-				D[ipoin](idim,i) *= scale[i];	*/
+		norm1 = V.matrixNorm_1();
+
+		// if safeguard is on and the norm exceeds some limit, reduce the degree of reconstruction from 2 to 1 for this vertex
+		if(safeguard && norm1 > normlimit)
+		{
+			std::cout << "VertexCenteredBoundaryReconstruction: solve(): Point " << ipoin << " demoted!" << std::endl;
+			int n = nders-3;
+			amat::Matrix<amc_real> R(mp-3,n); R.zeros();
+			amat::Matrix<amc_real> b(mp-3,1);
+			for(i = 0; i < mp-3; i++)
+			{
+				for(j = 0; j < n; j++)
+					R(i,j) = V.get(i,j);
+				b(i) = F.get(i);
+			}
+			solve_QR(v,R,b,D[ipoin]);
+			for(i = 0; i < n; i++)
+				D[ipoin](i) *= scale[i];
+
+			rec_order[ipoin] = 1;
+		}
+		else
+		{
+			solve_QR(v,V,F,D[ipoin]);
+			for(i = 0; i < nders; i++)
+				D[ipoin](i) *= scale[i];
+		}*/
 	}
 
 	delete [] v;
@@ -509,6 +508,8 @@ void VertexCenteredBoundaryReconstruction::solve()
 void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const
 {
 	int ipoin, jpoin, ibp,jbp, idim;
+	//ipoin = m->gedgepo(edgenum,0);
+	//jpoin = m->gedgepo(edgenum,1);
 	ipoin = m->gintbedge(edgenum,2);
 	jpoin = m->gintbedge(edgenum,3);
 	ibp = m->gbpointsinv(ipoin);
@@ -523,25 +524,26 @@ void VertexCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, co
 	uvw_from_xyz(jbp,xyzp,uvw1);
 
 	// evaluate 2D Taylor polynomial for each point
-	xyzp.assign(m->gndim(),0); xyzq.assign(m->gndim(),0);
-	int l, i,j,k, fj, fk;
-	for(idim = 0; idim < m->gndim(); idim++)
+	amc_real h1 = 0, h2 = 0;
+	int l = 0, i,j,k, fj, fk;
+	for(i = istart; i <= degree; i++)
 	{
-		l = 0;
-		for(i = istart; i <= degree; i++)
+		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
-			for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
-			{
-				fj = factorial(j);
-				fk = factorial(k);
-				if(rec_order[ibp] >= i)
-					xyzp[idim] += pow(uvw0[0],j)*pow(uvw0[1],k)/fj*fk * D[ibp].get(l,idim);
-				if(rec_order[jbp] >= i)
-					xyzq[idim] += pow(uvw1[0],j)*pow(uvw1[1],k)/fj*fk * D[jbp].get(l,idim);
-				l++;
-			}
+			fj = factorial(j);
+			fk = factorial(k);
+			if(rec_order[ibp] >= i)
+				h1 += pow(uvw0[0],j)*pow(uvw0[1],k)/fj*fk * D[ibp].get(l);
+			if(rec_order[jbp] >= i)
+				h2 += pow(uvw1[0],j)*pow(uvw1[1],k)/fj*fk * D[jbp].get(l);
+			l++;
 		}
 	}
+
+	uvw0[2] = h1;
+	uvw1[2] = h2;
+	xyz_from_uvw(ibp,uvw0,xyzp);
+	xyz_from_uvw(jbp,uvw1,xyzq);
 
 	for(idim = 0; idim < m->gndim(); idim++)
 		point[idim] = (1.0-ratio)*xyzp[idim] + ratio*xyzq[idim];
@@ -561,9 +563,10 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 	std::vector<std::vector<amc_real>> xyzp(m->gnnofa()), uvwp(m->gnnofa());
 	for(i = 0; i < m->gnnofa(); i++)
 	{
-		xyzp[i].assign(m->gndim(),0);
+		xyzp[i].resize(m->gndim());
 		uvwp[i].resize(m->gndim());
 	}
+	xyzp[0].assign(m->gndim(),0.0);
 
 	for(i = 0; i < m->gnnofa(); i++)
 		for(idim = 0; idim < m->gndim(); idim++)
@@ -573,24 +576,26 @@ void VertexCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_re
 	for(i = 0; i < m->gnnofa(); i++)
 		uvw_from_xyz(sbpo[i],xyzp[0],uvwp[i]);
 	
-	xyzp[0].assign(m->gndim(),0);
-	int l,j,k,inofa, fj,fk;
-	for(idim = 0; idim < m->gndim(); idim++)
+	std::vector<amc_real> height(m->gnnofa(),0);
+	int l = 0,j,k,inofa, fj,fk;
+	for(i = istart; i <= degree; i++)
 	{
-		l = 0;
-		for(i = istart; i <= degree; i++)
+		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
-			for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
-			{
-				fj = factorial(j);
-				fk = factorial(k);
-				for(inofa = 0; inofa < m->gnnofa(); inofa++)
-					if(rec_order[sbpo[inofa]] >= i)
-						xyzp[inofa][idim] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/fj*fk * D[sbpo[inofa]].get(l,idim);
-				l++;
-			}
+			fj = factorial(j);
+			fk = factorial(k);
+			for(inofa = 0; inofa < m->gnnofa(); inofa++)
+				if(rec_order[sbpo[inofa]] >= i)
+					height[inofa] += pow(uvwp[inofa][0],j)*pow(uvwp[inofa][1],k)/fj*fk * D[sbpo[inofa]].get(l);
+			l++;
 		}
 	}
+
+	for(inofa = 0; inofa < m->gnnofa(); inofa++)
+		uvwp[inofa][2] = height[inofa];
+
+	for(inofa = 0; inofa < m->gnnofa(); inofa++)
+		xyz_from_uvw(sbpo[inofa], uvwp[inofa], xyzp[inofa]);
 
 	point.assign(m->gnnofa(),0.0);
 	for(inofa = 0; inofa < m->gnnofa(); inofa++)
@@ -614,14 +619,15 @@ FaceCenteredBoundaryReconstruction::FaceCenteredBoundaryReconstruction(const UMe
 		Q[i].setup(m->gndim(), m->gndim());
 		
 		if(degree == 2)
-			nders = 6;
+			nders = 5+(1-istart);
 		else
-			nders = 8;
+			nders = 9+(1-istart);
 
 		D[i].setup(nders,1);
 	}
 	std::cout << "FaceCenteredBoundaryReconstruction: Number of unknowns per face = " << nders << std::endl;
 	stencil = new std::vector<int>[m->gnface()];
+	face_center.setup(m->gnface(),m->gndim());
 }
 
 FaceCenteredBoundaryReconstruction::~FaceCenteredBoundaryReconstruction()
@@ -640,6 +646,18 @@ void FaceCenteredBoundaryReconstruction::preprocess()
 	int idim, face, numfaces, inode, i,j, jed;
 	amc_real normmag;
 	amat::Matrix<amc_real>* fnormals = &(this->fnormals);
+
+	// compute coordinates of face centers
+	face_center.zeros();
+	for(iface = 0; iface < m->gnface(); iface++)
+	{
+		for(inode = 0; inode < m->gnnofa(); inode++)
+			for(idim = 0; idim < m->gndim(); idim++)
+				face_center(iface,idim) += m->gcoords(m->gbface(iface,inode),idim);
+
+		for(idim = 0; idim < m->gndim(); idim++)
+			face_center(iface,idim) /= m->gnnofa();
+	}
 	
 	computePointNormalsInverseDistance();
 
@@ -796,11 +814,8 @@ void FaceCenteredBoundaryReconstruction::solve()
 			uvw_from_xyz(iface, xyzp, uvwp);
 
 			l = 0;
-			for(i = 0; i <= degree; i++)
+			for(i = istart; i <= degree; i++)
 			{
-				// disregard slope terms
-				//if(i == 1) continue;
-
 				for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 				{
 					V(isp,l) = pow(uvwp[0],j)*pow(uvwp[1],k)/factorial(j)*factorial(k);
@@ -924,9 +939,8 @@ void FaceCenteredBoundaryReconstruction::getEdgePoint(const amc_real ratio, cons
 	// evaluate 2D Taylor polynomial for each point
 	amc_real h1 = 0, h2 = 0;
 	int l = 0, i,j,k, fj, fk;
-	for(i = 0; i <= degree; i++)
+	for(i = istart; i <= degree; i++)
 	{
-		//if(i == 1) continue;
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
 			fj = factorial(j);
@@ -974,9 +988,8 @@ void FaceCenteredBoundaryReconstruction::getFacePoint(const std::vector<amc_real
 	
 	amc_real height = 0;
 	int l = 0,j,k, fj,fk;
-	for(i = 0; i <= degree; i++)
+	for(i = istart; i <= degree; i++)
 	{
-		if(i == 1) continue;
 		for(j = i, k = 0; j >= 0 && k <= i; j--, k++)
 		{
 			fj = factorial(j);

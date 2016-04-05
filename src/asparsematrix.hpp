@@ -425,6 +425,7 @@ public:
 						ans += val[rownum][j] * num;
 			}
 		}
+		return ans;
 	}
 
 	/// D is returned as a column-vector containing diagonal elements of this sparse matrix.

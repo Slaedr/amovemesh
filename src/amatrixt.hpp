@@ -3,6 +3,8 @@
  * @brief Defines a classes to manipulate matrices.
  *
  * The type of scalars to be stored and the storage order are template parameters.
+ * Since the storage order is also a template parameter here, as opposed to amatrix2.hpp, there is no need to check storage order
+ * for get/set operations during runtime. Hence, this implementation is faster.
  * @author Aditya Kashi
  * @date April 3, 2016
  */
