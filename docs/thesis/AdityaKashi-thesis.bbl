@@ -1,5 +1,11 @@
 \begin{thebibliography}{10}
 
+\bibitem{appl:dgeuler}
+F.~Bassi and S.~Rebay.
+\newblock High-order accurate discontinuous finite element solution of the 2d
+  {E}uler equations.
+\newblock {\em Journal of Computational Physics}, 128:251--285, 1997.
+
 \bibitem{mm:batina}
 J.T. Batina.
 \newblock Unsteady {E}uler algorithm with unstructured dynamic mesh for
@@ -68,6 +74,12 @@ X.~Liu, N.~Qin, and H.~Xia.
 E.~Luke, E.~Collins, and E.~Blades.
 \newblock A fast mesh deformation method using explicit interpolation.
 \newblock {\em Journal of Computational Physics}, 231:586--601, 2012.
+
+\bibitem{curve:geomacc}
+X.~Luo, M.S. Shephard, and J.-F. Remacle.
+\newblock The influence of geometric approximation on the accuracy of high
+  order methods.
+\newblock {\em Rensselaer {SCOREC} report}, 1, 2001.
 
 \bibitem{curve:persson}
 P.-O. Persson and J.~Peraire.

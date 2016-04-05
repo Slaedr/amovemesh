@@ -17,7 +17,7 @@
 -Maximum-iterations
 2000
 -RBF-solver
-LU
+BICGSTAB
 -Number-of-spline-parts
 3
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers

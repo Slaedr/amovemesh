@@ -659,7 +659,7 @@ void FaceCenteredBoundaryReconstruction::preprocess()
 			face_center(iface,idim) /= m->gnnofa();
 	}
 	
-	computePointNormalsArea();
+	computePointNormalsInverseDistance();
 
 	// get rotation matrices
 	for(iface = 0; iface < m->gnface(); iface++)

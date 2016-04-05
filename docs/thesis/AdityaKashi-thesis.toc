@@ -1,24 +1,27 @@
 \contentsline {chapter}{LIST OF TABLES}{vi}
 \contentsline {chapter}{LIST OF FIGURES}{vii}
 \contentsline {chapter}{\numberline {1}Introduction}{1}
-\contentsline {chapter}{\numberline {2}Review of mesh movement methods}{2}
-\contentsline {section}{\numberline {2.1}Elasticity methods}{2}
-\contentsline {subsection}{\numberline {2.1.1}Spring analogies}{2}
-\contentsline {subsection}{\numberline {2.1.2}Elastic solid analogy (`Elasticity')}{4}
-\contentsline {section}{\numberline {2.2}Interpolation Methods}{5}
-\contentsline {subsection}{\numberline {2.2.1}Delaunay graph mapping (DGM)}{5}
-\contentsline {subsection}{\numberline {2.2.2}Radial basis functions}{6}
-\contentsline {subsection}{\numberline {2.2.3}DG-RBF}{7}
-\contentsline {section}{\numberline {2.3}Mesh quality}{8}
-\contentsline {chapter}{\numberline {3}Curved mesh generation}{10}
-\contentsline {section}{\numberline {3.1}Introduction}{10}
-\contentsline {section}{\numberline {3.2}Method}{11}
-\contentsline {chapter}{\numberline {4}Results}{12}
-\contentsline {section}{\numberline {4.1}Mesh movement}{12}
-\contentsline {section}{\numberline {4.2}Generation of curved meshes}{15}
-\contentsline {chapter}{\numberline {5}Conclusion}{19}
-\contentsline {chapter}{References}{20}
-\contentsline {chapter}{Appendices}{22}
+\contentsline {chapter}{\numberline {2}Review of mesh movement methods}{3}
+\contentsline {section}{\numberline {2.1}Elasticity methods}{3}
+\contentsline {subsection}{\numberline {2.1.1}Spring analogies}{3}
+\contentsline {subsection}{\numberline {2.1.2}Elastic solid analogy (`Elasticity')}{5}
+\contentsline {section}{\numberline {2.2}Interpolation Methods}{6}
+\contentsline {subsection}{\numberline {2.2.1}Delaunay graph mapping (DGM)}{6}
+\contentsline {subsection}{\numberline {2.2.2}Radial basis functions}{7}
+\contentsline {subsection}{\numberline {2.2.3}DG-RBF}{8}
+\contentsline {section}{\numberline {2.3}Mesh quality}{9}
+\contentsline {chapter}{\numberline {3}Curved mesh generation}{11}
+\contentsline {section}{\numberline {3.1}Introduction}{11}
+\contentsline {section}{\numberline {3.2}Method}{12}
+\contentsline {subsection}{\numberline {3.2.1}Spline reconstruction}{12}
+\contentsline {subsection}{\numberline {3.2.2}Surface reconstruction}{12}
+\contentsline {subsection}{\numberline {3.2.3}Location of boundary high-order nodes and interior mesh movement}{12}
+\contentsline {chapter}{\numberline {4}Results}{14}
+\contentsline {section}{\numberline {4.1}Mesh movement}{14}
+\contentsline {section}{\numberline {4.2}Generation of curved meshes}{17}
+\contentsline {chapter}{\numberline {5}Conclusion}{21}
+\contentsline {chapter}{References}{22}
+\contentsline {chapter}{Appendices}{24}
  \renewcommand {\cftchappresnum }{Appendix } \renewcommand {\cftchapnumwidth }{\appendixwidth } \renewcommand {\cftchapfont }{\cftsecfont } \setlength {\cftbeforechapskip }{\cftbeforesecskip } \setlength {\cftchapindent }{\cftsecindent } \renewcommand {\cftchappagefont }{\cftchapfont } \setlength {\cftsecindent }{\cftsubsecindent } \addtolength {\cftsubsecindent }{\cftsecnumwidth } \setcounter {tocdepth}{\c@ncsu@appendixtocdepth } 
-\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{23}
-\contentsline {chapter}{\numberline {B}Spline reconstruction}{24}
+\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{25}
+\contentsline {chapter}{\numberline {B}Spline reconstruction}{26}

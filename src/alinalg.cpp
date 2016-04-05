@@ -979,9 +979,10 @@ Matrix<double> sparsePCG(SpMatrix* A, Matrix<double> b, Matrix<double> xold, std
 }
 
 
-/**	Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst.
-	NOTE: The initial guess vector xold is modified by this function.
-*/
+///Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst.
+/** Jacobi preconditioning is used.
+ * NOTE: The initial guess vector xold is modified by this function.
+ */
 Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matrix<double>& xold, double tol, int maxiter)
 {
 	Matrix<double> x(b.rows(), 1);
@@ -994,7 +995,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 	Matrix<double> rold(b.rows(), 1);
 	Matrix<double> r(b.rows(), 1);
 	Matrix<double> rhat(b.rows(), 1);
-	Matrix<double> t(b.rows(), 1);
+	Matrix<double> t(b.rows(), 1), u(b.rows(),1);
 	Matrix<double> vold(b.rows(), 1);
 	Matrix<double> v(b.rows(), 1);
 	Matrix<double> pold(b.rows(), 1);
@@ -1052,7 +1053,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 			y(i) = M.get(i)*p.get(i);
 		}
 		
-		A->multiply(y, &v);			// v = A*p
+		A->multiply(y, &v);			// v = A*y
 		alpha = rho / rhat.dot_product(v);
 
 		for(i = 0; i < b.rows(); i++)
@@ -1061,9 +1062,17 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 			z(i) = M.get(i)*s.get(i);
 		}
 
-		A->multiply(z, &t);			// t = A*z
+		A->multiply(z, &t);			// t = A*K^-1*s
 
-		w = t.dot_product(s)/t.dot_product(t);
+		//--------------- modification begins here, to be tested (this is for purely left-preconditioning)
+
+		for(i = 0; i < b.rows(); i++)
+			u(i) = M.get(i)*t.get(i);		// u = K^(-1)*A*K^(-1)*s = K^(-1)*t
+
+		//w = t.dot_product(s)/t.dot_product(t);
+		w = u.dot_product(z) / u.dot_product(u);
+
+		//--------------- modification ends here (done according to Van der Vorst's paper)
 
 		for(i = 0; i < b.rows(); i++)
 		{
@@ -1097,7 +1106,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 void leastSquares_NE(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
 {
 	amc_int m = A.rows(), n = A.cols();
-#if(DEBUG==1)
+#if DEBUG==1
 	if(b.rows() != m || x.rows() != n) 
 	{
 		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;
@@ -1211,7 +1220,7 @@ void qr(amat::Matrix<amc_real>& A, std::vector<amc_real>* v)
 void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
 {
 	amc_int m = A.rows(), n = A.cols();
-#if(DEBUG==1)
+#ifdef DEBUG
 	if(b.rows() != m || x.rows() != n) 
 	{
 		std::cout << "leastSquares_QR(): ! Size error at input!" << std::endl;
@@ -1252,7 +1261,7 @@ void leastSquares_QR(amat::Matrix<amc_real>& A, amat::Matrix<amc_real>& b, amat:
 void solve_QR(const std::vector<amc_real>* v, const amat::Matrix<amc_real>& R, amat::Matrix<amc_real>& b, amat::Matrix<amc_real>& x)
 {
 	amc_int m = R.rows(), n = R.cols();
-#if(DEBUG==1)
+#if DEBUG==1
 	if(b.rows() != m || x.rows() < n) 
 	{
 		std::cout << "solve_QR(): ! Size error at input!" << std::endl;
@@ -1296,7 +1305,7 @@ void leastSquares_SVD(Matrix<amc_real>& A, Matrix<amc_real>& b, Matrix<amc_real>
 {
 	int m = A.rows(), n = A.cols(), nrhs = b.cols();
 	int i,j,k;
-#	if(DEBUG==1)
+#	if DEBUG==1
 	if(b.rows() != m || x.rows() != n) 
 	{
 		std::cout << "leastSquares_NE(): ! Size error at input!" << std::endl;

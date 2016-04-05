@@ -40,45 +40,45 @@ You're missing a field name---line 130 of file AdityaKashi-thesis.bib
  :     %month    = "",
 (Error may have been on previous line)
 I'm skipping whatever remains of this entry
-You've used 17 entries,
+You've used 19 entries,
             2118 wiz_defined-function locations,
-            607 strings with 6796 characters,
-and the built_in function-call counts, 5546 in all, are:
-= -- 542
-> -- 247
+            618 strings with 7092 characters,
+and the built_in function-call counts, 6151 in all, are:
+= -- 603
+> -- 278
 < -- 2
-+ -- 98
-- -- 80
-* -- 391
-:= -- 938
-add.period$ -- 51
-call.type$ -- 17
-change.case$ -- 89
++ -- 111
+- -- 90
+* -- 432
+:= -- 1045
+add.period$ -- 57
+call.type$ -- 19
+change.case$ -- 100
 chr.to.int$ -- 0
-cite$ -- 17
-duplicate$ -- 198
-empty$ -- 449
-format.name$ -- 80
-if$ -- 1157
+cite$ -- 19
+duplicate$ -- 219
+empty$ -- 492
+format.name$ -- 90
+if$ -- 1278
 int.to.chr$ -- 0
-int.to.str$ -- 17
-missing$ -- 18
-newline$ -- 88
-num.names$ -- 34
-pop$ -- 82
+int.to.str$ -- 19
+missing$ -- 20
+newline$ -- 98
+num.names$ -- 38
+pop$ -- 89
 preamble$ -- 1
-purify$ -- 74
+purify$ -- 83
 quote$ -- 0
-skip$ -- 134
+skip$ -- 150
 stack$ -- 0
-substring$ -- 391
-swap$ -- 28
+substring$ -- 427
+swap$ -- 30
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 64
+type$ -- 72
 warning$ -- 0
-while$ -- 52
-width$ -- 19
-write$ -- 186
+while$ -- 58
+width$ -- 21
+write$ -- 208
 (There were 6 error messages)

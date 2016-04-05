@@ -67,7 +67,7 @@ public:
 /// Implements WALF reconstruction according to Jiao and Wang's paper, ie, local fittings are calculated at each surface vertex
 /** The reconstructed surface at each point passes through that point.
  *
- * Once source of error could be that we need point normals for computing the local u,v,w vectors. Currently point normals are computed as average of surrounding face normals.
+ * Once source of error is that we need point normals for computing the local u,v,w vectors. Currently point normals are computed as average of surrounding face normals.
  */
 class VertexCenteredBoundaryReconstruction : public BoundaryReconstruction
 {
@@ -102,6 +102,7 @@ public:
 	/** Uses WALF surfaces from the two edge points only.
 	 */
 	void getEdgePoint(const amc_real ratio, const amc_int edgenum, std::vector<amc_real>& point) const;
+
 	/// Returns coords of a point lying on the face 'facenum' and having area coordinates given by 'areacoords'
 	void getFacePoint(const std::vector<amc_real>& areacoords, const amc_int facenum, std::vector<amc_real>& point) const;
 };

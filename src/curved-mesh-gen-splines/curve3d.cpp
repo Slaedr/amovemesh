@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
 	// compute norm of error for unit ball case
 	vector<amc_real> errors(mq.gnbpoin(),0);
 	int i,j,k,idim;
-	amc_real errnorm = 0;
+	amc_real errnorm = 0, errmax = 0;
 	k = 0;
 	for(i = 0; i < mq.gnpoin(); i++)
 		if(mq.gflag_bpoin(i) == 1)
@@ -66,10 +66,13 @@ int main(int argc, char* argv[])
 	{
 		//cout << " " << errors[i] << endl;
 		errors[i] = fabs(sqrt(errors[i]) - 1.0);
+		
+		if(errors[i] > errmax) errmax = errors[i];
+		
 		errnorm += errors[i]*errors[i];
 	}
 	errnorm = sqrt(errnorm);
-	cout << "The error l2 norm is " << errnorm << endl;
+	cout << "The error l2 norm is " << errnorm << ", and the max norm is " << errmax << endl;
 	
 	std::cout << std::endl;
 
