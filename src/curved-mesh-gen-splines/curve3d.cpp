@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
 	
 	std::cout << std::endl;
 
-	std::cout << "Computing the error for straight mesh... \n";
+	/*std::cout << "Computing the error for straight mesh... \n";
 	string stmesh = "../../input/ball-coarse_p2.msh";
 	mq.readGmsh2(stmesh, 3);
 	errnorm = 0; errmax = 0; k = 0;
@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 		errnorm += errors[i]*errors[i];
 	}
 	errnorm = sqrt(errnorm);
-	cout << "The error l2 norm for straight mesh is " << errnorm << ", and the max norm is " << errmax << endl;
+	cout << "The error l2 norm for straight mesh is " << errnorm << ", and the max norm is " << errmax << endl;*/
 
 	return 0;
 }

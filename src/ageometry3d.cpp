@@ -206,7 +206,7 @@ void VertexCenteredBoundaryReconstruction::preprocess()
 	
 	// get point normals and rotation matrices
 	
-	computePointNormalsArea();
+	computePointNormalsInverseDistance();
 
 	for(ipoin = 0; ipoin < m->gnbpoin(); ipoin++)
 	{

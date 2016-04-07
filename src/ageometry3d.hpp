@@ -126,6 +126,8 @@ class FaceCenteredBoundaryReconstruction : public BoundaryReconstruction
 	std::vector<int> mpo;						///< number of points in stencil for each surface point
 	std::vector<int>* stencil;					///< List of bpoint indices of points lying in the stencil of each surface point
 
+	int niter;									///< Number of reconstructions to do, using normals from previous iteration (not used currently)
+
 	/// convert a point from local coord system of point ibpoin to the global xyz coord system
 	void xyz_from_uvw(const amc_int ibpoin, const std::vector<amc_real>& uvwpoint, std::vector<amc_real>& xyzpoint) const;
 
@@ -133,7 +135,7 @@ class FaceCenteredBoundaryReconstruction : public BoundaryReconstruction
 	void uvw_from_xyz(const amc_int ibpoin, const std::vector<amc_real>& xyzpoint, std::vector<amc_real>& uvwpoint) const;
 	
 	/// computes vertex normals by using a weighted average of face normals of faces surrounding the vertex
-	/** Needed for computing weights of our weighted least-squares procedure.
+	/** Needed for computing weights of the weighted least-squares procedure.
 	 */
 	void computePointNormals();
 

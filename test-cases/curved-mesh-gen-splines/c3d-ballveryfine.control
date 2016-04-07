@@ -1,7 +1,7 @@
 -input-linear-mesh
-../../input/ball-coarse.msh
+../../input/ball-veryfine.msh
 -output-curved-mesh
-../../output/curved-mesh-gen-spline/ball-coarse_curvedp2-face.msh
+../../output/curved-mesh-gen-spline/ball-veryfine_curvedp2-face.msh
 -WALF-type(VERTEX-or-FACE)
 FACE
 -stencil-type
@@ -11,7 +11,7 @@ half
 -RBF-choice
 2
 -Support-radius-for-RBF
-0.4
+0.1
 -Number-of-RBF-steps
 1
 -Tolerance-for-RBF-move
