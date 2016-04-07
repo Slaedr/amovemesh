@@ -11,7 +11,7 @@
 #include <arbf.hpp>
 #endif
 
-#define __ACURVEDMESHGEN_H
+#define __ACURVEDMESHGEN2D_H
 
 namespace amc {
 

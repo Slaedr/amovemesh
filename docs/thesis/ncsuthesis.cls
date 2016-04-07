@@ -219,7 +219,8 @@
       \vspace{0.47\textheight} %SPB
 
       \copyright{} Copyright \ncsu@year{} by \@author \\[1em]
-      All Rights Reserved
+      
+      This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit {http://creativecommons.org/licenses/by-sa/4.0/}. For a copy of the \LaTeX sources, please contact Aditya Kashi at {akashi@ncsu.edu} or {aditya.kashi@yahoo.com}.
 
       \vfill
     \end{titlepage}

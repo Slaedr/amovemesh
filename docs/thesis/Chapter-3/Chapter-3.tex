@@ -20,14 +20,18 @@ Since only the linear mesh is taken as input, a high-order boundary representati
 
 ********** GIVE DETAILS OF SPLINE METHOD, perhaps *********
 
+Once we have the smooth reconstructed boundary, we calculate the final positions of the boundary nodes in the curved mesh. This is currently done by simply moving the high-order boundary nodes, originally at regular intervals on the boundary facet, to corresponding intervals in parameter space on the cubic spline curve associated with that facet. This method is found to be quite robust for the meshes tested. Thus, the boundary displacements are obtained. Alternatively, if the CAD geometry is available, the displacements can be computed using it.
+
 \subsection{Surface reconstruction}
 
-\subsection{Location of boundary high-order nodes and interior mesh movement}
-
-Once we have the smooth reconstructed boundary, we calculate the final positions of the boundary nodes in the curved mesh. This is currently done by simply moving the high-order boundary nodes, originally at regular intervals on the boundary facet, to corresponding intervals in parameter space on the cubic spline curve associated with that facet. This method is found to be quite robust for the meshes tested. Thus, the boundary displacements are obtained. Alternatively, if the CAD geometry is available, the displacements can be computed using it.
+\subsection{Interior mesh movement}
 
 To propagate the boundary motion to the interior of the mesh, we favor interpolation by radial basis functions (RBFs) \cite{mm:rbf}. We have also used linear elasticity to propagate the mesh movement to the interior. The isotropic linear elasticity variational formulation, as given by Gockenbach \cite{gockenbach}, is implemented in a P2 Galerkin FEM code for generation of quadratic meshes. In this case however, the size of the linear system to be solved is proportional to the total number of nodes in the mesh.
 
 Though the RBF method requires the solution of a linear system of size proportional to only the number of boundary points, extra computation is required to evaluate equation \eqref{eqn:rbf} at each of the interior nodes to compute their displacements. In comparison, elasticity-based methods directly give us the displacements.
+
+Several variants of the Delaunay graph mapping method were also attempted for generating curved meshes.
+
+********* TODO: DESCRIBE WHY DGM AND DG-RBF FAIL FOR CURVED MESH GENERATION. DESCRIBE THE 2-STEP RBF-DG METHOD, AND WHY THAT DOES NOT WORK EITHER *********
 
 

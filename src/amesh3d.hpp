@@ -71,7 +71,6 @@ private:
 	amat::Matrix<amc_int> bface;
 	amat::Matrix<amc_int> flag_bpoin;		///< a boolean flag for each point. Contains 1 if the corresponding point is a boundary point
 	amat::Matrix<amc_int> vol_regions;		///< to hold volume region markers, if any
-	//amat::Matrix<amc_int> bedge;			///< boundary edge structure, describing the containing nodes, and the left and right boundary faces
 	bool alloc_jacobians;
 	amat::Matrix<amc_real> jacobians;
 
@@ -95,6 +94,7 @@ private:
 	amat::Matrix<amc_int> intbedge;		/**< boundary edge - boundary face connectivity. Ordering of edges is same as that of [edgepo](@ref edgepo). 
 											NOTE: The edge may not always point from smaller index cell to larger index cell! 
 											The edge direction may not be consistent. */
+	//amat::Matrix<amc_int> bfbedge;		///< Stores the intgedge edge index of the edges that make up the b-face, for each b-face
 
 public:
 
