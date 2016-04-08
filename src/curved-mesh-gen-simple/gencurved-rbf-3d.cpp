@@ -6,7 +6,7 @@ using namespace amc;
 
 int main()
 {
-	string confile = "gencurved-rbf-3d.control";
+	string confile = "../../test-cases/simple-curved-mesh-gen/gencurved-rbf-3d.control";
 	ifstream conf(confile);
 	string inmesh, intermesh, outmesh, rbf_solver, dum;
 	double sup_rad, rbf_tol; int num_steps, numbflags, rbf_maxiter;

@@ -6,7 +6,9 @@
 #include <amesh3d.hpp>
 #endif
 
+#ifndef __ARBF_H
 #include <arbf.hpp>
+#endif
 
 using namespace std;
 using namespace amat;
@@ -72,7 +74,15 @@ public:
 		cout << "CurvedMeshGeneration: Support radius " << srad << endl;
 
 		Matrix<int> pfixedflag(m->gnpoin(),1);
-		pfixedflag.zeros();
+		pfixedflag.ones();
+
+		// contains 1 if a face is to be curved
+		amat::Matrix<int> facesToCurve(m->gnface(),1);
+		facesToCurve.ones();
+		for(int iface = 0; iface < m->gnface(); iface++)
+			for(int ifl = 0; ifl < fbf.msize(); ifl++)
+				if(m->gbface(iface,m->gnnofa()) == fbf.get(ifl))
+					facesToCurve(iface) = 0;
 
 		// pre-process to get ipoints and bpoints :-
 		//cout << "CurvedMeshGeneration: bflag" << endl;
@@ -83,15 +93,10 @@ public:
 		{
 			for(int j = 0; j < m->gnnofa(); j++)
 				bflag(m->gbface(i,j)) = 1;
-			for(int ifl = 0; ifl < fbf.msize(); ifl++)
-			{
-				if(m->gbface(i,m->gnnofa()) == fbf(ifl))
-				{
-					for(int j = 0; j < m->gnnofa(); j++)
-						pfixedflag(m->gbface(i,j)) = 1;			// register this point as belonging to a fixed boundary
-					//cout << "**";
-				}
-			}
+			
+			if( facesToCurve.get(i) )
+				for(int j = 0; j < m->gnnofa(); j++)
+					pfixedflag(m->gbface(i,j)) = 0;			// register this point as belonging to a curved boundary
 		}
 
 		//cout << "CurvedMeshGeneration: hflag" << endl;
@@ -192,8 +197,8 @@ public:
 			{
 				// TODO: change this block according to the desired boundary motion
 
-				bmotion(i,0) = 0;
-				bmotion(i,1) = 0;
+				//bmotion(i,0) = 0;
+				//bmotion(i,1) = 0;
 				bmotion(i,2) = trueboundary(bpoints(i,0),bpoints(i,1)) - bpoints(i,2);
 				//bmotion(i,1) = 0.2;
 			}
@@ -242,6 +247,21 @@ public:
 
 	void generate()
 	{
+		/*int ipoin, idim, k = 0;
+		amc_real temp;
+		for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		{
+			if(bflag.get(ipoin) == 1)
+			{
+				for(idim = 0; idim < m->gndim(); idim++)
+				{
+					temp = m->gcoords(ipoin,idim);
+					m->scoords(ipoin,idim, temp+bmotion.get(k,idim));
+				}
+				k++;
+			}
+		}*/
+
 		cout << "CurvedMeshGeneration: generate(): Setting up RBF mesh movement" << endl;
 		cout << nbpoin << endl;
 		rbfm.setup(&mipoints, &bpoints, &bmotion, rbf_c, srad, rbf_nsteps, tol, maxiter, rbfsolver);

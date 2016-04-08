@@ -154,7 +154,7 @@ public:
 
 			//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];
 			l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;
-			#if DEBUGBW==1
+			#if DEBUG==1
 			if(fabs(l3) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
 			#endif
 			if(l3/super.D < 0)
@@ -165,7 +165,7 @@ public:
 
 			//p1 = elems[ielem].p[1]; p2 = elems[ielem].p[2];
 			l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;
-			#if DEBUGBW==1
+			#if DEBUG==1
 			if(fabs(l1) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
 			#endif
 			if(l1/super.D < 0)
@@ -175,7 +175,7 @@ public:
 			}
 
 			l2 = xx*(nodes[super.p[2]].y - nodes[super.p[0]].y) - yy*(nodes[super.p[2]].x - nodes[super.p[0]].x) + nodes[super.p[2]].x*nodes[super.p[0]].y - nodes[super.p[0]].x*nodes[super.p[2]].y;
-			#if DEBUGBW==1
+			#if DEBUG==1
 			if(fabs(l2) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l2!!\n";
 			#endif
 			if(l2/super.D < 0)
@@ -273,7 +273,7 @@ public:
 				//calculate distance between circumcentre and the point
 				dist = (points(ipoin,0) - elems[curelem].centre.x)*(points(ipoin,0) - elems[curelem].centre.x) + (points(ipoin,1) - elems[curelem].centre.y)*(points(ipoin,1) - elems[curelem].centre.y);
 
-				#if DEBUGBW==1
+				#if DEBUG==1
 				if(fabs(dist - elems[curelem].radius*elems[curelem].radius) < tol) std::cout << "Delaunay2D: Degenerate case (type 2)!!\n";
 				#endif
 				if(dist < elems[curelem].radius*elems[curelem].radius)		// if point lies inside circumcircle, ie, Delaunay criterion is violated
@@ -601,7 +601,7 @@ public:
 
 			//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];
 			l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;
-			#if DEBUGBW==1
+			#if DEBUG==1
 			if(fabs(l3) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
 			#endif
 			if(l3/super.D < 0)
@@ -611,7 +611,7 @@ public:
 			}
 
 			l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;
-			#if DEBUGBW==1
+			#if DEBUG==1
 			if(fabs(l1) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
 			#endif
 			if(l1/super.D < 0)
@@ -621,7 +621,7 @@ public:
 			}
 
 			l2 = xx*(nodes[super.p[2]].y - nodes[super.p[0]].y) - yy*(nodes[super.p[2]].x - nodes[super.p[0]].x) + nodes[super.p[2]].x*nodes[super.p[0]].y - nodes[super.p[0]].x*nodes[super.p[2]].y;
-			#if DEBUGBW==1
+			#if DEBUG==1
 			if(fabs(l2) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l2!!\n";
 			#endif
 			if(l2/super.D < 0)

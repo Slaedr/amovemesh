@@ -1,4 +1,5 @@
 // Data structure and setup for 2D unstructured triangular mesh.
+// Also includes spring-analogy mesh movement routines.
 // Aditya Kashi
 // Feb 5, 2015
 

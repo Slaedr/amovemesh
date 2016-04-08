@@ -59,4 +59,6 @@ add_library(adatastructures adatastructures.cpp)
 
 # for the final executable(s)
 add_subdirectory(curved-mesh-gen-splines)
+add_subdirectory(curved-mesh-gen-cad)
+add_subdirectory(curved-mesh-gen-simple)
 add_subdirectory(utilities)

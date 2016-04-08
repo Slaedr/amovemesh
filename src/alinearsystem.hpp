@@ -3,6 +3,8 @@
  * @date October 19, 2015
  */
 
+#ifndef __ALINEARSYSTEM_H
+
 #ifndef __AMATRIX2_H
 #include <amatrix2.hpp>
 #endif
@@ -28,3 +30,5 @@ public:
 };
 
 }	// end namespace amc
+
+#endif

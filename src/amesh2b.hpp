@@ -1,4 +1,5 @@
 // Data structure and setup for 2D unstructured triangular mesh.
+// This reads Dr Luo's mesh file containing boundary point data rather than boundary face data.
 // Aditya Kashi
 // Feb 5, 2015
 

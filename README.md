@@ -19,7 +19,7 @@ will build an optimized version of the binaries. To compile a debug version with
 
 Using
 -----
-If you do not have access to displacements for high-order ndoes, use the executable amc for 3D meshes and curveh for hybrid 2D meshes. If you have access to a quadratic mesh with boundaries already curved (but perhaps containing invalid elements), use cmg or cmg2d for 2D and 3D meshes respectively. Note that the 3D mesh class currently only supports meshes with a single type of element, while a hybrid mesh capability is available for 2D.
+If you do not have access to displacements for high-order nodes, use the executable amc for 3D meshes and curveh for hybrid 2D meshes. If you have access to a quadratic mesh with boundaries already curved (but perhaps containing invalid elements), use cmg or cmg2d for 2D and 3D meshes respectively. Note that the 3D mesh class currently only supports meshes with a single type of element, while a hybrid mesh capability is available for 2D.
 
 See test-cases/ for example control files for the programs. You *must* stick to the format specified in the example control files, until such time as more advanced control-file-parsing is incorporated.
 
@@ -31,7 +31,6 @@ from within the docs/ directory. This will generate html documentation from sour
 
 Things to do
 ------------
-- Create a wiki
 - Write 3D hybrid mesh class
 - Remove old classes such as UTriMeshCurved etc
 - Test the 3D Delaunay triangulation more extensively

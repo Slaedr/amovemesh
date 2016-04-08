@@ -1,4 +1,5 @@
-/** @brief Funtionality for solving equations of linear elasticity on a straight-edged quadratic mesh using P2 Lagrange finite elements (no non-homogeneous Neumann BCs)
+/** @brief Funtionality for solving equations of linear elasticity on a straight-edged quadratic mesh using P2 Lagrange finite elements 
+ * no non-homogeneous Neumann BCs
  * @date June 12, 2015
  * @author Adtya Kashi
  */
