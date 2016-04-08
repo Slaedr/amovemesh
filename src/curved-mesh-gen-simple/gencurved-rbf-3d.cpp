@@ -4,9 +4,13 @@ using namespace std;
 using namespace amat;
 using namespace amc;
 
-int main()
+int main(int argc, char* argv[])
 {
-	string confile = "../../test-cases/simple-curved-mesh-gen/gencurved-rbf-3d.control";
+	if(argc < 2) {
+		cout << "Please give a control file name!\n";
+		return -1;
+	}
+	string confile(argv[1]);
 	ifstream conf(confile);
 	string inmesh, intermesh, outmesh, rbf_solver, dum;
 	double sup_rad, rbf_tol; int num_steps, numbflags, rbf_maxiter;

@@ -20,7 +20,8 @@ int main(int argc, char* argv[])
 	}
 
 	string dum, infile, outfile, solver;
-	int maxiter, rbf_choice;
+	int maxiter, rbf_choice, numRbfBoundary, temp;
+	vector<int> rbf_boundaries;
 	double tol, sup_rad;
 
 	fin >> dum; fin >> infile;
@@ -30,16 +31,27 @@ int main(int argc, char* argv[])
 	fin >> dum; fin >> solver;
 	fin >> dum; fin >> tol;
 	fin >> dum; fin >> maxiter;
+	fin >> dum; fin >> numRbfBoundary;
+	fin >> dum;
+	for(int i = 0; i < numRbfBoundary; i++)
+	{
+		fin >> temp;
+		rbf_boundaries.push_back(temp);
+	}
 
 	fin.close();
 
 	cout << "RBF choice = " << rbf_choice << ", support radius = " << sup_rad << ", solver = " << solver << ", tolerance = " << tol << ", Max iterations = " << maxiter << ".\n";
+	cout << "Boundary-markers of boundaries to be processed with RBF are ";
+	for(int i = 0; i < rbf_boundaries.size(); i++)
+		cout << " " << rbf_boundaries[i];
+	cout << endl;
 
 	UMesh m;
 	m.readGmsh2(infile, 3);
 
 	cout << "CurvedMeshGen starting" << endl;
-	CurvedMeshGen cmg(&m, rbf_choice, sup_rad, tol, maxiter, solver);
+	CurvedMeshGen cmg(&m, rbf_boundaries, rbf_choice, sup_rad, tol, maxiter, solver);
 
 	clock_t begin = clock();
 	cmg.generateCurvedMesh();

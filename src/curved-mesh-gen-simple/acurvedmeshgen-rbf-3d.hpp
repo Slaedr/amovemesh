@@ -14,7 +14,7 @@ using namespace std;
 using namespace amat;
 using namespace amc;
 
-/// Generation of 3D curved meshes when an analytical expression for the boundary is available
+/// Generation of 3D curved meshes when an analytical expression for the boundary is available; currently only used to curve the boundary.
 /** RBF mesh movement scheme is used.
  * RBF support radius, tolerance and maximum iterations for solver need to be provided.
  */
@@ -23,18 +23,12 @@ class CurvedMeshGeneration
 	UMesh* m;
 	/// interior points to be moved
 	Matrix<double> mipoints;
-	/// fixed interior points
-	Matrix<double> fipoints;
 	/// Boundary points
 	Matrix<double> bpoints;
 	/// Boundary motion
 	Matrix<double> bmotion;
-	/// Flag indicating whether or not there are internal (non-boundary) fixed points
-	bool noInternalFixedPoints;
 	/// number of interior points
 	int ninpoin;
-	/// number of interior points to be moved
-	int npomo;
 	/// number of  boundary points
 	int nbpoin;
 	/// npoin-by-1, 1 if corresponding point is a boundary points
@@ -69,12 +63,10 @@ public:
 		maxiter = rbf_maxiter;
 		rbfsolver = rbf_solver;
 		
-		noInternalFixedPoints = false;
-		
 		cout << "CurvedMeshGeneration: Support radius " << srad << endl;
 
 		Matrix<int> pfixedflag(m->gnpoin(),1);
-		pfixedflag.ones();
+		pfixedflag.zeros();
 
 		// contains 1 if a face is to be curved
 		amat::Matrix<int> facesToCurve(m->gnface(),1);
@@ -94,9 +86,9 @@ public:
 			for(int j = 0; j < m->gnnofa(); j++)
 				bflag(m->gbface(i,j)) = 1;
 			
-			if( facesToCurve.get(i) )
+			if( ! facesToCurve.get(i) )
 				for(int j = 0; j < m->gnnofa(); j++)
-					pfixedflag(m->gbface(i,j)) = 0;			// register this point as belonging to a curved boundary
+					pfixedflag(m->gbface(i,j)) = 1;			// register this point as belonging to a curved boundary
 		}
 
 		//cout << "CurvedMeshGeneration: hflag" << endl;
@@ -142,32 +134,16 @@ public:
 			}
 		}
 
-		npomo = 0;
-		for(int i = 0; i < m->gnpoin(); i++)
-			if(hflag(i) == 1 && bflag(i)==0) npomo++;		// point is a high order point and not a boundary point
+		mipoints.setup(ninpoin, m->gndim());					// npomo is the number of interior points to be moved
 
-		cout << "CurvedMeshGeneration: Number of movable points = " << npomo << endl;
-
-		mipoints.setup(npomo, m->gndim());					// npomo is the number of interior points to be moved
-		if(ninpoin-npomo == 0)
-			noInternalFixedPoints = true;
-		else
-			fipoints.setup(ninpoin-npomo, m->gndim());
-
-		k = 0; int l = 0;
+		k = 0;
 		for(int i = 0; i < m->gnpoin(); i++)
 		{
-			if(bflag(i)==0 && hflag(i) == 1)				// point is an interior point and a high-order point
+			if(bflag(i)==0 )				// point is an interior point
 			{
 				for(int idim = 0; idim < m->gndim(); idim++)
 					mipoints(k,idim) = m->gcoords(i,idim);
 				k++;
-			}
-			else if(bflag(i)==0 && hflag(i) == 0 && noInternalFixedPoints==false)			// point is an interior point but not a high order point (fixed)
-			{
-				for(int idim = 0; idim < m->gndim(); idim++)
-					fipoints(l,idim) = m->gcoords(i,idim);
-				l++;
 			}
 		}
 	}
@@ -247,7 +223,7 @@ public:
 
 	void generate()
 	{
-		/*int ipoin, idim, k = 0;
+		int ipoin, idim, k = 0;
 		amc_real temp;
 		for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
 		{
@@ -260,9 +236,9 @@ public:
 				}
 				k++;
 			}
-		}*/
+		}
 
-		cout << "CurvedMeshGeneration: generate(): Setting up RBF mesh movement" << endl;
+		/*cout << "CurvedMeshGeneration: generate(): Setting up RBF mesh movement" << endl;
 		cout << nbpoin << endl;
 		rbfm.setup(&mipoints, &bpoints, &bmotion, rbf_c, srad, rbf_nsteps, tol, maxiter, rbfsolver);
 		cout << "CurvedMeshGeneration: generate(): Moving the mesh" << endl;
@@ -272,7 +248,7 @@ public:
 
 		cout << "CurvedMeshGeneration: generate(): Re-assembling coordinate matrix" << endl;
 		// re-assemble coords
-		int mp = 0, fp = 0, bp = 0;
+		int mp = 0, bp = 0;
 		Matrix<double> coord(m->gnpoin(), m->gndim());
 		for(int i = 0; i < m->gnpoin(); i++)
 		{
@@ -282,20 +258,14 @@ public:
 					coord(i,idim) = bpoints(bp,idim);
 				bp++;
 			}
-			else if(hflag(i) == 1)
+			else
 			{
 				for(int idim = 0; idim < m->gndim(); idim++)
 					coord(i,idim) = mipoints(mp,idim);
 				mp++;
 			}
-			else
-			{
-				for(int idim = 0; idim < m->gndim(); idim++)
-					coord(i,idim) = fipoints(fp,idim);
-				fp++;
-			}
 		}
-		m->setcoords(&coord);
+		m->setcoords(&coord);*/
 		cout << "CurvedMeshGeneration: generate(): Done." << endl;
 	}
 };

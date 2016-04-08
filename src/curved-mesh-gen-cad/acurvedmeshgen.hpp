@@ -16,6 +16,10 @@
 namespace amc {
 
 /// Class to generate a fully curved mesh, using as input a high-order mesh with boundaries already curved
+/** Usually, we assume that displacements of all boundaries have already been imposed, and that only displacements of interior nodes need to be computed by RBF.
+ * However, sometimes we may need to apply RBF on a boundary, some of whose end edges have been curved according to the geometry. 
+ * For this situation, set rbf_boundaries in CurvedMeshGen::CurvedMeshGen().
+ */
 class CurvedMeshGen
 {
 	UMesh* m;							///< the mesh to curve
@@ -24,6 +28,7 @@ class CurvedMeshGen
 	amat::Matrix<amc_real> bounpoints;	///< boundary points
 	amat::Matrix<amc_real> boundisps;	///< boundary displacements
 	std::vector<int> curvemarkers;		///< marker numbers of boundaries that need to be curved
+	std::vector<int> rbfboundaries;		///< Marker numbers of boundaries in which RBF needs to be applied to curve the edges
 	std::vector<int> torec;				///< contains 1 if the corresponding boundary node 
 	amc_int nbpoin;						///< number of boundary points
 	amc_int ninpoin;					///< number of interior points
@@ -32,28 +37,33 @@ public:
 
 	/// constructor
 	/** \param[in|out] mesh is the mesh to curve
+	 * \param[in] rbf_boundaries contains physical-entity (marker) numbers of boundaries which need processing by RBF
 	 * \param[in] choice corresponding to the mesh method method - for RBF, this is the type of RBF to use
 	 * \param[in] param1 parameter required by mesh movement method - for RBF, this is the support radius
 	 * \param[in] tol the tolerance to use in linear solvers, for instance
 	 * \param[in] maxiter maximum iterations for linear solver
-	 * \param[in] solver a string describing the linear solver to use ("CG", "LU", "BICGSTAB")
+	 * \param[in] solver is a string describing the linear solver to use ("CG", "LU", "BICGSTAB")
 	 */
-	CurvedMeshGen(UMesh* mesh, const int choice, const double param1, const double tol, const int maxiter, const std::string solver);
+	CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries, const int choice, const double param1, const double tol, const int maxiter, const std::string solver);
 
 	~CurvedMeshGen();
 
 	void generateCurvedMesh();
 };
 
-CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1, const double tol, const int maxiter, const std::string solver)
+CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries, const int choice, const double param1, const double tol, const int maxiter, const std::string solver)
 {
 	m = mesh;
 	
-	amc_int ipoin, iface, inode, jnode, k, l;
+	amc_int ipoin, iface, inode, jnode, j, k, l, nexbpoin = 0;
 	int idim;
+
+	amat::Matrix<int> rbfbpoin(m->gnpoin(),1);
+	rbfbpoin.zeros();
 
 	amat::Matrix<amc_real>* midpoints = new amat::Matrix<amc_real>[m->gnface()];
 	for(int i = 0; i < m->gnface(); i++)
+	{
 		if(m->gnnofa()==6)
 			midpoints[i].setup(3,m->gndim());
 		else if(m->gnnofa()==9)
@@ -61,10 +71,22 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1,
 		else if(m->gnnofa()==8)
 			midpoints[i].setup(4,m->gndim());
 		// TODO: add allocation for for other types of faces, if needed
+
+		for(j = 0; j < rbf_boundaries.size(); j++)
+			if(m->gbface(i,m->gnnofa()) == rbf_boundaries[j])
+			{
+				nexbpoin++;
+				for(inode = 0; inode < m->gnnofa(); inode++)
+					rbfbpoin(m->gbface(i,inode)) = 1;
+				break;
+			}
+	}
 	
 	nbpoin = 0;
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
 		nbpoin += m->gflag_bpoin(ipoin);
+	nbpoin -= nexbpoin;
+
 	ninpoin = m->gnpoin() - nbpoin;
 	inpoints.setup(ninpoin,m->gndim());
 	bounpoints.setup(nbpoin,m->gndim());
@@ -194,7 +216,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const int choice, const double param1,
 	k = 0; l = 0;
 
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
-		if(m->gflag_bpoin(ipoin) == 1)
+		if(m->gflag_bpoin(ipoin) == 1 && rbfbpoin.get(ipoin)==0)
 		{
 			for(idim = 0; idim < m->gndim(); idim++)
 			{
