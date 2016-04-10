@@ -60,6 +60,11 @@ S.~Jakobsson and O.~Amoignon.
   aerodynamic shape opitimization.
 \newblock {\em Computers \& {F}luids}, 36:1119--1136, 2007.
 
+\bibitem{sr:jiaowang}
+X.~Jiao and D.~Wang.
+\newblock Reconstructing high-order surfaces for meshing.
+\newblock {\em Engineering with computers}, 28:361--373, 2012.
+
 \bibitem{qualknupp}
 P.M. Knupp.
 \newblock Algebraic mesh quality measures for unstructured initial meshes.
@@ -110,5 +115,11 @@ Y.~Wang, N.~Qin, and N.~Zhao.
 \newblock Delaunay graph and radial basis function for fast quality mesh
   deformation.
 \newblock {\em Journal of Computational Physics}, 294:149--172, 2015.
+
+\bibitem{sr:wolframspline}
+Eric~W. Weisstein.
+\newblock Cubic spline.
+\newblock From \emph{MathWorld} -- A {W}olfram Web Resource
+  \url{http://mathworld.wolfram.com/CubicSpline.html}.
 
 \end{thebibliography}

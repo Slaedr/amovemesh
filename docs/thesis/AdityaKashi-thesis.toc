@@ -13,9 +13,9 @@
 \contentsline {chapter}{\numberline {3}Curved mesh generation}{11}
 \contentsline {section}{\numberline {3.1}Introduction}{11}
 \contentsline {section}{\numberline {3.2}Method}{12}
-\contentsline {subsection}{\numberline {3.2.1}Spline reconstruction}{12}
-\contentsline {subsection}{\numberline {3.2.2}Surface reconstruction}{12}
-\contentsline {subsection}{\numberline {3.2.3}Interior mesh movement}{12}
+\contentsline {subsection}{\numberline {3.2.1}Spline reconstruction for boundaries of 2D meshes}{12}
+\contentsline {subsection}{\numberline {3.2.2}Surface reconstruction in the general case}{12}
+\contentsline {subsection}{\numberline {3.2.3}Interior mesh movement}{13}
 \contentsline {chapter}{\numberline {4}Results}{14}
 \contentsline {section}{\numberline {4.1}Mesh movement}{14}
 \contentsline {section}{\numberline {4.2}Generation of curved meshes}{17}

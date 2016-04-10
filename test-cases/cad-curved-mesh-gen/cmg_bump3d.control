@@ -1,0 +1,18 @@
+-input-mesh-file
+../../output/curved-mesh-gen-simple/bump3d-coarse_bouncurved.msh
+-outpur-mesh-file
+../../output/curved-mesh-gen-simple/bump3d-coarse_curved.msh
+-choice(RBF-choice)
+2
+-support-radius
+0.075
+-solver
+LU
+-tolerance
+1e-7
+-max-iterations
+4000
+-number-of-RBF-boundaries
+2
+-markers-of-RBF-boundaries
+41 42
