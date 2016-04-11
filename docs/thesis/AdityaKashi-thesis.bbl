@@ -54,6 +54,12 @@ Ralf Hartmann and Tobias Leicht.
 \newblock 53\textsuperscript{rd} AIAA Aerospace Sciences Meeting (SciTech
   2015), {AIAA} 2015-0819, Kissimmee, Florida, 2015.
 
+\bibitem{curve:meshcurve}
+J.~Ims, Z.~Duan, and Z.J. Wang.
+\newblock meshcurve : An automated low-order to high-order mesh generator.
+\newblock In {\em 22nd {AIAA} {C}omputational {F}luid {D}ynamics conference},
+  2015.
+
 \bibitem{appl:opt}
 S.~Jakobsson and O.~Amoignon.
 \newblock Mesh deformation using radial basis functions for gradient-based
@@ -64,6 +70,13 @@ S.~Jakobsson and O.~Amoignon.
 X.~Jiao and D.~Wang.
 \newblock Reconstructing high-order surfaces for meshing.
 \newblock {\em Engineering with computers}, 28:361--373, 2012.
+
+\bibitem{sr:diffquant}
+X.~Jiao and H.~Zha.
+\newblock Consistent computation of first- and second-order differential
+  quantities for surface meshes.
+\newblock In {\em ACM Solid and Physical Modelling Symposium}, pages 159--170,
+  2008.
 
 \bibitem{qualknupp}
 P.M. Knupp.

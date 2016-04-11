@@ -10,44 +10,44 @@ A level-1 auxiliary file: Chapter-5/ch-conclusion.aux
 The style file: plain.bst
 A level-1 auxiliary file: Appendix-A/Appendix-A.aux
 Database file #1: AdityaKashi-thesis.bib
-You've used 21 entries,
+You've used 23 entries,
             2118 wiz_defined-function locations,
-            628 strings with 7350 characters,
-and the built_in function-call counts, 6683 in all, are:
-= -- 657
-> -- 298
-< -- 2
-+ -- 119
-- -- 96
-* -- 460
-:= -- 1134
-add.period$ -- 63
-call.type$ -- 21
-change.case$ -- 109
+            638 strings with 7693 characters,
+and the built_in function-call counts, 7437 in all, are:
+= -- 729
+> -- 329
+< -- 3
++ -- 131
+- -- 106
+* -- 502
+:= -- 1246
+add.period$ -- 69
+call.type$ -- 23
+change.case$ -- 120
 chr.to.int$ -- 0
-cite$ -- 21
-duplicate$ -- 237
-empty$ -- 540
-format.name$ -- 96
-if$ -- 1390
+cite$ -- 23
+duplicate$ -- 274
+empty$ -- 609
+format.name$ -- 106
+if$ -- 1560
 int.to.chr$ -- 0
-int.to.str$ -- 21
-missing$ -- 21
-newline$ -- 108
-num.names$ -- 42
-pop$ -- 100
+int.to.str$ -- 23
+missing$ -- 23
+newline$ -- 118
+num.names$ -- 46
+pop$ -- 118
 preamble$ -- 1
-purify$ -- 90
+purify$ -- 99
 quote$ -- 0
-skip$ -- 166
+skip$ -- 194
 stack$ -- 0
-substring$ -- 462
-swap$ -- 32
-text.length$ -- 2
+substring$ -- 504
+swap$ -- 45
+text.length$ -- 3
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 80
+type$ -- 88
 warning$ -- 0
-while$ -- 64
-width$ -- 23
-write$ -- 228
+while$ -- 71
+width$ -- 25
+write$ -- 249
