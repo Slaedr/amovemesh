@@ -1,7 +1,6 @@
 var searchData=
 [
   ['umesh',['UMesh',['../classamc_1_1UMesh.html',1,'amc']]],
-  ['umesh2d',['UMesh2d',['../classacfd_1_1UMesh2d.html',1,'acfd']]],
   ['umesh2d',['UMesh2d',['../classamc_1_1UMesh2d.html',1,'amc']]],
   ['umesh2dh',['UMesh2dh',['../classamc_1_1UMesh2dh.html',1,'amc']]],
   ['utrimesh',['UTriMesh',['../classacfd_1_1UTriMesh.html',1,'acfd']]],

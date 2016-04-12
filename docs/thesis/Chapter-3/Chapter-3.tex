@@ -46,12 +46,38 @@ where $D_{jk} := \frac{\partial^{j+k} h}{\partial^j u \, \partial^k v}$,
 Suppose we consider $m$ linear mesh vertices around a vertex for the reconstruction at the latter vertex, we obtain a system of equations to solve for the derivatives $D_{jk}$. Thus we have an $m \times n$ system with $n:= \frac12 (d+1)(d+2)$, i.e.,
 \begin{equation}
 \sum_{i=0}^d \sum_{j\geq 0,k\geq 0}^{j+k \leq d} \frac{u_p^j v_p^k}{j!k!} D_{jk} \approx h_p
+\label{eq:sr_taylorequation}
 \end{equation}
 for $p \in \{1,2,...,m \}$. If $m \ge n$, this system can be solved in a least-squares sense. We can write the system of equations as
 \begin{equation}
 \bld{V} \bld{D} = \bld{f}
 \end{equation}
-where $\bld{V} (m\times n)$ is the generalized Vandermonde matrix for 2D Taylor polynomials, $\bld{D}$ is the $n$-vector of derivatives of the height function at the local origin, and $\bld{f}$ is the $m$-vector of heights of other points in the reconstruction stencil.
+where $\bld{V} (m\times n)$ is the generalized Vandermonde matrix for 2D Taylor polynomials, $\bld{D}$ is the $n$-vector of derivatives of the height function at the local origin, and $\bld{f}$ is the $m$-vector of heights of points in the reconstruction stencil. The system is solved by a weighted least-squares method. This is done for each vertex on the boundary.
+
+For each vertex, the reconstruction stencil is selected according to the degree of polynomial surface required. It is claimed \cite{sr:diffquant} that $m$ should be from 1.5 to 2 times $n$. A general method for selecting reconstruction stencils for triangular and rectangular surface meshes is given by Jiao and Wang \cite{sr:jiaowang}. Here, we are mainly concerned with obtaining good P2 discretizations, for which the stencil is shown in figure \ref{f:stencil}. All vertices shown are used in reconstructing the surface at the center vertex.
+
+\begin{figure}
+	\centering
+	\includegraphics[scale=1.0]{stencil}
+	\caption{Stencil for reconstruction of P2 surface; from \cite{sr:jiaowang}}
+	\label{f:stencil}
+\end{figure}
+
+The weighted least-squares problem is expressed as
+\begin{equation}
+\min_{\bld{D}} \lVert \bld{W}(\bld{V}\bld{D}-\bld{f})\rVert_2
+\label{eq:sr_wls}
+\end{equation}
+where $\bld{W}$ is an $m \times m$ diagonal weighting matrix. The weight for the $i$th point in the stencil is taken as (see \cite{sr:diffquant})
+\begin{eqnarray}
+w_i &=& \frac{\gamma_i^+}{(\sqrt{\lVert\bld{u}_i\rVert^2 + \epsilon})^{d/2}} \, , \text{where} \\
+\gamma_i^+ &=& \max\{0,\hat{\bld{n}_i}^ T\hat{\bld{n}_0}\}, \\
+\epsilon &=& \frac{1}{100m} \sum_{i=1}^m \lVert\bld{u}_i \rVert^2.
+\label{eq:sr_weight}
+\end{eqnarray}
+In the above equations, $\bld{u}_i$ and $\hat{\bld{n}_i}$ denote the position of and normal at the $i$ vertex in the reconstruction stencil, respectively, while $\hat{\bld{n}_0}$ denotes the normal at the vertex for which the local reconstruction is being computed.
+
+The least-squares problem is solved by a QR factorization method using Householder transformations. Once the coefficients $\bld{D}$ are found for each point, we can move the high-order nodes accordingly.
 
 \subsection{Interior mesh movement}
 

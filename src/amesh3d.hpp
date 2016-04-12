@@ -94,7 +94,7 @@ private:
 	amat::Matrix<amc_int> intbedge;		/**< boundary edge - boundary face connectivity. Ordering of edges is same as that of [edgepo](@ref edgepo). 
 											NOTE: The edge may not always point from smaller index cell to larger index cell! 
 											The edge direction may not be consistent. */
-	//amat::Matrix<amc_int> bfbedge;		///< Stores the intgedge edge index of the edges that make up the b-face, for each b-face
+	amat::Matrix<amc_int> bfaceHostCell;		///< Stores the host element number for each bface, computed (inefficiently) by findBfaceHostCell()
 
 public:
 
@@ -180,7 +180,7 @@ public:
 	/// Reads mesh from Gmsh 2 format file. For hexahedral quadratic meshes, mapping has to be applied for node-ordering.
 	void readGmsh2(std::string mfile, int dimensions);
 
-	/// Reads rDGFLO domn format containing only interconnectivity matrix and point coordinates
+	/// Reads a special rDGFLO domn format containing only interconnectivity matrix and point coordinates
 	/** Computes boundary face data (bface) using intfac, for which esup, esuel and intfac are computed.
 	 * An example of the format is given below.
 	 *
@@ -202,8 +202,43 @@ public:
 	/// Changes node ordering. Use only for hex mesh!!
 	void mapinpoelXiaodongToGmsh();
 
-	/** Writes mesh to Gmsh2 file format. */
+	/// lpofal contains, on output, local node numbers corresponding to nodes of the local faces of an element
+	void findLocalFaceLocalPointConnectivityLinearElements(amat::Matrix<int>& lpofal);
+	
+	/// Finds the host element for each boundary face and stores in bfaceHostCell
+	void findBfaceHostCell();
+
+	/// Writes mesh to Gmsh2 file format
 	void writeGmsh2(std::string mfile);
+
+	/// Writes mesh to regular rDGFlo format domn file
+	/** \param[in] mfile is the name of the file to be created
+	 * \param[in] farfieldnumber contains the physical face numbers for farfield boundaries.
+	 * \param[in] symmetrynumber contains physical face numbers of symmetry boundaries
+	 * \param[in] wallnumber contains physical face numbers of the adiabatic walls
+	 *
+	 * Note that node-ordering for P2 hexahedra is different; [a mapping](@ref mapinpoelXiaodongToGmsh) needs to be applied.
+	 * The format is given as a Fortran snippet below.
+	 *
+	 * 		write(10,*)'npoin,ntetr,npyra,npris,nhexa,ntria,nquad,time'
+	 * 		write(10,'(7i9,e12.5e2)') npoin,0,0,0,nhexa,0,nquad,0.0  
+	 * 		
+	 * 		write(10,*)'element connectivity'
+	 * 		do i=1,nhexa
+	 * 			write(10,'(i9,27i8)') i,hex(i,1:27)
+	 * 		enddo
+	 * 		
+	 * 		write(10,*)' face connectivity'
+	 * 		do i=1,nquad
+	 * 			write(10,'(15i8)') i,quad(i,10),quad(i,12),0,0,quad(i,11),bfact(i,1:9) ! face-num, boun-marker, farfield(1 or 0), 0,0, host-element, bface points
+	 * 		enddo
+	 *
+	 * 		write(10,*)' coordinates of the nodes'
+	 * 		do i=1,nnode
+	 * 			write(10,'(i8,3e20.10e2)') i,(xyz(i,j),j=1,3)
+	 * 		end do
+	 */
+	void writeDomn(std::string mfile, std::vector<int> farfieldnumber, std::vector<int> symmetrynumber, std::vector<int> wallnumber);
 	
 	/// Computes jacobians for linear elements
 	/** Currently only for tetrahedra

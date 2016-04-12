@@ -14,9 +14,9 @@ var searchData=
   ['linearmetric_5fskewsize',['linearmetric_skewsize',['../classamc_1_1UMesh2d.html#a2f8f53beb2924e6c95573093875ccb34',1,'amc::UMesh2d']]],
   ['linearsystem',['LinearSystem',['../classamc_1_1LinearSystem.html',1,'amc']]],
   ['linelastp1',['LinElastP1',['../classamc_1_1LinElastP1.html',1,'amc']]],
-  ['linelastp2',['LinElastP2',['../classacfd_1_1LinElastP2.html',1,'acfd']]],
   ['linelastp2',['LinElastP2',['../classamc_1_1LinElastP2.html',1,'amc']]],
+  ['linelastp2',['LinElastP2',['../classacfd_1_1LinElastP2.html',1,'acfd']]],
   ['linelastp2',['LinElastP2',['../classacfd_1_1LinElastP2.html#ab04c23e02638a977dfb74251c9f95f66',1,'acfd::LinElastP2']]],
-  ['lpofa',['lpofa',['../classDelaunay3d.html#a30dfd21231e65035cc3ebae293cd9068',1,'Delaunay3d::lpofa()'],['../classamc_1_1Delaunay3d.html#af1d8d9cc2bb171a97838fd3221dbd9db',1,'amc::Delaunay3d::lpofa()'],['../classamc_1_1UMesh.html#a143fd20f9ef84fc14acc31ee1f507e2b',1,'amc::UMesh::lpofa()']]],
+  ['lpofa',['lpofa',['../classDelaunay3d.html#a30dfd21231e65035cc3ebae293cd9068',1,'Delaunay3d::lpofa()'],['../classamc_1_1Delaunay3d.html#af1d8d9cc2bb171a97838fd3221dbd9db',1,'amc::Delaunay3d::lpofa()'],['../classamc_1_1UMesh.html#abc8f910b30985d530081a0097278186c',1,'amc::UMesh::lpofa()']]],
   ['lsolver',['lsolver',['../classamc_1_1RBFmove.html#a6d0a566c7dd9fe7bfe893752c26cd0bb',1,'amc::RBFmove']]]
 ];

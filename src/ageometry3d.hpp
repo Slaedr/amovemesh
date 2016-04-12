@@ -1,4 +1,5 @@
-/** \brief Header for implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing".
+/** \file ageometry3d.hpp
+ * \brief Header for implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing".
  * Other references:
  * Jiao and Zha, "Consistent computation of first- and second-order differential quantities for surface meshes".
  *

@@ -1,3 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classamc_1_1BoundaryReconstruction2d.html" title="Class BoundaryReconstruction2d handles spline reconstruction of multiple parts of the boundary into s..." alt="" coords="6,5,223,32"/>
+<area shape="rect" id="node1" href="$classamc_1_1BoundaryReconstruction.html" title="Abstract class for implementing a surface reconstruction using local Taylor expansion fittings..." alt="" coords="5,45,208,72"/>
+<area shape="rect" id="node3" href="$classamc_1_1FaceCenteredBoundaryReconstruction.html" title="Computes reconstructed surface using WALF with local Taylor polynomials fitted to each face center..." alt="" coords="261,5,462,46"/>
+<area shape="rect" id="node5" href="$classamc_1_1VertexCenteredBoundaryReconstruction.html" title="Implements WALF reconstruction according to Jiao and Wang&#39;s paper, ie, local fittings are calculated ..." alt="" coords="257,70,466,111"/>
 </map>

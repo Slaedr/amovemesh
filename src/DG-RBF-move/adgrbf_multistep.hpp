@@ -11,7 +11,7 @@ July 1, 2015
 #include <alinalg.hpp>
 #endif
 
-#include "abowyerwatson.hpp"
+#include <abowyerwatson.hpp>
 
 using namespace std;
 using namespace amat;

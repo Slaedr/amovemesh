@@ -1,0 +1,6 @@
+<map id="amc::DiscontinuityDetection" name="amc::DiscontinuityDetection">
+<area shape="rect" id="node2" href="$classamc_1_1UMesh.html" title="Data structure and setup for 3D unstructured mesh. " alt="" coords="235,333,333,360"/>
+<area shape="rect" id="node4" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; amc_int \&gt;" alt="" coords="5,96,171,123"/>
+<area shape="rect" id="node8" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; amc_real \&gt;" alt="" coords="196,96,372,123"/>
+<area shape="rect" id="node12" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="396,96,529,123"/>
+</map>

@@ -1,0 +1,16 @@
+-input-mesh
+../../output/curved-mesh-gen/bump3d-fine_curved.msh
+-output-mesh
+../../output/curved-mesh-gen/bump3d-fine_curved.domn
+-number-of-Farfield-markers
+1
+-Farfield-markers
+5
+-number-of-symmetry-markers
+3
+-Symmetry-markers
+32 33 4
+-number-of-wall-markers
+1
+-Wall-markers
+1

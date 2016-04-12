@@ -1,5 +1,5 @@
 /**
-@file aarrray2d.hpp
+@file aarray2d.hpp
 @brief This file defines a class Array2d to store a 2D array in column-major or row-major storage.
 @author Aditya Kashi
 @date November 16, 2015

@@ -6,6 +6,7 @@ var searchData=
   ['chi',['chi',['../classamc_1_1LinElastP2.html#acff79a4aa12ef07bb8659086bb97beef',1,'amc::LinElastP2']]],
   ['coeffs',['coeffs',['../classamc_1_1RBFmove.html#aca0ec335bd0f970d916360741f0d2f6a',1,'amc::RBFmove']]],
   ['col_5find',['col_ind',['../structamat_1_1SMatrixCRS.html#acebb247ac158266915a0e722dcdc3299',1,'amat::SMatrixCRS::col_ind()'],['../classamat_1_1MatrixCRS.html#a19d9f233f26da58e0eb0066bf12dddfe',1,'amat::MatrixCRS::col_ind()']]],
-  ['coords',['coords',['../classamc_1_1UMesh2dh.html#a1057865a09fdb04fa952a82752417121',1,'amc::UMesh2dh::coords()'],['../classamc_1_1Mesh.html#abbbeb1d466ad35abb9ed1a72b7dcdbca',1,'amc::Mesh::coords()']]],
+  ['coords',['coords',['../classamc_1_1UMesh2dh.html#a1057865a09fdb04fa952a82752417121',1,'amc::UMesh2dh::coords()'],['../classamc_1_1Mesh.html#ae014ec50b8a4a474ec6fc52714addcec',1,'amc::Mesh::coords()']]],
+  ['cornerpoint',['cornerPoint',['../classamc_1_1DiscontinuityDetection.html#a1ef308c2267f19b2ad07604255968b41',1,'amc::DiscontinuityDetection']]],
   ['corners',['corners',['../classamc_1_1BoundaryReconstruction2d.html#a96c629b762bd0badd239eb7e618d0382',1,'amc::BoundaryReconstruction2d']]]
 ];

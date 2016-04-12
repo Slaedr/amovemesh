@@ -6,14 +6,15 @@ var searchData=
   ['plist_3c_20face_20_3e',['PList&lt; Face &gt;',['../classPList.html',1,'']]],
   ['plist_3c_20tet_20_3e',['PList&lt; Tet &gt;',['../classPList.html',1,'']]],
   ['plistiterator',['PListIterator',['../classPListIterator.html',1,'']]],
-  ['pnormals',['pnormals',['../classamc_1_1VertexCenteredBoundaryReconstruction.html#aff6d3467225626f00251a7e20a3e1a9c',1,'amc::VertexCenteredBoundaryReconstruction']]],
+  ['pnormals',['pnormals',['../classamc_1_1BoundaryReconstruction.html#ae64f225f0f6aba4364659bd220f3fce5',1,'amc::BoundaryReconstruction']]],
   ['point',['Point',['../classPoint.html',1,'']]],
   ['point2',['Point2',['../structamc_1_1Point2.html',1,'amc']]],
   ['pointjacobi',['pointjacobi',['../namespaceamat.html#aa656601bbd4193d1d21a150dc26d9923',1,'amat']]],
+  ['points',['points',['../classamc_1_1DGRBFrotate.html#ab104ce02962fd2193e2747518e7344c7',1,'amc::DGRBFrotate::points()'],['../classamc_1_1DGRBF2.html#a3a53e1f1c362abde2475ace2d15043e8',1,'amc::DGRBF2::points()']]],
   ['pop_5fback',['pop_back',['../classPList.html#a6caaea636c70191914603021bf3155b0',1,'PList']]],
-  ['preprocess',['preprocess',['../classamc_1_1BoundaryReconstruction2d.html#a6696d8441e1cf29ac9a89398d76731a7',1,'amc::BoundaryReconstruction2d::preprocess()'],['../classamc_1_1VertexCenteredBoundaryReconstruction.html#ad3dbe9c71069006dbe0913fbc0bd01ed',1,'amc::VertexCenteredBoundaryReconstruction::preprocess()'],['../classamc_1_1BoundaryReconstruction2d.html#a6696d8441e1cf29ac9a89398d76731a7',1,'amc::BoundaryReconstruction2d::preprocess()']]],
+  ['preprocess',['preprocess',['../classamc_1_1BoundaryReconstruction2d.html#a6696d8441e1cf29ac9a89398d76731a7',1,'amc::BoundaryReconstruction2d::preprocess()'],['../classamc_1_1VertexCenteredBoundaryReconstruction.html#ad3dbe9c71069006dbe0913fbc0bd01ed',1,'amc::VertexCenteredBoundaryReconstruction::preprocess()'],['../classamc_1_1FaceCenteredBoundaryReconstruction.html#add12c2ff43e56536a9d652df780fd515',1,'amc::FaceCenteredBoundaryReconstruction::preprocess()'],['../classamc_1_1BoundaryReconstruction2d.html#a6696d8441e1cf29ac9a89398d76731a7',1,'amc::BoundaryReconstruction2d::preprocess()']]],
   ['print',['print',['../classPList.html#a4aeabdd7d09c117c5d645475bd054968',1,'PList']]],
-  ['psup',['psup',['../classamc_1_1UMesh2dh.html#aadbfa13d3074bfa0f408988073c3efe5',1,'amc::UMesh2dh::psup()'],['../classamc_1_1UMesh.html#a6c2aad78347ceb8b6ddd0cee6e34b085',1,'amc::UMesh::psup()']]],
+  ['psup',['psup',['../classamc_1_1UMesh2dh.html#aadbfa13d3074bfa0f408988073c3efe5',1,'amc::UMesh2dh::psup()'],['../classamc_1_1UMesh.html#af1e515243ac0e17485a062cdedb139ce',1,'amc::UMesh::psup()']]],
   ['psup_5fp',['psup_p',['../classamc_1_1UMesh2dh.html#aeb224da0fe4b6e9d7a441e1f8c0e1442',1,'amc::UMesh2dh']]],
   ['push_5fback',['push_back',['../classPList.html#a5d4763f866590653359ef2016f865ab9',1,'PList']]]
 ];

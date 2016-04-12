@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
-<p>Includes all array and matrix storage classes.  
+<p>Includes all array and matrix storage classes, as well as linear algebra.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -101,6 +101,12 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamat_1_1Array2d.html">Array2d</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamat_1_1Matrix.html">Matrix</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamat_1_1Matrix_3_01T_00_01ROWMAJOR_01_4.html">Matrix&lt; T, ROWMAJOR &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of the <a class="el" href="classamat_1_1Matrix.html">Matrix</a> class to row-major storage.  <a href="classamat_1_1Matrix_3_01T_00_01ROWMAJOR_01_4.html#details">More...</a><br/></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamat_1_1Matrix_3_01T_00_01COLMAJOR_01_4.html">Matrix&lt; T, COLMAJOR &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specialization of the <a class="el" href="classamat_1_1Matrix.html">Matrix</a> class to column-major storage.  <a href="classamat_1_1Matrix_3_01T_00_01COLMAJOR_01_4.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structamat_1_1SMatrixCRS.html">SMatrixCRS</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Structure for matrix in compressed row storage.  <a href="structamat_1_1SMatrixCRS.html#details">More...</a><br/></td></tr>
@@ -150,7 +156,7 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a69de3d7988c2bbcda9dda4280c6a8ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classMatrix.html" title="Stores a dense matrix. ">Matrix</a> storage type. Note that its usage is deprecated. <br/></td></tr>
 <tr class="separator:a69de3d7988c2bbcda9dda4280c6a8ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a69de3d7988c2bbcda9dda4280c6a8ea1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><b>MStype</b> { <br/>
+<tr class="memitem:a69de3d7988c2bbcda9dda4280c6a8ea1"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceamat.html#a69de3d7988c2bbcda9dda4280c6a8ea1">MStype</a> { <br/>
 &#160;&#160;<b>ROWMAJOR</b>, 
 <b>COLMAJOR</b>, 
 <b>ROWMAJOR</b>, 
@@ -160,6 +166,7 @@ Enumerations</h2></td></tr>
 <b>COLMAJOR</b>
 <br/>
  }</td></tr>
+<tr class="memdesc:a69de3d7988c2bbcda9dda4280c6a8ea1"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classMatrix.html" title="Stores a dense matrix. ">Matrix</a> storage type. Note that its usage is deprecated. <br/></td></tr>
 <tr class="separator:a69de3d7988c2bbcda9dda4280c6a8ea1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -207,9 +214,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>precon_lusgs</b> (<a 
 <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>sparsePCG</b> (<a class="el" href="classamat_1_1MatrixCRS.html">SpMatrix</a> *A, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; b, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; xold, std::string precon, double tol, int maxiter)</td></tr>
 <tr class="separator:accf9350212e0273c725820642db66948"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f4b66164e8f1022124ec774736d881e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceamat.html#a2f4b66164e8f1022124ec774736d881e">sparse_bicgstab</a> (const <a class="el" href="classamat_1_1MatrixCRS.html">SpMatrix</a> *A, const <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; &amp;b, <a class="el" href="classamat_1_1Matrix.html">Matrix</a>&lt; double &gt; &amp;xold, double tol, int maxiter)</td></tr>
+<tr class="memdesc:a2f4b66164e8f1022124ec774736d881e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst.  <a href="#a2f4b66164e8f1022124ec774736d881e">More...</a><br/></td></tr>
 <tr class="separator:a2f4b66164e8f1022124ec774736d881e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac9b2e4e6aef5d6c51338e018807d078a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceamat.html#ac9b2e4e6aef5d6c51338e018807d078a">leastSquares_NE</a> (<a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; amc_real &gt; &amp;A, <a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; amc_real &gt; &amp;b, <a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; amc_real &gt; &amp;x)</td></tr>
-<tr class="memdesc:ac9b2e4e6aef5d6c51338e018807d078a"><td class="mdescLeft">&#160;</td><td class="mdescRight">solves the least squares problem (finds the minimum point x) <img class="formulaInl" alt="$ \min(||Ax - b||_2) $" src="form_6.png"/> by solving the normal equations  <a href="#ac9b2e4e6aef5d6c51338e018807d078a">More...</a><br/></td></tr>
+<tr class="memdesc:ac9b2e4e6aef5d6c51338e018807d078a"><td class="mdescLeft">&#160;</td><td class="mdescRight">solves the least squares problem (finds the minimum point x) <img class="formulaInl" alt="$ \min(||Ax - b||_2) $" src="form_4.png"/> by solving the normal equations  <a href="#ac9b2e4e6aef5d6c51338e018807d078a">More...</a><br/></td></tr>
 <tr class="separator:ac9b2e4e6aef5d6c51338e018807d078a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55a517b41b7c6c6f3ba4c1d25b256854"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceamat.html#a55a517b41b7c6c6f3ba4c1d25b256854">qr</a> (<a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; amc_real &gt; &amp;A, std::vector&lt; amc_real &gt; *v)</td></tr>
 <tr class="memdesc:a55a517b41b7c6c6f3ba4c1d25b256854"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the QR decomposition of a dense matrix by Householder algorithm given in Trefethen and Bau, Numerical Linear Algebra.  <a href="#a55a517b41b7c6c6f3ba4c1d25b256854">More...</a><br/></td></tr>
@@ -239,7 +247,7 @@ const int&#160;</td><td class="memItemRight" valign="bottom"><b>WIDTH</b> = 10</
 <tr class="separator:a850fa6097ec17bec410d4dd71063c21c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Includes all array and matrix storage classes. </p>
+<div class="textblock"><p>Includes all array and matrix storage classes, as well as linear algebra. </p>
 </div><h2 class="groupheader">Function Documentation</h2>
 <a class="anchor" id="aacb549c615c652c38ddbdfb1b74f0ebc"></a>
 <div class="memitem">
@@ -416,7 +424,7 @@ template&lt;typename T &gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>solves the least squares problem (finds the minimum point x) <img class="formulaInl" alt="$ \min(||Ax - b||_2) $" src="form_6.png"/> by solving the normal equations </p>
+<p>solves the least squares problem (finds the minimum point x) <img class="formulaInl" alt="$ \min(||Ax - b||_2) $" src="form_4.png"/> by solving the normal equations </p>
 <p>The columns of the LHS matrix A are first scaled by the respective column-vector norms, so as to improve the condition number. </p>
 
 </div>
@@ -604,9 +612,12 @@ template&lt;typename T &gt; </div>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst. NOTE: The initial guess vector xold is modified by this function.</p>
+
+<p>Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst. </p>
+<p>Jacobi preconditioning is used. NOTE: The initial guess vector xold is modified by this function.</p>
 <pre class="fragment">Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst.
-</pre><p> NOTE: The initial guess vector xold is modified by this function. </p>
+</pre><p> NOTE: The initial guess vector xold is modified by this function.</p>
+<p>Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst. NOTE: The initial guess vector xold is modified by this function. </p>
 
 </div>
 </div>

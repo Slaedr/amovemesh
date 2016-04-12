@@ -6,20 +6,20 @@ project (amocurve)
 set (CMAKE_C_COMPILER $ENV{GC})
 set (CMAKE_CXX_COMPILER $ENV{GPP})
 
-# un-comment to compile with OpenMP
+# to compile with OpenMP
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
-# un-comment to compile with Eigen 3
+# to compile with Eigen 3
 set (EIGEN_DIR ../eigen-3.2.8) 
 
 # set compile options
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
 
-# set search path(s) for pastix library here
-find_library(PASTIX_LIB NAMES pastix PATHS /usr/lib64 /usr/lib/)
+# set search path(s) for pastix library here - normally no need of this
+#find_library(PASTIX_LIB NAMES pastix PATHS /usr/lib64 /usr/lib/)
 
 # PastiX needs a single-threaded BLAS, so set search path(s) for that here
-find_library(BLAS_LIB NAMES blas PATHS /usr/lib64 /usr/lib/)
+#find_library(BLAS_LIB NAMES blas PATHS /usr/lib64 /usr/lib/)
 
 # ---------------------------------------------------------------------------- #
 
@@ -40,18 +40,18 @@ if (DEFINED EIGEN_DIR)
 	include_directories (${EIGEN_DIR})
 endif()
 
-if (DEFINED PASTIX_LIB AND DEFINED BLAS_LIB)
-	message(STATUS "Found PastiX at ${PASTIX_LIB} and BLAS at ${BLAS_LIB}")
-	add_definitions(-DPASTIX_LIBRARY=1)
-else()
-	if(NOT DEFINED BLAS_LIB)
-		message(WARNING "BLAS library not found!")
-	endif()
-	if(NOT DEFINED PASTIX_LIB)
-		message(WARNING "PastiX library not found! ")
-	endif()
-	message(WARNING "Compiling without PastiX solver.")
-endif()
+# if (DEFINED PASTIX_LIB AND DEFINED BLAS_LIB)
+# 	message(STATUS "Found PastiX at ${PASTIX_LIB} and BLAS at ${BLAS_LIB}")
+# 	add_definitions(-DPASTIX_LIBRARY=1)
+# else()
+# 	if(NOT DEFINED BLAS_LIB)
+# 		message(STATUS "BLAS library not found!")
+# 	endif()
+# 	if(NOT DEFINED PASTIX_LIB)
+# 		message(STATUS "PastiX library not found! ")
+# 	endif()
+# 	message(STATUS "Compiling without PastiX solver.")
+# endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 

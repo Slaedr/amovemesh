@@ -2,7 +2,7 @@
 #include <amesh2d.hpp>
 #endif
 
-#include "arbf.hpp"
+#include <arbf.hpp>
 
 using namespace std;
 using namespace amat;

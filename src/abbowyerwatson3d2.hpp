@@ -1,9 +1,9 @@
-/** @file abowyerwatson3d2.hpp
+/** @file abbowyerwatson3d2.hpp
  * @brief This file contains a class that implements the Bowyer-Watson algorithm for Delaunay tesselation in 3D.
  * @author Aditya Kashi
  * @date November 3, 2015
  *
- * This version uses PList to store face and element lists, instead of using std::vector.
+ * This version uses lists to store face and element lists, instead of using std::vector.
 */
 
 /**

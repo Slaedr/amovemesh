@@ -598,8 +598,128 @@ void UMesh::mapinpoelXiaodongToGmsh()
 		m_inpoel(ielem,26) = inpoel(ielem,26);
 	}
 }
+	
+/*void UMesh::computeIntfacNumberFromBfaceNumber()
+{
+	intfacFromBface.resize(nface);
+	amc_int iface, jface;
+	int inofa, jnofa;
 
-/** Writes mesh to Gmsh2 file format. */
+	for(iface = 0; iface < nface; iface++)
+	{
+		for(jface = 0; jface < nbface; jface++)
+		{
+			std::vector<bool> foundi(nnofa,false);
+
+			for(inofa = 0; inofa < nnofa; inofa++)
+				for(jnofa = 0; jnofa < nnofa; jnofa++)
+					if(intfac.get(jface,jnofa+2) == bface.get(iface,inofa))
+						foundi[inofa] = true;
+
+			bool found = true;
+			for(inofa = 0; inofa < nnofa; inofa++)
+				if(foundi[inofa] == false)
+					found = false;
+
+			if(found)
+				intfacFromBface[iface] = jface;
+		}
+	}
+}*/
+
+void UMesh::findLocalFaceLocalPointConnectivityLinearElements(amat::Matrix<int>& lpofal)
+{
+	if(nnode == 27 || nnode == 8)
+	{
+		lpofal(0,0) = 0; lpofal(1,0) = 0;
+		lpofal(0,1) = 1; lpofal(1,1) = 1;
+		lpofal(0,2) = 2; lpofal(1,2) = 5;
+		lpofal(0,3) = 3; lpofal(1,3) = 4;
+
+		lpofal(2,0) = 0; lpofal(3,0) = 6;
+		lpofal(2,1) = 4; lpofal(3,1) = 5;
+		lpofal(2,2) = 7; lpofal(3,2) = 1;
+		lpofal(2,3) = 3; lpofal(3,3) = 2;
+
+		lpofal(4,0) = 6; lpofal(5,0) = 6;
+		lpofal(4,1) = 2; lpofal(5,1) = 7;
+		lpofal(4,2) = 3; lpofal(5,2) = 4;
+		lpofal(4,3) = 7; lpofal(5,3) = 5;
+	}
+	else if(nnode == 10 || nnode == 4)
+	{
+		for(int ifael = 0; ifael < 4; ifael++)
+			for(int i = 0; i < 3; i++)
+				lpofal(ifael,i) = (ifael+i+1)%4;
+	}
+}
+
+void UMesh::findBfaceHostCell()
+{
+	bfaceHostCell.setup(nface,1);
+	amc_int iface, ielem;
+	int inofa, inode, ifael, ncoun, i;
+
+	amat::Matrix<int> lpofal;
+	if(nnode == 8 || nnode == 27)
+		lpofal.setup(nfael,4);
+	else if(nnode == 4 || nnode == 10)
+		lpofal.setup(nfael,3);
+	findLocalFaceLocalPointConnectivityLinearElements(lpofal);
+
+	for(iface = 0; iface < nface; iface++)
+	{
+		//std::cout << " " << iface << std::flush;
+		bool set = false;
+		for(ielem = 0; ielem < nelem; ielem++)
+		{
+			for(ifael = 0; ifael < nfael; ifael++)
+			{
+				ncoun = 0;
+				// now for each bface node, check if it matches any node of this fael of this element
+				for(inofa = 0; inofa < nnofa; inofa++)
+				{
+					if(nnode == 8 || nnode == 27)
+						for(i = 0; i < 4; i++)
+						{
+							if(bface.get(iface,inofa) == inpoel.get(ielem, lpofal.get(ifael,i)) )
+							{
+								ncoun++;
+								break;
+							}
+						}
+					else if(nnode == 4 || nnode == 10)
+						for(i = 0; i < 3; i++)
+						{
+							if(bface.get(iface,inofa) == inpoel.get(ielem, lpofal.get(ifael,i)) )
+							{
+								ncoun++;
+								break;
+							}
+						}
+				}
+				if((nnode == 8 || nnode == 27) && ncoun == 4)
+				{
+					bfaceHostCell(iface) = ielem;
+					set = true;
+					break;
+				}
+				if((nnode == 4 || nnode == 10) && ncoun == 3)
+				{
+					bfaceHostCell(iface) = ielem;
+					set = true;
+					break;
+				}
+			}
+
+			// if element has been found for this face, break from ielem loop
+			if(set) break;
+		}
+	}
+	//std::cout << std::endl;
+}
+
+/* Writes mesh to Gmsh2 file format. */
 void UMesh::writeGmsh2(std::string mfile)
 {
 	std::cout << "UMesh2d: writeGmsh2(): writing mesh to file " << mfile << std::endl;
@@ -666,6 +786,78 @@ void UMesh::writeGmsh2(std::string mfile)
 	outf << "$EndElements\n";
 
 	outf.close();
+}
+
+void UMesh::writeDomn(std::string mfile, std::vector<int> farfieldnumber, std::vector<int> symmetrynumber, std::vector<int> wallnumber)
+{
+	std::cout << "UMesh: writeDomn(): Writing domn file to " << mfile << std::endl;
+	m_inpoel.setup(nelem,nnode);
+	
+	if(nnode == 27)
+		mapinpoelXiaodongToGmsh();
+	else
+		m_inpoel = inpoel;
+
+	std::ofstream fout(mfile);
+	fout << "npoin ntetr npyra npris nhexa ntria nquad time\n";
+	if(nnode == 8 || nnode == 27)
+		fout << npoin << " 0 0 0 " << nelem << " 0 " << nface << " 0.0\n";
+	else if(nnode == 6 || nnode == 10)
+		fout << npoin << " " << nelem << " 0 0 0 " << nface << " 0.0\n";
+
+	fout << "element connectivity\n";
+	for(int ielem = 0; ielem < nelem; ielem++)
+	{
+		fout << ielem+1;
+		for(int inode = 0; inode < nnode; inode++)
+			fout << ' ' << m_inpoel.get(ielem,inode)+1;
+		fout << '\n';
+	}
+
+	std::cout << "UMesh: writeDomn: finding bface host cells..." << std::flush;
+	findBfaceHostCell();
+	std::cout << "Done." << std::endl;
+
+	fout << "face connectivity\n";
+	int marker, ffmarker;
+	for(int iface = 0; iface < nface; iface++)
+	{
+		for(int inum = 0; inum < farfieldnumber.size(); inum++)	
+			if(bface.get(iface,nnofa) == farfieldnumber[inum])
+			{
+				marker = 4;
+				ffmarker = 1;
+			}
+		for(int inum = 0; inum < symmetrynumber.size(); inum++)
+			if(bface.get(iface,nnofa) == symmetrynumber[inum])
+			{
+				marker = 3;
+				ffmarker = 0;
+			}
+		for(int inum = 0; inum < wallnumber.size(); inum++)
+			if(bface.get(iface,nnofa) == wallnumber[inum])
+			{
+				marker = 0;
+				ffmarker = 0;
+			}
+
+		fout << iface+1 << " " << marker << " " << ffmarker;
+		fout << " 0 0 " << bfaceHostCell.get(iface)+1 << " ";
+		for(int inofa = 0; inofa < nnofa; inofa++)
+			fout << " " << bface.get(iface,inofa)+1;
+		fout << '\n';
+	}
+
+	fout << "coordinates of nodes\n";
+	fout << std::setprecision(MESHDATA_DOUBLE_PRECISION);
+	for(int ipoin = 0; ipoin < npoin; ipoin++)
+	{
+		fout << ipoin+1;
+		for(int idim = 0; idim < ndim; idim++)
+			fout << " " << coords.get(ipoin,idim);
+		fout << '\n';
+	}
+	fout.close();
 }
 
 /// Computes jacobians for linear elements

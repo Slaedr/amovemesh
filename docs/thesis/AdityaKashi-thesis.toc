@@ -15,13 +15,13 @@
 \contentsline {section}{\numberline {3.2}Method}{12}
 \contentsline {subsection}{\numberline {3.2.1}Spline reconstruction for boundaries of 2D meshes}{12}
 \contentsline {subsection}{\numberline {3.2.2}Surface reconstruction in the general case}{13}
-\contentsline {subsection}{\numberline {3.2.3}Interior mesh movement}{14}
-\contentsline {chapter}{\numberline {4}Results}{15}
-\contentsline {section}{\numberline {4.1}Mesh movement}{15}
-\contentsline {section}{\numberline {4.2}Generation of curved meshes}{18}
-\contentsline {chapter}{\numberline {5}Conclusion}{22}
-\contentsline {chapter}{References}{23}
-\contentsline {chapter}{Appendices}{26}
+\contentsline {subsection}{\numberline {3.2.3}Interior mesh movement}{15}
+\contentsline {chapter}{\numberline {4}Results}{16}
+\contentsline {section}{\numberline {4.1}Mesh movement}{16}
+\contentsline {section}{\numberline {4.2}Generation of curved meshes}{19}
+\contentsline {chapter}{\numberline {5}Conclusion}{23}
+\contentsline {chapter}{References}{24}
+\contentsline {chapter}{Appendices}{27}
  \renewcommand {\cftchappresnum }{Appendix } \renewcommand {\cftchapnumwidth }{\appendixwidth } \renewcommand {\cftchapfont }{\cftsecfont } \setlength {\cftbeforechapskip }{\cftbeforesecskip } \setlength {\cftchapindent }{\cftsecindent } \renewcommand {\cftchappagefont }{\cftchapfont } \setlength {\cftsecindent }{\cftsubsecindent } \addtolength {\cftsubsecindent }{\cftsecnumwidth } \setcounter {tocdepth}{\c@ncsu@appendixtocdepth } 
-\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{27}
-\contentsline {chapter}{\numberline {B}Spline reconstruction}{28}
+\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{28}
+\contentsline {chapter}{\numberline {B}Spline reconstruction}{29}

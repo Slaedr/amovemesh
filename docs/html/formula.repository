@@ -1,7 +1,7 @@
-\form#0:\[ \mathbf{O} = \frac{|\mathbf{a}^2(\mathbf{b}\times \mathbf{c}) + \mathbf{b}^2(\mathbf{c}\times \mathbf{a}) + \mathbf{c}^2(\mathbf{a}\times \mathbf{b})|}{12 V} \]
-\form#1:$ R = |\mathbf{O}|$
-\form#2:$ l^2 $
-\form#3:$ \mathbf{u} \cdot \mathbf{n} = 0 $
-\form#4:$ \mathbf{u} $
-\form#5:$ \mathbf{v} = \mathbf{n} \times \mathbf{u} / ||\mathbf{n} \times \mathbf{u}|| $
-\form#6:$ \min(||Ax - b||_2) $
+\form#0:$ l^2 $
+\form#1:$ \mathbf{u} \cdot \mathbf{n} = 0 $
+\form#2:$ \mathbf{u} $
+\form#3:$ \mathbf{v} = \mathbf{n} \times \mathbf{u} / ||\mathbf{n} \times \mathbf{u}|| $
+\form#4:$ \min(||Ax - b||_2) $
+\form#5:\[ \mathbf{O} = \frac{|\mathbf{a}^2(\mathbf{b}\times \mathbf{c}) + \mathbf{b}^2(\mathbf{c}\times \mathbf{a}) + \mathbf{c}^2(\mathbf{a}\times \mathbf{b})|}{12 V} \]
+\form#6:$ R = |\mathbf{O}|$

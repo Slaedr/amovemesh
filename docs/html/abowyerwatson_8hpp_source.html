@@ -233,7 +233,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            <span class="comment">//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];</span></div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="preprocessor">            #if DEBUGBW==1</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="preprocessor">            #if DEBUG==1</span></div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(fabs(l3) &lt; tol) std::cout &lt;&lt; <span class="stringliteral">&quot;Delaunay2D:   Degenerate case (type 1) l3!!\n&quot;</span>;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="preprocessor">            #endif</span></div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(l3/super.D &lt; 0)</div>
@@ -244,7 +244,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="comment">//p1 = elems[ielem].p[1]; p2 = elems[ielem].p[2];</span></div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">            #if DEBUGBW==1</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">            #if DEBUG==1</span></div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(fabs(l1) &lt; tol) std::cout &lt;&lt; <span class="stringliteral">&quot;Delaunay2D:   Degenerate case (type 1) l1!!\n&quot;</span>;</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor">            #endif</span></div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(l1/super.D &lt; 0)</div>
@@ -254,7 +254,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            }</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            l2 = xx*(nodes[super.p[2]].y - nodes[super.p[0]].y) - yy*(nodes[super.p[2]].x - nodes[super.p[0]].x) + nodes[super.p[2]].x*nodes[super.p[0]].y - nodes[super.p[0]].x*nodes[super.p[2]].y;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">            #if DEBUGBW==1</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">            #if DEBUG==1</span></div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(fabs(l2) &lt; tol) std::cout &lt;&lt; <span class="stringliteral">&quot;Delaunay2D:   Degenerate case (type 1) l2!!\n&quot;</span>;</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">            #endif</span></div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(l2/super.D &lt; 0)</div>
@@ -350,7 +350,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                <span class="comment">//calculate distance between circumcentre and the point</span></div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                dist = (points(ipoin,0) - elems[curelem].centre.x)*(points(ipoin,0) - elems[curelem].centre.x) + (points(ipoin,1) - elems[curelem].centre.y)*(points(ipoin,1) - elems[curelem].centre.y);</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">                #if DEBUGBW==1</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="preprocessor">                #if DEBUG==1</span></div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">if</span>(fabs(dist - elems[curelem].radius*elems[curelem].radius) &lt; tol) std::cout &lt;&lt; <span class="stringliteral">&quot;Delaunay2D: Degenerate case (type 2)!!\n&quot;</span>;</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="preprocessor">                #endif</span></div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="preprocessor"></span>                <span class="keywordflow">if</span>(dist &lt; elems[curelem].radius*elems[curelem].radius)      <span class="comment">// if point lies inside circumcircle, ie, Delaunay criterion is violated</span></div>
@@ -677,7 +677,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;</div>
 <div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;            <span class="comment">//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];</span></div>
 <div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;            l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;<span class="preprocessor">            #if DEBUGBW==1</span></div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;<span class="preprocessor">            #if DEBUG==1</span></div>
 <div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(fabs(l3) &lt; tol) std::cout &lt;&lt; <span class="stringliteral">&quot;Delaunay2D:   Degenerate case (type 1) l3!!\n&quot;</span>;</div>
 <div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;<span class="preprocessor">            #endif</span></div>
 <div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(l3/super.D &lt; 0)</div>
@@ -687,7 +687,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;            }</div>
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;</div>
 <div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;            l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;<span class="preprocessor">            #if DEBUGBW==1</span></div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;<span class="preprocessor">            #if DEBUG==1</span></div>
 <div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(fabs(l1) &lt; tol) std::cout &lt;&lt; <span class="stringliteral">&quot;Delaunay2D:   Degenerate case (type 1) l1!!\n&quot;</span>;</div>
 <div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;<span class="preprocessor">            #endif</span></div>
 <div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(l1/super.D &lt; 0)</div>
@@ -697,7 +697,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;            }</div>
 <div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;</div>
 <div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;            l2 = xx*(nodes[super.p[2]].y - nodes[super.p[0]].y) - yy*(nodes[super.p[2]].x - nodes[super.p[0]].x) + nodes[super.p[2]].x*nodes[super.p[0]].y - nodes[super.p[0]].x*nodes[super.p[2]].y;</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;<span class="preprocessor">            #if DEBUGBW==1</span></div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;<span class="preprocessor">            #if DEBUG==1</span></div>
 <div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(fabs(l2) &lt; tol) std::cout &lt;&lt; <span class="stringliteral">&quot;Delaunay2D:   Degenerate case (type 1) l2!!\n&quot;</span>;</div>
 <div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;<span class="preprocessor">            #endif</span></div>
 <div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">if</span>(l2/super.D &lt; 0)</div>
