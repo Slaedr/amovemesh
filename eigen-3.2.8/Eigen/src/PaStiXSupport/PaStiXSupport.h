@@ -70,7 +70,8 @@ namespace internal
     d_pastix(pastix_data, pastix_comm, n, ptr, idx, vals, perm, invp, x, nbrhs, iparm, dparm); 
   }
   
-  void eigen_pastix(pastix_data_t **pastix_data, int pastix_comm, int n, int *ptr, int *idx, std::complex<float> *vals, int *perm, int * invp, std::complex<float> *x, int nbrhs, int *iparm, double *dparm)
+  // commented out by Aditya Kashi
+  /*void eigen_pastix(pastix_data_t **pastix_data, int pastix_comm, int n, int *ptr, int *idx, std::complex<float> *vals, int *perm, int * invp, std::complex<float> *x, int nbrhs, int *iparm, double *dparm)
   {
     if (n == 0) { ptr = NULL; idx = NULL; vals = NULL; }
     if (nbrhs == 0) {x = NULL; nbrhs=1;}
@@ -82,7 +83,7 @@ namespace internal
     if (n == 0) { ptr = NULL; idx = NULL; vals = NULL; }
     if (nbrhs == 0) {x = NULL; nbrhs=1;}
     z_pastix(pastix_data, pastix_comm, n, ptr, idx, reinterpret_cast<DCOMPLEX*>(vals), perm, invp, reinterpret_cast<DCOMPLEX*>(x), nbrhs, iparm, dparm); 
-  }
+  }*/
 
   // Convert the matrix  to Fortran-style Numbering
   template <typename MatrixType>

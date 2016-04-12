@@ -15,6 +15,15 @@ set (EIGEN_DIR ../eigen-3.2.8)
 # set compile options
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
 
+# set search path(s) for pastix library here
+find_library(PASTIX_LIB NAMES pastix PATHS /usr/lib64 /usr/lib/)
+
+# PastiX needs a single-threaded BLAS, so set search path(s) for that here
+find_library(BLAS_LIB NAMES blas PATHS /usr/lib64 /usr/lib/)
+
+# ---------------------------------------------------------------------------- #
+
+# flags and stuff
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -DDEBUG=1")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -UDEBUG")
@@ -31,6 +40,19 @@ if (DEFINED EIGEN_DIR)
 	include_directories (${EIGEN_DIR})
 endif()
 
+if (DEFINED PASTIX_LIB AND DEFINED BLAS_LIB)
+	message(STATUS "Found PastiX at ${PASTIX_LIB} and BLAS at ${BLAS_LIB}")
+	add_definitions(-DPASTIX_LIBRARY=1)
+else()
+	if(NOT DEFINED BLAS_LIB)
+		message(WARNING "BLAS library not found!")
+	endif()
+	if(NOT DEFINED PASTIX_LIB)
+		message(WARNING "PastiX library not found! ")
+	endif()
+	message(WARNING "Compiling without PastiX solver.")
+endif()
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # libraries to be compiled
@@ -40,6 +62,9 @@ target_link_libraries(amesh3d amatrix2 adatastructures)
 
 add_library(alinalg alinalg.cpp)
 target_link_libraries(alinalg amatrix2)
+if(DEFINED PASTIX_LIB)
+	target_link_libraries(alinalg ${PASTIX_LIB} ${BLAS_LIB})
+endif()
 
 add_library(ageometry3d ageometry3d.cpp)
 target_link_libraries(ageometry3d alinalg amesh3d amatrix2 adatastructures)
@@ -60,5 +85,5 @@ add_library(adatastructures adatastructures.cpp)
 # for the final executable(s)
 add_subdirectory(curved-mesh-gen-splines)
 add_subdirectory(curved-mesh-gen-cad)
-add_subdirectory(curved-mesh-gen-simple)
+add_subdirectory(bouncurve)
 add_subdirectory(utilities)

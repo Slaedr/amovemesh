@@ -1,12 +1,21 @@
 #include "alinalg.hpp"
 
 #ifdef EIGEN_LIBRARY
+
 #ifndef EIGEN_SPARSE_MODULE_H
 #include <Eigen/Sparse>
 #endif
+
 #ifndef EIGEN_SVD_MODULE_H
 #include <Eigen/SVD>
 #endif
+
+#ifdef PASTIX_LIBRARY
+	#ifndef EIGEN_PASTIXSUPPORT_MODULE_H
+	#include <Eigen/PaStiXSupport>
+	#endif
+#endif
+
 #endif
 
 namespace amat {
@@ -300,6 +309,43 @@ Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b)
 
 	return x;
 }
+
+#ifdef PASTIX_LIBRARY
+void pastix_LDLT(const SpMatrix& A, const Matrix<amc_real>& b, Matrix<amc_real>& x)
+{
+	int nr = A.rows(), nc = A.cols(), nrhs = b.cols();
+	if(b.rows() != nr)
+	{
+		std::cout << "pastix_LDLT: ! Dimension mismatch between LHS and RHS!" << std::endl;
+		return;
+	}
+	
+	std::cout << "pastix_LDLT: Converting sparse matrix and RHS to Eigen formats..." << std::endl;
+	int i,j,k;
+
+	Eigen::Matrix<amc_real, Eigen::Dynamic, Eigen::Dynamic> B(nr,nrhs);
+	for(i = 0; i < nr; i++)
+		for(j = 0; j < nrhs; j++)
+			B(i,j) = b.get(i,j);
+
+	SMatrixCRS<amc_real> lhs;
+	A.get_CRS_matrix(lhs);
+	
+	Eigen::MappedSparseMatrix<amc_real, Eigen::RowMajor> AA(A.rows(), A.cols(), lhs.nnz, lhs.row_ptr, lhs.col_ind, lhs.val);
+
+	std::cout << "pastix_LDLT: Solving via Eigen PastixLDLT..." << std::endl;
+	
+	Eigen::PastixLDLT < Eigen::SparseMatrix<double,Eigen::RowMajor>, Eigen::Upper > eigsolver;
+	eigsolver.analyzePattern(AA);
+	eigsolver.factorize(AA);
+
+	Eigen::Matrix<amc_real, Eigen::Dynamic, Eigen::Dynamic> xx = eigsolver.solve(B);
+	for(i = 0; i < nr; i++)
+		for(j = 0; j < nrhs; j++)
+			x(i,j) = xx(i,j);
+}
+#endif
+
 #endif
 
 /* Re-stores matrix data in the form needed by SuperLU, and calls the SuperLU routine to solve.

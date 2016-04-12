@@ -37,6 +37,9 @@ void gausselim(Matrix<double>& A, Matrix<double>& b, Matrix<double>& x);
 /// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
 Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b);
 
+/// Uses Eigen3's interface to PastiX to solve a SPD system
+void pastix_LDLT(const SpMatrix& A, const Matrix<amc_real>& b, Matrix<amc_real>& x);
+
 /// Uses Eigen3's SVD module to solve linear least-squares 
 void leastSquares_SVD(Matrix<amc_real>& A, Matrix<amc_real>& b, Matrix<amc_real>& x);
 #endif

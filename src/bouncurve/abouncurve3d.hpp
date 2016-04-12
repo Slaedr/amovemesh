@@ -6,19 +6,15 @@
 #include <amesh3d.hpp>
 #endif
 
-#ifndef __ARBF_H
-#include <arbf.hpp>
-#endif
-
 using namespace std;
 using namespace amat;
 using namespace amc;
 
-/// Generation of 3D curved meshes when an analytical expression for the boundary is available; currently only used to curve the boundary.
-/** RBF mesh movement scheme is used.
- * RBF support radius, tolerance and maximum iterations for solver need to be provided.
+/// Generation of 3D meshes whose boundary is curved according to an analytical expression for the boundary
+/** The the function for the boundary has to be set at compile time. 
+ * \todo Use a function parser to to accept the analytical expression for the boundary at runtime
  */
-class CurvedMeshGeneration
+class BounCurve
 {
 	UMesh* m;
 	/// interior points to be moved
@@ -40,33 +36,17 @@ class CurvedMeshGeneration
 	Matrix<int> fixedflag;
 	/// Contains markers of fixed boundary flags
 	Matrix<int> fbf;
-	RBFmove rbfm;
-	int rbf_c;
-	double srad;
-	int rbf_nsteps;
-	double tol;
-	int maxiter;
-	/// linear solver to use for RBFmove
-	std::string rbfsolver;
 
 public:
-	CurvedMeshGeneration(UMesh* mesh, Matrix<int> fixed_boundary_flags, int rbf_steps, int rbf_choice, double support_radius, double rbf_tol, int rbf_maxiter, std::string rbf_solver)
+	BounCurve(UMesh* mesh, Matrix<int> fixed_boundary_flags)
 	// Note that the input mesh should be quadratic
 	{
 		cout << "CurvedMeshGeneration: Pre-processing..." << endl;
 		m = mesh;
 		fbf = fixed_boundary_flags;
-		rbf_c = rbf_choice;
-		srad = support_radius;
-		rbf_nsteps = rbf_steps;
-		tol = rbf_tol;
-		maxiter = rbf_maxiter;
-		rbfsolver = rbf_solver;
-		
-		cout << "CurvedMeshGeneration: Support radius " << srad << endl;
 
 		Matrix<int> pfixedflag(m->gnpoin(),1);
-		pfixedflag.zeros();
+		pfixedflag.ones();
 
 		// contains 1 if a face is to be curved
 		amat::Matrix<int> facesToCurve(m->gnface(),1);
@@ -86,9 +66,9 @@ public:
 			for(int j = 0; j < m->gnnofa(); j++)
 				bflag(m->gbface(i,j)) = 1;
 			
-			if( ! facesToCurve.get(i) )
+			if( facesToCurve.get(i) )
 				for(int j = 0; j < m->gnnofa(); j++)
-					pfixedflag(m->gbface(i,j)) = 1;			// register this point as belonging to a curved boundary
+					pfixedflag(m->gbface(i,j)) = 0;			// register this point as belonging to a curved boundary
 		}
 
 		//cout << "CurvedMeshGeneration: hflag" << endl;
@@ -148,6 +128,7 @@ public:
 		}
 	}
 
+	/// Set the description of the true boundary here, when z is available as a function of x and y
 	double trueboundary(double x0, double y)
 	{
 		// TODO: change this block according to the desired boundary motion
@@ -238,15 +219,7 @@ public:
 			}
 		}
 
-		/*cout << "CurvedMeshGeneration: generate(): Setting up RBF mesh movement" << endl;
-		cout << nbpoin << endl;
-		rbfm.setup(&mipoints, &bpoints, &bmotion, rbf_c, srad, rbf_nsteps, tol, maxiter, rbfsolver);
-		cout << "CurvedMeshGeneration: generate(): Moving the mesh" << endl;
-		rbfm.move();
-		bpoints = rbfm.getBoundaryPoints();
-		mipoints = rbfm.getInteriorPoints();
-
-		cout << "CurvedMeshGeneration: generate(): Re-assembling coordinate matrix" << endl;
+		/*cout << "CurvedMeshGeneration: generate(): Re-assembling coordinate matrix" << endl;
 		// re-assemble coords
 		int mp = 0, bp = 0;
 		Matrix<double> coord(m->gnpoin(), m->gndim());
@@ -266,6 +239,6 @@ public:
 			}
 		}
 		m->setcoords(&coord);*/
-		cout << "CurvedMeshGeneration: generate(): Done." << endl;
+		cout << "BounCurve: generate(): Done." << endl;
 	}
 };

@@ -264,7 +264,7 @@ void RBFmove::move_step()
 				coeffs[j](i) = coeffsm.get(i,j);
 	}
 #ifdef EIGEN_LIBRARY
-	else
+	else if(lsolver == "EIGENLU")
 	{
 		amat::Matrix<double> coeffsm(nbpoin,ndim);
 		amat::Matrix<double> rhs(nbpoin,ndim);
@@ -279,6 +279,23 @@ void RBFmove::move_step()
 			for(int j = 0; j < ndim; j++)
 				coeffs[j](i) = coeffsm.get(i,j);
 	}
+#ifdef PASTIX_LIBRARY
+	else if(lsolver == "PASTIXLDLT")
+	{
+		amat::Matrix<double> coeffsm(nbpoin,ndim);
+		amat::Matrix<double> rhs(nbpoin,ndim);
+		for(int i = 0; i < nbpoin; i++)
+			for(int j = 0; j < ndim; j++)
+				rhs(i,j) = b[j](i);
+
+		// solve the system by Eigen's PastiX LDL^T solver interface
+		pastix_LDLT(A,rhs,coeffsm);
+
+		for(int i = 0; i < nbpoin; i++)
+			for(int j = 0; j < ndim; j++)
+				coeffs[j](i) = coeffsm.get(i,j);
+	}
+#endif
 #endif
 	
 	

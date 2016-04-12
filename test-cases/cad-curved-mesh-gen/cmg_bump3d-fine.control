@@ -1,11 +1,11 @@
 -input-mesh-file
-../../output/bouncurved/bump3d-coarse_bouncurved.msh
+../../output/bouncurve/bump3d-fine_bouncurved.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/bump3d-coarse_curved.msh
+../../output/curved-mesh-gen/bump3d-fine_curved.msh
 -choice(RBF-choice)
 2
 -support-radius
-0.075
+0.04
 -solver
 EIGENLU
 -tolerance
@@ -15,4 +15,4 @@ EIGENLU
 -number-of-RBF-boundaries
 2
 -markers-of-RBF-boundaries
-41 42
+32 33

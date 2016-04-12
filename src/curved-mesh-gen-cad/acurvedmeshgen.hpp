@@ -32,7 +32,8 @@ class CurvedMeshGen
 	std::vector<int> torec;				///< contains 1 if the corresponding boundary node 
 	amc_int nbpoin;						///< number of boundary points
 	amc_int ninpoin;					///< number of interior points
-
+	amat::Matrix<int> rbfbpoin;			///< Stores 1 if the corresponding node is part of a boundary which needs to be processed by RBF
+	
 public:
 
 	/// constructor
@@ -57,9 +58,13 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 	
 	amc_int ipoin, iface, inode, jnode, j, k, l, nexbpoin = 0;
 	int idim;
+	bool inrflag;
 
-	amat::Matrix<int> rbfbpoin(m->gnpoin(),1);
-	rbfbpoin.zeros();
+	rbfbpoin.setup(m->gnpoin(),1);
+	rbfbpoin.ones();
+	for(int i = 0; i < m->gnpoin(); i++)
+		if(m->gflag_bpoin(i) == 0)
+			rbfbpoin(i) = 0;
 
 	amat::Matrix<amc_real>* midpoints = new amat::Matrix<amc_real>[m->gnface()];
 	for(int i = 0; i < m->gnface(); i++)
@@ -72,20 +77,29 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 			midpoints[i].setup(4,m->gndim());
 		// TODO: add allocation for for other types of faces, if needed
 
+		// now check for faces which are not in rbf_boundaries
+		inrflag = false;
 		for(j = 0; j < rbf_boundaries.size(); j++)
 			if(m->gbface(i,m->gnnofa()) == rbf_boundaries[j])
 			{
-				nexbpoin++;
-				for(inode = 0; inode < m->gnnofa(); inode++)
-					rbfbpoin(m->gbface(i,inode)) = 1;
+				inrflag = true;
 				break;
 			}
+		if( ! inrflag )
+			for(inode = 0; inode < m->gnnofa(); inode++)
+				rbfbpoin(m->gbface(i,inode)) = 0;
 	}
-	
+
+	// get number of  boundary points required to be moved by RBF
+	int nrbfcoun = 0;
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		nrbfcoun += rbfbpoin(ipoin);
+
 	nbpoin = 0;
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
 		nbpoin += m->gflag_bpoin(ipoin);
-	nbpoin -= nexbpoin;
+
+	nbpoin -= nrbfcoun;
 
 	ninpoin = m->gnpoin() - nbpoin;
 	inpoints.setup(ninpoin,m->gndim());
@@ -97,6 +111,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 	disps.zeros();
 
 	// get displacements for each boundary point by iterating over faces
+	
 	for(iface = 0; iface < m->gnface(); iface++)
 	{
 		if(m->gnnofa() == 6)
@@ -165,7 +180,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 		}
 	}
 
-	// next, make boundary edges and faces straight by setting the high-order nodes to correspinding midpoints computed above
+	// next, make boundary edges and faces straight by setting the high-order nodes to corresponding midpoints computed above
 	
 	for(iface = 0; iface < m->gnface(); iface++)
 	{
@@ -216,6 +231,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 	k = 0; l = 0;
 
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+	{
 		if(m->gflag_bpoin(ipoin) == 1 && rbfbpoin.get(ipoin)==0)
 		{
 			for(idim = 0; idim < m->gndim(); idim++)
@@ -231,6 +247,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 				inpoints(l,idim) = m->gcoords(ipoin,idim);
 			l++;
 		}
+	}
 
 	std::cout << "CurvedMeshGen: Assembled lists of boundary points, boundary displacements and interior points. k = " << k << ", nbpoin = " << nbpoin << "; l = " << l << ", ninpoin = " << ninpoin << std::endl;
 
@@ -265,7 +282,7 @@ void CurvedMeshGen::generateCurvedMesh()
 	amc_int ipoin, idim, k = 0, l = 0;
 
 	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
-		if(m->gflag_bpoin(ipoin) == 1)
+		if(m->gflag_bpoin(ipoin) == 1 && rbfbpoin.get(ipoin)==0)
 		{
 			for(idim = 0; idim < m->gndim(); idim++)
 				m->scoords(ipoin,idim, bounpoints.get(k,idim));
