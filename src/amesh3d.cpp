@@ -62,7 +62,7 @@ UMesh::~UMesh()
 		delete [] elsed;
 }
 
-/// Reads mesh from Gmsh 2 format file. For quadratic meshes, mapping has to be applied for node-ordering.
+// Reads mesh from Gmsh 2 format file. For quadratic meshes, mapping has to be applied for node-ordering.
 void UMesh::readGmsh2(std::string mfile, int dimensions)
 {
 	std::cout << "UMesh3d: readGmsh2(): Reading mesh file...\n";
@@ -198,7 +198,6 @@ void UMesh::readGmsh2(std::string mfile, int dimensions)
 				nelem++;
 				break;
 			case(12):	// quadratic hex (27 nodes)
-				// add mapping from gmsh format to Xiaodong format
 				nnode = 27;
 				nfael = 6;
 				nnofa = 9;
@@ -214,7 +213,7 @@ void UMesh::readGmsh2(std::string mfile, int dimensions)
 				for(int j = 0; j <= 8; j++)		// first 8 nodes are same
 					elms(i,j) = temper(j);
 				
-				//std::cout << "mapping..." << std::endl;
+				// add mapping from gmsh format to RDGFlo format
 				elms(i,9) = temper(11);
 				elms(i,10) = temper(13);
 				elms(i,11) = temper(9);
@@ -568,8 +567,10 @@ void UMesh::printmeshstats()
 	std::cout << "UMesh3d: No. of points: " << npoin << ", number of elements: " << nelem << ", number of boundary faces " << nface << ", number of nodes per element: " << nnode << ", number of nodes per face: " << nnofa << ", number of faces per element: " << nfael << std::endl;
 }
 
-/// Changes node ordering. Use only for hex mesh!!
-void UMesh::mapinpoelXiaodongToGmsh()
+/// Changes node ordering. Use only for quadratic hexahedral mesh!!
+/** Assuming inpoel contains rDGFlo format initially, m_inpoel contains Gmsh ordering on return
+ */
+void UMesh::mapinpoelRDGFloToGmsh()
 {
 	int temp;
 
@@ -598,6 +599,39 @@ void UMesh::mapinpoelXiaodongToGmsh()
 		m_inpoel(ielem,26) = inpoel(ielem,26);
 	}
 }
+
+// Changes node ordering from Gmsh to rDGFlo (inverse of mapinpoelRDGFloToGmsh ). Use only for quadratic hexahedral mesh!!
+/* Assuming inpoel contains Gmsh format initially, m_inpoel contains rDGFlo ordering on return
+ */
+/*void UMesh::mapinpoelGmshToRDGFlo()
+{
+	int temp;
+
+	for(int ielem = 0; ielem < nelem; ielem++)
+	{
+		for(int inode = 0; inode <= 8; inode++)
+			m_inpoel(ielem,inode) = inpoel(ielem,inode);
+
+		m_inpoel(ielem,9); = inpoel(ielem,11);
+		m_inpoel(ielem,10) = inpoel(ielem,13);        
+		m_inpoel(ielem,11) = inpoel(ielem,9) ;        
+		m_inpoel(ielem,12) = inpoel(ielem,10);        
+		m_inpoel(ielem,13) = inpoel(ielem,12);        
+		m_inpoel(ielem,14) = inpoel(ielem,14);        
+		m_inpoel(ielem,15) = inpoel(ielem,15);        
+		m_inpoel(ielem,16) = inpoel(ielem,16);        
+		m_inpoel(ielem,17) = inpoel(ielem,18);        
+		m_inpoel(ielem,18) = inpoel(ielem,19);        
+		m_inpoel(ielem,19) = inpoel(ielem,17);        
+		m_inpoel(ielem,20) = inpoel(ielem,20);        
+		m_inpoel(ielem,21) = inpoel(ielem,21);        
+		m_inpoel(ielem,22) = inpoel(ielem,23);        
+		m_inpoel(ielem,23) = inpoel(ielem,24);        
+		m_inpoel(ielem,24) = inpoel(ielem,22);        
+		m_inpoel(ielem,25) = inpoel(ielem,25);        
+		m_inpoel(ielem,26) = inpoel(ielem,26);        
+	}
+}*/
 	
 /*void UMesh::computeIntfacNumberFromBfaceNumber()
 {
@@ -727,7 +761,7 @@ void UMesh::writeGmsh2(std::string mfile)
 	m_inpoel.setup(nelem,nnode);
 	
 	if(nnode == 27)
-		mapinpoelXiaodongToGmsh();
+		mapinpoelRDGFloToGmsh();
 	else
 		m_inpoel = inpoel;
 
@@ -793,11 +827,6 @@ void UMesh::writeDomn(std::string mfile, std::vector<int> farfieldnumber, std::v
 	std::cout << "UMesh: writeDomn(): Writing domn file to " << mfile << std::endl;
 	m_inpoel.setup(nelem,nnode);
 	
-	if(nnode == 27)
-		mapinpoelXiaodongToGmsh();
-	else
-		m_inpoel = inpoel;
-
 	std::ofstream fout(mfile);
 	fout << "npoin ntetr npyra npris nhexa ntria nquad time\n";
 	if(nnode == 8 || nnode == 27)
@@ -810,7 +839,7 @@ void UMesh::writeDomn(std::string mfile, std::vector<int> farfieldnumber, std::v
 	{
 		fout << ielem+1;
 		for(int inode = 0; inode < nnode; inode++)
-			fout << ' ' << m_inpoel.get(ielem,inode)+1;
+			fout << ' ' << inpoel.get(ielem,inode)+1;
 		fout << '\n';
 	}
 
@@ -845,6 +874,9 @@ void UMesh::writeDomn(std::string mfile, std::vector<int> farfieldnumber, std::v
 		fout << " 0 0 " << bfaceHostCell.get(iface)+1 << " ";
 		for(int inofa = 0; inofa < nnofa; inofa++)
 			fout << " " << bface.get(iface,inofa)+1;
+		// we need nine numbers, so if nnofa < 9, we fill in dummy zeros
+		for(int i = 9-nnofa; i > 0; i--)
+			fout << " 0";
 		fout << '\n';
 	}
 

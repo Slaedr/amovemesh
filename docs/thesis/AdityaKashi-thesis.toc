@@ -9,19 +9,20 @@
 \contentsline {subsection}{\numberline {2.2.1}Delaunay graph mapping (DGM)}{6}
 \contentsline {subsection}{\numberline {2.2.2}Radial basis functions}{7}
 \contentsline {subsection}{\numberline {2.2.3}DG-RBF}{8}
-\contentsline {section}{\numberline {2.3}Mesh quality}{9}
+\contentsline {section}{\numberline {2.3}Linear Mesh quality}{9}
 \contentsline {chapter}{\numberline {3}Curved mesh generation}{11}
 \contentsline {section}{\numberline {3.1}Introduction}{11}
 \contentsline {section}{\numberline {3.2}Method}{12}
 \contentsline {subsection}{\numberline {3.2.1}Spline reconstruction for boundaries of 2D meshes}{12}
 \contentsline {subsection}{\numberline {3.2.2}Surface reconstruction in the general case}{13}
 \contentsline {subsection}{\numberline {3.2.3}Interior mesh movement}{15}
-\contentsline {chapter}{\numberline {4}Results}{16}
-\contentsline {section}{\numberline {4.1}Mesh movement}{16}
-\contentsline {section}{\numberline {4.2}Generation of curved meshes}{19}
-\contentsline {chapter}{\numberline {5}Conclusion}{23}
-\contentsline {chapter}{References}{24}
-\contentsline {chapter}{Appendices}{27}
+\contentsline {subsubsection}{Unsuitability of Delaunay-graph-based methods for curved mesh generation}{15}
+\contentsline {chapter}{\numberline {4}Results}{19}
+\contentsline {section}{\numberline {4.1}Mesh movement}{19}
+\contentsline {section}{\numberline {4.2}Generation of curved meshes}{28}
+\contentsline {chapter}{\numberline {5}Conclusion}{32}
+\contentsline {chapter}{References}{33}
+\contentsline {chapter}{Appendices}{36}
  \renewcommand {\cftchappresnum }{Appendix } \renewcommand {\cftchapnumwidth }{\appendixwidth } \renewcommand {\cftchapfont }{\cftsecfont } \setlength {\cftbeforechapskip }{\cftbeforesecskip } \setlength {\cftchapindent }{\cftsecindent } \renewcommand {\cftchappagefont }{\cftchapfont } \setlength {\cftsecindent }{\cftsubsecindent } \addtolength {\cftsubsecindent }{\cftsecnumwidth } \setcounter {tocdepth}{\c@ncsu@appendixtocdepth } 
-\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{28}
-\contentsline {chapter}{\numberline {B}Spline reconstruction}{29}
+\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{37}
+\contentsline {chapter}{\numberline {B}Spline reconstruction}{38}

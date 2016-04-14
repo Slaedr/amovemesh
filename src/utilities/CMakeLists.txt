@@ -7,3 +7,6 @@ target_link_libraries(convertGmshToDomn3D amesh3d)
 
 add_executable(quadratize3d quadratize3d.cpp)
 target_link_libraries(quadratize3d amesh3d)
+
+add_executable(shapemetric2d shapemetric2d.cpp)
+target_link_libraries(shapemetric2d amesh2dh)

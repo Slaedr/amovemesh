@@ -1,11 +1,11 @@
 -Input_mesh_file
 ../../input/feflo.domn.wing.coarse
 -Output-mesh-file
-../../output/rbf-mesh-movement/wing-rbf-40-sr20-steps4.msh
+../../output/rbf-mesh-movement/wing-rbf--60-sr15-steps1.msh
 -Output-file-for-jacobian-check
 jacs.dat
 -rotation-angle
-40.0
+-60.0
 -tol
 1e-6
 -maxiter
@@ -13,6 +13,6 @@ jacs.dat
 -RBF-choice
 2
 -support-radius
-20.0
+15.0
 -number-of-movement-steps
-4
+1

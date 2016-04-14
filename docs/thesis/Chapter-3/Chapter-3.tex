@@ -83,10 +83,43 @@ The least-squares problem is solved by a QR factorization method using Household
 
 To propagate the boundary motion to the interior of the mesh, we favor interpolation by radial basis functions (RBFs) \cite{mm:rbf}. We have also used linear elasticity to propagate the mesh movement to the interior. The isotropic linear elasticity variational formulation, as given by Gockenbach \cite{gockenbach}, is implemented in a P2 Galerkin FEM code for generation of quadratic meshes. In this case however, the size of the linear system to be solved is proportional to the total number of nodes in the mesh.
 
-Though the RBF method requires the solution of a linear system of size proportional to only the number of boundary points, extra computation is required to evaluate equation \eqref{eqn:rbf} at each of the interior nodes to compute their displacements. In comparison, elasticity-based methods directly give us the displacements.
+Though the RBF method requires the solution of a linear system of size proportional to only the number of boundary points, extra computation is required to evaluate equation \eqref{eqn:rbf} at each of the interior nodes to compute their displacements. In comparison, elasticity-based methods directly give us the displacements. 
 
-Several variants of the Delaunay graph mapping method were also attempted for generating curved meshes.
+While solving certain problems with the RBF method, we find that the linear system to be solved is sometimes quite ill-conditioned, depending upon the mesh. However, in the cases that we worked on (such as curved mesh generation of hybrid meshes for viscous simulations of airfoils), sparse direct methods are capable of solving the system efficiently and effectively. This is likely to hold true in general as the systems to be solved will usually not be very large (having size of the number of boundary nodes).
 
-********* TODO: DESCRIBE WHY DGM AND DG-RBF FAIL FOR CURVED MESH GENERATION. DESCRIBE THE 2-STEP RBF-DG METHOD, AND WHY THAT DOES NOT WORK EITHER *********
+\subsubsection{Unsuitability of Delaunay-graph-based methods for curved mesh generation}
+\label{subsec:dgmunsuitable}
+%********* TODO: DESCRIBE WHY DGM AND DG-RBF FAIL FOR CURVED MESH GENERATION. DESCRIBE THE 2-STEP RBF-DG METHOD, AND WHY THAT DOES NOT WORK EITHER *********
 
+Several variants of the Delaunay graph mapping method were also attempted for generating curved meshes. While Delaunay graph mapping (DGM) is a very efficient scheme for accomplishing many types of mesh movement, it has a characteristic because of which it is unsuitable for certain meshes and motions, especially curved mesh generation. This is the fact that the movement of a node depends only on the motion of the Delaunay element containing it, not necessarily on the motion of the nearest boundary facets.
 
+In case of curved mesh generation for highly anisotropic viscous meshes, it is possible for some Delaunay triangulation facets make angles with the boundary that are very different from 90 degrees (see figure \ref{fig:wmesh-dg}). Then we may have at least two issues.
+\begin{itemize}
+	\item[1.] Interior points close to a boundary facet can be influenced by another boundary facet far away having a very different curvature.
+	\item[2.] It may be the case that an interior point is not at all influenced by the closest boundary facet.
+\end{itemize}
+These issues lead to low curved mesh quality in certain regions, and even invalid elements. We could try using DG-RBF (interpolation by radial basis functions in a Delaunay graph) to help alleviate issue (1), but issue (2) would still persist.
+
+Figure \ref{fig:wmesh} shows a viscous mesh of a 3-element airfoil. Figures \ref{fig:wmesh-dg} and \ref{fig:wmesh-zoomed} show a portion of its slat. Figure \ref{fig:wmesh-dg} shows the Delaunay graph and figure \ref{fig:wmesh-zoomed} shows the deformed mesh. We can see that the DG lines make an angle very different from 90 degrees with the boundary. It is clear how points originally in a straight line deform in an oscillatory manner because successive points depend on different Delaunay elements, and different Delaunay elements have different movements depending on which boundary nodes they are made up of.
+
+\begin{figure}[!h]
+	\centering
+	\includegraphics[scale=0.28]{3-airfoil}
+	\caption{Mesh of a 3-element airfoil}
+	\label{fig:wmesh}
+\end{figure}
+\clearpage
+\begin{figure}[p!]
+	\centering
+	\includegraphics[scale=0.25]{dg-3airfoil-zoomed}
+	\caption{Portion of the Delaunay graph near the lower part of the slat}
+	\label{fig:wmesh-dg}
+\end{figure}
+\begin{figure}[p!]
+	\centering
+	\includegraphics[scale=0.25]{mesh-3airfoil-zoomed}
+	\caption{Portion of the generated mesh near the lower part of the slat}
+	\label{fig:wmesh-zoomed}
+\end{figure}
+
+One way of improving this situation has been described in section \ref{sec:hybriddg}. However, the method of including a layer of interior points still does not work for curved mesh generation. This is simply to due to the high-frequency oscillatory nature of boundary displacements required for curved mesh generation and the fact that it is difficult to control how exactly the Delaunay graph (DG) elements are formed. It was found that some DG elements are formed by \emph{two high-order} boundary nodes and one interior node.

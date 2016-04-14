@@ -2,6 +2,8 @@
  * @brief A collection of subroutines to write mesh data to various kinds of output formats
  */
 
+#ifndef __AOUTPUT_H
+
 #ifndef __AMATRIX2_H
 #include <amatrix2.hpp>
 #endif
@@ -142,8 +144,8 @@ void writeScalarsVectorToVtu_CellData(string fname, const UMesh2d& m, const Matr
 }
 
 
-/** Writes a quadratic mesh in VTU format.
- * VTK does not have a 9-node quadrilateral, so we ignore the cell-centered note for output.
+/// Writes a quadratic mesh in VTU format.
+/** VTK does not have a 9-node quadrilateral, so we ignore the cell-centered note for output.
  */
 void writeQuadraticMeshToVtu(string fname, UMesh2d& m)
 {
@@ -201,8 +203,8 @@ void writeQuadraticMeshToVtu(string fname, UMesh2d& m)
 	cout << "Vtu file written.\n";
 }
 
-/** Writes a hybrid mesh in VTU format.
- * VTK does not have a 9-node quadrilateral, so we ignore the cell-centered note for output.
+/// Writes a hybrid mesh in VTU format.
+/** VTK does not have a 9-node quadrilateral, so we ignore the cell-centered note for output.
  */
 void writeMeshToVtu(string fname, UMesh2dh& m)
 {
@@ -262,3 +264,5 @@ void writeMeshToVtu(string fname, UMesh2dh& m)
 	out.close();
 	cout << "Vtu file written.\n";
 }
+
+#endif

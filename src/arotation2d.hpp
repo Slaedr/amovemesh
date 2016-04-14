@@ -52,7 +52,10 @@ public:
 		return x*sin(theta) + y*cos(theta) - y;
 	}
 
-	/// In this, I assume that the first boundary tag of a bface contains 'flag' if that bface is part of the surface to be rotated
+	/// Computes displacements of boudnary points
+	/** Returns a npoin x 2 array; zero for interior points.
+	 * In this, I assume that the first boundary tag of a bface contains 'flag' if that bface is part of the surface to be rotated.
+	 */
 	amat::Matrix<double> rhsvect_rotate()
 	{
 		std::cout << "MRotation2d: Calculating boundary displacements\n";
@@ -81,7 +84,7 @@ public:
 	/// Return a vector of rotation angles for each point in the mesh. 
 	/** Zero for all points except those in flag.
 	 */
-	amat::Matrix<double> rhsvect_angles()
+	amat::Matrix<double> rhsvect_rotate_angles()
 	{
 		std::cout << "MRotation2d: Calculating RHS vector" << std::endl;
 		amat::Matrix<double> rhs(m->gnpoin(),1);

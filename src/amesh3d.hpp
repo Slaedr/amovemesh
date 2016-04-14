@@ -177,7 +177,9 @@ public:
 	amc_int gnedge() const { return nedge; }
 	amc_int gnbedge() const { return nbedge; }
 
-	/// Reads mesh from Gmsh 2 format file. For hexahedral quadratic meshes, mapping has to be applied for node-ordering.
+	/// Reads mesh from Gmsh 2 format file. 
+	/** For hexahedral quadratic meshes, mapping has to be applied for node-ordering, as the inpoel node-ordering here is same as rDGFlo's.
+	 */
 	void readGmsh2(std::string mfile, int dimensions);
 
 	/// Reads a special rDGFLO domn format containing only interconnectivity matrix and point coordinates
@@ -200,7 +202,7 @@ public:
 	void printmeshstats();
 
 	/// Changes node ordering. Use only for hex mesh!!
-	void mapinpoelXiaodongToGmsh();
+	void mapinpoelRDGFloToGmsh();
 
 	/// lpofal contains, on output, local node numbers corresponding to nodes of the local faces of an element
 	void findLocalFaceLocalPointConnectivityLinearElements(amat::Matrix<int>& lpofal);
@@ -217,7 +219,6 @@ public:
 	 * \param[in] symmetrynumber contains physical face numbers of symmetry boundaries
 	 * \param[in] wallnumber contains physical face numbers of the adiabatic walls
 	 *
-	 * Note that node-ordering for P2 hexahedra is different; [a mapping](@ref mapinpoelXiaodongToGmsh) needs to be applied.
 	 * The format is given as a Fortran snippet below.
 	 *
 	 * 		write(10,*)'npoin,ntetr,npyra,npris,nhexa,ntria,nquad,time'

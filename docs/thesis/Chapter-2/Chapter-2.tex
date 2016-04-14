@@ -81,6 +81,7 @@
  Also called algebraic methods, these methods do not involve any physics-based modeling of the mesh. They are purely mathematical manipulations of the mesh. Unlike elasticity-based methods, schemes of this type tend to be fast and independent of mesh topology. 
  
  \subsection{Delaunay graph mapping (DGM)}
+ \label{sec:dgm}
  Developed by Liu, Qin and Xia \cite{mm:dgm}, DGM is a fast method of mesh movement. It consists of the following steps.
  \begin{itemize}
  	\item A Delaunay triangulation is constructed from the boundary points of the mesh. This triangulation is referred to as the Delaunay graph.
@@ -154,8 +155,18 @@
  \end{align}
  where $(x_0,y_0)$ is the center of rotation, and $a_z$ is the interpolated rotation angle at the node in question. For interpolation of the angles, the same formulae \eqref{eqn:dgrbf} and \eqref{eqn:dgrbfsys} are used, with the rotation angles replacing the displacements. Angle interpolation can be combined with displacement interpolation for problems involving both translation and rotation. This angle interpolation scheme, and its combination with the displacement interpolation scheme, is referred to as `DGRBF2' in \cite{mm:dgrbf}.
  
- \section{Mesh quality}
+ \section{`Improved' Delaunay graph mapping}
+ \label{sec:hybriddg}
+ If the Delaunay graph (DG) lines are not approximately normal to the boundary, there can sometimes be issues with mesh movement. Mesh lines tend to be normal to the boundary for physical and numerical reasons. If Delaunay graph lines make very small or very large angles (compared to 90 degrees) with the boundary, successive interior nodes on the same mesh line can lie in different DG triangles. This would cause non-smooth displacement of interior mesh nodes; an example is presented in detail in section \ref{subsec:dgmunsuitable}.
  
+ One way of improving this method, that was considered by the author and Dr Hong Luo, was to include a few interior mesh points in the Delaunay graph such that the Delaunay graph lines stayed approximately normal to the boundary near it. For example, a layer of nodes could be chosen around each component of a 3-component airfoil such that each airfoil boundary gets approximately normal Delaunay graph lines. This method would require movement of the interior Delaunay graph nodes by a different method, such as RBF or linear elasticity. Since the number of these interior nodes in the Delaunay graph is very small, solution of the RBF or linear elasticity problems could be done quickly.
+ 
+ % ADD PICTURE HERE
+ 
+ Xiao et. al. present a very similar method \cite{mm:hybriddg}. Instead of choosing interior Delaunay graph points from among the interior mesh points, they generate a `background' coarse mesh to serve as the Delaunay graph (DG). The motion of the DG is obtained using Batina's lineal spring analogy method \cite{mm:batina}.
+ 
+ \section{Linear Mesh quality}
+ \label{sec:lin-mesh-quality}
  In order to judge the effectiveness of mesh-movement methods, we need to measure the quality of the deformed mesh. Some mesh quality measures have been derived for linear 2D and 3D elements by Knupp \cite{qualknupp}. These include the relative size, shape and size-shape metrics for triangles and tetrahedra, and size, shape, skew, size-shape and size-skew metrics for quadrangles and hexahedra.
  
  The size metric distinguishes elements having very small or very large volume with respect to some reference volume. The shape metric identifies elements that have unequal edges or unequal angles between edges; it is independent of size of the element. Finally, the skew metric is a measure of unequal angles between edges of the element only, irrespective of lengths of edges and volume of element; it is different from shape in case of non-simplicial (like quadrangular and hexahedral) elements. While dealing with quadrangles, we use the skew metric.

@@ -11,12 +11,13 @@
 #include <aoutput.hpp>
 
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
 int main(int argc, char* argv[])
 {
 	if(argc < 4) {
-		cout << "Insufficient arguments given!";
+		cout << "Insufficient arguments given!\n";
+		cout << "Required <mesh file name> <reference area> <output file>\n";
 		return 0;
 	}
 

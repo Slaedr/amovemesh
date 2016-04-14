@@ -853,8 +853,8 @@ public:
 		}
 		else if (solver == "gausselim")
 		{
-			dx = gausselim(A,xb);
-			dy = gausselim(A,yb);
+			gausselim(A,xb,dx);
+			gausselim(A,yb,dy);
 		}
 		else if (solver == "pointjacobi")
 		{
@@ -959,7 +959,7 @@ public:
 		}
 		else if (solver == "gausselim")
 		{
-			dr = gausselim(Kg,b);
+			gausselim(Kg,b,dr);
 		}
 		else if (solver == "pointjacobi")
 		{

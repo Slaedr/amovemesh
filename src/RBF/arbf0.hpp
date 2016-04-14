@@ -151,7 +151,7 @@ public:
 
 		// set the top nbpoin-by-nbpoin elements of A, ie, M_bb
 		//cout << "RBFmove:  assembleLHS(): assembling M_bb" << endl;
-		#pragma omp parallel for default(none) private(i,j,dist,temp) shared(A,bpoints,rbfunc,nbpoin,ndim)
+		
 		for(i = 0; i < nbpoin; i++)
 		{
 			A->set(i,i, (this->*rbfunc)(0.0));			// set diagonal element in row i

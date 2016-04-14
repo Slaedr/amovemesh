@@ -1642,11 +1642,11 @@ public:
 
 	// ------------------------------------------- Mesh quality ----------------------------------------------------
 
-	/** Computes the 'jacobian' matrices and metric tensors used to compute quality metrics.
-	If the mesh is triangular, nmtens is 1.
-	If the mesh is made up of quadrilaterals, nmtens is 4, and we calculate alpha and lambdas for each node.
-	lambda[*](*,0) is Knupp's lambda_11, lambda[*](*,1) is Knupp's lambda_12 and lambda[*](*,2) is Knupp's lambda_22.
-	*/
+	/// Computes the 'jacobian' matrices and metric tensors used to compute quality metrics.
+	/** If the mesh is triangular, nmtens is 1.
+	 * If the mesh is made up of quadrilaterals, nmtens is 4, and we calculate alpha and lambdas for each node.
+	 * lambda[*](*,0) is Knupp's lambda_11, lambda[*](*,1) is Knupp's lambda_12 and lambda[*](*,2) is Knupp's lambda_22.
+	 */
 	void compute_metric_quantities()
 	{
 		if(!alloc_lambda) {
