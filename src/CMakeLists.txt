@@ -66,6 +66,9 @@ if(DEFINED PASTIX_LIB)
 	target_link_libraries(alinalg ${PASTIX_LIB} ${BLAS_LIB})
 endif()
 
+add_library(ageometry ageometry.cpp)
+target_link_libraries(ageometry alinalg amatrix2 adatastructures)
+
 add_library(ageometry3d ageometry3d.cpp)
 target_link_libraries(ageometry3d alinalg amesh3d amatrix2 adatastructures)
 

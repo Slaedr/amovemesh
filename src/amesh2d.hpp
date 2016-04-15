@@ -55,7 +55,9 @@
 #define MESHDATA_DOUBLE_PRECISION 14
 #endif
 
+/// \cond
 namespace amc {
+/// \endcond
 
 /** @brief Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout - hybrid mesh is NOT supported) */
 class UMesh2d

@@ -17,17 +17,13 @@
 
 #define __ALINELAST_CURVEDMESHGEN2D_H 1
 
-//using namespace std;
-//using namespace amat;
-//using namespace acfd;
+namespace amc {
 
-namespace acfd {
-
-/** Class to generate curved mesh from a linear mesh using cubic spline reconstruction and one of the mesh movement techniques. */
+/// Class to generate curved mesh from a linear mesh using cubic spline reconstruction and one of the mesh movement techniques
 
 class Curvedmeshgen2d
 {
-	UMesh2d* m;						///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
+	UMesh2d* m;					///< Data about the original linear mesh. We need this to compute spline reconstruction of the boundary.
 	UMesh2d* mq;					///< Data of the corresponding (straight-faced) quadratic mesh
 	LinElastP2* mmv;					///< Pointer to parent class for the mesh-movement classes, such RBF, DGM or linear elasticity.
 	BoundaryReconstruction2d br;	///< Object to reconstruct the boundary using cubic splines.
@@ -40,29 +36,30 @@ class Curvedmeshgen2d
 	double lambda;
 	double mu;
 	double chi;						///< stiffening exponent for stiffened linear elasticity
-	string stiffscheme;				///< stiffening scheme used for stiffened linear elasticity
+	std::string stiffscheme;				///< stiffening scheme used for stiffened linear elasticity
+	std::string linsolver;				///< linear solver to use
 
 	int nbounpoin;					///< Number if boundary points.
 	int ninpoin;					///< Number of interior points.
-	Matrix<double> disps;			///< Displacement of midpoint of each face
-	Matrix<double> boundisps;		///< Displacement at each boundary point of the quadratic mesh, computed using [disps](@ref disps).
-	Matrix<double> bounpoints;
-	Matrix<double> inpoints;
-	Matrix<int> bflagg;				///< This flag is true if the corresponding mesh node lies on a boundary.
-	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
+	amat::Matrix<double> disps;			///< Displacement of midpoint of each face
+	amat::Matrix<double> boundisps;		///< Displacement at each boundary point of the quadratic mesh, computed using [disps](@ref disps).
+	amat::Matrix<double> bounpoints;
+	amat::Matrix<double> inpoints;
+	amat::Matrix<int> bflagg;				///< This flag is true if the corresponding mesh node lies on a boundary.
+	amat::Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 	/// Stiffening factors
-	Matrix<double> stiff;
+	amat::Matrix<double> stiff;
 
 public:
-	void setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double tolg, double tole, double maxitera, double youngsmodulus, double poissonsratio, double xchi, string sscheme); 
+	void setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double tolg, double tole, double maxitera, double youngsmodulus, double poissonsratio, double xchi, std::string sscheme, std::string linsolv); 
 
 	void compute_boundary_displacements();
 
 	void generate_curved_mesh();
 };
 
-void Curvedmeshgen2d::setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler1, double toler2, double maxitera, double youngsmodulus, double poissonsratio, double xchi, string sscheme)
+void Curvedmeshgen2d::setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler1, double toler2, double maxitera, double youngsmodulus, double poissonsratio, double xchi, std::string sscheme, std::string linsolv)
 {
 	m = mesh;
 	mq = meshq;
@@ -75,6 +72,7 @@ void Curvedmeshgen2d::setup(UMesh2d* mesh, UMesh2d* meshq, LinElastP2* mmove, in
 	nu = poissonsratio;
 	chi = xchi;
 	stiffscheme = sscheme;
+	linsolver = linsolv;
 	lambda = nu*young/((1+nu)*(1-2*nu));
 	mu = young/(2*(1+nu));
 		
@@ -142,7 +140,7 @@ void Curvedmeshgen2d::compute_boundary_displacements()
 	br.compute_splines(tol_g,maxiter);
 
 	// get coords of midpoints of each face
-	Matrix<double> facemidpoints(m->gnface(),m->gndim());
+	amat::Matrix<double> facemidpoints(m->gnface(),m->gndim());
 	for(int iface = 0; iface < m->gnface(); iface++)
 		for(int idim = 0; idim < m->gndim(); idim++)
 		{
@@ -174,7 +172,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	*/
 	
 	/// Get a vector of displacements for each node of the quadratic mesh
-	Matrix<double> allpoint_disps(mq->gnpoin(),mq->gndim());
+	amat::Matrix<double> allpoint_disps(mq->gnpoin(),mq->gndim());
 	allpoint_disps.zeros();
 	for(int iface = 0; iface < mq->gnface(); iface++)
 	{
@@ -190,19 +188,26 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	cout << "Cuvedmeshgen2d: generate_curved_mesh(): Applying Dirichlet BCs." << endl;
 	mmv->dirichletBC_onAllBface(allpoint_disps, bflagg);
 
-	Matrix<double> alldisps(mq->gnpoin()*2,1);
+	amat::Matrix<double> alldisps(mq->gnpoin()*2,1);
 
-	SpMatrix A = mmv->stiffnessMatrix();
-	Matrix<double> b = mmv->loadVector();
+	amat::SpMatrix A = mmv->stiffnessMatrix();
+	amat::Matrix<double> b = mmv->loadVector();
 
-	Matrix<double> xold(2*mq->gnpoin(),1);
+	amat::Matrix<double> xold(2*mq->gnpoin(),1);
 	xold.zeros();
 
 	/*ofstream fout("matrix.dat");
 	b.fprint(fout);
 	fout.close();*/
 
-	alldisps = sparseCG_d(&A, b, xold, tol_e, maxiter);
+	if(linsolver == "CG")
+		alldisps = sparseCG_d(&A, b, xold, tol_e, maxiter);
+	else if(linsolver == "BICGSTAB")
+		alldisps = sparse_bicgstab(&A, b, xold, tol_e, maxiter);
+#ifdef EIGEN_LIBRARY
+	else if(linsolver == "EIGENLU")
+		alldisps = gausselim(A, b);
+#endif
 
 	/*ofstream ofile("disps.dat");
 	for(int i = 0; i < mq->gnpoin(); i++)
@@ -212,7 +217,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	}
 	ofile.close();*/
 
-	Matrix<double> fpos(mq->gnpoin(),mq->gndim());
+	amat::Matrix<double> fpos(mq->gnpoin(),mq->gndim());
 	for(int i = 0; i < mq->gnpoin(); i++)
 		for(int j = 0; j < mq->gndim(); j++)
 			fpos(i,j) = mq->gcoords(i,j);

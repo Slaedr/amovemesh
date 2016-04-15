@@ -1,7 +1,7 @@
 -input-mesh-file
 ../../output/bouncurve/bump3d-vcoarse_bouncurved.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/bump3d-vcoarse_curved.msh
+../../output/curved-mesh-gen/bump3d-vcoarse_curved-r0.2.msh
 -choice(RBF-choice)
 2
 -support-radius

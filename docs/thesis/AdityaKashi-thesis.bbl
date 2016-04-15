@@ -47,6 +47,11 @@ M.S. Gockenback.
   chapter~9, pages 213--218.
 \newblock Society for Industrial and Applied Mathematics, 2006.
 
+\bibitem{eigenweb}
+Ga\"{e}l Guennebaud, Beno\^{i}t Jacob, et~al.
+\newblock Eigen v3.
+\newblock http://eigen.tuxfamily.org, 2010.
+
 \bibitem{curve:hartmann}
 Ralf Hartmann and Tobias Leicht.
 \newblock High-order unstructured grid generation and discontinuous {G}alerkin
@@ -66,17 +71,16 @@ S.~Jakobsson and O.~Amoignon.
   aerodynamic shape opitimization.
 \newblock {\em Computers \& {F}luids}, 36:1119--1136, 2007.
 
+\bibitem{sr:discontinuities}
+X.~Jiao and N.R. Bayyana.
+\newblock Identification of $c^1$ and $c^2$ discontinuities for surface meshes
+  in {CAD}.
+\newblock {\em Computer-aided Design}, 40:160--175, 2008.
+
 \bibitem{sr:jiaowang}
 X.~Jiao and D.~Wang.
 \newblock Reconstructing high-order surfaces for meshing.
 \newblock {\em Engineering with computers}, 28:361--373, 2012.
-
-\bibitem{sr:diffquant}
-X.~Jiao and H.~Zha.
-\newblock Consistent computation of first- and second-order differential
-  quantities for surface meshes.
-\newblock In {\em ACM Solid and Physical Modelling Symposium}, pages 159--170,
-  2008.
 
 \bibitem{qualknupp}
 P.M. Knupp.
@@ -87,6 +91,13 @@ P.M. Knupp.
 X.~Liu, N.~Qin, and H.~Xia.
 \newblock Fast dynamic grid deformation based on {D}elaunay graph mapping.
 \newblock {\em Journal of Computational Physics}, 211:405--423, 2006.
+
+\bibitem{solver}
+Xiaodong Liu, Yidong Xia, Jian Cheng, and Hong Luo.
+\newblock Development and assessment of a reconstructed discontinuous galerkin
+  method for the compressible turbulent flows on hybrid grids.
+\newblock In {\em 54th AIAA Aerospace Sciences Meeting}. American Institute of
+  Aeronautics and Astronautics, 2016.
 
 \bibitem{mm:explicit}
 E.~Luke, E.~Collins, and E.~Blades.
@@ -112,6 +123,12 @@ T.C.S. Rendall and C.B. Allen.
   reduction algorithms.
 \newblock {\em Journal of Computational Physics}, 228:6231--6249, 2009.
 
+\bibitem{case:bump3d}
+Christopher Rumsey.
+\newblock Verif/3db: 3d bump-in-channel verification case.
+\newblock {NASA L}angley {R}esearch {C}enter Turbulence Models website,
+  \url{http://turbmodels.larc.nasa.gov/bump3d.html}.
+
 \bibitem{gmsh:untangling}
 T.~Toulorge, C.~Geuzaine, J.-F. Remacle, and J.~Lambrechts.
 \newblock Robust untangling of curvilinear meshes.
@@ -134,5 +151,10 @@ Eric~W. Weisstein.
 \newblock Cubic spline.
 \newblock From \emph{MathWorld} -- A {W}olfram Web Resource
   \url{http://mathworld.wolfram.com/CubicSpline.html}.
+
+\bibitem{mm:hybriddg}
+T.~Xiao, N.~Qin, D.~Luo, and S.~Deng.
+\newblock Deformable overset grid for unsteady aerodynamic simulation.
+\newblock In {\em 54th Aerosapce Sciences Meeting, AIAA Scitech}, 2016.
 
 \end{thebibliography}

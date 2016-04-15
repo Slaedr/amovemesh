@@ -1,7 +1,7 @@
 -input-mesh-file
 ../../output/bouncurve/bump3d-fine_bouncurved.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/bump3d-fine_curved.msh
+../../output/curved-mesh-gen/bump3d-fine_curved-r0.04.msh
 -choice(RBF-choice)
 2
 -support-radius

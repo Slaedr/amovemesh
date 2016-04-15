@@ -30,9 +30,11 @@ class Curvedmeshgen2d
 	UMesh2dh* mq;					///< Data of the corresponding (straight-faced) quadratic mesh
 	Meshmove* mmv;					///< Pointer to parent class for the mesh-movement classes, such RBF, DGM or linear elasticity.
 	BoundaryReconstruction2d br;	///< Object to reconstruct the boundary using cubic splines.
+	double spltol;					///< Tolerance for spline solver
+	int splmaxiter;					///< Max iterations for spline solver
 	
 	double tol;						///< Tolerance for linear solver used for computing spline coefficients.
-	double maxiter;					///< Maximum number of iterations for linear solver used to compute spline coefficients.
+	int maxiter;					///< Maximum number of iterations for linear solver used to compute spline coefficients.
 	int rbfchoice;					///< Parameters for mesh movement - the type of RBF to be used, if applicable
 	double supportradius;			///< Parameters for mesh movement - the support radius to be used, if applicable
 	int nummovesteps;				///< Number of steps in which to accomplish the total mesh movement.
@@ -48,19 +50,21 @@ class Curvedmeshgen2d
 	Matrix<int> toRec;				///< This flag is true if a boundary face is to be reconstructed.
 
 public:
-	void setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler, double maxitera, int rbf_choice, double support_radius, int rbf_steps, string rbf_solver);
+	void setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double _spltol, int _splmaxiter, double toler, int maxitera, int rbf_choice, double support_radius, int rbf_steps, string rbf_solver);
 
 	void compute_boundary_displacements();
 
 	void generate_curved_mesh();
 };
 
-void Curvedmeshgen2d::setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double toler, double maxitera, int rbf_choice, double support_radius, int rbf_steps, string rbf_solver)
+void Curvedmeshgen2d::setup(UMesh2dh* mesh, UMesh2dh* meshq, Meshmove* mmove, int num_parts, vector<vector<int>> boundarymarkers, double angle_threshold, double _spltol, int _splmaxiter, double toler, int maxitera, int rbf_choice, double support_radius, int rbf_steps, string rbf_solver)
 {
 	m = mesh;
 	mq = meshq;
 	mmv = mmove;
 	br.setup(m, num_parts, boundarymarkers, angle_threshold);
+	spltol = _spltol;
+	splmaxiter = _splmaxiter;
 	tol = toler;
 	maxiter = maxitera;
 	rbfchoice = rbf_choice; supportradius = support_radius;
@@ -86,7 +90,7 @@ void Curvedmeshgen2d::compute_boundary_displacements()
 	br.preprocess();
 	br.detect_corners();
 	br.split_parts();
-	br.compute_splines(tol,maxiter);
+	br.compute_splines(spltol,splmaxiter);
 
 	// get coords of midpoints of each boundary face
 	Matrix<double> facemidpoints(m->gnface(),m->gndim());

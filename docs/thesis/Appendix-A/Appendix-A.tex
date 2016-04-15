@@ -1,8 +1,63 @@
 \chapter{Delaunay tessellation algorithm}
 
-Here, the exact algorithm used for the Delaunay tessellation in the context of Delaunay graph mapping (DGM) methods is explained. The method broadly follows the one used by Bowyer \cite{bowyer}. 
+Here, the exact algorithm used for the Delaunay tessellation (triangulation/tetrahedralization) in the context of Delaunay graph mapping (DGM) methods is explained. The method broadly follows the one used by Bowyer \cite{bowyer}. Since we are interested in a fast tessellation, and we do not need boundary-conforming facets, we do not try to ensure a boundary-conforming tessellation.
 
 The Delaunay process maximizes the minimum angle in a simplex. Implementation of the ``Delaunay kernel" is done such that orientation of elements and faces is preserved.
+
+\lstset{breaklines=true, tabsize=2}
+
+\begin{lstlisting}
+Bowyer_watson(pointList,npoin):
+{
+	Initialize dynamic array of nodes, elements and facets (1).
+	Form a super simplex, containing all points in pointList.
+	Add super simplex to list of elements, its facets to the list of facets and its nodes to the list of nodes.
+	//c! The content of the following loop is referred to as the Delaunay kernel.
+	For point in pointList do:
+	{
+		Add point to list of nodes.
+		Find the element hostElement containing point (2).
+		Declare a list of badElements and imsert hostElement in it.
+		Declare a list of candidateElements and insert the neighbors of hostElement into it.
+		For elem in candidateElement do:
+		{
+			Check the Delaunay criterion for elem (3).
+			If the Delaunay criterion is violated:
+			{
+				Remove elem from candidateElements.
+				Insert elem into badElements.
+				Insert neighbors of elem, which have not already been checked for the Delaunay criterion, into candidateElements.
+			}
+		}
+		Declare a list voidPolygon.
+		For each facet in facets:
+		{
+			If facet is not shared by only one element in badElements:
+				Insert facet into voidPolygon.
+			Else if facet is shared by two elements in badElements:
+				Delete facet from list of facets.
+		}
+		For elem in badElements:
+			Delete elem from list of elements.
+		For facet in voidPolygon:
+		{
+			Form a new simplex joining the facet with the (new) point, while ensuring that the ordering of nodes of the simplex is such that it is positively oriented. (4)
+			Form new facets corresponding to the facets of newly-created simplices; ensure the orientation of these facets as well as that each required facet is created only once. (4)
+		}
+	}
+	For elem in elements:
+		If any node of elem is a super node, ie., if any node of elem is one of the first three nodes in the list of nodes, delete elem from elements.
+	Return the list of elements and nodes.
+}
+\end{lstlisting}
+
+We mention a few notes about some of the steps stated above.
+\begin{enumerate}
+	\item[1.] The array of nodes is a simple array of size npoin+3 or npoin+4 containing all input points and the additional 3 or 4 points from the `super simplex'. The elements array holds, for each element, the node-indices of its nodes and the element-indices of its neighboring elements. The face array holds, for each facet, the node-indices of its nodes and the element-indices of its left- and right-elements (left and right is determined by the right-hand rule and the ordering of nodes).
+	\item[2.] We have implemented a walk through elements starting at the last element created. The three barycentric (area or volume ratio) coordinates are computed for the new point with respect to each element in the walk path. If all three values are positive, the current element contains the point. If not, we find the minimum value among the three barycentric coordinates; suppose the minimum value corresponds to the local node $i$ among 1,2,3 or 1,2,3,4. The next element to check is the one neighboring the face opposite to node $i$.
+	\item[3.] The Delaunay criterion consists of comparing the distance of the new point from element center and the element's circumcircle radius. If the former is greater, the point does not violate the Delaunay criterion for this element; otherwise, the Delaunay criterion for the element will be violated upon addition of the new point.
+	\item[4.] In this author's opinion, preserving the orientation (local node-ordering) of each new element and each new facet is the most challenging task in writing a Delaunay kernel. It is accomplished in this work by using boolean helper arrays to keep account of associations between nodes and new facets created. We take advantage of the fact that in case of a simplex, each facet can be uniquely associated with the node opposite to it.
+\end{enumerate}
 
 \chapter[Spline reconstruction]{Spline reconstruction of a piecewise-linear boundary}
 \label{app:spline}

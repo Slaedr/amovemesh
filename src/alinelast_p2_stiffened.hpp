@@ -39,7 +39,9 @@ namespace amc {
 //using namespace std;
 //using namespace amat;
 
-/// Class implementing solution of linear elasticity system by P2 Lagrange finite elements.
+/// Class implementing solution of linear elasticity system by P2 Lagrange finite elements
+/** Currently only works on 2D triangular meshes.
+ */
 class LinElastP2
 {
 

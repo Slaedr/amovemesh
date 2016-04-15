@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="drawing.pdf">
+   sodipodi:docname="DG-curved-problem.pdf">
   <defs
      id="defs4" />
   <sodipodi:namedview
@@ -24,17 +24,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
+     inkscape:zoom="1.4"
      inkscape:cx="438.79099"
-     inkscape:cy="577.14286"
+     inkscape:cy="634.28572"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1125"
-     inkscape:window-height="808"
-     inkscape:window-x="0"
-     inkscape:window-y="180"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1680"
+     inkscape:window-height="995"
+     inkscape:window-x="-3"
+     inkscape:window-y="-3"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -144,5 +144,37 @@
        d="M 75.714286,315.21933 260,192.36218"
        id="path3817"
        inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 77.142857,314.50504 188.571423,215 L 90.714285,303.79076 277.14286,517.36219 107.85714,293.07647 290.71428,501.6479 130,278.07647 310,480.21933 167.14286,253.07647 358.57143,426.6479 l -136.42857,-210 180.71428,160.71429"
+       id="path2998"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 257.14286,540.93361 239.28571,121.42857 -230.71429,-132.85714 235,122.85714 L 276.42857,516.6479 505.71428,639.50504 290.71428,501.6479 512.85714,622.36219 310,480.93361 l 218.57143,97.85715 -170,-152.14286 200.71428,74.28571 -156.42857,-123.57142"
+       id="path3002"
+       inkscape:connector-curvature="0" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3004"
+       style="font-size:14px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><flowRegion
+         id="flowRegion3006"><rect
+           id="rect3008"
+           width="144.28572"
+           height="29.285713"
+           x="66.428574"
+           y="524.50507"
+           style="font-size:14px" /></flowRegion><flowPara
+         id="flowPara3010" /></flowRoot>    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="89.285713"
+       y="540.93359"
+       id="text3012"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3014"
+         x="89.285713"
+         y="540.93359" /></text>
   </g>
 </svg>

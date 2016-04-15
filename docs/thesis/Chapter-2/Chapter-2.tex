@@ -40,6 +40,8 @@
  
  The deformable elastic solid analogy, employing the equations of (linear or non-linear) elasticity, is one of the widely-used mesh movement techniques. This class of schemes often lead to very robust mesh movement. The mesh is assumed to model a deformable solid body, which is then deformed according to the equations of solid mechanics, that is, linear or non-linear elasticity.
  
+ \subsubsection{Linear elasticity}
+ 
  The simplest approach is linear elasticity.
  \begin{equation}
  \nabla \cdot \mathbf{\sigma}  = \mathbf{0} \quad \text{in} \, \Omega
@@ -61,9 +63,21 @@
  \end{equation}
  The weak form of this set of equations, solved by Galerkin finite element method (FEM) leads to a linear system of size $n_d N_n$, where $n_d$ is the dimension of the problem and $N_n$ is the number of nodes to be moved.
  
- While the basic linear elasticity scheme is adequate for some applications, it is not adequate for stretched, boundary-layer meshes for viscous flow, among others. The scheme is often modified by `stiffening' the mesh appropriately, so as to attain some control over the propagation of deformation into the interior of the mesh, as done, for instance, by Hartmann and Leicht \cite{curve:hartmann}. In their work, the material is stiffened based on the determinant of the local Jacobian matrix of the reference-to-physical mapping, that is to say smaller elements are stiffer than larger ones.
+ \subsubsection{`Sitffened' linear elasticity}
+ \label{subsec:stiffelast}
+ While the basic linear elasticity scheme is adequate for some applications, it is not adequate for stretched, boundary-layer meshes for viscous flow, among others. The scheme is often modified by `stiffening' the mesh appropriately, so as to attain some control over the propagation of deformation into the interior of the mesh, as done, for instance, by Hartmann and Leicht \cite{curve:hartmann}. In their work, the material is stiffened based on the determinant of the local Jacobian matrix of the reference-to-physical mapping, that is to say smaller elements are stiffer than larger ones. If $\hat{\kappa}$ is the reference element corresponding to the physical element $\kappa$, the local bilinear form on $\kappa$ giving rise to the local stiffness matrix 
+ \begin{equation}
+ (\dots)_\Omega = \sum_{\kappa \in T_h} \int_{\kappa} \dots d\mathbf{x} = \sum_{\kappa \in T_h} \int_{\hat{\kappa}} \dots J_\kappa d\mathbf{x}
+ \end{equation}
+ is modified according to
+ \begin{equation}
+\int_{\hat{\kappa}} \dots J_\kappa d\mathbf{x} \text{becomes} \int_{\hat{\kappa}} \dots J_\kappa \left(\frac{J_0}{J_\kappa}\right)^\chi d\mathbf{x}
+ \end{equation}
+ where $J_\kappa$ is the Jacobian of the reference-to-physical mapping of the element $\kappa$, $J_0$ is a reference Jacobian for the mesh and $\chi$ is an constant to be chosen.
  
- Non-linear elasticity is claimed to be a highly robust method for mesh movement by Persson and Peraire \cite{curve:persson}. As long as the mesh is fine enough to resolve the displacements, they claim that element validity is guaranteed. In their work, for non-linear elasticity, the constitutive equation \eqref{linelast:constt} and strain-displacement relation \eqref{linelast:strain} are replaced by the `neo-Hookean' constitutive model
+ \subsubsection{Nonlinear elasticity}
+ 
+ Nonlinear elasticity is claimed to be a highly robust method for mesh movement by Persson and Peraire \cite{curve:persson}. As long as the mesh is fine enough to resolve the displacements, they claim that element validity is guaranteed. In their work, for non-linear elasticity, the constitutive equation \eqref{linelast:constt} and strain-displacement relation \eqref{linelast:strain} are replaced by the `neo-Hookean' constitutive model
  \begin{equation}
  \bld{P} = \mu ((\boldsymbol{F}^T\bld{F})\bld{F}^{-T} - \bld{F}^{-T}) + \lambda(\ln \det\bld{F})\bld{F}^{-T}
  \end{equation}
@@ -120,7 +134,7 @@
  
  Next, we need to evaluate equation \eqref{eqn:rbf} for each interior point, which requires one evaluation of the RBF for each interior point (in each direction). This too, can be parallelized easily.
  
- The quality of the final mesh depends on which RBF is used. Many kinds of RBFs have been used in literature \cite{mm:rbf, mm:rbf2}. In this work, we mainly use Wendland's C2 function
+ The quality of the final mesh depends on which RBF is used. Many kinds of RBFs have been used in literature \cite{mm:rbf, mm:rbf2}. In this work, we use Wendland's C2 function
  \begin{equation}
  \phi(x) = (1-x)^4(4x + 1),
  \end{equation}
@@ -135,6 +149,8 @@
  where $r_s$ is a real number called the `support radius'. This modified function has a compact support. In light of this, we see the matrix $\mathbf{A}$ is sparse if the support radius is less than the characteristic dimension of the domain. For curved mesh generation, this support radius can be kept quite small relative to the whole domain, giving us a very sparse linear system which is solved quite fast.
  
  The scaling of the argument by the support radius serves to make the value of the RBF 1.0 at the boundary. This means that points very close to the boundary will deform just like the boundary itself. This results in an essentially rigid motion of points very close to the boundary, which causes the near-boundary elements to retain their quality after the mesh movement. The support radius is chosen big enough to accommodate the expected deformation of the boundary, but small enough that the linear system is sparse. An algorithm to determine a good support radius will be very useful in this regard.
+ 
+ The RBF method can be carried out in multiple steps; this is found to increase the quality of generated meshes in some cases involving large rotational deformations (\ref{fig:wing-inviscid-rbf}), but not so much in others, such as curved mesh generation.
  
  \subsection[DG-RBF]{Interpolation using radial basis function on the Delaunay graph (DGRBF)}
  This method proposed by Wang, Qin and Zhao \cite{mm:dgrbf} combines both the Delaunay graph mapping and interpolation by RBF. The general scheme of the mesh movement is the same as in case of DGM, but with the important difference that interpolation is not done using barycentric coordinates of the nodes with respect to the Delaunay graph elements. Here, the interpolation is done via radial basis functions in each Delaunay graph element. The displacement of a node with initial position $\bld{x}$ is given by
@@ -155,7 +171,7 @@
  \end{align}
  where $(x_0,y_0)$ is the center of rotation, and $a_z$ is the interpolated rotation angle at the node in question. For interpolation of the angles, the same formulae \eqref{eqn:dgrbf} and \eqref{eqn:dgrbfsys} are used, with the rotation angles replacing the displacements. Angle interpolation can be combined with displacement interpolation for problems involving both translation and rotation. This angle interpolation scheme, and its combination with the displacement interpolation scheme, is referred to as `DGRBF2' in \cite{mm:dgrbf}.
  
- \section{`Improved' Delaunay graph mapping}
+ \subsection{`Improved' Delaunay graph mapping}
  \label{sec:hybriddg}
  If the Delaunay graph (DG) lines are not approximately normal to the boundary, there can sometimes be issues with mesh movement. Mesh lines tend to be normal to the boundary for physical and numerical reasons. If Delaunay graph lines make very small or very large angles (compared to 90 degrees) with the boundary, successive interior nodes on the same mesh line can lie in different DG triangles. This would cause non-smooth displacement of interior mesh nodes; an example is presented in detail in section \ref{subsec:dgmunsuitable}.
  
@@ -169,7 +185,7 @@
  \label{sec:lin-mesh-quality}
  In order to judge the effectiveness of mesh-movement methods, we need to measure the quality of the deformed mesh. Some mesh quality measures have been derived for linear 2D and 3D elements by Knupp \cite{qualknupp}. These include the relative size, shape and size-shape metrics for triangles and tetrahedra, and size, shape, skew, size-shape and size-skew metrics for quadrangles and hexahedra.
  
- The size metric distinguishes elements having very small or very large volume with respect to some reference volume. The shape metric identifies elements that have unequal edges or unequal angles between edges; it is independent of size of the element. Finally, the skew metric is a measure of unequal angles between edges of the element only, irrespective of lengths of edges and volume of element; it is different from shape in case of non-simplicial (like quadrangular and hexahedral) elements. While dealing with quadrangles, we use the skew metric.
+ The size metric distinguishes elements having very small or very large volume with respect to some reference volume. The shape metric identifies elements that have unequal edges or unequal angles between edges; it is independent of size of the element. Finally, the skew metric is a measure of unequal angles between edges of the element only, irrespective of lengths of edges and volume of element. The skew metric is different from shape in case of non-simplicial (like quadrangular and hexahedral) elements. While dealing with quadrilaterals, we use the skew metric. This is because for boundary layer meshes, cells with high aspect-ratios are desired, but they have poor shape metric. For triangular meshes, cells with high aspect-ratio must have very unequal interior angles too, leaving no difference between shape and skew.
  
  All metrics are normalized so that they are 1.0 for ideal elements with regard to the characteristic they measure, and they are 0.0 for degenerate elements. 
  

@@ -2,7 +2,7 @@
 
 using namespace std;
 using namespace amat;
-using namespace acfd;
+using namespace amc;
 
 int main(int argc, char* argv[])
 {
@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
 	}
 	string confile = argv[1];
 	ifstream conf(confile);
-	string dum, str_linearmesh, str_qmesh, str_curvedmesh, stiffscheme;
+	string dum, str_linearmesh, str_qmesh, str_curvedmesh, stiffscheme, str_linsolv;
 	int maxiter, nsplineparts, nflags;
 	double ym, pr, tol_g, tol_e, cornerangle, chi;
 	vector<vector<int>> splineflags;
@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
 	conf >> dum; conf >> pr;
 	conf >> dum; conf >> chi;
 	conf >> dum; conf >> stiffscheme;
+	conf >> dum; conf >> str_linsolv;
 	conf >> dum; conf >> tol_g;
 	conf >> dum; conf >> tol_e;
 	conf >> dum; conf >> maxiter;
@@ -56,7 +57,7 @@ int main(int argc, char* argv[])
 
 	LinElastP2 rmove;
 	Curvedmeshgen2d cu;
-	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol_g, tol_e, maxiter, ym, pr, chi, stiffscheme);
+	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, tol_g, tol_e, maxiter, ym, pr, chi, stiffscheme, str_linsolv);
 	cu.compute_boundary_displacements();
 	
 	clock_t begin = clock();

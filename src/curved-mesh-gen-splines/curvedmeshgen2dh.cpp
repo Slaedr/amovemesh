@@ -26,8 +26,8 @@ int main(int argc, char* argv[])
 	conf >> dum; conf >> str_qmesh;
 	conf >> dum; conf >> str_curvedmesh;
 	conf >> dum; conf >> cornerangle;
-	//conf >> dum; conf >> spltol;
-	//conf >> dum; conf >> splmaxiter;
+	conf >> dum; conf >> spltol;
+	conf >> dum; conf >> splmaxiter;
 	conf >> dum; conf >> rbfchoice;
 	conf >> dum; conf >> supportradius;
 	conf >> dum; conf >> nrbfsteps;
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 
 	RBFmove rmove;
 	Curvedmeshgen2d cu;
-	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, rbftol, rbfmaxiter, rbfchoice, supportradius, nrbfsteps, rbf_solver);
+	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, spltol, splmaxiter, rbftol, rbfmaxiter, rbfchoice, supportradius, nrbfsteps, rbf_solver);
 	cu.compute_boundary_displacements();
 	
 	clock_t begin = clock();

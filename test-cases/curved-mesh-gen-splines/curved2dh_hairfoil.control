@@ -6,6 +6,10 @@
 ../../output/curved-mesh-gen-spline/hairfoil_curved.msh
 -angle-threshold-for-corners
 40.0
+-tolerance-for-spline-solver-CG
+1e-8
+-max-iterations-spline-solver
+100
 -RBF-choice
 2
 -Support-radius-for-RBF

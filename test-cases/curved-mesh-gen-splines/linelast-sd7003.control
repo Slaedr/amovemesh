@@ -14,6 +14,8 @@
 1.5
 -stiffening-scheme
 shape
+-linear-solver
+CG
 -Tolerance-for-spline
 1e-8
 -Tolerance-for-elasticity

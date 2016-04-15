@@ -6,6 +6,10 @@
 ../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_curved.msh
 -angle-threshold-for-corners
 40.0
+-tolerance-for-spline-solver-CG
+1e-8
+-max-iterations-spline-solver
+100
 -RBF-choice
 2
 -Support-radius-for-RBF
@@ -17,7 +21,7 @@
 -Maximum-iterations
 2000
 -RBF-solver
-BICGSTAB
+CG
 -Number-of-spline-parts
 3
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers
