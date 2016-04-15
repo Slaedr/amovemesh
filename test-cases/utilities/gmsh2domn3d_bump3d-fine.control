@@ -1,7 +1,7 @@
 -input-mesh
-../../output/curved-mesh-gen/bump3d-fine_curved.msh
+../../output/curved-mesh-gen/bump3d-fine_curved-r0.04.msh
 -output-mesh
-../../output/curved-mesh-gen/bump3d-fine_curved.domn
+../../output/curved-mesh-gen/bump3d-fine_curved-r0.04.domn
 -number-of-Farfield-markers
 1
 -Farfield-markers

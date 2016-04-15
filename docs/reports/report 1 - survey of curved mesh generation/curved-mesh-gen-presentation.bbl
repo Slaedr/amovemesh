@@ -1,0 +1,58 @@
+\begin{thebibliography}{1}
+
+\bibitem{rbf}
+A.~de~Boer, M.S. van~der Schoot, and H.~Bijl.
+\newblock Mesh deformation based on radial basis function interpolation.
+\newblock {\em Computers and Structures}, 85:784--795, 2007.
+
+\bibitem{farhat}
+C.~Farhat, C.~Degand, B.~Koobus, and M.~Lesoinne.
+\newblock Torsional springs for two-dimensional dynamic unstructured fluid
+  meshes.
+\newblock {\em Comput. Methods Appl. Mech. Engrg.}, 163:231--245, 1998.
+
+\bibitem{hartmann}
+Ralf Hartmann and Tobias Leicht.
+\newblock High-order unstructured grid generation and discontinuous {G}alerkin
+  discretization applied to a {3D} high-lift configuration.
+\newblock 53\textsuperscript{rd} AIAA Aerospace Sciences Meeting (SciTech
+  2015), {AIAA} 2015-0819, Kissimmee, Florida, 2015.
+
+\bibitem{dgm}
+X.~Liu, N.~Qin, and H.~Xia.
+\newblock Fast dynamic grid deformation based on delaunay graph mapping.
+\newblock {\em J. Comput. Phy.}, 211:405--423, 2006.
+
+\bibitem{perssonelast}
+P.-O. Persson and J.~Peraire.
+\newblock Curved mesh generation and mesh refinement using lagrangian solid
+  mechancics.
+\newblock {\em 47th AIAA Aerospace Sciences Meeting including The New Horizons
+  Forum and Aerospace Exposition}, 2009.
+
+\bibitem{persson}
+P.-O. Persson and J.~Peraire.
+\newblock High-order unstructured grid generation and discontinuous galerkin
+  discretization applied to a 3d high-lift configuration.
+\newblock {\em Proc. of the 47th AIAA Aerospace Sciences Meeting}, 2009.
+
+\bibitem{mavriplis}
+L.~Wang, D.J. Mavriplis, and W.K. Anderson.
+\newblock Unsteady discrete adjoint formulation for high-order discontinuous
+  galerkin discretizations in time-dependent flow problems.
+\newblock {\em 48th AIAA Aerospace Sciences Meeting Including the New Horizons
+  Forum and Aerospace Exposition}, AIAA 2010-637, 2010.
+
+\bibitem{dgrbf}
+Y.~Wang, N.~Qin, and N.~Zhao.
+\newblock Delaunay graph and radial basis function for fast quality mesh
+  deformation.
+\newblock {\em J. Comput. Phy.}, 294:149--172, 2015.
+
+\bibitem{xie}
+Z.Q. Xie, R.~Sevilla, O.~Hassan, and K.~Morgan.
+\newblock The generation of arbitrary order curved meshes for 3d finite element
+  analysis.
+\newblock {\em Comput. Mech.}, 51:361--374, 2012.
+
+\end{thebibliography}

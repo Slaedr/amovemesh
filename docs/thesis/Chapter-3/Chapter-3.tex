@@ -3,19 +3,17 @@
 
 The problem of curved mesh generation involves at least one issue - the placement of the boundary ``high-order" nodes. A description of a high-order boundary is required, and the optimal placement of high-order boundary nodes must be decided.
 
-Additionally, we usually need to deal with one more issue - maintaining the quality of elements near the boundary after placing the high-order boundary nodes. The deformation of the initially polygonal/polyhedral boundary to get a curved boundary usually causes the quality of boundary elements to get reduced. In cases with a viscous mesh, these elements may even become invalid \cite{curve:persson, gmsh:untangling}. Thus, the deformation of the boundary must be propagated into the domain, to displace interior nodes upto at least some distance from the boundary.
+Additionally, we usually need to deal with one more issue - maintaining the quality of elements near the boundary after placing the high-order boundary nodes. The deformation of the initially polygonal/polyhedral boundary to get a curved boundary usually causes the quality of boundary elements to get reduced. In cases with a viscous boundary layer mesh, these elements even become invalid \cite{curve:persson, gmsh:untangling}. Thus, the deformation of the boundary must be propagated into the domain, to displace interior nodes upto at least some distance from the boundary.
 
-In our knowledge, there are, broadly speaking, three types of methods to achieve movement of the interior nodes. The first type uses models based on solid mechanics to try to achieve valid mesh movement, as explained in the previous chapter. The second type of technique to move the interior nodes involves interpolation of the boundary displacement to interior nodes, again, as previously explained. Finally, researchers have ``untangled" the near-boundary elements, and otherwise improved the quality of the mesh, by optimization processes. The cost function is usually some kind of curved-mesh quality measure. One prominent example of this is in the Gmsh meshing software \cite{gmsh:untangling}. One interesting development in curved mesh generation is due to Ims at. al. \cite{curve:meshcurve}, in which explicit interpolation (\cite{mm:explicit}) is used to curve the interior of the mesh. 
+In our knowledge, there are three types of methods to achieve regularization of the interior mesh. The first type uses models based on solid mechanics to try to achieve valid mesh movement, as explained in the previous chapter. The second type of technique to move the interior nodes involves interpolation of the boundary displacement to interior nodes, again, as previously explained. An interesting development in curved mesh generation by interpolation is due to Ims at. al. \cite{curve:meshcurve}, in which explicit interpolation (\cite{mm:explicit}) is used to curve the interior of the mesh. Finally, researchers have ``untangled" the near-boundary elements, and otherwise improved the quality of the mesh, by optimization processes. The cost function is usually some kind of curved-mesh quality measure. One prominent example of this is in the Gmsh meshing software \cite{gmsh:untangling}.
 
-We present an alternative approach based on radial basis functions. This approach is compared to the more prevalent methods of linear elasticity \cite{curve:hartmann}.
+We present an alternative approach based on interpolation by radial basis functions. This approach is compared to the more prevalent methods of linear elasticity \cite{curve:hartmann}.
 
 In the rest of the sections, we discuss the methodology used to generate 2D unstructured quadratic meshes from linear meshes, and then present examples to demonstrate the effectiveness of our method. We compare the quality of meshes given by the RBF interpolation method and the linear-elasticity method.
 
-\section{Method}
-
 We initially preprocess the linear mesh to generate a straight-faceted high-order mesh. To do this, we introduce extra nodes along edges, in faces and inside cells as required. Next, we either use CAD data or use a high-order boundary reconstruction method to obtain the actual positions of boundary high-order nodes. Finally, interior nodes are moved according to the boundary displacement imposed because of the previous step.
 
-\subsection{Spline reconstruction for boundaries of 2D meshes}
+\section{Spline reconstruction for boundaries of 2D meshes}
 \label{subsec:spline2d}
 Since only the linear mesh is taken as input, a high-order boundary representation first needs to be reconstructed from the piecewise linear $C^0$ boundary. For 2D meshes, we use a cubic spline reconstruction to get a smooth ($C^2$) parametric curve describing the boundary. All boundary nodes are used as spline control points, and we get a cubic function between every two consecutive boundary nodes. At the control points, we require the two spline curves meeting there to share a common tangent and curvature, thus enforcing $C^2$ continuity. Since it is common for the true boundary to be specified in terms of cubic spline curves, this is expected to give us an accurate reconstruction. Corners are detected by comparing the normal vectors of the two facets sharing a point. If the dot product between the two normal vectors is below a particular user-specified threshold, the point is considered as a corner and is not smoothed over by the reconstruction procedure. Alternatively, the user can list all the corner points as input. Thus the reconstructed boundary is piecewise $C^2$, which is found to work well for the test cases we considered. The spline reconstruction requires the solution of a symmetric positive definite linear system, of size equal to the number of boundary nodes in the curved part of the boundary, in order to calculate the cubic spline coefficients. The system(s) can be solved quickly using a conjugate gradient (CG) solver. More details are given in appendix \ref{app:spline}.
 
@@ -23,7 +21,7 @@ Instead of a global reconstruction by cubic splines, a local reconstruction at e
 
 Once we have the smooth reconstructed boundary, we calculate the final positions of the boundary nodes in the curved mesh. This is currently done by simply moving the high-order boundary nodes, originally at regular intervals on the boundary facet, to corresponding intervals in parameter space on the cubic spline curve associated with that facet. This method is found to be quite robust for the meshes tested. Thus, the boundary displacements are obtained. Alternatively, if the CAD geometry is available, the displacements can be computed using it.
 
-\subsection{Interior mesh movement}
+\section{Interior mesh movement}
 
 To propagate the boundary motion to the interior of the mesh, we favor interpolation by radial basis functions (RBFs) \cite{mm:rbf}. We have also used linear elasticity to propagate the mesh movement to the interior. The isotropic linear elasticity variational formulation, as given by Gockenbach \cite{gockenbach}, is implemented in a P2 Galerkin FEM code for generation of quadratic meshes. In this case however, the size of the linear system to be solved is proportional to the total number of nodes in the mesh.
 
@@ -33,7 +31,7 @@ While solving certain problems with the RBF method, we find that the linear syst
 
 We have also tried using the stiffened linear elasticity method described in subsection \ref{subsec:stiffelast}. In this work, this is implemented by scaling each component of the element stiffness matrix of each element by the scaling term $\left(\frac{J_0}{J_\kappa}\right)^\chi$. This is valid as we only need to run the linear elasticity code on straight-sided meshes, and this means that the Jacobian $J_\kappa$ is constant over the element.
 
-\subsubsection{Unsuitability of Delaunay-graph-based methods for curved mesh generation}
+\subsection{Unsuitability of Delaunay-graph-based methods for curved mesh generation}
 \label{subsec:dgmunsuitable}
 %********* TODO: DESCRIBE WHY DGM AND DG-RBF FAIL FOR CURVED MESH GENERATION. DESCRIBE THE 2-STEP RBF-DG METHOD, AND WHY THAT DOES NOT WORK EITHER *********
 

@@ -1,5 +1,12 @@
 \begin{thebibliography}{10}
 
+\bibitem{MUMPS}
+P.~R. Amestoy, I.~S. Duff, J.~Koster, and J.-Y. L'Excellent.
+\newblock A fully asynchronous multifrontal solver using distributed dynamic
+  scheduling.
+\newblock {\em SIAM Journal on Matrix Analysis and Applications}, 23(1):15--41,
+  2001.
+
 \bibitem{appl:dgeuler}
 F.~Bassi and S.~Rebay.
 \newblock High-order accurate discontinuous finite element solution of the 2d
@@ -59,6 +66,12 @@ Ralf Hartmann and Tobias Leicht.
 \newblock 53\textsuperscript{rd} AIAA Aerospace Sciences Meeting (SciTech
   2015), {AIAA} 2015-0819, Kissimmee, Florida, 2015.
 
+\bibitem{pastix}
+P.~H\'enon, P.~Ramet, and J.~Roman.
+\newblock {PaStiX}: {A} {H}igh-{P}erformance {P}arallel {D}irect {S}olver for
+  {S}parse {S}ymmetric {D}efinite {S}ystems.
+\newblock {\em {P}arallel {C}omputing}, 28(2):301--321, January 2002.
+
 \bibitem{curve:meshcurve}
 J.~Ims, Z.~Duan, and Z.J. Wang.
 \newblock meshcurve : An automated low-order to high-order mesh generator.
@@ -86,6 +99,13 @@ X.~Jiao and D.~Wang.
 P.M. Knupp.
 \newblock Algebraic mesh quality measures for unstructured initial meshes.
 \newblock {\em Finite Elements in Analysis and Design}, 39:217--241, 2003.
+
+\bibitem{superlu}
+Xiaoye~S. Li.
+\newblock An overview of {SuperLU}: Algorithms, implementation, and user
+  interface.
+\newblock {\em ACM Transactions on Mathematical Software}, 31(3):302--325,
+  September 2005.
 
 \bibitem{mm:dgm}
 X.~Liu, N.~Qin, and H.~Xia.

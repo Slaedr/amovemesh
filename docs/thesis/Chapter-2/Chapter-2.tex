@@ -1,6 +1,6 @@
 \chapter{Review of mesh movement methods}
 
- In our knowledge, there are, broadly speaking, three types of methods to achieve movement of the interior nodes knowing the movement of the boundary nodes. The first type uses models based on solid mechanics to try to achieve valid mesh movement. Examples of this type are lineal spring analogy \cite{mm:batina}, torsion spring analogy \cite{mm:torsionsprings}, linear-elasticity (and variants thereof)\cite{curve:hartmann} and non-linear elasticity \cite{curve:persson}. Each of these requires solution of a system of equations involving the same number of variables as mesh points to be moved. The linear-elasticity based models require solution of Poisson-type partial differential equations.
+ In our knowledge, there are, broadly speaking, two types of methods to achieve movement of the interior nodes knowing the movement of the boundary nodes. The first type uses models based on mechanics to try to achieve valid mesh movement. Examples of this type are lineal spring analogy \cite{mm:batina}, torsion spring analogy \cite{mm:torsionsprings}, linear-elasticity (and variants thereof)\cite{curve:hartmann} and non-linear elasticity \cite{curve:persson}. Each of these requires solution of a system of equations of size proportional to the number of mesh points to be moved. The linear-elasticity based models require solution of Poisson-type partial differential equations.
  
  The second type of technique to move the interior nodes involves \emph{interpolation} of the boundary displacement to interior nodes. Several methods exist; some examples are radial basis function (RBF) interpolation \cite{mm:rbf}, `explicit' interpolation \cite{mm:explicit}, and `Delaunay graph mapping' \cite{mm:dgm}. These methods do not involve any physics-based modeling of the mesh.
  
@@ -34,7 +34,7 @@
  	\label{f:torsion}
  \end{figure}
  
- While this method is significantly more robust than the lineal spring analogy of Batina, it is also much more computationally expensive. A fully coupled system of $n_{dim} N_n$ equations must be solved, where $N_n$ is the number of nodes that are to be moved in the mesh and $n_{dim}$ is the dimension of the problem.
+ While this method is significantly more robust than the lineal spring analogy of Batina, it is also much more computationally expensive. A coupled system of $n_{dim} N_n$ equations must be solved, where $N_n$ is the number of nodes that are to be moved in the mesh and $n_{dim}$ is the physical spatial dimension of the problem.
  
  \subsection{Elastic solid analogy (`Elasticity')}
  
@@ -71,9 +71,11 @@
  \end{equation}
  is modified according to
  \begin{equation}
-\int_{\hat{\kappa}} \dots J_\kappa d\mathbf{x} \text{becomes} \int_{\hat{\kappa}} \dots J_\kappa \left(\frac{J_0}{J_\kappa}\right)^\chi d\mathbf{x}
+\int_{\hat{\kappa}} \dots J_\kappa d\mathbf{x} \quad \text{becomes} \int_{\hat{\kappa}} \dots J_\kappa \left(\frac{J_0}{J_\kappa}\right)^\chi d\mathbf{x}
  \end{equation}
- where $J_\kappa$ is the Jacobian of the reference-to-physical mapping of the element $\kappa$, $J_0$ is a reference Jacobian for the mesh and $\chi$ is an constant to be chosen.
+ where $J_\kappa$ is the Jacobian of the reference-to-physical mapping of the element $\kappa$, $J_0$ is a reference Jacobian for the mesh and $\chi$ is a constant to be chosen.
+ 
+ We could also use other stiffening criteria. In our work we have tried stiffening based on the shape quality metric (section \ref{sec:lin-mesh-quality}), but we find that the shape metric generally leads to unacceptable results, while the size-shape metric is worse than Jacobian-based stiffening. Perhaps some other metric could be formulated that works better. Further, we could stiffen cells based on distance from boundaries. This would require a fast, and not necessarily accurate, boundary-distance estimation.
  
  \subsubsection{Nonlinear elasticity}
  

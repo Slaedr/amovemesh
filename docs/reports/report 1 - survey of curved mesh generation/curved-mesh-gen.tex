@@ -1,0 +1,48 @@
+\documentclass[letterpaper,twoside,11pt]{article}
+\usepackage[top=1in, bottom=1.25in, left=1in, right=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+%\usepackage{placeins}
+
+\bibliographystyle{plain}
+
+\title{Curved Mesh Generation: Interior Mesh Deformation}
+\author{Aditya Kashi}
+\begin{document}
+\maketitle
+
+Various methods have been used to generate high-order curved meshes from linear meshes - including methods to optimize surface (boundary) meshing and methods to get valid internal mesh. Here, I focus on the latter.
+
+\section{Lineal Spring Analogy}
+This is the simplest method that can be used to move internal mesh points in response to movement of the boundary. Each edge of the mesh is assumed to represent a linear spring connecting the two nodes which make up the edge. In my experiment with this method, it is not reliable as it generates invalid elements (containing zero and negative values of Jacobian determinant). This method is used in \cite{mavriplis}. In this case, however, the internal elements are linear - only boundary faces are high-order, since the problem considered is inviscid flow.
+
+\section{Torsional Spring Analogy}
+This is an extension to the previous method, which adds torsional springs at each node and this leads to a substantially more robust movement \cite{farhat}. However, I have not found any literature (yet) where this method is used for curved mesh generation, though it is widely used for mesh deformation otherwise.
+
+\section{Linear Elasticity Analogy}
+In this method, the (partial differential) equations of linear elasticity are solved by high-order continuous FEM to move the internal nodes of a mesh, as done in \cite{xie}. In this work, a linear mesh is first generated. High-order nodes are then positioned on edges and faces to create a straight-edged high-order mesh. Next, the linear elasticity FEM problem is solved on this straight-edged high-order mesh, subject to boundary conditions determined by the curved boundary, to curve the internal edges and thus obtain the final curved high-order mesh. Methods of calculating final positions of the boundary high-order nodes are also discussed. Both 2D and 3D cases are discussed.
+
+\section{Linear Elasticity Analogy with Non-uniform Stiffness}
+Developed by Hartmann and Leicht \cite{hartmann}, this approach is almost the same as the previous approach, except that it is claimed to be more robust. Also, the linear elasticity problem is solved on the \emph{linear} mesh. Greater robustness is attributed to the fact that the `material' in the solid model is assumed non-uniform, in that the elasticity of each element set to be different. Elements with small Jacobians are assigned lower elasticty (and therefore greater stiffness), while elements with large Jacobians are assigned greater elasticity (less stiffness).
+
+\section{Non-linear Elasticity Analogy}
+The general idea of this method is same as that of linear elasticity. The difference is that a non-linear constitutive model is used (relating stress and strain) instead of a linear constitutive model. Persson and Peraire claim \cite{persson} ``When the mesh is sufficiently fine to solid deformation, this method guarantees non-intersecting elements even for highly distorted or anisotropic initial meshes". As far as I can tell, in this paper as well, the elasticity equations are solved on a stright-edged high-order mesh, to generate a curved high-order mesh. Nodal basis functions are used to represent the reference-to-physical element mappings.
+
+Persson and Peraire's paper is also referenced, and their technique used, by Xu and Chernikov \cite{chernikov}. They appear to be using Bezier basis functions instead of nodal basis functions.
+
+\section{Other}
+In their paper \cite{sherwin}, Sherwin and Peiro discuss several approaches for high-order mesh generation, including
+\begin{itemize}
+\item optimization of positioning of high-order points on the boundary by considering spring analogy to make the points lie on geodesics on the surface, while also making them conform to a Gaussian quadrature distribution,
+\item having prismatic elements in the boundary layer while having tetrahedra in the interior (hybrid meshing), and 
+\item carry out curvature-based refinement of the surface discretization,
+\end{itemize}
+all of which, they claim, increases the validity and quality of high-order meshes. Movement of interior mesh points, is however, not considered.
+
+\section{Conclusion}
+In my opinion, we can disregard linear spring analogy since it is not robust (as demonstrated by my experiment with a simple mesh); its only advantage being that it is simple and fast. The torsion spring analogy is working in my simple test case. I would conclude that the `stiffened' linear elasticity analogy method and non-linear elasticity analogy method offer greatest robustness, but are also computation-intensive. It is not clear whether straightforward linear elasticity analogy is any better than torsional spring analogy, but the former would be more computationally expensive.
+
+\bibliography{references}
+
+\end{document}
