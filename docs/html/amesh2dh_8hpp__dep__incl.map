@@ -1,6 +1,0 @@
-<map id="amesh2dh.hpp" name="amesh2dh.hpp">
-<area shape="rect" id="node3" href="$ageometryh_8hpp.html" title="Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear b..." alt="" coords="5,80,123,107"/>
-<area shape="rect" id="node7" href="$aoutput_8hpp.html" title="A collection of subroutines to write mesh data to various kinds of output formats. " alt="" coords="147,80,236,107"/>
-<area shape="rect" id="node5" href="$ageometryh_8cpp.html" title="Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear b..." alt="" coords="5,155,123,181"/>
-<area shape="rect" id="node9" href="$aoutput_8cpp.html" title="Implementation of subroutines to write mesh data to various kinds of output formats. " alt="" coords="147,155,236,181"/>
-</map>

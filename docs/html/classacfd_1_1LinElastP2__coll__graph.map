@@ -1,7 +1,0 @@
-<map id="acfd::LinElastP2" name="acfd::LinElastP2">
-<area shape="rect" id="node2" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="5,125,165,152"/>
-<area shape="rect" id="node11" href="$classUMesh2d.html" title="UMesh2d" alt="" coords="181,372,259,399"/>
-<area shape="rect" id="node14" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="191,125,324,152"/>
-<area shape="rect" id="node6" href="$classamat_1_1MatrixCRS.html" title="Implements sparse matrix storage in row&#45;storage format, but with separate arrays for each row of the ..." alt="" coords="355,372,513,399"/>
-<area shape="rect" id="node8" href="$classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="348,125,521,152"/>
-</map>

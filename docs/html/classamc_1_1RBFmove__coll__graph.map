@@ -1,7 +1,0 @@
-<map id="amc::RBFmove" name="amc::RBFmove">
-<area shape="rect" id="node2" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="5,149,165,176"/>
-<area shape="rect" id="node12" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="191,149,324,176"/>
-<area shape="rect" id="node6" href="$classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; amc\l::amc_real \&gt;" alt="" coords="348,142,511,183"/>
-<area shape="rect" id="node8" href="$classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="207,13,380,40"/>
-<area shape="rect" id="node10" href="$classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="404,6,543,47"/>
-</map>
