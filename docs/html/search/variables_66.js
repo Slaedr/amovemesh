@@ -9,7 +9,7 @@ var searchData=
   ['farea',['farea',['../classamc_1_1BoundaryReconstruction.html#a1d560b6dc6fdc35e85f06984d43a4d66',1,'amc::BoundaryReconstruction']]],
   ['febedge',['febedge',['../classamc_1_1DiscontinuityDetection.html#ab51402decea916d7f6e60774c65b9262',1,'amc::DiscontinuityDetection']]],
   ['fecurve',['fecurve',['../classamc_1_1DiscontinuityDetection.html#aaabf0b45de47b364d56fd9baa6694098',1,'amc::DiscontinuityDetection']]],
-  ['flag_5fbpoin',['flag_bpoin',['../classamc_1_1UMesh2dh.html#a3431f240a355160472044b5b8576e8f2',1,'amc::UMesh2dh::flag_bpoin()'],['../classamc_1_1UMesh.html#a9bf18478cbdad417e6648fe970cbf214',1,'amc::UMesh::flag_bpoin()']]],
+  ['flag_5fbpoin',['flag_bpoin',['../classamc_1_1UMesh2dh.html#aba26178330b750cbc2cba29cd0178f06',1,'amc::UMesh2dh::flag_bpoin()'],['../classamc_1_1UMesh.html#a9bf18478cbdad417e6648fe970cbf214',1,'amc::UMesh::flag_bpoin()']]],
   ['fnormals',['fnormals',['../classamc_1_1BoundaryReconstruction.html#a4c718a1b90873e107af76d6f350ecac8',1,'amc::BoundaryReconstruction']]],
   ['freed',['freed',['../classPList.html#a73988284563a28b35d4666728f4a4006',1,'PList']]]
 ];

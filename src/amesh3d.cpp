@@ -1,6 +1,8 @@
-/// @brief Implementation of data structure and setup for 3D unstructured mesh.
-/// @author Aditya Kashi
-/// @date August 20, 2015
+/** @file amesh3d.cpp
+ * @brief Implementation of data structure and setup for 3D unstructured mesh.
+ * @author Aditya Kashi
+ * @date August 20, 2015
+ */
 
 #include <amesh3d.hpp>
 

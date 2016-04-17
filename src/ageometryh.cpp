@@ -1,4 +1,5 @@
-/** @brief Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear boundary given by a hybrid linear mesh.
+/** @file ageometryh.cpp
+ * @brief Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear boundary given by a hybrid linear mesh.
  * @author Aditya Kashi
  * @date November 2, 2015
  */

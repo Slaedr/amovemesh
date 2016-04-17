@@ -71,7 +71,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -85,14 +85,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">amc Namespace Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing".  
+<p>Namespace for all identifiers in AMoCurve, except for arrays/matrices and linear algebra.  
 <a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
@@ -128,9 +127,10 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Combines rotation interpolation and displacement interpolation to get Wang, Qin and Zhao's <a class="el" href="classamc_1_1DGRBF2.html" title="Combines rotation interpolation and displacement interpolation to get Wang, Qin and Zhao&#39;s DGRBF2 met...">DGRBF2</a> method.  <a href="classamc_1_1DGRBF2.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html">CSpline</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a piecewise cubic C^2 spline curve.  <a href="classamc_1_1CSpline.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1BoundaryReconstruction2d.html">BoundaryReconstruction2d</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class <a class="el" href="classamc_1_1BoundaryReconstruction2d.html" title="Class BoundaryReconstruction2d handles spline reconstruction of multiple parts of the boundary into s...">BoundaryReconstruction2d</a> handles spline reconstruction of multiple parts of the boundary into seperate c-splines.  <a href="classamc_1_1BoundaryReconstruction2d.html#details">More...</a><br/></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Handles spline reconstruction of multiple parts of the boundary into seperate c-splines.  <a href="classamc_1_1BoundaryReconstruction2d.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1HermiteSpline2d.html">HermiteSpline2d</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -155,24 +155,17 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1LinElastP2.html">LinElastP2</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class implementing solution of linear elasticity system by P2 Lagrange finite elements.  <a href="classamc_1_1LinElastP2.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1UMesh2d.html">UMesh2d</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class <a class="el" href="classamc_1_1UMesh2d.html" title="Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout - h...">UMesh2d</a> is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout - hybrid mesh is NOT supported)  <a href="classamc_1_1UMesh2d.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1UMesh2dh.html">UMesh2dh</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">General hybrid unstructured mesh class supporting triangular and quadrangular elements.  <a href="classamc_1_1UMesh2dh.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1UMesh.html">UMesh</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data structure and setup for 3D unstructured mesh.  <a href="classamc_1_1UMesh.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1Mesh.html">Mesh</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract generic mesh class.  <a href="classamc_1_1Mesh.html#details">More...</a><br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1Mesh3d.html">Mesh3d</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1MeshMove.html">MeshMove</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Abstract class for mesh movement.  <a href="classamc_1_1MeshMove.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1RBFmove.html">RBFmove</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Movement of a point-cloud based on radial basis function interpolation of some other points.  <a href="classamc_1_1RBFmove.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1MRotation2d.html">MRotation2d</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -191,22 +184,6 @@ typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memdesc:a7172f719992b362b6272b6060ae9b04f"><td class="mdescLeft">&#160;</td><td class="mdescRight">the index (counting) type to be used <br/></td></tr>
 <tr class="separator:a7172f719992b362b6272b6060ae9b04f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
-Enumerations</h2></td></tr>
-<tr class="memitem:a94a9248ab3582c6dc1491c7cb21e70ef"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceamc.html#a94a9248ab3582c6dc1491c7cb21e70ef">MeshType</a> { <br/>
-&#160;&#160;<b>TRIANGULAR</b>, 
-<b>QUADRANGULAR</b>, 
-<b>TETRAHEDRAL</b>, 
-<b>HEXAHEDRAL</b>, 
-<br/>
-&#160;&#160;<b>PRISMATIC</b>, 
-<b>HYBRID</b>, 
-<b>HYBRID_PRISM_TET</b>
-<br/>
- }</td></tr>
-<tr class="memdesc:a94a9248ab3582c6dc1491c7cb21e70ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Possible mesh types. <br/></td></tr>
-<tr class="separator:a94a9248ab3582c6dc1491c7cb21e70ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:aca3ce1e954bf67e18690ad6ba985278e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aca3ce1e954bf67e18690ad6ba985278e"></a>
@@ -215,22 +192,11 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="names
 <tr class="separator:aca3ce1e954bf67e18690ad6ba985278e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing". </p>
-<p>Class to serve as abstract generic mesh class.</p>
-<p>Namespace for all identifiers in AMoCurve, except for arrays/matrices and linear algebra.</p>
+<div class="textblock"><p>Namespace for all identifiers in AMoCurve, except for arrays/matrices and linear algebra. </p>
 <p>Implementation of data structure and setup for 3D unstructured mesh.</p>
-<p>Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear boundary given by a hybrid linear mesh.</p>
-<p>See the corresponding header file for documentation of functions. </p>
-<dl class="section date"><dt>Date</dt><dd>March 14, 2016 </dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Aditya Kashi</dd>
-<dd>
-Aditya Kashi </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>November 2, 2015</dd></dl>
-<dl class="section author"><dt>Author</dt><dd>Aditya Kashi </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>August 20, 2015</dd></dl>
 <p>Includes classes for meshes, mesh movement, geometry reconstruction and more.</p>
 <dl class="section author"><dt>Author</dt><dd>Aditya Kashi </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>Feb 24, 2016 </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>August 20, 2015 </dd></dl>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

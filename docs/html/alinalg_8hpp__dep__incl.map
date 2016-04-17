@@ -1,0 +1,23 @@
+<map id="alinalg.hpp" name="alinalg.hpp">
+<area shape="rect" id="node3" href="$amesh2d_8hpp_source.html" title="amesh2d.hpp" alt="" coords="613,80,715,107"/>
+<area shape="rect" id="node7" href="$ageometry_8hpp.html" title="Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear b..." alt="" coords="5,155,115,181"/>
+<area shape="rect" id="node26" href="$ageometry3d_8hpp.html" title="Header for implementation of the C^0 surface reconstruction of Jiao and Wang, &quot;Reconstructing high&#45;or..." alt="" coords="1045,80,1171,107"/>
+<area shape="rect" id="node30" href="$ageometryh_8hpp.html" title="Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear b..." alt="" coords="1195,80,1313,107"/>
+<area shape="rect" id="node34" href="$amesh2_8hpp_source.html" title="amesh2.hpp" alt="" coords="1338,80,1432,107"/>
+<area shape="rect" id="node37" href="$amesh2b_8hpp_source.html" title="amesh2b.hpp" alt="" coords="1457,80,1559,107"/>
+<area shape="rect" id="node41" href="$amesh__c_8hpp_source.html" title="amesh_c.hpp" alt="" coords="1583,80,1684,107"/>
+<area shape="rect" id="node46" href="$arbf_8hpp.html" title="A mesh&#45;movement method using radial basis function interpolation. " alt="" coords="1709,80,1776,107"/>
+<area shape="rect" id="node5" href="$adgm_8hpp.html" title="Mesh movement using Delaunay graph (DG) mapping technique of Liu, Qin and Xia. " alt="" coords="139,155,220,181"/>
+<area shape="rect" id="node11" href="$alinelast__p1_8hpp_source.html" title="alinelast_p1.hpp" alt="" coords="245,155,361,181"/>
+<area shape="rect" id="node13" href="$alinelast__p2__sparse_8hpp.html" title="Funtionality for solving equations of linear elasticity on a straight&#45;edged quadratic mesh using P2 L..." alt="" coords="387,155,551,181"/>
+<area shape="rect" id="node15" href="$alinelast__p2__stiffened_8hpp.html" title="Funtionality for solving equations of linear elasticity on a straight&#45;edged quadratic mesh using P2 L..." alt="" coords="577,155,751,181"/>
+<area shape="rect" id="node17" href="$aoutput_8hpp.html" title="A collection of subroutines to write mesh data to various kinds of output formats. " alt="" coords="775,155,864,181"/>
+<area shape="rect" id="node21" href="$aoutput__old_8hpp_source.html" title="aoutput_old.hpp" alt="" coords="1328,229,1443,256"/>
+<area shape="rect" id="node23" href="$arotation2d_8hpp_source.html" title="arotation2d.hpp" alt="" coords="941,155,1053,181"/>
+<area shape="rect" id="node9" href="$ageometry_8cpp.html" title="ageometry.cpp" alt="" coords="5,229,115,256"/>
+<area shape="rect" id="node19" href="$aoutput_8cpp.html" title="Implementation of subroutines to write mesh data to various kinds of output formats. " alt="" coords="775,229,864,256"/>
+<area shape="rect" id="node28" href="$ageometry3d_8cpp.html" title="Implementation of the C^0 surface reconstruction of Jiao and Wang, &quot;Reconstructing high&#45;order surface..." alt="" coords="1078,155,1204,181"/>
+<area shape="rect" id="node32" href="$ageometryh_8cpp.html" title="Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear b..." alt="" coords="1229,155,1347,181"/>
+<area shape="rect" id="node39" href="$arotation2db_8hpp_source.html" title="arotation2db.hpp" alt="" coords="1423,155,1543,181"/>
+<area shape="rect" id="node43" href="$amesh__curved_8hpp_source.html" title="amesh_curved.hpp" alt="" coords="1567,155,1701,181"/>
+</map>

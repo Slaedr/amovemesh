@@ -16,14 +16,6 @@
  * \brief Includes all array and matrix storage classes, as well as linear algebra.
  */
 
-/**
- * \class Matrix
- * \brief Stores a dense row-major matrix.
- * 
- * Notes:
- * If A is a column-major matrix, A[i][j] == A[j * nrows + i] where i is the row-index and j is the column index.
- */
-
 #ifndef __AMATRIX_H
 
 #ifndef _GLIBCXX_IOSTREAM
@@ -60,11 +52,11 @@
 #endif
 
 namespace amat {
-
+	
 /// Real type
 using amc::amc_real;
 
-// Integer type
+/// Integer type
 using amc::amc_int;
 
 const int WIDTH = 10;		// width of field for printing matrices
@@ -87,6 +79,13 @@ inline amc_real minmod(amc_real a, amc_real b)
 template <typename T>
 T determinant(const Matrix<T>& mat);
 
+/**
+ * \class Matrix
+ * \brief Stores a dense row-major matrix.
+ * 
+ * Notes:
+ * If A is a column-major matrix, A[i][j] == A[j * nrows + i] where i is the row-index and j is the column index.
+ */
 template <class T>
 class Matrix
 {

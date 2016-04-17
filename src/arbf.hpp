@@ -1,4 +1,5 @@
-/** @brief A mesh-movement method using radial basis function interpolation 
+/** @file arbf.hpp
+ * @brief A mesh-movement method using radial basis function interpolation 
  * 
  * based on the 2007 paper by de Boer, van der Schoot and Bijl,
  * but with one major difference - the interpolation is done using only RBFs; the polynomial part is ignored.
@@ -26,6 +27,9 @@
 
 namespace amc {
 
+/// Movement of a point-cloud based on radial basis function interpolation of some other points
+/*! \sa RBFmove::RBFmove
+ */
 class RBFmove
 {
 	amat::Matrix<double> inpoints;
@@ -56,9 +60,17 @@ public:
 	/// No-arg constructor
 	RBFmove();
 
+	/// Sets the data needed
+	/** Note that all parameters are deep-copied.
+	 * \param int_points is a list of all interior points to be moved
+	 * \param boun_points is the array of boundary points
+	 * \param boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
+	 * \param rbf_ch indicates the RBF to use - 0 : C0, 2 : C2, 4 : C4, default : Gaussian
+	 * \param num_steps is the number of steps in which to break up the movement to perform separately (sequentially)
+	 * \param linear_solver indicates the linear solver to use to solve the RBF equations - "DLU", "CG", "LU"
+	 */
 	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, const int num_steps, 
 			const double tolerance, const int iter, const std::string linear_solver);
-	///< boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 
 	/// Sets the data needed
 	/** Note that all parameters are deep-copied.
@@ -75,6 +87,7 @@ public:
 	~RBFmove();
 
 	// Specific RBFs
+	/// Wendland's compact C2 function - most tested
 	double rbf_c2_compact(double xi);
 	double rbf_c0(double xi);
 	double rbf_c4(double xi);

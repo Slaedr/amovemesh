@@ -19,9 +19,9 @@ var searchData=
   ['find_5fcontaining_5ftriangle',['find_containing_triangle',['../classamc_1_1Delaunay2D.html#af6cd63fdb0fcc54c256ceed6720a13ea',1,'amc::Delaunay2D']]],
   ['findbfacehostcell',['findBfaceHostCell',['../classamc_1_1UMesh.html#a66f237347bba17f1c5ea07653fc77015',1,'amc::UMesh']]],
   ['findlocalfacelocalpointconnectivitylinearelements',['findLocalFaceLocalPointConnectivityLinearElements',['../classamc_1_1UMesh.html#aa300b43ca413ee6b02db8bf7fecff547',1,'amc::UMesh']]],
-  ['flag_5fbpoin',['flag_bpoin',['../classamc_1_1UMesh2dh.html#a3431f240a355160472044b5b8576e8f2',1,'amc::UMesh2dh::flag_bpoin()'],['../classamc_1_1UMesh.html#a9bf18478cbdad417e6648fe970cbf214',1,'amc::UMesh::flag_bpoin()']]],
+  ['flag_5fbpoin',['flag_bpoin',['../classamc_1_1UMesh2dh.html#aba26178330b750cbc2cba29cd0178f06',1,'amc::UMesh2dh::flag_bpoin()'],['../classamc_1_1UMesh.html#a9bf18478cbdad417e6648fe970cbf214',1,'amc::UMesh::flag_bpoin()']]],
   ['fnormals',['fnormals',['../classamc_1_1BoundaryReconstruction.html#a4c718a1b90873e107af76d6f350ecac8',1,'amc::BoundaryReconstruction']]],
-  ['fprint',['fprint',['../classamat_1_1Matrix.html#a9b8d4ee5fc716e0a2caf8988acd9aab1',1,'amat::Matrix::fprint()'],['../classamat_1_1Matrix_3_01T_00_01ROWMAJOR_01_4.html#ad857c92c6b6e10baf22bb76d073e82b3',1,'amat::Matrix&lt; T, ROWMAJOR &gt;::fprint()'],['../classamat_1_1Matrix_3_01T_00_01COLMAJOR_01_4.html#aa3aa474e4336643d1207716aba9c15be',1,'amat::Matrix&lt; T, COLMAJOR &gt;::fprint()']]],
-  ['fread',['fread',['../classamat_1_1Matrix.html#a49c3729366edcf0e8047ce3e8a75349f',1,'amat::Matrix::fread()'],['../classamat_1_1Matrix_3_01T_00_01ROWMAJOR_01_4.html#a03d27bbbdd2133ea0cc7a9af1ded5b33',1,'amat::Matrix&lt; T, ROWMAJOR &gt;::fread()'],['../classamat_1_1Matrix_3_01T_00_01COLMAJOR_01_4.html#aa3b5abb0aa40b4797bfa99690662f168',1,'amat::Matrix&lt; T, COLMAJOR &gt;::fread()']]],
+  ['fprint',['fprint',['../classamat_1_1Matrix.html#a9b8d4ee5fc716e0a2caf8988acd9aab1',1,'amat::Matrix']]],
+  ['fread',['fread',['../classamat_1_1Matrix.html#a49c3729366edcf0e8047ce3e8a75349f',1,'amat::Matrix']]],
   ['freed',['freed',['../classPList.html#a73988284563a28b35d4666728f4a4006',1,'PList']]]
 ];

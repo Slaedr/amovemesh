@@ -1,4 +1,4 @@
-/** \brief Implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing".
+/* \brief Implementation of the C^0 surface reconstruction of Jiao and Wang, "Reconstructing high-order surfaces for meshing".
  * 
  * See the corresponding header file for documentation of functions.
  * \date March 14, 2016

@@ -1,5 +1,5 @@
 <map id="amc::DGRBFmove" name="amc::DGRBFmove">
-<area shape="rect" id="node2" href="$classamc_1_1Delaunay2D.html" title="amc::Delaunay2D" alt="" coords="128,163,257,189"/>
-<area shape="rect" id="node4" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="5,5,165,32"/>
-<area shape="rect" id="node7" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="283,163,416,189"/>
+<area shape="rect" id="node2" href="$classamc_1_1Delaunay2D.html" title="amc::Delaunay2D" alt="" coords="107,283,237,309"/>
+<area shape="rect" id="node4" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="73,125,234,152"/>
+<area shape="rect" id="node9" href="$classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="219,177,353,204"/>
 </map>

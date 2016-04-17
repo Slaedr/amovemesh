@@ -1,7 +1,8 @@
-/* A library of functions to solve linear systems, linear least-squares problems etc.
-   Aditya Kashi
-   Feb 2015
-*/
+/** \file alinalg.hpp
+ * A library of functions to solve linear systems, linear least-squares problems etc.
+ * \author Aditya Kashi
+ * \date Feb 2015
+ */
 
 #ifndef __ALINALG_H
 

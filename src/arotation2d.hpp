@@ -1,6 +1,3 @@
-/** @class MRotation2d
- * Determines boundary displacements corresponding to rotation of a mesh boundary by a given angle.
- */
 
 #ifndef __AMATRIX2_H
 #include <amatrix2.hpp>
@@ -16,6 +13,9 @@
 
 namespace amc {
 
+/** @class MRotation2d
+ * Determines boundary displacements corresponding to rotation of a mesh boundary by a given angle.
+ */
 class MRotation2d
 {
 	double theta;

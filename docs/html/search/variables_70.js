@@ -4,6 +4,6 @@ var searchData=
   ['partfaces',['partfaces',['../classamc_1_1BoundaryReconstruction2d.html#ab7bf8ca2963e2ea638beacb03468e85b',1,'amc::BoundaryReconstruction2d']]],
   ['pnormals',['pnormals',['../classamc_1_1BoundaryReconstruction.html#ae64f225f0f6aba4364659bd220f3fce5',1,'amc::BoundaryReconstruction']]],
   ['points',['points',['../classamc_1_1DGRBFrotate.html#ab104ce02962fd2193e2747518e7344c7',1,'amc::DGRBFrotate::points()'],['../classamc_1_1DGRBF2.html#a3a53e1f1c362abde2475ace2d15043e8',1,'amc::DGRBF2::points()']]],
-  ['psup',['psup',['../classamc_1_1UMesh2dh.html#aadbfa13d3074bfa0f408988073c3efe5',1,'amc::UMesh2dh::psup()'],['../classamc_1_1UMesh.html#af1e515243ac0e17485a062cdedb139ce',1,'amc::UMesh::psup()']]],
-  ['psup_5fp',['psup_p',['../classamc_1_1UMesh2dh.html#aeb224da0fe4b6e9d7a441e1f8c0e1442',1,'amc::UMesh2dh']]]
+  ['psup',['psup',['../classamc_1_1UMesh2dh.html#a58d5df65ae86e2088bb5572d149a4af3',1,'amc::UMesh2dh::psup()'],['../classamc_1_1UMesh.html#af1e515243ac0e17485a062cdedb139ce',1,'amc::UMesh::psup()']]],
+  ['psup_5fp',['psup_p',['../classamc_1_1UMesh2dh.html#a4ce0630d81efd4ba3c6ba2e45c2705f6',1,'amc::UMesh2dh']]]
 ];

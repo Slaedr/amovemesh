@@ -1,3 +1,8 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classamat_1_1Matrix_3_01T_00_01ROWMAJOR_01_4.html" title="Specialization of the Matrix class to row&#45;major storage. " alt="" coords="5,5,221,32"/>
+<area shape="rect" id="node1" href="$classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="5,85,179,112"/>
+<area shape="rect" id="node3" href="$classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="258,5,385,32"/>
+<area shape="rect" id="node5" href="$classamat_1_1MatrixCRS.html" title="Implements sparse matrix storage in row&#45;storage format, but with separate arrays for each row of the ..." alt="" coords="242,56,401,83"/>
+<area shape="rect" id="node7" href="$classamat_1_1MatrixCRS__traditional.html" title="amat::MatrixCRS_traditional" alt="" coords="227,173,416,200"/>
+<area shape="rect" id="node9" href="$classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; amc\l::amc_real \&gt;" alt="" coords="240,107,403,149"/>
+<area shape="rect" id="node10" href="$classamat_1_1SparseMatrix.html" title="amat::SparseMatrix\l\&lt; double \&gt;" alt="" coords="23,166,161,207"/>
 </map>

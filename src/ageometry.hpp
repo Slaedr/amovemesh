@@ -1,7 +1,8 @@
-/** Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear boundary given by a linear mesh.
-   Aditya Kashi
-   September 4, 2015
-*/
+/*! \file ageometry.hpp
+ * \brief Classes to reconstruct a C^1 (or C^2) piecewise polynomial (cubic) boundary from a piecewise linear boundary given by a linear mesh.
+ * \author Aditya Kashi
+ * \date September 4, 2015
+ */
 
 #ifndef __AGEOMETRY_H
 

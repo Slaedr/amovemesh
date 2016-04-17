@@ -65,7 +65,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -83,24 +83,22 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><dl class="reflist">
 <dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="classamc_1_1DGRBFrotate.html#a3003f60f651264e47e320a72eae23a6d">amc::DGRBFrotate::movemesh</a>  ()</dt>
 <dd>TODO: figure out and implement for 3d  </dd>
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="classamc_1_1UMesh2d.html#a809e2d97f94a90bc94e1282a80c35892">amc::UMesh2d::compute_mesh_stats</a>  ()</dt>
-<dd><ol type="1">
-<li>largest and smallest aspect ratio of cells</li>
-<li>distance of nearest mesh point from a boundary point (perhaps average of this for all boundary points?  </li>
-</ol>
-</dd>
-<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="classamc_1_1UMesh2dh.html#a20fba9716e8ca8607cff20e2a8019ced">amc::UMesh2dh::compute_jacobians</a>  ()</dt>
+<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="classamc_1_1UMesh2dh.html#a20fba9716e8ca8607cff20e2a8019ced">amc::UMesh2dh::compute_jacobians</a>  ()</dt>
 <dd>TODO: Generalize so that it works for quadrilateral meshes also  </dd>
-<dt><a class="anchor" id="_todo000008"></a>Member <a class="el" href="classamc_1_1UMesh2dh.html#aba6b42060dd43763421662ee41896651">amc::UMesh2dh::compute_topological</a>  ()</dt>
+<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="classamc_1_1UMesh2dh.html#aba6b42060dd43763421662ee41896651">amc::UMesh2dh::compute_topological</a>  ()</dt>
 <dd>: TODO: There is an issue with psup for some boundary nodes belonging to elements of different types. Correct this.  </dd>
 <dt><a class="anchor" id="_todo000003"></a>Member <a class="el" href="classamc_1_1VertexCenteredBoundaryReconstruction.html#a5b01b247d7fdd6d7e28d05d18d08d1c3">amc::VertexCenteredBoundaryReconstruction::solve</a>  ()</dt>
-<dd><p class="startdd">After implementation of templated <a class="el" href="classMatrix.html" title="Stores a dense matrix. ">Matrix</a> class, use column-major arrays for storing V, F and D </p>
-<p class="enddd">After implementation of templated <a class="el" href="classMatrix.html" title="Stores a dense matrix. ">Matrix</a> class, use column-major arrays for storing V, F and D  </p>
+<dd><p class="startdd">After implementation of templated Matrix class, use column-major arrays for storing V, F and D </p>
+<p class="enddd">After implementation of templated Matrix class, use column-major arrays for storing V, F and D  </p>
 </dd>
 <dt><a class="anchor" id="_todo000001"></a>Class <a class="el" href="classDelaunay3d.html">Delaunay3d</a>  </dt>
 <dd>Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done). </dd>
-<dt><a class="anchor" id="_todo000005"></a>Class <a class="el" href="classMatrix.html">Matrix</a>  </dt>
-<dd>Make 'storage' a template parameter rather than class member, OR, eliminate storage order choice - make everything rowmajor </dd>
+<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="classUMesh2d.html#a4b40ceab98b992f9e81f220ccd610f10">UMesh2d::compute_mesh_stats</a>  ()</dt>
+<dd><ol type="1">
+<li>largest and smallest aspect ratio of cells</li>
+<li>distance of nearest mesh point from a boundary point (perhaps average of this for all boundary points? </li>
+</ol>
+</dd>
 </dl>
 </div></div><!-- contents -->
 <!-- start footer part -->

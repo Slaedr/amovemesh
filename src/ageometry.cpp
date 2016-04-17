@@ -6,9 +6,8 @@
  */
 
 #include <ageometry.hpp>
-/// \cond
+
 namespace amc {
-/// \endcond
 
 // --- CSpline implementation ---
 

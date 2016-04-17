@@ -2,7 +2,7 @@ var searchData=
 [
   ['umesh',['UMesh',['../classamc_1_1UMesh.html',1,'amc']]],
   ['umesh',['UMesh',['../classamc_1_1UMesh.html#a1e5f6da9af26d81aa6e2a44b9bc07f28',1,'amc::UMesh::UMesh()'],['../classamc_1_1UMesh.html#a1e5f6da9af26d81aa6e2a44b9bc07f28',1,'amc::UMesh::UMesh()']]],
-  ['umesh2d',['UMesh2d',['../classamc_1_1UMesh2d.html',1,'amc']]],
+  ['umesh2d',['UMesh2d',['../classUMesh2d.html',1,'']]],
   ['umesh2dh',['UMesh2dh',['../classamc_1_1UMesh2dh.html',1,'amc']]],
   ['used',['used',['../classPList.html#a9bdac730057e76759e10cbf09a873077',1,'PList']]],
   ['utrimesh',['UTriMesh',['../classacfd_1_1UTriMesh.html',1,'acfd']]],

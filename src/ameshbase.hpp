@@ -18,7 +18,9 @@
 #include <vector>
 #endif
 
+/// \cond
 namespace amc {
+/// \endcond
 
 /// Possible mesh types
 enum MeshType

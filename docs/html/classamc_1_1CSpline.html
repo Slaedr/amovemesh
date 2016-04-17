@@ -73,7 +73,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Friends</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -97,20 +97,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 
+<p>Constructs a piecewise cubic C^2 spline curve.  
+ <a href="classamc_1_1CSpline.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="ageometry_8hpp_source.html">ageometry.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for amc::CSpline:</div>
 <div class="dyncontent">
 <div class="center"><img src="classamc_1_1CSpline__coll__graph.png" border="0" usemap="#amc_1_1CSpline_coll__map" alt="Collaboration graph"/></div>
 <map name="amc_1_1CSpline_coll__map" id="amc_1_1CSpline_coll__map">
-<area shape="rect" id="node2" href="classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; double \&gt;" alt="" coords="472,47,661,73"/><area shape="rect" id="node4" href="classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="177,71,351,97"/><area shape="rect" id="node6" href="classamat_1_1SparseMatrix.html" title="amat::SparseMatrix\l\&lt; double \&gt;" alt="" coords="195,5,333,46"/><area shape="rect" id="node8" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="183,221,345,248"/><area shape="rect" id="node10" href="classamc_1_1UMesh2d.html" title="Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout &#45; h..." alt="" coords="510,336,623,363"/><area shape="rect" id="node15" href="classamc_1_1UMesh2dh.html" title="General hybrid unstructured mesh class supporting triangular and quadrangular elements. " alt="" coords="507,683,627,709"/><area shape="rect" id="node13" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="197,561,331,588"/><area shape="rect" id="node18" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; amc_real \&gt;" alt="" coords="176,788,352,815"/></map>
+<area shape="rect" id="node2" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; double \&gt;" alt="" coords="183,279,345,305"/><area shape="rect" id="node12" href="classamc_1_1UMesh2dh.html" title="General hybrid unstructured mesh class supporting triangular and quadrangular elements. " alt="" coords="493,688,613,715"/><area shape="rect" id="node23" href="classUMesh2d.html" title="UMesh2d" alt="" coords="514,341,593,368"/><area shape="rect" id="node15" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; amc_real \&gt;" alt="" coords="176,767,352,793"/><area shape="rect" id="node20" href="classamat_1_1Matrix.html" title="amat::Matrix\&lt; int \&gt;" alt="" coords="197,567,331,593"/><area shape="rect" id="node6" href="classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; amc\l::amc_real \&gt;" alt="" coords="472,37,635,78"/><area shape="rect" id="node8" href="classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="177,72,351,99"/><area shape="rect" id="node10" href="classamat_1_1SparseMatrix.html" title="Abstract class for sparse storage of matrices. " alt="" coords="195,6,333,47"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a99403461aec328874c007772a366f7e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">setup</a> (<a class="el" href="classamc_1_1UMesh2d.html">UMesh2d</a> *mesh, <a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; int &gt; recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)</td></tr>
+<tr class="memitem:a99403461aec328874c007772a366f7e9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">setup</a> (<a class="el" href="classUMesh2d.html">UMesh2d</a> *mesh, <a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; int &gt; recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)</td></tr>
 <tr class="separator:a99403461aec328874c007772a366f7e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99e1367c05c2083a560ced0723a7990f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a99e1367c05c2083a560ced0723a7990f">setup</a> (<a class="el" href="classamc_1_1UMesh2d.html">UMesh2d</a> *mesh, std::vector&lt; int &gt; recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)</td></tr>
+<tr class="memitem:a99e1367c05c2083a560ced0723a7990f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a99e1367c05c2083a560ced0723a7990f">setup</a> (<a class="el" href="classUMesh2d.html">UMesh2d</a> *mesh, std::vector&lt; int &gt; recmarkers, bool closed, bool sequenced, double _tol, int _maxiter)</td></tr>
 <tr class="separator:a99e1367c05c2083a560ced0723a7990f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a831370e4b3a5095ef892865761ea8906"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a831370e4b3a5095ef892865761ea8906">sequence</a> ()</td></tr>
 <tr class="memdesc:a831370e4b3a5095ef892865761ea8906"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function arranges the faces to be reconstructed in their sequence of contiguity.  <a href="#a831370e4b3a5095ef892865761ea8906">More...</a><br/></td></tr>
@@ -142,7 +145,7 @@ double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cl
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
 <tr class="memitem:af871aab1c092cae0114eddff7c663646"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af871aab1c092cae0114eddff7c663646"></a>
-<a class="el" href="classamc_1_1UMesh2d.html">UMesh2d</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>m</b></td></tr>
+<a class="el" href="classUMesh2d.html">UMesh2d</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>m</b></td></tr>
 <tr class="separator:af871aab1c092cae0114eddff7c663646"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a80e63de0eab748ff99687063c208d056"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a80e63de0eab748ff99687063c208d056"></a>
 <a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a80e63de0eab748ff99687063c208d056">rfl</a></td></tr>
@@ -209,7 +212,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>maxiter</b></td></tr>
 <tr class="memdesc:a09a416e8f8d223538669c228832b0f24"><td class="mdescLeft">&#160;</td><td class="mdescRight">D[idim](i) will contain the slope at point 0 of the ith spline piece. <br/></td></tr>
 <tr class="separator:a09a416e8f8d223538669c228832b0f24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bde1c8494213c118add9b0377632f0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bde1c8494213c118add9b0377632f0c"></a>
-<a class="el" href="classamat_1_1MatrixCRS.html">amat::SpMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a6bde1c8494213c118add9b0377632f0c">slhs</a></td></tr>
+<a class="el" href="namespaceamat.html#a7b9fa05cc2518f598d5bac0436989bb6">amat::SpMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classamc_1_1CSpline.html#a6bde1c8494213c118add9b0377632f0c">slhs</a></td></tr>
 <tr class="memdesc:a6bde1c8494213c118add9b0377632f0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">LHS of the system which is solved for D. <br/></td></tr>
 <tr class="separator:a6bde1c8494213c118add9b0377632f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af54b49f8d213b2150eb3b8714f67ed76"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af54b49f8d213b2150eb3b8714f67ed76"></a>
@@ -221,8 +224,9 @@ const <a class="el" href="classamc_1_1UMesh2dh.html">UMesh2dh</a> *&#160;</td><t
 <tr class="separator:ab4f9543b567b4c3000350e1a47aed937"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Class <a class="el" href="classamc_1_1CSpline.html">CSpline</a> constructs a piecewise cubic C^2 spline curve interpolating the boundary points contained by the boundary faces either (a) having marker in rfl, or (b) listed in facelist. An overloaded <a class="el" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">setup()</a> function is provided to distinguish the two situations. Whether the curve is open or closed needs to be specified in isClosed. NOTE: The boundary markers specified must form a continuous boundary.</p>
-<p>Class <a class="el" href="classamc_1_1CSpline.html">CSpline</a> constructs a piecewise cubic C^2 spline curve interpolating the boundary points contained by the boundary faces either (a) having marker in rfl, or (b) listed in facelist. An overloaded <a class="el" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">setup()</a> function is provided to distinguish the two situations. Whether the curve is open or closed needs to be specified in isClosed. </p>
+<div class="textblock"><p>Constructs a piecewise cubic C^2 spline curve. </p>
+<p>The spline curve interpolates the boundary points contained by the boundary faces either (a) having marker in rfl, or (b) listed in facelist. An overloaded <a class="el" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">setup()</a> function is provided to distinguish the two situations. Whether the curve is open or closed needs to be specified in isClosed. NOTE: The boundary markers specified must form a continuous boundary.</p>
+<p>Class <a class="el" href="classamc_1_1CSpline.html" title="Constructs a piecewise cubic C^2 spline curve. ">CSpline</a> constructs a piecewise cubic C^2 spline curve interpolating the boundary points contained by the boundary faces either (a) having marker in rfl, or (b) listed in facelist. An overloaded <a class="el" href="classamc_1_1CSpline.html#a99403461aec328874c007772a366f7e9">setup()</a> function is provided to distinguish the two situations. Whether the curve is open or closed needs to be specified in isClosed. </p>
 <dl class="section note"><dt>Note</dt><dd>NOTE: The boundary markers specified must form a continuous boundary. </dd></dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a831370e4b3a5095ef892865761ea8906"></a>
@@ -258,57 +262,6 @@ const <a class="el" href="classamc_1_1UMesh2dh.html">UMesh2dh</a> *&#160;</td><t
 
 <p>This function arranges the faces to be reconstructed in their sequence of contiguity. </p>
 <p>It calculates seq_poin and seq_bface, such that seq_bface(iface) contains the iface-th bface in geometrical order, and seq_poin(ibpoin) is the first bpointsb point number of seq_bface(iface). </p>
-
-</div>
-</div>
-<a class="anchor" id="a99403461aec328874c007772a366f7e9"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void amc::CSpline::setup </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classamc_1_1UMesh2d.html">UMesh2d</a> *&#160;</td>
-          <td class="paramname"><em>mesh</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; int &gt;&#160;</td>
-          <td class="paramname"><em>recmarkers</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>closed</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>sequenced</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>_tol</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>_maxiter</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Use if you want to supply boundary markers for faces to reconstruct. </p>
 
 </div>
 </div>
@@ -363,20 +316,20 @@ const <a class="el" href="classamc_1_1UMesh2dh.html">UMesh2dh</a> *&#160;</td><t
 
 </div>
 </div>
-<a class="anchor" id="a99e1367c05c2083a560ced0723a7990f"></a>
+<a class="anchor" id="a99403461aec328874c007772a366f7e9"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
           <td class="memname">void amc::CSpline::setup </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="classamc_1_1UMesh2d.html">UMesh2d</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="classUMesh2d.html">UMesh2d</a> *&#160;</td>
           <td class="paramname"><em>mesh</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::vector&lt; int &gt;&#160;</td>
+          <td class="paramtype"><a class="el" href="classamat_1_1Matrix.html">amat::Matrix</a>&lt; int &gt;&#160;</td>
           <td class="paramname"><em>recmarkers</em>, </td>
         </tr>
         <tr>
@@ -410,7 +363,7 @@ const <a class="el" href="classamc_1_1UMesh2dh.html">UMesh2dh</a> *&#160;</td><t
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Use if you provide a pre-ordered list of faces to reconstruct. </p>
+<p>Use if you want to supply boundary markers for faces to reconstruct. </p>
 
 </div>
 </div>
@@ -465,10 +418,62 @@ const <a class="el" href="classamc_1_1UMesh2dh.html">UMesh2dh</a> *&#160;</td><t
 
 </div>
 </div>
+<a class="anchor" id="a99e1367c05c2083a560ced0723a7990f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void amc::CSpline::setup </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classUMesh2d.html">UMesh2d</a> *&#160;</td>
+          <td class="paramname"><em>mesh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; int &gt;&#160;</td>
+          <td class="paramname"><em>recmarkers</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>closed</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sequenced</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>_tol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>_maxiter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Use if you provide a pre-ordered list of faces to reconstruct. </p>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="ageometry_8hpp_source.html">ageometry.hpp</a></li>
 <li><a class="el" href="ageometryh_8hpp_source.html">ageometryh.hpp</a></li>
-<li>ageometryh.cpp</li>
+<li><a class="el" href="ageometry_8cpp.html">ageometry.cpp</a></li>
+<li><a class="el" href="ageometryh_8cpp.html">ageometryh.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

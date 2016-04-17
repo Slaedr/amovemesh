@@ -2,7 +2,7 @@ var searchData=
 [
   ['gausselim',['gausselim',['../namespaceamat.html#afae9ae0c89f02718f6e68d3e5d3960ac',1,'amat']]],
   ['gaussseidel',['gaussseidel',['../namespaceamat.html#aa4ae493e01024d481b1ee27d5c79d6c6',1,'amat']]],
-  ['gcoords',['gcoords',['../classamc_1_1UMesh2d.html#a1b3fe2e00cb6ea297704e3a110a531ca',1,'amc::UMesh2d::gcoords()'],['../classamc_1_1UMesh.html#aaec8c78ba88ee0f645b6b3f3d2f61c2c',1,'amc::UMesh::gcoords(amc_int pointno, int dim) const '],['../classamc_1_1UMesh.html#aaec8c78ba88ee0f645b6b3f3d2f61c2c',1,'amc::UMesh::gcoords(amc_int pointno, int dim) const ']]],
+  ['gcoords',['gcoords',['../classUMesh2d.html#a17e226903f13045732f7df1827fa5328',1,'UMesh2d::gcoords()'],['../classamc_1_1UMesh.html#aaec8c78ba88ee0f645b6b3f3d2f61c2c',1,'amc::UMesh::gcoords(amc_int pointno, int dim) const '],['../classamc_1_1UMesh.html#aaec8c78ba88ee0f645b6b3f3d2f61c2c',1,'amc::UMesh::gcoords(amc_int pointno, int dim) const ']]],
   ['get_5fcrs_5fmatrix',['get_CRS_matrix',['../classamat_1_1MatrixCRS.html#a00728170e128211aeab794b6f3511f46',1,'amat::MatrixCRS']]],
   ['get_5fdiagonal',['get_diagonal',['../classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27',1,'amat::MatrixCRS::get_diagonal(Mat *D) const '],['../classamat_1_1MatrixCRS.html#af93f7eab4da58838961885d12c7eea27',1,'amat::MatrixCRS::get_diagonal(Mat *D) const ']]],
   ['getboundarypoints',['getBoundaryPoints',['../classamc_1_1RBFmove.html#afe33f60238949652fde5d0bf2299bcb9',1,'amc::RBFmove']]],

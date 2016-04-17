@@ -1,4 +1,6 @@
-/** @brief Funtionality for solving equations of linear elasticity on a straight-edged quadratic mesh using P2 Lagrange finite elements (no non-homogeneous Neumann BCs)
+/** @file alinelast_p2_stiffened.hpp
+ * @brief Funtionality for solving equations of linear elasticity on a straight-edged quadratic mesh using P2 Lagrange finite elements (no non-homogeneous Neumann BCs)
+ * 
  * We use a 'stiffened' formulation, in which smaller elements are stiffer (undergo less deformation) than larger elements. Other kinds of stiffening are also possible, based on some mesh quality metrics, for instance.
  * @date January 27, 2016
  * @author Adtya Kashi

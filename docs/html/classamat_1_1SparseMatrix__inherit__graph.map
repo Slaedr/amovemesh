@@ -2,5 +2,6 @@
 <area shape="rect" id="node3" href="$classamat_1_1MatrixCOO.html" title="amat::MatrixCOO" alt="" coords="258,5,385,32"/>
 <area shape="rect" id="node5" href="$classamat_1_1MatrixCRS.html" title="Implements sparse matrix storage in row&#45;storage format, but with separate arrays for each row of the ..." alt="" coords="242,56,401,83"/>
 <area shape="rect" id="node8" href="$classamat_1_1MatrixCRS__traditional.html" title="amat::MatrixCRS_traditional" alt="" coords="227,107,416,133"/>
-<area shape="rect" id="node10" href="$classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; double \&gt;" alt="" coords="227,157,416,184"/>
+<area shape="rect" id="node10" href="$classamat_1_1MatrixCRS.html" title="MatrixCRS\&lt; amc::amc\l_real \&gt;" alt="" coords="242,158,401,199"/>
+<area shape="rect" id="node12" href="$classamat_1_1MatrixCRS.html" title="amat::MatrixCRS\&lt; amc\l::amc_real \&gt;" alt="" coords="240,223,403,265"/>
 </map>
