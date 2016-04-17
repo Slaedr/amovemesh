@@ -36,7 +36,7 @@ For documentation related to the methodology used for this project, see the docs
 
 	doxygen builddoc.cfg
 
-from within the docs/ directory. This will generate html documentation from source code comments.
+from within the docs/ directory. This will generate html documentation from source code comments in docs/html/.
 
 Things to do
 ------------

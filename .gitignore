@@ -1,4 +1,6 @@
  
 output/**
 build/**
+docs/html/**
+docs/latex/**
 .fuse*
