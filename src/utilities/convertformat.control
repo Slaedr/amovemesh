@@ -1,9 +1,0 @@
--input-file
-../output/DG-RBF-move/ellipse-annulus-vc_curved-r30.msh
--input-format
-msh
--output-file
-../output/DG-RBF-move/ellipse-annulus-vc_curved-r30.vtu
--output-format
-vtu
-

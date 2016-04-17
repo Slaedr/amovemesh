@@ -1,6 +1,0 @@
--input-file
-../../input/3dsphereinviscid.msh
--output-file
-3dsphereinviscid-jac.dat
--jacobian-threshold
-1e-3

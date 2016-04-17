@@ -2,7 +2,7 @@
 /// @author Aditya Kashi
 /// @date August 20, 2015
 
-#include "amesh3d.hpp"
+#include <amesh3d.hpp>
 
 namespace amc {
 
@@ -1379,7 +1379,7 @@ void UMesh::compute_boundary_topological()
 	// bpoints surrounding bpoint
 	
 	std::cout << "UMesh2d: compute_boundary_topological(): Points surrounding points\n";
-	bpsubp_p.setup(nbpoin+1,1,amat::ROWMAJOR);
+	bpsubp_p.setup(nbpoin+1,1);
 	bpsubp_p.zeros();
 	bpsubp_p(0) = 0;
 	

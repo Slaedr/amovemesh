@@ -25,8 +25,8 @@
 #endif
 #endif
 
-#ifndef __AMATRIX2_H
-#include <amatrix2.hpp>
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
 #endif
 #ifndef __AMESH2DGENERAL_H
 #include <amesh2d.hpp>
@@ -68,13 +68,13 @@ public:
 		ngeoel = 7;
 		ngeofa = 3;
 		muE = mu; lambdaE = lambd;
-		geoel.setup(m->gnelem(), ngeoel, ROWMAJOR);
-		geofa.setup(m->gnface(), ngeofa, ROWMAJOR);
+		geoel.setup(m->gnelem(), ngeoel);
+		geofa.setup(m->gnface(), ngeofa);
 		K.setup(m->gndim()*m->gnpoin(), m->gndim()*m->gnpoin());
 		f.setup(m->gndim()*m->gnpoin(),1);
 		cbig = 1e40;
-		//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);
-		//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);
+		//stiffmat.setup(m.gnpoin(), m.gnpoin());
+		//loadvec.setup(m.gnpoin(), 1);
 		
 
 		for(int i = 0; i < m->gnelem(); i++)
@@ -117,13 +117,13 @@ public:
 		ngeoel = 7;
 		ngeofa = 3;
 		muE = mu; lambdaE = lambd;
-		geoel.setup(m->gnelem(), ngeoel, ROWMAJOR);
-		geofa.setup(m->gnface(), ngeofa, ROWMAJOR);
+		geoel.setup(m->gnelem(), ngeoel);
+		geofa.setup(m->gnface(), ngeofa);
 		K.setup(m->gndim()*m->gnpoin(), m->gndim()*m->gnpoin());
 		f.setup(m->gndim()*m->gnpoin(),1);
 		cbig = 1e30;
-		//stiffmat.setup(m.gnpoin(), m.gnpoin(), ROWMAJOR);
-		//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);
+		//stiffmat.setup(m.gnpoin(), m.gnpoin());
+		//loadvec.setup(m.gnpoin(), 1);
 
 		for(int i = 0; i < m->gnelem(); i++)
 		{

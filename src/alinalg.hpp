@@ -5,8 +5,8 @@
 
 #ifndef __ALINALG_H
 
-#ifndef __AMATRIX2_H
-#include <amatrix2.hpp>
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
 #endif
 
 #ifndef __ASPARSEMATRIX_H

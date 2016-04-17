@@ -37,8 +37,8 @@
 #endif
 #endif
 
-#ifndef __AMATRIX2_H
-#include <amatrix2.hpp>
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
 #endif
 #ifndef __ALINALG_H
 #include <alinalg.hpp>
@@ -59,7 +59,7 @@
 namespace amc {
 /// \endcond
 
-/** @brief Class UMesh2d is a general mesh class for 2d unstructured mesh (with 1 kind of element throughout - hybrid mesh is NOT supported) */
+/** A general mesh class for 2d unstructured mesh (with 1 kind of element throughout - hybrid mesh is NOT supported) */
 class UMesh2d
 {
 private:
@@ -351,11 +351,11 @@ public:
 		nbtag = 2;
 		ndtag = 2;
 
-		coords.setup(npoin, ndim, amat::ROWMAJOR);
+		coords.setup(npoin, ndim);
 		
-		inpoel.setup(nelem, nnode, amat::ROWMAJOR);
+		inpoel.setup(nelem, nnode);
 		
-		bface.setup(nface, nnofa + nbtag, amat::ROWMAJOR);
+		bface.setup(nface, nnofa + nbtag);
 
 		do
 			ch = infile.get();
@@ -947,7 +947,7 @@ public:
 		std::cout << "UMesh2d: compute_topological(): Calculating and storing topological information...\n";
 		/// 1. Elements surrounding points
 		//std::cout << "UMesh2d: compute_topological(): Elements surrounding points\n";
-		esup_p.setup(npoin+1,1,amat::ROWMAJOR);
+		esup_p.setup(npoin+1,1);
 		esup_p.zeros();
 
 		for(int i = 0; i < nelem; i++)
@@ -961,7 +961,7 @@ public:
 		for(int i = 1; i < npoin+1; i++)
 			esup_p(i,0) += esup_p(i-1,0);
 		// Now populate esup
-		esup.setup(esup_p(npoin,0),1,amat::ROWMAJOR);
+		esup.setup(esup_p(npoin,0),1);
 		esup.zeros();
 		for(int i = 0; i < nelem; i++)
 		{
@@ -981,7 +981,7 @@ public:
 
 		/// 2. Points surrounding points
 		std::cout << "UMesh2d: compute_topological(): Points surrounding points\n";
-		psup_p.setup(npoin+1,1,amat::ROWMAJOR);
+		psup_p.setup(npoin+1,1);
 		psup_p.zeros();
 		psup_p(0,0) = 0;
 		amat::Matrix<int> lpoin(npoin,1);  // The ith member indicates the global point number of which the ith point is a surrounding point
@@ -1031,7 +1031,7 @@ public:
 			psup_p(ip+1,0) = istor;
 		}
 
-		psup.setup(istor,1,amat::ROWMAJOR);
+		psup.setup(istor,1);
 		//std::cout << "+++ " << istor << std::endl;
 
 		//second pass: populate psup
@@ -1084,7 +1084,7 @@ public:
 		//std::cout << "UMesh2d: compute_topological(): Elements surrounding elements...\n";
 
 		//amat::Matrix<int> lpoin(npoin,1);
-		esuel.setup(nelem, nfael, amat::ROWMAJOR);
+		esuel.setup(nelem, nfael);
 		for(int ii = 0; ii < nelem; ii++)
 			for(int jj = 0; jj < nfael; jj++)
 				esuel(ii,jj) = -1;
@@ -1178,7 +1178,7 @@ public:
 		std::cout << "UMesh2d: compute_topological(): Number of all faces = " << naface << std::endl;
 
 		//allocate intfac
-		intfac.setup(naface,nnofa+2,amat::ROWMAJOR);
+		intfac.setup(naface,nnofa+2);
 
 		//reset face totals
 		nbface = naface = 0;

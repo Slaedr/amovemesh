@@ -131,7 +131,7 @@ void UMesh2dh::readDomn(std::string mfile)
 	//std::cout << "\nUTriMesh: Allocating coords..";
 	coords.setup(npoin, ndim);
 	// temporary array to hold connectivity matrix
-	amat::Matrix<double> elms(nelem,maxnnode2);
+	amat::Matrix<amc_int > elms(nelem,maxnnode2);
 	//std::cout << "UTriMesh: Allocating bface...\n";
 	bface.setup(nface, nnofa + nbtag);
 	
@@ -268,7 +268,7 @@ void UMesh2dh::readGmsh2(std::string mfile, int dimensions)
 	/// elmtype is the standard element type in the Gmsh 2 mesh format - of either faces or elements
 	ndtag = 0; nbtag = 0;
 	infile >> nelm;
-	amat::Matrix<int> elms(nelm,width_elms);
+	amat::Matrix<int > elms(nelm,width_elms);
 	nface = 0; nelem = 0;
 	std::vector<int> nnodes(nelm,0);
 	std::vector<int> nfaels(nelm,0);
@@ -446,7 +446,7 @@ void UMesh2dh::compute_boundary_points()
 	// first, get number of boundary points
 
 	nbpoin = 0;
-	amat::Matrix<int> flagb(npoin,1);
+	amat::Matrix<int > flagb(npoin,1);
 	flagb.zeros();
 	for(int iface = 0; iface < nface; iface++)
 	{
@@ -465,7 +465,7 @@ void UMesh2dh::compute_boundary_points()
 
 	bfacebp.setup(nface,nnofa);
 	
-	amat::Matrix<double> lpoin(npoin,1);
+	amat::Matrix<double > lpoin(npoin,1);
 
 	int bp = 0;
 
@@ -672,7 +672,7 @@ void UMesh2dh::compute_topological()
 	psup_p.setup(npoin+1,1);
 	psup_p.zeros();
 	psup_p(0,0) = 0;
-	amat::Matrix<int> lpoin(npoin,1);  // The ith member indicates the global point number of which the ith point is a surrounding point
+	amat::Matrix<int > lpoin(npoin,1);  // The ith member indicates the global point number of which the ith point is a surrounding point
 	for(int i = 0; i < npoin; i++) lpoin(i,0) = -1;	// initialize this std::vector to -1
 	int istor = 0;
 
@@ -777,15 +777,15 @@ void UMesh2dh::compute_topological()
 		for(int jj = 0; jj < maxnfael; jj++)
 			esuel(ii,jj) = -1;
 	//lpofa.mprint();
-	amat::Matrix<int> lhelp(nnofa,1);
+	amat::Matrix<int > lhelp(nnofa,1);
 	lhelp.zeros();
 	lpoin.zeros();
 
 	for(int ielem = 0; ielem < nelem; ielem++)
 	{
 		// first get lpofa for this element
-		amat::Matrix<int> lpofai(nfael[ielem], nnofa);	// lpofa(i,j) holds local node number of jth node of ith face (j in [0:nnofa], i in [0:nfael])
-		amat::Matrix<int> lpofaj;							// to be initialized for each jelem
+		amat::Matrix<int > lpofai(nfael[ielem], nnofa);	// lpofa(i,j) holds local node number of jth node of ith face (j in [0:nnofa], i in [0:nfael])
+		amat::Matrix<int > lpofaj;							// to be initialized for each jelem
 		for(int i = 0; i < nfael[ielem]; i++)
 		{
 			for(int j = 0; j < nnofa; j++)
@@ -917,7 +917,7 @@ void UMesh2dh::compute_topological()
 
 	//first get number of bpoints
 	nbpoin = 0;
-	amat::Matrix<int> isbpflag(npoin,1);
+	amat::Matrix<int > isbpflag(npoin,1);
 	isbpflag.zeros();
 	for(int i = 0; i < nface; i++)
 	{

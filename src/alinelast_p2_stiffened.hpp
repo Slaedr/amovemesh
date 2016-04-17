@@ -25,8 +25,8 @@
 #endif
 #endif
 
-#ifndef __AMATRIX2_H
-#include <amatrix2.hpp>
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
 #endif
 #ifndef __AMESH2DGENERAL_H
 #include <amesh2d.hpp>
@@ -35,9 +35,6 @@
 #define __ALINELAST_P2_STIFFENED_H 1
 
 namespace amc {
-
-//using namespace std;
-//using namespace amat;
 
 /// Class implementing solution of linear elasticity system by P2 Lagrange finite elements
 /** Currently only works on 2D triangular meshes.
@@ -82,7 +79,7 @@ public:
 		stiff = stiffm;
 		cbig = 1e30;
 		
-		//loadvec.setup(m.gnpoin(), 1, ROWMAJOR);
+		//loadvec.setup(m.gnpoin(), 1);
 
 		for(int i = 0; i < m->gnelem(); i++)
 		{

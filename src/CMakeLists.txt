@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 2.8)
 project (amocurve)
 
 # set compiler
-set (CMAKE_C_COMPILER $ENV{GC})
-set (CMAKE_CXX_COMPILER $ENV{GPP})
+#set (CMAKE_C_COMPILER $ENV{GC})
+#set (CMAKE_CXX_COMPILER $ENV{GPP})
 
 # to compile with OpenMP
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
@@ -55,33 +55,44 @@ endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+
 # libraries to be compiled
 
+# add_library(amocurve amesh3d.cpp amesh2dh.cpp ageometry.cpp ageometryh.cpp ageometry3d.cpp arbf.cpp alinalg.cpp aoutput.cpp amatrix.cpp adatastructures.cpp)
+# if(DEFINED PASTIX_LIB)
+# 	target_link_libraries(amocurve ${PASTIX_LIB} ${BLAS_LIB})
+# endif()
+
 add_library(amesh3d amesh3d.cpp)
-target_link_libraries(amesh3d amatrix2 adatastructures)
+target_link_libraries(amesh3d amatrix adatastructures)
 
 add_library(alinalg alinalg.cpp)
-target_link_libraries(alinalg amatrix2)
+target_link_libraries(alinalg amatrix)
 if(DEFINED PASTIX_LIB)
 	target_link_libraries(alinalg ${PASTIX_LIB} ${BLAS_LIB})
 endif()
 
 add_library(ageometry ageometry.cpp)
-target_link_libraries(ageometry alinalg amatrix2 adatastructures)
+target_link_libraries(ageometry alinalg amatrix adatastructures)
 
 add_library(ageometry3d ageometry3d.cpp)
-target_link_libraries(ageometry3d alinalg amesh3d amatrix2 adatastructures)
+target_link_libraries(ageometry3d alinalg amesh3d amatrix adatastructures)
 
 add_library(arbf arbf.cpp)
-target_link_libraries(arbf alinalg amatrix2)
+target_link_libraries(arbf alinalg amatrix)
 
 add_library(ageometryh ageometryh.cpp)
-target_link_libraries(ageometryh alinalg amatrix2)
+target_link_libraries(ageometryh alinalg amatrix)
+
+add_library(aoutput aoutput.cpp)
+target_link_libraries(aoutput amesh2dh)
 
 add_library(amesh2dh amesh2dh.cpp)
-target_link_libraries(amesh2dh amatrix2 adatastructures)
+target_link_libraries(amesh2dh adatastructures)
 
-add_library(amatrix2 amatrix2.cpp)
+add_library(amatrix amatrix.cpp)
 
 add_library(adatastructures adatastructures.cpp)
 

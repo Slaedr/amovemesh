@@ -12,6 +12,7 @@
 
 using namespace amat;
 using namespace amc;
+using namespace std;
 
 int main(int argc, char* argv[])
 {

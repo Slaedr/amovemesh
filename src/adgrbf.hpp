@@ -9,10 +9,6 @@ Oct 7, 2015: Changed the way s (prescribed boundary motion at each DG point) is 
 Oct 7, 2015: Added a similar class, DGRBFrotate, for rotation interpolation.
 */
 
-/*#ifndef __ALINALG_H
-#include <alinalg.hpp>
-#endif*/
-
 #ifndef __ABOWYERWATSON_H
 #include <abowyerwatson.hpp>
 #endif

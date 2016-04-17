@@ -30,8 +30,8 @@
 #endif
 #endif
 
-#ifndef __AMATRIX2_H
-#include <amatrix2.hpp>
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
 #endif
 #ifndef __ADATASTRUCTURES_H
 #include <adatastructures.hpp>
@@ -47,73 +47,73 @@ namespace amc {
 class UMesh2dh
 {
 private:
-	int npoin;		///< Number of nodes
-	int nelem;		///< Number of elements
-	int nface;		///< Number of boundary faces
-	int ndim;		///< Dimension of the mesh
+	int npoin;					///< Number of nodes
+	int nelem;					///< Number of elements
+	int nface;					///< Number of boundary faces
+	int ndim;					///< Dimension of the mesh
 	std::vector<int> nnode;		///< number of nodes to an element, for each element
-	int maxnnode;			///< Maximum number of nodes per element for any element
+	int maxnnode;				///< Maximum number of nodes per element for any element
 	std::vector<int> nfael;		///< number of faces to an element (equal to number of edges to an element in 2D) for each element
-	int maxnfael;			///< Maximum number of faces per element for any element
-	int nnofa;		///< number of nodes in a face
-	int naface;		///< total number of (internal and boundary) faces
-	int nbface;		///< number of boundary faces as calculated by compute_face_data(), as opposed to nface which is read from file
-	int nbpoin;		///< number of boundary points
-	int nbtag;		///< number of tags for each boundary face
-	int ndtag;		///< number of tags for each element
-	amat::Matrix<double> coords;			///< Specifies coordinates of each node
-	amat::Matrix<int> inpoel;				///< Interconnectivity matrix: lists node numbers of nodes in each element
-	amat::Matrix<int> bface;				///< Boundary face data: lists nodes belonging to a boundary face and contains boudnary markers
-	amat::Matrix<double> vol_regions;		///< to hold volume region markers, if any
-	amat::Matrix<amc_real> flag_bpoin;		///< Holds 1 or 0 for each point depending on whether or not that point is a boundary point
+	int maxnfael;				///< Maximum number of faces per element for any element
+	int nnofa;					///< number of nodes in a face
+	int naface;					///< total number of (internal and boundary) faces
+	int nbface;					///< number of boundary faces as calculated by compute_face_data(), as opposed to nface which is read from file
+	int nbpoin;					///< number of boundary points
+	int nbtag;					///< number of tags for each boundary face
+	int ndtag;					///< number of tags for each element
+	amat::Matrix<double > coords;				///< Specifies coordinates of each node
+	amat::Matrix<int > inpoel;				///< Interconnectivity matrix: lists node numbers of nodes in each element
+	amat::Matrix<int > bface;					///< Boundary face data: lists nodes belonging to a boundary face and contains boudnary markers
+	amat::Matrix<double > vol_regions;		///< to hold volume region markers, if any
+	amat::Matrix<amc_real > flag_bpoin;		///< Holds 1 or 0 for each point depending on whether or not that point is a boundary point
 
 	/// List of indices of [esup](@ref esup) corresponding to nodes
-	amat::Matrix<int> esup_p;
+	amat::Matrix<int > esup_p;
 	/// List of elements surrounding points. 
 	/** Integers pointing to particular points' element lists are stored in [esup_p](@ref esup_p). */
-	amat::Matrix<int> esup;
+	amat::Matrix<int > esup;
 	/// Lists of indices of psup corresponding to nodes (points)
-	amat::Matrix<int> psup_p;
+	amat::Matrix<int > psup_p;
 	
 	/// List of nodes surrounding nodes
 	/** Integers pointing to particular nodes' node lists are stored in [psup_p](@ref psup_p)
 	 */
-	amat::Matrix<int> psup;
+	amat::Matrix<int > psup;
 	
 	/// Elements surrounding elements
-	amat::Matrix<int> esuel;
+	amat::Matrix<int > esuel;
 	/// Face data structure - contains info about elements and nodes associated with a face
-	amat::Matrix<int> intfac;
+	amat::Matrix<int > intfac;
 	/// Holds boundary tags (markers) corresponding to intfac
-	amat::Matrix<int> intfacbtags;
+	amat::Matrix<int > intfacbtags;
 	
 	/** @brief Boundary points list
 	 * 
 	 * bpoints contains: bpoints(0) = global point number, bpoints(1) = first containing intfac face (face with intfac's second point as this point), 
 	 * bpoints(2) = second containing intfac face (face with intfac's first point as this point)
 	 */
-	amat::Matrix<int> bpoints;
+	amat::Matrix<int > bpoints;
 	
 	/// Like bpoints, but stores bface numbers corresponding to each face, rather than intfac faces
-	amat::Matrix<int> bpointsb;
+	amat::Matrix<int > bpointsb;
 
 	/// Stores boundary-points numbers (defined by bpointsb) of the two points making up a particular bface.
-	amat::Matrix<int> bfacebp;
+	amat::Matrix<int > bfacebp;
 
-	amat::Matrix<int> bifmap;				///< relates boundary faces in intfac with bface, ie, bifmap(intfac no.) = bface no.
-	amat::Matrix<int> ifbmap;				///< relates boundary faces in bface with intfac, ie, ifbmap(bface no.) = intfac no.
+	amat::Matrix<int > bifmap;				///< relates boundary faces in intfac with bface, ie, bifmap(intfac no.) = bface no.
+	amat::Matrix<int > ifbmap;				///< relates boundary faces in bface with intfac, ie, ifbmap(bface no.) = intfac no.
 	bool isBoundaryMaps;			///< Specifies whether bface-intfac maps have been created
 
 	bool alloc_jacobians;			///< Flag indicating whether space has been allocated for jacobians
-	amat::Matrix<double> jacobians;		///< Contains jacobians of each (linear) element
+	amat::Matrix<double > jacobians;		///< Contains jacobians of each (linear) element
 	
 	/// Contains Knupp's node-local areas for each node of each element. 
 	/** If the elements are triangles, it contains just 1 value for each element. If elements are quads, there are 4 values for each element, one associated with each node. */
-	amat::Matrix<double> alpha;
+	amat::Matrix<double > alpha;
 
 	/// Contains Knupp's 3 coeffs of metric tensor for each node of each element. 
 	/** In case of triangles, it just contains 3 coeffs for each element. In case of quads, we need to store 3 coeffs for each node of each element. */
-	amat::Matrix<double>* lambda;
+	amat::Matrix<double >* lambda;
 
 	std::vector<int> nmtens;				///< number of metric tensors required for each element - 1 for triangles and 4 for quads.
 	int neleminlambda;				///< number of coeffs in lambda per element per node.
@@ -140,7 +140,7 @@ public:
 		return bface.get(faceno, val);
 	}
 
-	amat::Matrix<double>* getcoords()
+	amat::Matrix<double >* getcoords()
 	{ return &coords; }
 
 	int gesup(int i) const { return esup.get(i); }
@@ -178,13 +178,13 @@ public:
 		coords(pointno,dim) = value;
 	}
 
-	void setcoords(amat::Matrix<double>* c)
+	void setcoords(amat::Matrix<double >* c)
 	{ coords = *c; }
 
-	void setinpoel(amat::Matrix<int>* inp)
+	void setinpoel(amat::Matrix<int >* inp)
 	{ inpoel = *inp; }
 
-	void setbface(amat::Matrix<int>* bf)
+	void setbface(amat::Matrix<int >* bf)
 	{ bface = *bf; }
 
 	void modify_bface_marker(int iface, int pos, int number)

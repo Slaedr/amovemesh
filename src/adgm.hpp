@@ -4,6 +4,10 @@
  * @date July 1, 2015
  */
 
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
+#endif
+
 #ifndef __ABOWYERWATSON_H
 #include <abowyerwatson.hpp>
 #endif

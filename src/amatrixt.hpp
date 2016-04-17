@@ -76,7 +76,6 @@ inline double minmod(double a, double b)
 	else return 0.0;
 }
 
-/// Matrix storage type. Note that its usage is deprecated.
 enum MStype {ROWMAJOR, COLMAJOR};
 
 template <class T, MStype storage>
@@ -373,7 +372,7 @@ public:
 	{
 #ifdef DEBUG
 		if(x>=nrows || y>=ncols) { std::cout << "Matrix (): Index beyond array size(s)\n"; return elems[0]; }
-		if(x < 0 || y < 0) {std::cout << "Matrix: (): Negative index!\n"; return 0; }
+		if(x < 0 || y < 0) {std::cout << "Matrix: (): Negative index!\n"; return elems[0]; }
 #endif
 		return elems[x*ncols + y];
 	}
@@ -383,7 +382,7 @@ public:
 	{
 #ifdef DEBUG
 		if(x>=nrows || y>=ncols) { std::cout << "Matrix (): Index beyond array size(s)\n"; return elems[0]; }
-		if(x < 0 || y < 0) {std::cout << "Matrix: (): Negative index!\n"; return 0; }
+		if(x < 0 || y < 0) {std::cout << "Matrix: (): Negative index!\n"; return elems[0]; }
 #endif
 		return elems[x*ncols + y];
 	}
@@ -856,6 +855,7 @@ public:
 	{
 #ifdef DEBUG
 		if(x>=nrows || y>=ncols) { std::cout << "Matrix (): Index beyond array size(s)\n"; return elems[0]; }
+		if(x < 0 || y < 0) {std::cout << "Matrix: (): Negative index!\n"; return elems[0]; }
 #endif
 		return elems[y*nrows + x];
 	}
@@ -865,6 +865,7 @@ public:
 	{
 #ifdef DEBUG
 		if(x>=nrows || y>=ncols) { std::cout << "Matrix (): Index beyond array size(s)\n"; return elems[0]; }
+		if(x < 0 || y < 0) {std::cout << "Matrix: (): Negative index!\n"; return elems[0]; }
 #endif
 		return elems[y*nrows + x];
 	}

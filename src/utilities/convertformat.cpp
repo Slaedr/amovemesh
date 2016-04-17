@@ -5,9 +5,12 @@ using namespace amat;
 using namespace amc;
 using namespace std;
 
-int main()
+int main(int argc, char* argv[])
 {
-	string confilename = "convertformat.control";
+	if(argc < 2) {
+		cout << "Need a control file!" << endl;
+	}
+	string confilename(argv[1]);
 	ifstream conf(confilename);
 	string dum, inmesh, informat, outmesh, outformat;
 	conf >> dum; conf >> inmesh;

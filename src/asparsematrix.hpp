@@ -33,8 +33,8 @@
 #include <vector>
 #endif
 
-#ifndef __AMATRIX2_H
-#include "amatrix2.hpp"
+#ifndef __AMATRIX_H
+#include "amatrix.hpp"
 #endif
 
 #ifdef _OPENMP
@@ -43,13 +43,13 @@
 #endif
 #endif
 
-#ifndef ZERO_TOL
-#define ZERO_TOL 1e-15
-#endif
-
 namespace amat {
 
-typedef Matrix<double> Mat;
+typedef Matrix<amc_real> Mat;
+
+/// The type of dense storage to use for vectors in matrix-vector multiplication, etc.
+template <typename T>
+using DenseMatrix = Matrix<T>;
 
 /// Structure for matrix in compressed row storage
 /** \note Set [allocated](@ref allocated) to "true" right after reserving memory for the arrays.
@@ -101,9 +101,9 @@ public:
 	virtual T get(const int x, const int y) const = 0;
 	virtual void mprint() const = 0;
 
+	/// Multiplication of this sparse matrix with a row-major vector
 	virtual void multiply(const Mat& x, Mat* const a, const char paralel) const = 0;
 	virtual void multiply_parts(const Mat* x, const Mat* y, Mat* const ans, const int p) const = 0;
-
 	virtual double getelem_multiply_parts(const int rownum, const Mat* x, const Mat* y, const int p, const double num) const = 0;
 };
 
@@ -344,7 +344,7 @@ public:
 		}
 	}
 
-	/// Returns product of sparse matrix with std::vector x and stores it in a.
+	/// Returns product of sparse matrix with vector x and stores it in a.
 	void multiply(const Mat& x, Mat* const a, const char paralel = 'n') const
 	{
 		a->zeros();
@@ -831,7 +831,13 @@ public:
 };
 
 #ifndef SPARSE_MATRIX_TO_USE
-typedef MatrixCRS<double> SpMatrix;
+
+/** We use MatrixCRS as the default sparse matrix implementation.
+ *
+ * \note NOTE that the default sparse matrix type stores floating-point entries of type amc_real
+ */
+typedef MatrixCRS<amc::amc_real> SpMatrix;
+
 #define SPARSE_MATRIX_TO_USE 1
 #endif
 

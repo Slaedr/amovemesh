@@ -35,15 +35,11 @@ Notes:
 #ifndef _GLIBCXX_VECTOR
 #include <vector>
 #endif
-#ifndef __AMATRIX2_H
-#include <amatrix2.hpp>
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
 #endif
 
 #define __ABOWYERWATSON3D_H 1
-
-#ifndef DEBUGBW
-#define DEBUGBW 1
-#endif
 
 namespace amc {
 
@@ -345,7 +341,7 @@ void Delaunay3d::compute_circumsphere(Tet& elem)
 	detdenom = normal(0,0)*( normal(1,1)*normal(2,2)-normal(1,2)*normal(2,1) ) -normal(0,1)*( normal(1,0)*normal(2,2)-normal(1,2)*normal(2,0)) 
 		+normal(0,2)*( normal(1,0)*normal(2,1)-normal(1,1)*normal(2,0));
 
-#if DEBUGBW==1
+#if DEBUG==1
 	if(fabs(detdenom) < ZERO_TOL) std::cout << "Delaunay3d: compute_circumsphere(): ! System is inconsistent!! Jacobian of elem is " << elem.D << std::endl;
 #endif
 	
@@ -409,7 +405,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 	for(k = 0; k < ndim; k++)
 		normnrm += nrm[k]*nrm[k];
 	
-	#if DEBUGBW==1
+	#if DEBUG==1
 	if(normnrm < ZERO_TOL) std::cout << "Delaunay3d: compute_circumsphere_contra(): ! Element is degenerate!!" << std::endl;
 	#endif
 	
@@ -472,7 +468,7 @@ void Delaunay3d::compute_circumsphere_contra(Tet& elem)
 */
 double Delaunay3d::det4(const int ielem, const int i, const std::vector<double>& r) const
 {
-	#if DEBUGBW==1
+	#if DEBUG==1
 	if(i > 3) {
 		std::cout << "Delaunay3D: det4(): ! Second argument is greater than 3!" << std::endl;
 		return 0;
@@ -519,7 +515,7 @@ int Delaunay3d::find_containing_tet_old(const std::vector<double>& xx, const int
 		{
 			// get jacobian
 			l = det4(ielem,inode,xx);
-			#if DEBUGBW==1
+			#if DEBUG==1
 			//if(dabs(l) < ZERO_TOL) std::cout << "Delaunay3d: find_containing_tet(): ! Degenerate case (type 1) " << inode << "!!\n";
 			#endif
 			if(l/super.D < 0)
@@ -578,7 +574,7 @@ int Delaunay3d::find_containing_tet(const std::vector<double>& xx, const int sta
 		ielem = super.surr[minln];
 	}
 
-#if DEBUGBW==1
+#if DEBUG==1
 	if(ii == elems.size()+3)
 		std::cout << "Delaunay3d: find_containing_tet(): !! Could not find host element!" << std::endl;
 #endif
@@ -818,7 +814,7 @@ void Delaunay3d::bowyer_watson()
 				dist += (newpoin[idim]-elems[curelem].centre[idim]) * (newpoin[idim]-elems[curelem].centre[idim]);
 			//dist = sqrt(dist);
 
-			#if DEBUGBW==1
+			#if DEBUG==1
 			//if(dabs(dist - elems[curelem].radius) < ZERO_TOL) std::cout << "Delaunay3D: Degenerate case (type 2)!!\n";
 			#endif
 			
@@ -1180,7 +1176,7 @@ Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const std::vecto
 		{
 			// get jacobian
 			l[inode] = det4(ielem,inode,xx);
-			#if DEBUGBW==1
+			#if DEBUG==1
 			if(fabs(l[inode]) < ZERO_TOL) std::cout << "Delaunay3D: find_containing_tet(): ! Degenerate case (type 1) for l " << inode << "!!\n";
 			#endif
 			if(l[inode]/super.D < 0)

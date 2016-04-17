@@ -30,7 +30,7 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 	int N = A.rows();
 
 	//Part 1: Cholesky decomposition
-	B.setup(N,N,ROWMAJOR); B.zeros();
+	B.setup(N,N); B.zeros();
 
 	B(0,0) = sqrt(A(0,0));
 	for(int i = 1; i < N; i++)
@@ -73,7 +73,7 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 		}
 
 	// Part 2: forward substitution to obtain intermediate vector y
-	Matrix<double> y(N,1,ROWMAJOR);
+	Matrix<double> y(N,1);
 
 	y(0,0) = b(0,0)/B(0,0);
 
@@ -91,7 +91,7 @@ Matrix<double> cholesky(Matrix<double> A, Matrix<double> b)
 	//Part 3: back substitution to obtain final solution
 	// Note: the final solution is stored in b
 	b.zeros();
-	//Matrix<double> f(N,1,ROWMAJOR);
+	//Matrix<double> f(N,1);
 	b(N-1,0) = y(N-1,0)/B(N-1,N-1);
 
 	for(int i = N-2; i >= 0; i--)
@@ -122,7 +122,7 @@ void chol(Matrix<amc_real>& A, Matrix<amc_real>& b)
 	amc_real bjk_sum, bsum, sum;
 
 	//Part 1: Cholesky decomposition
-	B.setup(N,N,ROWMAJOR); B.zeros();
+	B.setup(N,N); B.zeros();
 
 	B(0,0) = sqrt(A(0,0));
 	for(i = 1; i < N; i++)
@@ -166,7 +166,7 @@ void chol(Matrix<amc_real>& A, Matrix<amc_real>& b)
 #endif
 
 	// Part 2: forward substitution to obtain intermediate vector y
-	Matrix<amc_real> y(N,1,ROWMAJOR);
+	Matrix<amc_real> y(N,1);
 
 	y(0,0) = b(0,0)/B(0,0);
 
@@ -440,7 +440,7 @@ Matrix<double> pointjacobi(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 
 	Matrix<double> x(b.rows(),1);
 
-	Matrix<double> M(N,N,ROWMAJOR);		// diagonal matrix
+	Matrix<double> M(N,N);		// diagonal matrix
 	M.zeros();
 
 	//populate diagonal matrix M
@@ -494,7 +494,7 @@ Matrix<double> gaussseidel(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 
 	Matrix<double> x(b.rows(),1);
 
-	Matrix<double> M(N,N,ROWMAJOR);		// diagonal matrix
+	Matrix<double> M(N,N);		// diagonal matrix
 	M.zeros();
 
 	//populate diagonal matrix M

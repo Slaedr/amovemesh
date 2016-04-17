@@ -25,8 +25,8 @@
 #ifndef _GLIBCXX_VECTOR
 #include <vector>
 #endif
-#ifndef __AMATRIX2_H
-#include <amatrix2.hpp>
+#ifndef __AMATRIX_H
+#include <amatrix.hpp>
 #endif
 
 #define __ABOWYERWATSON_H 1
