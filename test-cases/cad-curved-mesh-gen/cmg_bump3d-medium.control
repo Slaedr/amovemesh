@@ -1,7 +1,7 @@
 -input-mesh-file
 ../../output/bouncurve/bump3d-medium_bouncurved.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/bump3d-medium_curved.msh
+../../output/curved-mesh-gen/bump3d-medium_curved-r0.06.msh
 -choice(RBF-choice)
 2
 -support-radius
@@ -9,7 +9,7 @@
 -solver
 EIGENLU
 -tolerance
-1e-7
+1e-6
 -max-iterations
 4000
 -number-of-RBF-boundaries

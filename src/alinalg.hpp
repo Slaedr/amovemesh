@@ -1,5 +1,7 @@
 /** \file alinalg.hpp
  * A library of functions to solve linear systems, linear least-squares problems etc.
+ * 
+ * Strings given in brackets in the documentation of some functions are the control-file parameters to be used for the corresponding solver.
  * \author Aditya Kashi
  * \date Feb 2015
  */
@@ -29,16 +31,16 @@
 namespace amat
 {
 
-/// Computes solution of Ax = b by Gaussian elimination. Reasonably well-tested.
+/// Computes solution of Ax = b by Gaussian elimination. Reasonably well-tested. ("DLU")
 /** A is mxm, b is mxk where k is the number of systems to be solved with the same LHS.
 */
 void gausselim(Matrix<double>& A, Matrix<double>& b, Matrix<double>& x);
 
 #ifdef EIGEN_LIBRARY
-/// Uses Eigen3's supernodal sparse LU solver to solve Ax = b
+/// Uses Eigen3's supernodal sparse LU solver to solve Ax = b ("EIGENLU")
 Matrix<double> gausselim(const SpMatrix& A, const Matrix<amc_real>& b);
 
-/// Uses Eigen3's interface to PastiX to solve a SPD system
+/// Uses Eigen3's interface to PastiX to solve a SPD system ("PASTIXLDLT")
 void pastix_LDLT(const SpMatrix& A, const Matrix<amc_real>& b, Matrix<amc_real>& x);
 
 /// Uses Eigen3's SVD module to solve linear least-squares 
@@ -70,17 +72,20 @@ Matrix<double> gaussseidel(Matrix<double> A, Matrix<double> b, Matrix<double> xo
 /// Solves Ax=b for sparse A by forward Gauss-Seidel iterations.
 Matrix<double> sparsegaussseidel(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter, char check='n');
 
-/// Solves Ax=b for sparse A by forward SOR.
+/// Solves Ax=b for sparse A by forward SOR. ("SOR")
 Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter, double w=1.25, char check='n');
 
+/// Solves the linear system Ax=b by unpreconditioned CG ("CG")
+Matrix<amc_real> sparseCG(const SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter);
 
-/// Calculates solution of Ax=b where A is a SPD matrix in sparse format. This function is well-tested.
+/// Calculates solution of Ax=b where A is a SPD matrix in sparse format. This function is well-tested. ("PCG")
 /** The preconditioner is a diagonal matrix.
  * NOTE: The parallel version is actually slower, due to some reason.
  */
-Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter);
+Matrix<double> sparseCG_d(const SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter);
 
-/**	Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst.
+/**	Solves general linear system Ax=b using stabilized biconjugate gradient method of van der Vorst. ("BICGSTAB")
+ * 
  * NOTE: The initial guess vector xold is modified by this function.
  */
 Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matrix<double>& xold, double tol, int maxiter);

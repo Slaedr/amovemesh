@@ -27,11 +27,24 @@ To propagate the boundary motion to the interior of the mesh, we favor interpola
 
 Though the RBF method requires the solution of a linear system of size proportional to only the number of boundary points, extra computation is required to evaluate equation \eqref{eqn:rbf} at each of the interior nodes to compute their displacements. In comparison, elasticity-based methods directly give us the displacements. 
 
-While solving certain problems with the RBF method, we find that the linear system to be solved is sometimes quite ill-conditioned, depending upon the mesh. However, in the cases that we worked on (such as curved mesh generation of hybrid meshes for viscous simulations of airfoils), sparse direct methods are capable of solving the system efficiently and effectively. This is likely to hold true in general as the systems to be solved will usually not be very large (having size of the number of boundary nodes).
+While solving certain problems with the RBF method, we find that the linear system to be solved is sometimes quite ill-conditioned, depending upon the mesh. Iterative Krylov-subspace solvers such as conjugate gradient (CG) and BiCGSTAB are not able to solve the system in such cases. However, in the cases that we worked on (such as curved mesh generation of hybrid meshes for viscous simulations of airfoils), sparse direct methods are capable of solving the system efficiently and effectively. This is likely to hold true in general as the systems to be solved will usually not be very large (having size of the number of boundary nodes).
+
+The inability of iterative solvers to compute a solution can perhaps be explained by the discussion on condition numbers of RBF matrices in Wendland's paper \cite{rbf:errorwendland}. If
+\begin{equation}
+q := \min_{i\neq j} \lVert \bld{x}_{bi} - \bld{x}_{bj} \rVert_2
+\end{equation}
+is the minimum distance between two boundary points, and $\bld{A}$ is the RBF interpolation matrix \eqref{eqn:rbf_system} then for Wendland's C2 function, we will have
+\begin{equation}
+\begin{aligned}
+\text{cond}_2 (\bld{A}) &= \mathcal{O}(q^{-5}) \quad \text{in 2D, and} \\
+\text{cond}_2 (\bld{A}) &= \mathcal{O}(q^{-6}) \quad \text{in 3D}
+\end{aligned}
+\end{equation}
+as seen from section 4 of \cite{rbf:errorwendland}. In the case that the CG solver did not work, we had a 2D mesh with $q \approx 4 \times 10^{-7}$. This means that the condition number can be as high as $10^{30}$! Since we used only point-Jacobi preconditioning, we expect CG to not work in this case. If a more potent preconditioner (such as incomplete Cholesky decomposition or LU-SGS \cite{lusgs_precon}) is used, CG might be expected to work. But we found that direct solvers such as sparse LU decomposition work very well, and adopted this instead.
 
 We have also tried using the stiffened linear elasticity method described in subsection \ref{subsec:stiffelast}. In this work, this is implemented by scaling each component of the element stiffness matrix of each element by the scaling term $\left(\frac{J_0}{J_\kappa}\right)^\chi$. This is valid as we only need to run the linear elasticity code on straight-sided meshes, and this means that the Jacobian $J_\kappa$ is constant over the element.
 
-\subsection{Unsuitability of Delaunay-graph-based methods for curved mesh generation}
+\subsection[Unsuitability of DG-based methods for curved mesh generation]{Unsuitability of Delaunay-graph-based methods for curved mesh generation}
 \label{subsec:dgmunsuitable}
 %********* TODO: DESCRIBE WHY DGM AND DG-RBF FAIL FOR CURVED MESH GENERATION. DESCRIBE THE 2-STEP RBF-DG METHOD, AND WHY THAT DOES NOT WORK EITHER *********
 

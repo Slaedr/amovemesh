@@ -740,15 +740,99 @@ Matrix<double> sparseSOR(SpMatrix* A, Matrix<double> b, Matrix<double> xold, dou
 	return x;
 }
 
-/** Calculates solution of Ax=b where A is a SPD matrix in sparse format.
+/* Calculates solution of Ax=b where A is a SPD matrix in sparse format.
+ * No preconditioning is used.
+ * NOTE: The parallel version is actually slower, due to some reason.
+ */
+Matrix<double> sparseCG(const SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter)
+{
+	std::cout << "sparseCG(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with no preconditioner\n";
+	if(A->rows() != b.rows() || A->rows() != xold.rows()) std::cout << "sparseCG(): ! Mismatch in number of rows!!" << std::endl;
+
+	Matrix<double> x(A->rows(),1);		// solution vector
+	Matrix<double> rold(A->rows(),1);		// initial residual = b - A*xold
+	Matrix<double> r(A->rows(),1);			// residual = b - A*x
+	Matrix<double> p(A->rows(),1);
+	Matrix<double> pold(A->rows(),1);
+	Matrix<double> temp(A->rows(),1);
+	Matrix<double> diff(A->rows(),1);
+	double temp1, temp2;
+	double theta;
+	double beta;
+	double error = 1.0;
+	double initres;
+	double normalizer = b.l2norm();
+
+	A->multiply(xold, &temp);		// temp := A*xold
+	rold = b - temp;
+	error  = rold.l2norm();		// initial residue
+	if(error < tol)
+	{
+		std::cout << "sparseCG(): Initial residual is very small. Nothing to do." << std::endl;
+		return xold;
+	}
+
+	pold = rold;
+
+	int steps = 0;
+
+	std::cout << "SparseCG: Starting loop" << std::endl;
+	do
+	{
+		if(steps % 10 == 0 || steps == 1)
+			std::cout << "sparseCG(): Iteration " << steps << ", relative residual = " << error/normalizer << std::endl;
+		int i;
+
+		temp1 = rold.dot_product(rold);
+
+		A->multiply(pold, &temp);
+
+		// p^T A p
+		temp2 = pold.dot_product(temp);
+		
+		if(temp2 <= ZERO_TOL) { 
+			std::cout << "sparseCG: Matrix A may not be positive-definite!! temp2 is " << temp2 << "\n";
+			std::cout << "sparseCG: Magnitude of pold in this iteration is " << pold.l2norm() << std::endl;
+		}
+		theta = temp1/temp2;
+
+		//#pragma omp parallel for default(none) private(i) shared(x,r,xold,rold,pold,temp,theta)
+		for(i = 0; i < x.rows(); i++)
+		{
+			x(i) = xold.get(i) + pold.get(i)*theta;
+			rold(i) = rold.get(i) - temp.get(i)*theta;
+		}
+
+		beta = rold.dot_product(rold) / temp1;
+		
+		for(i = 0; i < x.rows(); i++)
+			pold(i) = rold.get(i) + pold.get(i)*beta;
+
+		//calculate ||b - A*x||. 'error' is a misnomer - it's the residual norm.
+		error = rold.l2norm();
+
+		// set old variables
+		xold = x;
+
+		if(steps > maxiter)
+		{
+			std::cout << "! sparseCG(): Max iterations reached!\n";
+			break;
+		}
+		steps++;
+	} while(error/normalizer > tol);
+
+	std::cout << "sparseCG(): Done. Number of iterations: " << steps << "; final residual " << error/normalizer << ".\n";
+	return x;
+}
+
+/* Calculates solution of Ax=b where A is a SPD matrix in sparse format.
  * The preconditioner is a diagonal matrix.
  * NOTE: The parallel version is actually slower, due to some reason.
  */
-Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter)
+Matrix<double> sparseCG_d(const SpMatrix* A, Matrix<double> b, Matrix<double> xold, double tol, int maxiter)
 {
 	std::cout << "sparseCG_d(): Solving " << A->rows() << "x" << A->cols() << " system by conjugate gradient method with diagonal preconditioner\n";
-
-	// check
 	if(A->rows() != b.rows() || A->rows() != xold.rows()) std::cout << "sparseCG_d(): ! Mismatch in number of rows!!" << std::endl;
 
 	Matrix<double> x(A->rows(),1);		// solution vector
@@ -768,18 +852,12 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 	double initres;
 	double normalizer = b.l2norm();
 
-	//std::cout << "sparseCG_d(): Declared everything" << std::endl;
-
 	M.zeros();
 	A->get_diagonal(&M);
-	//M.ones();
 	for(int i = 0; i < A->rows(); i++)
 	{
 		M(i) = 1.0/M(i);
 	}
-
-	//M.ones();		// disable preconditioner
-	//std::cout << "sparseCG_d(): preconditioner enabled" << std::endl;
 
 	A->multiply(xold, &temp);		// temp := A*xold
 	rold = b - temp;
@@ -787,7 +865,6 @@ Matrix<double> sparseCG_d(SpMatrix* A, Matrix<double> b, Matrix<double> xold, do
 	if(error < tol)
 	{
 		std::cout << "sparseCG_d(): Initial residual is very small. Nothing to do." << std::endl;
-		//x.zeros();
 		return xold;
 	}
 
@@ -1110,7 +1187,7 @@ Matrix<double> sparse_bicgstab(const SpMatrix* A, const Matrix<double>& b, Matri
 
 		A->multiply(z, &t);			// t = A*K^-1*s
 
-		//--------------- modification begins here, to be tested (this is for purely left-preconditioning)
+		//--------------- modification begins here (this is for purely left-preconditioning)
 
 		for(i = 0; i < b.rows(); i++)
 			u(i) = M.get(i)*t.get(i);		// u = K^(-1)*A*K^(-1)*s = K^(-1)*t

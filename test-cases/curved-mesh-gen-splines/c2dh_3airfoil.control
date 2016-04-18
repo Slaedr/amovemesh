@@ -3,7 +3,7 @@
 -input-quadratic-mesh-filename
 ../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_quadratic.msh
 -output-curved-mesh-filename
-../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_curved-rbf-r0.03.msh
+../../output/curved-mesh-gen-spline/30P30N_luo_1st_tri_curved-rbf-r0.12.msh
 -angle-threshold-for-corners
 40.0
 -tolerance-for-spline-solver-CG
@@ -13,15 +13,15 @@
 -RBF-choice
 2
 -Support-radius-for-RBF
-0.03
+0.12
 -Number-of-RBF-steps
 1
 -Tolerance-for-RBF-move
 1e-6
 -Maximum-iterations
-2000
+5000
 -RBF-solver
-CG
+PCG
 -Number-of-spline-parts
 3
 -Boundary-markers-in-each-spline-part.First-entry-for-each-part-is-number-of-markers

@@ -234,11 +234,15 @@ void RBFmove::move_step()
 	std::cout << "RBFmove:  move_step(): Solving linear system" << std::endl;
 	amat::Matrix<double> xold(nbpoin,1);
 	xold.zeros();
-		
+	
 	if(lsolver == "CG")
 		for(int idim = 0; idim < ndim; idim++)
 		{
-			//std::cout << "RBFmove:  move_step(): Norm of RHS " << idim << " = " << b[idim].l2norm() << std::endl;
+			coeffs[idim] = sparseCG(&A, b[idim], xold, tol, maxiter);
+		}	
+	else if(lsolver == "PCG")
+		for(int idim = 0; idim < ndim; idim++)
+		{
 			coeffs[idim] = sparseCG_d(&A, b[idim], xold, tol, maxiter);
 		}
 	else if(lsolver == "SOR")

@@ -124,6 +124,12 @@ E.~Luke, E.~Collins, and E.~Blades.
 \newblock A fast mesh deformation method using explicit interpolation.
 \newblock {\em Journal of Computational Physics}, 231:586--601, 2012.
 
+\bibitem{lusgs_precon}
+H.~Luo, J.D. Baum, and R.~L{\"o}hner.
+\newblock A fast, matrix-free implicit method for compressible flows on
+  unstructured grids.
+\newblock {\em Journal of Computational Physics}, 146:664--690, 1998.
+
 \bibitem{curve:geomacc}
 X.~Luo, M.S. Shephard, and J.-F. Remacle.
 \newblock The influence of geometric approximation on the accuracy of high
@@ -171,6 +177,12 @@ Eric~W. Weisstein.
 \newblock Cubic spline.
 \newblock From \emph{MathWorld} -- A {W}olfram Web Resource
   \url{http://mathworld.wolfram.com/CubicSpline.html}.
+
+\bibitem{rbf:errorwendland}
+H.~Wendland.
+\newblock Error estimates for interpolation by compactly supported radial basis
+  functions of minimal degree.
+\newblock {\em Journal of Approximation Theory}, 93:258--272, 1998.
 
 \bibitem{mm:hybriddg}
 T.~Xiao, N.~Qin, D.~Luo, and S.~Deng.

@@ -4,7 +4,7 @@
  
  The second type of technique to move the interior nodes involves \emph{interpolation} of the boundary displacement to interior nodes. Several methods exist; some examples are radial basis function (RBF) interpolation \cite{mm:rbf}, `explicit' interpolation \cite{mm:explicit}, and `Delaunay graph mapping' \cite{mm:dgm}. These methods do not involve any physics-based modeling of the mesh.
  
- \section{Elasticity methods}
+ \section{Elasticity-based methods}
  Elasticity-based methods are among the oldest mesh-movement methods in use. These include lineal spring analogy, torsional spring analogy, and various kinds of elastic solid mechanics analogies. These methods model the mesh as some kind of solid entity, impose a boundary displacement and solve equilibrium equations to propagate the motion to the interior nodes.
  
  \subsection{Spring analogies}
@@ -36,7 +36,7 @@
  
  While this method is significantly more robust than the lineal spring analogy of Batina, it is also much more computationally expensive. A coupled system of $n_{dim} N_n$ equations must be solved, where $N_n$ is the number of nodes that are to be moved in the mesh and $n_{dim}$ is the physical spatial dimension of the problem.
  
- \subsection{Elastic solid analogy (`Elasticity')}
+ \subsection{Elastic solid analogy}
  
  The deformable elastic solid analogy, employing the equations of (linear or non-linear) elasticity, is one of the widely-used mesh movement techniques. This class of schemes often lead to very robust mesh movement. The mesh is assumed to model a deformable solid body, which is then deformed according to the equations of solid mechanics, that is, linear or non-linear elasticity.
  
@@ -94,7 +94,7 @@
  The advantage of elasticity-based methods is that they can be made highly robust. Their disadvantage is that generally, the more robust the scheme, the more expensive it is. The cost of the system of equations that needs to be solved usually scales with the total number of mesh nodes to be moved; this can get very expensive for 3D viscous meshes. Further, the implementation is usually not very easy; different cell types require different treatments (different basis functions, for instance, in case of elastic-solid approaches) and extension from 2D to 3D may not be trivial (as in case of torsional springs).
  
  \section{Interpolation  Methods}
- Also called algebraic methods, these methods do not involve any physics-based modeling of the mesh. They are purely mathematical manipulations of the mesh. Unlike elasticity-based methods, schemes of this type tend to be fast and independent of mesh topology. 
+ Also called algebraic methods, these methods do not involve any physics-based modeling of the mesh. They are purely mathematical manipulations of the mesh. Unlike elasticity-based methods, schemes of this type tend to be fast and independent of mesh topology.
  
  \subsection{Delaunay graph mapping (DGM)}
  \label{sec:dgm}
@@ -129,12 +129,11 @@
  In each coordinate direction, this leads to a system of $n_b$ equations in $n_b$ unknowns:
  \begin{equation}
  \mathbf{A}\mathbf{a}_k = \mathbf{s}_k
+ \label{eqn:rbf_system}
  \end{equation}
  where the $(i,j)$ component of $\mathbf{A}$ is $\phi(\lVert\mathbf{x}_{bi} - \mathbf{x}_{bj} \rVert)$, $ \bld{a}_k \in \mathbb{R}^{n_b}$ is the coefficient vector in the $k$th direction and $\bld{s}_k \in \mathbb{R}^{n_b}$ is the vector of boundary displacements in the $k$th coordinate direction.
  
- In our implementation, we assemble $\mathbf{A}$ as a sparse matrix by evaluating the radial basis function between every pair of boundary points. This process can be parallelized easily.
- 
- Next, we need to evaluate equation \eqref{eqn:rbf} for each interior point, which requires one evaluation of the RBF for each interior point (in each direction). This too, can be parallelized easily.
+ In our implementation, we assemble $\mathbf{A}$ as a sparse matrix by evaluating the radial basis function between every pair of boundary points. This process can be parallelized easily. Once this linear system is solved, we need to evaluate equation \eqref{eqn:rbf} for each interior point, which requires one evaluation of the RBF for each interior point (in each direction). This too, can be parallelized easily.
  
  The quality of the final mesh depends on which RBF is used. Many kinds of RBFs have been used in literature \cite{mm:rbf, mm:rbf2}. In this work, we use Wendland's C2 function
  \begin{equation}
@@ -148,7 +147,7 @@
  0 & x \geq r_s
  \end{cases}
  \end{equation}
- where $r_s$ is a real number called the `support radius'. This modified function has a compact support. In light of this, we see the matrix $\mathbf{A}$ is sparse if the support radius is less than the characteristic dimension of the domain. For curved mesh generation, this support radius can be kept quite small relative to the whole domain, giving us a very sparse linear system which is solved quite fast.
+ where $r_s$ is a real number called the `support radius'. This modified function has a compact support. In light of this, we see the matrix $\mathbf{A}$ is sparse if the support radius is less than the characteristic dimension of the domain. For curved mesh generation, this support radius can be kept quite small relative to the whole domain, giving us a very sparse linear system which is solved quite fast. Wendland's C2 function is claimed to be positive definite (\cite{rbf:errorwendland}) for 2D and 3D problems. This means that the RBF interpolation matrix must be positive definite, and must therefore be solvable quickly by conjugate gradient or Cholesky decomposition methods.
  
  The scaling of the argument by the support radius serves to make the value of the RBF 1.0 at the boundary. This means that points very close to the boundary will deform just like the boundary itself. This results in an essentially rigid motion of points very close to the boundary, which causes the near-boundary elements to retain their quality after the mesh movement. The support radius is chosen big enough to accommodate the expected deformation of the boundary, but small enough that the linear system is sparse. An algorithm to determine a good support radius will be very useful in this regard.
  

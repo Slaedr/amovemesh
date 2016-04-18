@@ -15,7 +15,7 @@
 -stiffening-scheme-(size-shape-shapesize)[shape-and-shapesize-do-not-work-well]
 size
 -linear-solver
-CG
+PCG
 -Tolerance-for-spline
 1e-8
 -Tolerance-for-elasticity

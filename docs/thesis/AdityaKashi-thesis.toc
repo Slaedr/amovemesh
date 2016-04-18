@@ -2,9 +2,9 @@
 \contentsline {chapter}{LIST OF FIGURES}{vii}
 \contentsline {chapter}{\numberline {1}Introduction}{1}
 \contentsline {chapter}{\numberline {2}Review of mesh movement methods}{3}
-\contentsline {section}{\numberline {2.1}Elasticity methods}{3}
+\contentsline {section}{\numberline {2.1}Elasticity-based methods}{3}
 \contentsline {subsection}{\numberline {2.1.1}Spring analogies}{3}
-\contentsline {subsection}{\numberline {2.1.2}Elastic solid analogy (`Elasticity')}{5}
+\contentsline {subsection}{\numberline {2.1.2}Elastic solid analogy}{5}
 \contentsline {subsubsection}{Linear elasticity}{5}
 \contentsline {subsubsection}{`Sitffened' linear elasticity}{5}
 \contentsline {subsubsection}{Nonlinear elasticity}{6}
@@ -13,20 +13,20 @@
 \contentsline {subsection}{\numberline {2.2.2}Radial basis functions}{8}
 \contentsline {subsection}{\numberline {2.2.3}DG-RBF}{9}
 \contentsline {subsection}{\numberline {2.2.4}`Improved' Delaunay graph mapping}{10}
-\contentsline {section}{\numberline {2.3}Linear Mesh quality}{10}
+\contentsline {section}{\numberline {2.3}Linear Mesh quality}{11}
 \contentsline {chapter}{\numberline {3}Curved mesh generation}{12}
 \contentsline {section}{\numberline {3.1}Introduction}{12}
 \contentsline {section}{\numberline {3.2}Spline reconstruction for boundaries of 2D meshes}{13}
 \contentsline {section}{\numberline {3.3}Interior mesh movement}{14}
-\contentsline {subsection}{\numberline {3.3.1}Unsuitability of Delaunay-graph-based methods for curved mesh generation}{14}
-\contentsline {chapter}{\numberline {4}Results}{18}
-\contentsline {section}{\numberline {4.1}Mesh movement}{18}
-\contentsline {section}{\numberline {4.2}Generation of curved meshes}{27}
-\contentsline {subsection}{\numberline {4.2.1}2D Viscous Flow Mesh of Multi-element airfoil}{27}
-\contentsline {subsection}{\numberline {4.2.2}3D Viscous Flow Mesh for 3D Bump}{31}
-\contentsline {chapter}{\numberline {5}Conclusions and Future Work}{34}
-\contentsline {chapter}{References}{36}
-\contentsline {chapter}{Appendices}{39}
+\contentsline {subsection}{\numberline {3.3.1}Unsuitability of DG-based methods for curved mesh generation}{15}
+\contentsline {chapter}{\numberline {4}Results}{19}
+\contentsline {section}{\numberline {4.1}Mesh movement}{19}
+\contentsline {section}{\numberline {4.2}Generation of curved meshes}{28}
+\contentsline {subsection}{\numberline {4.2.1}2D Viscous Flow Mesh of Multi-element airfoil}{29}
+\contentsline {subsection}{\numberline {4.2.2}3D Viscous Flow Mesh for 3D Bump}{32}
+\contentsline {chapter}{\numberline {5}Conclusions and Future Work}{37}
+\contentsline {chapter}{References}{39}
+\contentsline {chapter}{Appendices}{43}
  \renewcommand {\cftchappresnum }{Appendix } \renewcommand {\cftchapnumwidth }{\appendixwidth } \renewcommand {\cftchapfont }{\cftsecfont } \setlength {\cftbeforechapskip }{\cftbeforesecskip } \setlength {\cftchapindent }{\cftsecindent } \renewcommand {\cftchappagefont }{\cftchapfont } \setlength {\cftsecindent }{\cftsubsecindent } \addtolength {\cftsubsecindent }{\cftsecnumwidth } \setcounter {tocdepth}{\c@ncsu@appendixtocdepth } 
-\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{40}
-\contentsline {chapter}{\numberline {B}Spline reconstruction}{43}
+\contentsline {chapter}{\numberline {A}Delaunay tessellation algorithm}{44}
+\contentsline {chapter}{\numberline {B}Spline reconstruction}{47}

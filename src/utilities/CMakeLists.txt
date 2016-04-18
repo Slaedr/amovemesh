@@ -13,3 +13,5 @@ target_link_libraries(quadratize3d amesh3d)
 
 add_executable(shapemetric2d shapemetric2d.cpp)
 target_link_libraries(shapemetric2d amesh2dh aoutput)
+
+add_executable(avg-minj avg-minj.cpp)
