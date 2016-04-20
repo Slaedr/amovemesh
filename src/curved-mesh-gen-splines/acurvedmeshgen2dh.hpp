@@ -124,6 +124,20 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	We assume that the face numberings of the linear mesh and the quadratic mesh are the same.
 	*/
 	
+	// Get scaling parameter for mesh
+	/*amc_real scale, mindist = 1.0, dist;
+	int idim;
+	for(int iface = 0; iface < mq->gnface(); iface++)
+	{
+		dist = 0;
+		for(idim = 0; idim < 2; idim++)
+			dist += (mq->gcoords(mq->gbface(iface,1),idim)-mq->gcoords(mq->gbface(iface,0),idim)) * (mq->gcoords(mq->gbface(iface,1),idim)-mq->gcoords(mq->gbface(iface,0),idim));
+		dist = sqrt(dist);
+		if(dist < mindist) mindist = dist;
+	}
+	std::cout << "Curvedmeshgen2d: generate_curved_mesh(): Minimum distance between 2 boundary points is " << mindist << std::endl;
+	scale = 1.0/pow(mindist,0.5);*/
+	
 	/// Get a vector of displacements for each node of the quadratic mesh
 	Matrix<double> allpoint_disps(mq->gnpoin(),mq->gndim());
 	allpoint_disps.zeros();
@@ -170,6 +184,17 @@ void Curvedmeshgen2d::generate_curved_mesh()
 			l++;
 		}
 	
+	/*// before calling RBF, scale everything
+	for(int ipoin = 0; ipoin < nbounpoin; ipoin++)
+		for(idim = 0; idim < 2; idim++)
+		{
+			bounpoints(ipoin,idim) *= scale;
+			boundisps(ipoin,idim) *= scale;
+		}
+	for(int ipoin = 0; ipoin < ninpoin; ipoin++)
+		for(idim = 0; idim < 2; idim++)
+			inpoints(ipoin,idim) *= scale;*/
+	
 	/// We now have all we need to call the mesh-movement functions and generate the curved mesh.
 	//Call RBF functions here
 
@@ -178,9 +203,19 @@ void Curvedmeshgen2d::generate_curved_mesh()
 
 	bounpoints = mmv->getBoundaryPoints();
 	inpoints = mmv->getInteriorPoints();
+	
+	/*// scale coords back down
+	for(int ipoin = 0; ipoin < nbounpoin; ipoin++)
+		for(idim = 0; idim < 2; idim++)
+		{
+			bounpoints(ipoin,idim) /= scale;
+			boundisps(ipoin,idim) /= scale;
+		}
+	for(int ipoin = 0; ipoin < ninpoin; ipoin++)
+		for(idim = 0; idim < 2; idim++)
+			inpoints(ipoin,idim) /= scale;*/
 
 	/// Finally, we reassemble the coord array for the curved mesh using the mesh-mover's computed values.
-	//Get coord array of curved mesh
 	Matrix<double> newcoords(mq->gnpoin(),mq->gndim());
 	k = 0; l = 0;
 	for(int ipoin = 0; ipoin < mq->gnpoin(); ipoin++)

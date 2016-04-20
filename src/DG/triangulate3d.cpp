@@ -1,4 +1,4 @@
-/** @file triangulate.cpp
+/** @file triangulate3d.cpp
  * @brief Construct Delaunay tetrahedralization of a set of 3D points.
  * @date January 8, 2015
  */

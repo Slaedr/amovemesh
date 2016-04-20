@@ -7,18 +7,20 @@
 */
 
 /**
-\class Delaunay3d
-\brief A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm.
+ * \class Delaunay3d
+ * \brief A class for Delaunay tetrahedralization of a given set of points based on Bowyer-Watson algorithm.
+ *
+ * It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
+ *
+ * Notes:
+ * Currently uses a std::std::vector to store elements, faces etc. 
+ * \todo Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
+ *
+ * It might be better to use a std::list or std::forward_list instead.
+ * \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
+ */
 
-It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
-
-Notes:
-  Currently uses a std::std::vector to store elements, faces etc. 
-  \todo Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
-
-  It might be better to use a std::list or std::forward_list instead.
-  \note A graph data structure should also be seriously considered for storing elements, faces, bad elements and the void polygon.
-*/
+#ifndef __ABOWYERWATSON3D_H
 
 #ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
@@ -88,7 +90,7 @@ struct Walkdata
 	double areacoords[4];
 };
 
-/// Implements the "Delaunay kernel" for generating the tetrahedral Delaunay tessellation of the convex hull of a set of points.
+/// "Delaunay kernel" for generating the tetrahedral Delaunay tessellation of the convex hull of a set of points.
 class Delaunay3d
 {
 	int cap;
@@ -1268,3 +1270,5 @@ void Delaunay3d::check()
 }
 
 }	// end namespace amc
+
+#endif

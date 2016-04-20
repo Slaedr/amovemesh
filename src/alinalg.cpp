@@ -156,7 +156,7 @@ void chol(Matrix<amc_real>& A, Matrix<amc_real>& b)
 	}
 	// We now have B, the lower triangular matrix
 
-#if(DEBUG==1)
+#if DEBUG==1
 	// Check if any of the diagonal elements of B are zero
 	for(i = 0; i < N; i++)
 		if(abs(B(i,i)) < ZERO_TOL)
@@ -876,7 +876,7 @@ Matrix<double> sparseCG_d(const SpMatrix* A, Matrix<double> b, Matrix<double> xo
 
 	int steps = 0;
 
-	std::cout << "SparseCG_d: Starting loop" << std::endl;
+	std::cout << "SparseCG_d: Initial residual norm = " << normalizer << std::endl;
 	do
 	{
 		if(steps % 10 == 0 || steps == 1)

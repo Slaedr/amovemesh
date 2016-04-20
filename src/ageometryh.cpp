@@ -302,6 +302,8 @@ void CSpline::compute()
 
 	// solve
 	std::cout << "CSpline: compute(): Solving linear systems" << std::endl;
+	
+#ifndef EIGEN_LIBRARY
 	amat::Matrix<double> d0(nseg+1,1);
 	d0.zeros();
 	for(int idim = 0; idim < dim; idim++)
@@ -324,6 +326,32 @@ void CSpline::compute()
 			scf[idim](i,3) = 2*(yi - yip) + D[idim](i) + D[idim].get(i+1);
 		}
 	}
+#else
+	
+	amat::Matrix<double> _soln(nseg+1,dim), _rhs(nseg+1,dim);
+	for(int i = 0; i < nseg+1; i++)
+		for(int j = 0; j < dim; j++)
+			_rhs(i,j) = srhs[j].get(i);
+	
+	_soln = gausselim(slhs, _rhs);
+		
+	double yi, yip;
+	for(int idim = 0; idim < dim; idim++)
+	{
+		for(int i = 0; i < nseg; i++)
+		{
+			// first get idim-coordinates of the ith and (i+1)th spline points
+			yi = m->gcoords(seq_spoin.get(i),idim);
+			yip = m->gcoords(seq_spoin.get(i+1),idim);
+
+			scf[idim](i,0) = yi;
+			scf[idim](i,1) = _soln.get(i,idim);
+			scf[idim](i,2) = 3*(yip - yi) - 2*_soln.get(i,idim) - _soln.get(i+1,idim);
+			scf[idim](i,3) = 2*(yi - yip) + _soln.get(i,idim) + _soln.get(i+1,idim);
+		}
+	}
+#endif
+	
 	std::cout << "CSpline: compute(): Done." << std::endl;
 }
 

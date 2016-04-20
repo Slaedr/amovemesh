@@ -31,10 +31,6 @@
 
 #define __ABOWYERWATSON_H 1
 
-#ifndef DEBUGBW
-#define DEBUGBW 0
-#endif
-
 namespace amc {
 
 struct Point2
@@ -43,27 +39,33 @@ struct Point2
 	double y;
 };
 
+/// Holds indices of points that make up a face and the left and right elements
 struct Face
 {
-	int p[2];			// indices of endpoints of the face
-	int elem[2];		// elements on either side of the face
+	int p[2];			///< indices of endpoints of the face
+	int elem[2];		///< elements on either side of the face
 };
 
+/// Contains data characterizing a 2D Delaunay element
 struct Triangle
 {
-	int p[3];			// indices of vertices of triangle
-	Point2 centre;		// coords of circumcentre of triangle
-	int surr[3];		// indices of surrounding triangles
-	double D;			// 2*area of triangle
-	double radius;		// radius of circumcircle of triangle
+	int p[3];			///< indices of vertices of triangle
+	Point2 centre;		///< coords of circumcentre of triangle
+	int surr[3];		///< indices of surrounding triangles
+	double D;			///< 2*area of triangle
+	double radius;		///< radius of circumcircle of triangle
 };
 
-struct Walkdata			// not needed for mesh generation, but in independent application of the walk-through subroutine find_containing_triangle_and_area_coords()
+/// Holds an element index and the barycentric coordinates of point w.r.t that element
+/** Not needed for mesh generation, but in independent application of the walk-through subroutine find_containing_triangle_and_area_coords()
+ */
+struct Walkdata
 {
 	int elem;
 	double areacoords[3];
 };
 
+/// Delaunay triangulation of a set of 2D points
 class Delaunay2D
 {
 	int cap;

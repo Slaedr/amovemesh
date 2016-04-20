@@ -72,6 +72,20 @@ P.~H\'enon, P.~Ramet, and J.~Roman.
   {S}parse {S}ymmetric {D}efinite {S}ystems.
 \newblock {\em {P}arallel {C}omputing}, 28(2):301--321, January 2002.
 
+\bibitem{appl:supg}
+T.J.R. Hughes.
+\newblock Recent progress in the development and understanding of {SUPG}
+  methods with special reference to the compressible {E}uler and
+  {N}avier-{S}tokes equations.
+\newblock {\em International Journal for Numerical Methods in Fluids},
+  7:1261--1275, 1987.
+
+\bibitem{appl:fr}
+H.T. Huynh.
+\newblock A flux reconstruction approach to high-order schemes including
+  discontinuous galerkin methods.
+\newblock {\em AIAA}, 4079, 2007.
+
 \bibitem{curve:meshcurve}
 J.~Ims, Z.~Duan, and Z.J. Wang.
 \newblock meshcurve : An automated low-order to high-order mesh generator.
@@ -171,6 +185,12 @@ Y.~Wang, N.~Qin, and N.~Zhao.
 \newblock Delaunay graph and radial basis function for fast quality mesh
   deformation.
 \newblock {\em Journal of Computational Physics}, 294:149--172, 2015.
+
+\bibitem{appl:spectral}
+T.C. Warburton, I.~Lomtev, Y.~Du, S.J. Sherwin, and G.E. Karniadakis.
+\newblock Galerkin and discontinuous galerkin spectral/hp methods.
+\newblock {\em Computer methods in applied mechanics and engineering},
+  175:343--359, 1999.
 
 \bibitem{sr:wolframspline}
 Eric~W. Weisstein.

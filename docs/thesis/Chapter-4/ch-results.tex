@@ -2,7 +2,7 @@
  
 \section{Mesh movement}
  
-First, we show qualitatively the results for large deformation of a 2D unstructured linear mesh. In figure \ref{fig:wing-inviscid}, we show the undeformed mesh. In each of the results that follow, the flap of the wing has been rotated anti-clockwise by 60 degrees. We take note of the quality of triangular cells in these results. By `quality', we mean deviation of the angles of the triangle from 60$^\circ$, that is, the shape metric (sec. \ref{sec:lin-mesh-quality}), for this test case.
+First, we show qualitatively the results for large deformation of a 2D unstructured linear mesh. In figure \ref{fig:wing-inviscid}, we show the undeformed mesh. In each of the results that follow, the flap of the wing has been rotated anti-clockwise by 60 degrees.
 \begin{figure}
   	\centering
   	\includegraphics[scale=0.25]{3comp-inviscid}
@@ -10,47 +10,47 @@ First, we show qualitatively the results for large deformation of a 2D unstructu
   	\label{fig:wing-inviscid}
 \end{figure}
 
-In figure \ref{fig:wing-inviscid-farhat}, we show the result of the torsion spring method of Farhat et. al. \cite{mm:torsionsprings}. We see that the result for such a large deformation is not acceptable; it is evident that there are invalid cells. It is interesting to note that cells near the trailing edge of the middle wing do not suffer much degradation, but cells somewhat farther away become invalid. Cells near the trailing edge of the flap also suffer large distortions.
+In figure \ref{fig:wing-inviscid-farhat}, we show the result of the torsion spring method of Farhat et. al. \cite{mm:torsionsprings}. It is seen that the result for such a large deformation is not acceptable; it is evident that there are invalid cells. It is interesting to note that cells near the trailing edge of the middle wing do not suffer much degradation, but cells somewhat farther away become invalid. Cells near the trailing edge of the flap also suffer large distortions.
 
-\begin{figure}
+\begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.25]{wing60-farhat}
 	\caption{Inviscid 3-component airfoil mesh with 60$^\circ$ rotation of flap by torsion spring method}
 	\label{fig:wing-inviscid-farhat}
 \end{figure}
 
-Next, results of mesh movement by linear elasticity method are shown in figures \ref{fig:wing-inviscid-linelastp1}, \ref{fig:wing-inviscid-linelastp1-zoomed} and \ref{fig:wing-inviscid-linelastp1-zoomed2}. The mesh is valid; however, it suffers from nearly-degenerate cells near the trailing edge of the flap \ref{fig:wing-inviscid-linelastp1-zoomed2}. This could seriously impact the performance, accuracy and even stability of flow solvers using this mesh. In figure \ref{fig:wing-inviscid-linelastp1-zoomed}, we  see that the quality of cells is better than near the trailing edge, but not very good.
+Next, results of mesh movement by linear elasticity method are shown in figures \ref{fig:wing-inviscid-linelastp1}, \ref{fig:wing-inviscid-linelastp1-zoomed} and \ref{fig:wing-inviscid-linelastp1-zoomed2}. The mesh is valid; however, it suffers from nearly-degenerate cells near the trailing edge of the flap (figure  \ref{fig:wing-inviscid-linelastp1-zoomed2}). This could seriously impact the performance, accuracy and even stability of flow solvers using this mesh. In figure \ref{fig:wing-inviscid-linelastp1-zoomed}, we  see that the quality of cells is better than near the trailing edge, but not very good.
 
-\begin{figure}
+\begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.25]{wing60-linelastp1}
+	\includegraphics[scale=0.23]{wing60-linelastp1}
 	\caption{Inviscid 3-component airfoil mesh with 60$^\circ$ rotation of flap by linear elasticity method}
 	\label{fig:wing-inviscid-linelastp1}
 \end{figure}
-\begin{figure}
+\begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.25]{wing60-linelastp1_zoomed}
+	\includegraphics[scale=0.23]{wing60-linelastp1_zoomed}
 	\caption{Inviscid 3-component airfoil mesh with 60$^\circ$ rotation of flap by linear elasticity method; zoomed to where the flap meets the wing}
 	\label{fig:wing-inviscid-linelastp1-zoomed}
 \end{figure}
-\begin{figure}
+\begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.25]{wing60-linelastp1_zoomed2}
+	\includegraphics[scale=0.23]{wing60-linelastp1_zoomed2}
 	\caption{Inviscid 3-component airfoil mesh with 60$^\circ$ rotation of flap by linear elasticity method, zoomed to the trailing edge of the flap}
 	\label{fig:wing-inviscid-linelastp1-zoomed2}
 \end{figure}
 
 In figures \ref{fig:wing-inviscid-dg-ms} and \ref{fig:wing-inviscid-dg-ms-zoomed}, we present results with the Delaunay graph mapping (DGM) method. We see that cell quality is severly degraded near the interface between trailing edge of the wing and the flap. The quality of the cells near the trailing edge of the flap is better than the linear elasticity case, however. We remark here that DGM is computationally the most frugal method out of all the ones presented, as we need to solve only 3x3 linear systems after generating a background Delaunay graph, both of which are very fast (sec. \ref{sec:dgm}).
 
-\begin{figure}
+\begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.25]{wing60-dg-ms}
+	\includegraphics[scale=0.22]{wing60-dg-ms}
 	\caption{Inviscid 3-component airfoil mesh with 60$^\circ$ rotation of flap by DGM method}
 	\label{fig:wing-inviscid-dg-ms}
 \end{figure}
-\begin{figure}
+\begin{figure}[!h]
 	\centering
-	\includegraphics[scale=0.25]{wing60-dg-ms_zoomed}
+	\includegraphics[scale=0.22]{wing60-dg-ms_zoomed}
 	\caption{Inviscid 3-component airfoil mesh with 60$^\circ$ rotation of flap by DGM method; zoomed to where the flap meets the wing}
 	\label{fig:wing-inviscid-dg-ms-zoomed}
 \end{figure}
@@ -108,12 +108,25 @@ Finally, we take note of the good qualities of the mesh moved by radial basis fu
  	\label{fig:qin-60-dgrbf2}
  \end{figure}
  
- We note that the RBF and DGRBF2 methods can handle the rotation case quite well. The high-aspect-ratio elements near the inner boundaries are well-preserved, while the elements further in the interior, which are larger and can thus take more deformation, are distorted somewhat. Though RBF gives slightly better mesh quality than DGRBF2 for this amount of rotation, RBF takes 1.926 seconds of total CPU time (using conjugate gradient solver), while DGRBF2 takes only 0.08 seconds of total CPU time. Further, shown in figure \ref{fig:qin-dgrbf2-120} is a case of extreme rotation of 120 degrees, which DGRBF2 solves while maintaining mesh validity. None of the other methods are able to do this. RBF has been found to give valid meshes upto about 110 degrees of rotation. However, since DGRBF2 requires specification of rotation angles at boundary nodes, the method can be difficult to apply to general complex motions.
+ We note that the RBF and DGRBF2 methods can handle the rotation case quite well. The high-aspect-ratio elements near the inner boundaries are well-preserved, while the elements further in the interior, which are larger and can thus take more deformation, are distorted somewhat. Though RBF gives slightly better mesh quality than DGRBF2 for this amount of rotation, RBF takes 1.926 seconds of total (wall-clock) time (using conjugate gradient solver), while DGRBF2 takes only 0.08 seconds. Further, shown in figure \ref{fig:qin-dgrbf2-120} is a case of extreme rotation of 120 degrees, which DGRBF2 solves while maintaining mesh validity. None of the other methods are able to do this. RBF has been found to give valid meshes upto about 110 degrees of rotation. However, since DGRBF2 requires specification of rotation angles at boundary nodes, the method can be difficult to apply to general complex motions.
+ 
+ \begin{table}[h!]
+ 	\centering
+ \begin{tabular}{|c|c|}
+ 	\hline
+ 	Method & Wall-clock time \\
+ 	\hline
+ 	RBF   &   1.926 s \\
+ 	DGRBF2 &  0.08 s \\
+ 	\hline
+ \end{tabular}
+ \caption{Performance comparison between RBF and DGRBF2 methods for 3-element airfoil (inviscid mesh) flap rotation case}
+ \end{table}
  
  \begin{figure}
  	\centering
  	\includegraphics[scale=0.25]{qin-120-quality-withmesh.pdf}
- 	\caption{Large rotational motion carried out by DGRBF2}
+ 	\caption{Large rotational motion ($120^\circ$) carried out by DGRBF2}
  	\label{fig:qin-dgrbf2-120}
  \end{figure}
  
@@ -121,13 +134,13 @@ Finally, we take note of the good qualities of the mesh moved by radial basis fu
  
  \section{Generation of curved meshes}
  
- Curved meshes for various standard viscous flow test cases have been generated with the method described in the previous section. These include flow past NACA0012 airfoil, flow through a bump channel and flow past a multi-element airfoil. Out of these, the mesh for the multi-element airfoil case is a truly unstructured mesh; the others are structured meshes which we first convert to unstructured format.
+ Curved meshes for some standard viscous flow test cases have been generated with the method described in the previous section. These include flow through a bump channel and flow past a multi-element airfoil. Out of these, the mesh for the multi-element airfoil case is a truly unstructured mesh; the others are structured meshes which we first convert to unstructured format.
  
  The validity and quality of the generated mesh is established by computing the minimum scaled Jacobian determinant for each element. If the minimum value of the Jacobian determinant is zero or negative, the element is considered invalid. This is done as a post-processing step using the plugin `AnalyseCurvedMesh' available in Gmsh \cite{gmsh}. The quantity computed by this plugin is given as
  \begin{equation} 
  m_i = \frac{\inf_{\mathbf{x}\in\Omega_i}\det \mathbf{J}(\mathbf{x})}{\det \mathbf{J_l}_i},
  \end{equation}
- where $\mathbf{J}$ is the Jacobian matrix of the transformation of a reference element to the curved physical element, and $\mathbf{J_l}$ is the Jacobian of the transformation of the reference element to the linear (straight) physical element. $\Omega_i$ represents the \emph{i}th element. In the following, we refer to $m_i$, the minimum scaled Jacobian, as the element quality; `minimum quality' refers to the minimum value of this quality over all elements, and `average quality' refers to the simple average of the quality over all elements.
+ where $\mathbf{J}$ is the Jacobian matrix of the transformation of a reference element to the curved physical element, and $\mathbf{J_l}$ is the Jacobian of the transformation of the reference element to the linear (straight) physical element. $\Omega_i$ represents the \emph{i}th element. In the following, we refer to $m_i$, the minimum scaled Jacobian, as the element quality; `minimum mesh quality' refers to the minimum value of this quality over all elements, and `average mesh quality' refers to the simple average of the quality over all elements.
  
  \subsection{2D Viscous Flow Mesh of Multi-element airfoil}
  Here, we present results of 2D curved mesh generation in case of a multi-element airfoil. The mesh has 66530 triangular elements, 133768 total nodes and 1420 boundary nodes. It is meant for viscous flow computations and thus has highly stretched, thin elements near the wing boundaries. In this case, if the interior nodes are not moved properly, invalid elements result. In the figures, we compare curved meshes generated by isotropic linear elasticity and RBF interpolation. Both problems are solved using a point Jacobi preconditioned conjugate gradient solver. Linear elasticity method uses a Young's modulus $E$ of $1\times 10^6$ Pa and a Poisson's ratio of 0.4, though it is observed that different values do not influence the outcome; a number of values over the range 1.0 to $1.0 \times 10^{10}$ were tried for $E$. RBF interpolation uses a support radius of 0.04 (for reference, the chord length of the wing is approximately 18.3).
@@ -135,7 +148,7 @@ Finally, we take note of the good qualities of the mesh moved by radial basis fu
  \begin{figure}
  	\centering
  	\includegraphics[width=300.0pt]{3compblack}
- 	\caption{Mesh of multi-element airfoil. The little box shows approximately the region which is magnified in the figures that follow.}
+ 	\caption{Boundary-layer mesh of multi-element airfoil. The little box shows approximately the region which is magnified in the figures that follow.}
  \end{figure}
  
 % \begin{figure}
@@ -243,7 +256,7 @@ For this case, boundary displacements were first obtained from the analytical ex
 	\label{fig:bump3d-medium-jac}
 \end{figure}
 
-Further, we present results from NC State University's reconstructed discontinuous Galerkin turbulent flow code RDGFLO run on the curved meshes. A DG P1 scheme with Taylor basis, HLLC inviscid flux, Bassi-Rebay 2 (BR2) viscous flux, and first-order implicit time integration using Newton linearization and LU-SGS preconditioned GMRES solver is used for obtaining the solution; we refer to Liu et. al. for details \cite{solver}. For comparison, the result obtained from a curved mesh formed by agglomeration of a finer mesh is also shown. This is to show that the generated curved meshes actually work well when used for running simulations. The convergence of the mass-flux residual with time steps is shown in figure \ref{fig:resconvergence}. We see that the RBF mesh makes for a smoother convergence to steady state. The sudden increase in residual near the beginning is because of a change in CFL number, and happens for both meshes.
+Further, we present results from NC State University's reconstructed discontinuous Galerkin turbulent flow code RDGFLO run on the curved meshes. A DG P1 scheme with Taylor basis functions, HLLC inviscid flux, Bassi-Rebay 2 (BR2) viscous flux, and first-order implicit time integration using Newton linearization and LU-SGS preconditioned GMRES solver is used for obtaining the solution; we refer to Liu et. al. for details \cite{solver}. For comparison, the result obtained from a curved mesh formed by agglomeration of a finer mesh is also shown. This is to show that the generated curved meshes actually work well when used for running simulations. The convergence of the mass-flux residual with time steps is shown in figure \ref{fig:resconvergence}. We see that the RBF mesh makes for a smoother convergence to steady state. The sudden increase in residual near the beginning is because of a change in CFL number, and happens for both meshes.
 
 Also shown is the grid convergence for drag coefficient (figure \ref{fig:gridconvergence}). The graph shows that the generated mesh gives similar accuracy to the agglomerated mesh, and thus indicates that the generated mesh can be used for real CFD work. We note that since this is a structured mesh, we actually have an agglomerated mesh to compare with. In case of unstructured meshes, agglomeration would not be an option, and the current capability would be very useful to have.
 \begin{figure}

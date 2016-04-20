@@ -75,7 +75,7 @@
  \end{equation}
  where $J_\kappa$ is the Jacobian of the reference-to-physical mapping of the element $\kappa$, $J_0$ is a reference Jacobian for the mesh and $\chi$ is a constant to be chosen.
  
- We could also use other stiffening criteria. In our work we have tried stiffening based on the shape quality metric (section \ref{sec:lin-mesh-quality}), but we find that the shape metric generally leads to unacceptable results, while the size-shape metric is worse than Jacobian-based stiffening. Perhaps some other metric could be formulated that works better. Further, we could stiffen cells based on distance from boundaries. This would require a fast, and not necessarily accurate, boundary-distance estimation.
+ We could also use other stiffening criteria. In our work we have tried stiffening based on the shape quality metric (section \ref{sec:lin-mesh-quality}), but we find that the shape metric generally leads to unacceptable results, and the size-shape metric is worse than Jacobian-based stiffening. Perhaps some other metric could be formulated that works better. Further, we could stiffen cells based on distance from boundaries. This would require a fast, and not necessarily very accurate, boundary-distance estimation.
  
  \subsubsection{Nonlinear elasticity}
  
@@ -98,14 +98,32 @@
  
  \subsection{Delaunay graph mapping (DGM)}
  \label{sec:dgm}
- Developed by Liu, Qin and Xia \cite{mm:dgm}, DGM is a fast method of mesh movement. It consists of the following steps.
+ Developed by Liu, Qin and Xia \cite{mm:dgm}, DGM is a fast method of mesh movement. It consists of the following steps (see figure \ref{fig:dgmprocess}).
  \begin{itemize}
  	\item A Delaunay triangulation is constructed from the boundary points of the mesh. This triangulation is referred to as the Delaunay graph.
  	\item Each internal mesh point is located in the Delaunay graph, and its barycentric coordinates are calculated with respect to the Delaunay element it lies in.
  	\item Using the prescribed boundary displacements, the Delaunay graph is moved.
  	\item Using the calculated barycentric coordinates, the interior mesh points are mapped back to the deformed Delaunay elements keeping the barycentric coordinates constant, thus moving the mesh.
  \end{itemize}
- Thus, no linear system needs to be solved. The bulk of the work is in computing the Delaunay triangulation and traversing it, which can be done efficiently. We use the Bowyer-Watson algorithm to compute the Delaunay tessellation of the boundary points in both 2D and 3D \cite{bowyer}. Details of the exact algorithm used are provided in appendix ******A*******.
+ Thus, no linear system needs to be solved. The bulk of the work is in computing the Delaunay triangulation and traversing it, which can be done efficiently. We use the Bowyer-Watson algorithm to compute the Delaunay tessellation of the boundary points in both 2D and 3D \cite{bowyer}. Details of the exact algorithm used are provided in appendix A.
+ 
+ \begin{figure}
+ 	\centering
+ 	\subfloat{
+ 		\includegraphics[scale=0.25]{dgm-mesh}
+ 	}
+ 	\subfloat{
+ 		\includegraphics[scale=0.2]{dgm-dg}
+ 	}
+ 	\subfloat{
+ 		\includegraphics[scale=0.25]{dgm-moveddg}
+ 	}
+ 	\subfloat{
+ 		\includegraphics[scale=0.25]{dgm-movedmesh}
+ 	}
+ 	\caption{The DGM process (from left to right): original mesh, Delaunay graph, deformed Delaunay graph, deformed mesh (ref: \cite{mm:dgm})}
+ 	\label{fig:dgmprocess}
+ \end{figure}
  
  This method results in a valid mesh as long as the boundary displacement does not invalidate the Delaunay graph itself. If the Delaunay graph becomes invalid, the displacement must be carried out in several steps. The Delaunay graph is re-computed each step, and thus much more boundary movement is possible without invalidating the sequence of Delaunay graphs.
  
@@ -133,7 +151,7 @@
  \end{equation}
  where the $(i,j)$ component of $\mathbf{A}$ is $\phi(\lVert\mathbf{x}_{bi} - \mathbf{x}_{bj} \rVert)$, $ \bld{a}_k \in \mathbb{R}^{n_b}$ is the coefficient vector in the $k$th direction and $\bld{s}_k \in \mathbb{R}^{n_b}$ is the vector of boundary displacements in the $k$th coordinate direction.
  
- In our implementation, we assemble $\mathbf{A}$ as a sparse matrix by evaluating the radial basis function between every pair of boundary points. This process can be parallelized easily. Once this linear system is solved, we need to evaluate equation \eqref{eqn:rbf} for each interior point, which requires one evaluation of the RBF for each interior point (in each direction). This too, can be parallelized easily.
+ In our implementation, we assemble $\mathbf{A}$ as a sparse matrix by evaluating the radial basis function between every pair of boundary points. This process can generally be parallelized easily. Once this linear system is solved, we need to evaluate equation \eqref{eqn:rbf} for each interior point, which requires one evaluation of the RBF for each interior point (in each direction). This too, can be parallelized easily.
  
  The quality of the final mesh depends on which RBF is used. Many kinds of RBFs have been used in literature \cite{mm:rbf, mm:rbf2}. In this work, we use Wendland's C2 function
  \begin{equation}
@@ -147,11 +165,11 @@
  0 & x \geq r_s
  \end{cases}
  \end{equation}
- where $r_s$ is a real number called the `support radius'. This modified function has a compact support. In light of this, we see the matrix $\mathbf{A}$ is sparse if the support radius is less than the characteristic dimension of the domain. For curved mesh generation, this support radius can be kept quite small relative to the whole domain, giving us a very sparse linear system which is solved quite fast. Wendland's C2 function is claimed to be positive definite (\cite{rbf:errorwendland}) for 2D and 3D problems. This means that the RBF interpolation matrix must be positive definite, and must therefore be solvable quickly by conjugate gradient or Cholesky decomposition methods.
+ where $r_s$ is a real number called the `support radius'. This modified function has a compact support. In light of this, we see the matrix $\mathbf{A}$ is sparse if the support radius is less than the characteristic dimension of the domain. For curved mesh generation, this support radius can be kept quite small relative to the whole domain, giving us a very sparse linear system which is solved quite fast. Wendland's C2 function is claimed to be positive definite \cite{rbf:errorwendland} for 2D and 3D problems. This means that the RBF interpolation matrix must be positive definite, and must therefore be solvable quickly by conjugate gradient or Cholesky decomposition methods.
  
  The scaling of the argument by the support radius serves to make the value of the RBF 1.0 at the boundary. This means that points very close to the boundary will deform just like the boundary itself. This results in an essentially rigid motion of points very close to the boundary, which causes the near-boundary elements to retain their quality after the mesh movement. The support radius is chosen big enough to accommodate the expected deformation of the boundary, but small enough that the linear system is sparse. An algorithm to determine a good support radius will be very useful in this regard.
  
- The RBF method can be carried out in multiple steps; this is found to increase the quality of generated meshes in some cases involving large rotational deformations (\ref{fig:wing-inviscid-rbf}), but not so much in others, such as curved mesh generation.
+ The RBF method can be carried out in multiple steps; this is found to increase the quality of generated meshes in cases involving large rotational deformations (figure \ref{fig:wing-inviscid-rbf}), but not so much in others, such as curved mesh generation.
  
  \subsection[DG-RBF]{Interpolation using radial basis function on the Delaunay graph (DGRBF)}
  This method proposed by Wang, Qin and Zhao \cite{mm:dgrbf} combines both the Delaunay graph mapping and interpolation by RBF. The general scheme of the mesh movement is the same as in case of DGM, but with the important difference that interpolation is not done using barycentric coordinates of the nodes with respect to the Delaunay graph elements. Here, the interpolation is done via radial basis functions in each Delaunay graph element. The displacement of a node with initial position $\bld{x}$ is given by
@@ -176,7 +194,7 @@
  \label{sec:hybriddg}
  If the Delaunay graph (DG) lines are not approximately normal to the boundary, there can sometimes be issues with mesh movement. Mesh lines tend to be normal to the boundary for physical and numerical reasons. If Delaunay graph lines make very small or very large angles (compared to 90 degrees) with the boundary, successive interior nodes on the same mesh line can lie in different DG triangles. This would cause non-smooth displacement of interior mesh nodes; an example is presented in detail in section \ref{subsec:dgmunsuitable}.
  
- One way of improving this method, that was considered by the author and Dr Hong Luo, was to include a few interior mesh points in the Delaunay graph such that the Delaunay graph lines stayed approximately normal to the boundary near it. For example, a layer of nodes could be chosen around each component of a 3-component airfoil such that each airfoil boundary gets approximately normal Delaunay graph lines. This method would require movement of the interior Delaunay graph nodes by a different method, such as RBF or linear elasticity. Since the number of these interior nodes in the Delaunay graph is very small, solution of the RBF or linear elasticity problems could be done quickly.
+ One way of improving this method, that was considered by the author and Dr Hong Luo, was to include a few interior mesh points in the Delaunay graph such that the Delaunay graph lines stayed approximately normal to the boundary near it. For example, a layer of nodes could be chosen around each component of a 3-component airfoil (figure \ref{fig:wmesh}) such that each airfoil boundary gets approximately normal Delaunay graph lines. This method would require movement of the interior Delaunay graph nodes by a different method, such as RBF or linear elasticity. Since the number of these interior nodes in the Delaunay graph is very small, solution of the RBF or linear elasticity problems could be done quickly.
  
  % ADD PICTURE HERE
  

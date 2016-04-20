@@ -10,14 +10,16 @@ The Delaunay process maximizes the minimum angle in a simplex. Implementation of
 Bowyer_watson(pointList,npoin):
 {
 	Initialize dynamic array of nodes, elements and facets (1).
+	Scale entries of pointList to normalize the data.
+	Sort pointList such that points physically close to each other also have indices that are close to each other; this would help performance while traversing the Delaunay graph.
 	Form a super simplex, containing all points in pointList.
 	Add super simplex to list of elements, its facets to the list of facets and its nodes to the list of nodes.
-	//c! The content of the following loop is referred to as the Delaunay kernel.
+	//! The content of the following loop is called `Delaunay kernel'.
 	For point in pointList do:
 	{
 		Add point to list of nodes.
 		Find the element hostElement containing point (2).
-		Declare a list of badElements and imsert hostElement in it.
+		Declare a list of badElements and insert hostElement in it.
 		Declare a list of candidateElements and insert the neighbors of hostElement into it.
 		For elem in candidateElement do:
 		{
@@ -29,20 +31,20 @@ Bowyer_watson(pointList,npoin):
 				Insert neighbors of elem, which have not already been checked for the Delaunay criterion, into candidateElements.
 			}
 		}
-		Declare a list voidPolygon.
+		Declare a list voidFacets.
 		For each facet in facets:
 		{
-			If facet is not shared by only one element in badElements:
-				Insert facet into voidPolygon.
+			If facet is part of only one element in badElements:
+				Insert facet into voidFacets.
 			Else if facet is shared by two elements in badElements:
 				Delete facet from list of facets.
 		}
 		For elem in badElements:
 			Delete elem from list of elements.
-		For facet in voidPolygon:
+		For facet in voidFacets:
 		{
 			Form a new simplex joining the facet with the (new) point, while ensuring that the ordering of nodes of the simplex is such that it is positively oriented. (4)
-			Form new facets corresponding to the facets of newly-created simplices; ensure the orientation of these facets as well as that each required facet is created only once. (4)
+			Form new facets corresponding to the facets of newly-created simplices; ensure the orientation of these facets; ensure that each required facet is created only once. (4)
 		}
 	}
 	For elem in elements:
@@ -55,7 +57,7 @@ We mention a few notes about some of the steps stated above.
 \begin{enumerate}
 	\item[1.] The array of nodes is a simple array of size npoin+3 or npoin+4 containing all input points and the additional 3 or 4 points from the `super simplex'. The elements array holds, for each element, the node-indices of its nodes and the element-indices of its neighboring elements. The face array holds, for each facet, the node-indices of its nodes and the element-indices of its left- and right-elements (left and right is determined by the right-hand rule and the ordering of nodes).
 	\item[2.] We have implemented a walk through elements starting at the last element created. The three barycentric (area or volume ratio) coordinates are computed for the new point with respect to each element in the walk path. If all three values are positive, the current element contains the point. If not, we find the minimum value among the three barycentric coordinates; suppose the minimum value corresponds to the local node $i$ among 1,2,3 or 1,2,3,4. The next element to check is the one neighboring the face opposite to node $i$.
-	\item[3.] The Delaunay criterion consists of comparing the distance of the new point from element center and the element's circumcircle radius. If the former is greater, the point does not violate the Delaunay criterion for this element; otherwise, the Delaunay criterion for the element will be violated upon addition of the new point.
+	\item[3.] The Delaunay criterion consists of comparing the distance of the new point from element center and the element's circumsphere radius. If the former is greater, the point does not violate the Delaunay criterion for this element; otherwise, the Delaunay criterion for the element will be violated upon addition of the new point.
 	\item[4.] In this author's opinion, preserving the orientation (local node-ordering) of each new element and each new facet is the most challenging task in writing a Delaunay kernel. It is accomplished in this work by using boolean helper arrays to keep account of associations between nodes and new facets created. We take advantage of the fact that in case of a simplex, each facet can be uniquely associated with the node opposite to it.
 \end{enumerate}
 
@@ -79,11 +81,10 @@ $t=0$ corresponds to the starting point of the boundary facet while $t=1$ corres
 \bld{r}_i''(0) &=& \bld{r}_{i-1}''(1) \\
 \bld{r}_i''(1) &=& \bld{r}_{i+1}''(0)
 \end{eqnarray}
-where $\bld{R}_i$ denotes the coordinates of the $i$th boundary point. The ``boundary conditions'' are, in case of a closed curve,
+where $\bld{R}_i$ denotes the coordinates of the $i$th boundary point. The ``boundary conditions'' are, in case of a closed curve ($\bld{R}_0 = \bld{R}_{N+1}$),
 \begin{eqnarray}
-\bld{R}_0 &=& \bld{R}_{N+1} \\
 \bld{r}_0'(0) &=& \bld{r}_N'(1) \\
-\bld{r}_0''(0) &=& \bld{r}_N''(1)
+\bld{r}_0''(0) &=& \bld{r}_N''(1) \\
 \end{eqnarray}
 and in case of an open curve
 \begin{eqnarray}
@@ -91,7 +92,7 @@ and in case of an open curve
 \bld{r}_N''(1) &=& 0.
 \end{eqnarray}
 
-For assembling the 3 systems of equations for the x-, y- and z-components of the spline curve, we define $D_i := r_i'(0) \, \forall \, i \in \{1,2,...,N\}$ and $D_{N+1} := r_N'(1)$ where $r$ is $x$, $y$ and $z$ in turn. We express the coefficients $a_i$, $b_i$, $c_i$ and $d_i$ in terms of the $D_i$ and $R_i$ (the coordinates of boundary nodes). Finally, we obtain, for an open curve
+For assembling the 2 systems of equations for the x- and y-components of the spline curve, we define $D_i := r_i'(0) \, \forall \, i \in \{1,2,...,N\}$ and $D_{N+1} := r_N'(1)$ where $r$ is $x$ and $y$ in turn. We express the coefficients $a_i$, $b_i$, $c_i$ and $d_i$ in terms of the $D_i$ and $R_i$ (the coordinates of boundary nodes). Finally, we obtain, for an open curve
 \begin{equation}
 \begin{bmatrix}
 2 & 1 & & & & & \\
