@@ -61,11 +61,11 @@
  \begin{equation}
  \bld{u} = \bld{u}_b \quad \text{on} \, \partial\Omega
  \end{equation}
- The weak form of this set of equations, solved by Galerkin finite element method (FEM) leads to a linear system of size $n_d N_n$, where $n_d$ is the dimension of the problem and $N_n$ is the number of nodes to be moved.
+ The weak form of this set of equations, solved by Galerkin finite element method (FEM) leads to a linear system of size $n_d N_n$, where $n_d$ is the dimension of the problem and $N_n$ is the number of nodes to be moved. The details of finite-element discretization were taken from the textbook by Gockenbach \cite{gockenbach}.
  
  \subsubsection{`Sitffened' linear elasticity}
  \label{subsec:stiffelast}
- While the basic linear elasticity scheme is adequate for some applications, it is not adequate for stretched, boundary-layer meshes for viscous flow, among others. The scheme is often modified by `stiffening' the mesh appropriately, so as to attain some control over the propagation of deformation into the interior of the mesh, as done, for instance, by Hartmann and Leicht \cite{curve:hartmann}. In their work, the material is stiffened based on the determinant of the local Jacobian matrix of the reference-to-physical mapping, that is to say smaller elements are stiffer than larger ones. If $\hat{\kappa}$ is the reference element corresponding to the physical element $\kappa$, the local bilinear form on $\kappa$ giving rise to the local stiffness matrix 
+ While the basic linear elasticity scheme is adequate for some applications, it is not adequate for stretched, boundary-layer meshes for viscous flow, among others. The scheme is often modified by `stiffening' the mesh appropriately, so as to attain some control over the propagation of deformation into the interior of the mesh, as done, for instance, by Stein \emph{et. al.} \cite{mm:fsielast} and Hartmann and Leicht \cite{curve:hartmann}. In their work, the material is stiffened based on the determinant of the local Jacobian matrix of the reference-to-physical mapping; i.e., smaller elements are stiffer than larger ones. If $\hat{\kappa}$ is the reference element corresponding to the physical element $\kappa$, the local bilinear form on $\kappa$ giving rise to the local stiffness matrix 
  \begin{equation}
  (\dots)_\Omega = \sum_{\kappa \in T_h} \int_{\kappa} \dots d\mathbf{x} = \sum_{\kappa \in T_h} \int_{\hat{\kappa}} \dots J_\kappa d\mathbf{x}
  \end{equation}
@@ -91,7 +91,7 @@
  
  In our opinion, this method probably cannot be used in any unsteady moving-geometry simulations, as the cost will be prohibitive. However, it leads to good results for curved mesh generation, as can be seen in Persson and Peraire's work.
  
- The advantage of elasticity-based methods is that they can be made highly robust. Their disadvantage is that generally, the more robust the scheme, the more expensive it is. The cost of the system of equations that needs to be solved usually scales with the total number of mesh nodes to be moved; this can get very expensive for 3D viscous meshes. Further, the implementation is usually not very easy; different cell types require different treatments (different basis functions, for instance, in case of elastic-solid approaches) and extension from 2D to 3D may not be trivial (as in case of torsional springs).
+ The advantage of elasticity-based methods is that they can be made highly robust. Their disadvantage is that generally, the more robust the scheme, the more expensive it is. The cost of the system of equations that needs to be solved usually scales with the total number of mesh nodes to be moved; this can get very expensive for 3D viscous meshes. Further, the implementation is usually not very easy - different cell types require different treatments and extension from 2D to 3D may not be trivial.
  
  \section{Interpolation  Methods}
  Also called algebraic methods, these methods do not involve any physics-based modeling of the mesh. They are purely mathematical manipulations of the mesh. Unlike elasticity-based methods, schemes of this type tend to be fast and independent of mesh topology.
@@ -102,6 +102,9 @@
  \begin{itemize}
  	\item A Delaunay triangulation is constructed from the boundary points of the mesh. This triangulation is referred to as the Delaunay graph.
  	\item Each internal mesh point is located in the Delaunay graph, and its barycentric coordinates are calculated with respect to the Delaunay element it lies in.
+ 	\begin{equation}
+ 	content...
+ 	\end{equation}
  	\item Using the prescribed boundary displacements, the Delaunay graph is moved.
  	\item Using the calculated barycentric coordinates, the interior mesh points are mapped back to the deformed Delaunay elements keeping the barycentric coordinates constant, thus moving the mesh.
  \end{itemize}

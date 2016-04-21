@@ -169,6 +169,12 @@ Christopher Rumsey.
 \newblock {NASA L}angley {R}esearch {C}enter Turbulence Models website,
   \url{http://turbmodels.larc.nasa.gov/bump3d.html}.
 
+\bibitem{mm:fsielast}
+K.~Stein, T.~Tezduyar, and R.~Benney.
+\newblock Mesh moving techniques for fluid-structure interactions with large
+  displacements.
+\newblock {\em Journal of Applied Mechanics}, 70:58--63, 2003.
+
 \bibitem{gmsh:untangling}
 T.~Toulorge, C.~Geuzaine, J.-F. Remacle, and J.~Lambrechts.
 \newblock Robust untangling of curvilinear meshes.

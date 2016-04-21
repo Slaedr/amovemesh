@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.2.4)  19 APR 2016 14:50
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.2.4)  21 APR 2016 17:46
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -982,12 +982,12 @@ File: images/solver-convergence.pdf Graphic file (type pdf)
 Package pdftex.def Info: images/solver-convergence.pdf used on input line 264.
 (pdftex.def)             Requested size: 435.42566pt x 309.85687pt.
 
-<images/cd_grid_conv.pdf, id=375, 804.90715pt x 609.77812pt>
+<images/cd_grid_conv.pdf, id=375, 749.80125pt x 562.80264pt>
 File: images/cd_grid_conv.pdf Graphic file (type pdf)
 
 <use images/cd_grid_conv.pdf>
 Package pdftex.def Info: images/cd_grid_conv.pdf used on input line 271.
-(pdftex.def)             Requested size: 402.45259pt x 304.8883pt.
+(pdftex.def)             Requested size: 374.8997pt x 281.40063pt.
 ) [33 <./images/bump3d-medium-quality.pdf>]
 [34 <./images/solver-convergence.pdf>] [35 <./images/cd_grid_conv.pdf>]
 \openout2 = `Chapter-5/ch-conclusion.aux'.
@@ -1029,13 +1029,13 @@ Appendix B.
 (./Chapter-4/ch-results.aux) (./Chapter-5/ch-conclusion.aux)
 (./Appendix-A/Appendix-A.aux)) ) 
 Here is how much of TeX's memory you used:
- 7920 strings out of 493315
- 115551 string characters out of 6145894
- 375986 words of memory out of 5000000
- 11105 multiletter control sequences out of 15000+600000
+ 7921 strings out of 493315
+ 115564 string characters out of 6145894
+ 376990 words of memory out of 5000000
+ 11106 multiletter control sequences out of 15000+600000
  14687 words of font info for 53 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 43i,11n,45p,1833b,1433s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,11n,45p,1874b,1433s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-s
 uper-ts1.enc}</usr/share/texmf/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
 share/texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf/fonts/t
@@ -1051,9 +1051,9 @@ type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/amsfonts
 type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/symbols/msbm10.pf
 b></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on AdityaKashi-thesis.pdf (57 pages, 11509613 bytes).
+Output written on AdityaKashi-thesis.pdf (57 pages, 11511523 bytes).
 PDF statistics:
- 1232 PDF objects out of 1440 (max. 8388607)
+ 1234 PDF objects out of 1440 (max. 8388607)
  312 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
  171 words of extra memory for PDF output out of 10000 (max. 10000000)
