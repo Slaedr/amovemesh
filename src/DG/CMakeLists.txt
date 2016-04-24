@@ -1,0 +1,2 @@
+add_executable(triangulate2d triangulate2d.cpp)
+target_link_libraries(triangulate2d adistbinsort)

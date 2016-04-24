@@ -1,0 +1,12 @@
+\beamer@endinputifotherversion {3.26pt}
+\select@language {english}
+\beamer@sectionintoc {1}{Section I : History}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{SubSection A}{2}{0}{1}
+\beamer@subsectionintoc {1}{2}{SubSection B}{3}{0}{1}
+\beamer@subsectionintoc {1}{3}{SubSection C}{4}{0}{1}
+\beamer@subsectionintoc {1}{4}{SubSection D}{5}{0}{1}
+\beamer@sectionintoc {2}{Section II : Solution}{6}{0}{2}
+\beamer@subsectionintoc {2}{1}{SubSection A}{6}{0}{2}
+\beamer@subsectionintoc {2}{2}{SubSection B}{7}{0}{2}
+\beamer@subsectionintoc {2}{3}{SubSection C}{8}{0}{2}
+\beamer@subsectionintoc {2}{4}{SubSection D}{9}{0}{2}

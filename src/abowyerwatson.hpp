@@ -85,7 +85,7 @@ public:
 
 	Delaunay2D() {}
 
-	Delaunay2D(amat::Matrix<double>* _points, int num_points)
+	Delaunay2D(amat::Matrix<double>* _points)
 	{
 		nnode = 3;
 		cap = 1000;
@@ -95,7 +95,7 @@ public:
 		faces.reserve(cap);
 		//nelem = 0;
 		points = *_points;
-		npoints = num_points;
+		npoints = _points->rows();
 		nodes.reserve(num_points+3);
 	}
 
@@ -128,7 +128,7 @@ public:
 		return *this;
 	}
 
-	void setup(const amat::Matrix<double>* _points, const int num_points)
+	void setup(const amat::Matrix<double>* _points)
 	{
 		nnode = 3;
 		cap = 1000;
@@ -137,13 +137,14 @@ public:
 		elems.reserve(cap);
 		faces.reserve(cap);
 		points = *_points;
-		npoints = num_points;
+		npoints = _points->rows();
 		nodes.reserve(num_points+3);
 	}
 
-	int find_containing_triangle(double xx, double yy, int startelement)
 	/** Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
-	   Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
+	 * Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked.
+	 */
+	int find_containing_triangle(double xx, double yy, int startelement)
 	{
 		int ielem = startelement;
 		//int p1, p2;

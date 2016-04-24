@@ -96,7 +96,10 @@ add_library(amatrix amatrix.cpp)
 
 add_library(adatastructures adatastructures.cpp)
 
+add_subdirectory(binsort)
+
 # for the final executable(s)
+add_subdirectory(DG)
 add_subdirectory(curved-mesh-gen-splines)
 add_subdirectory(curved-mesh-gen-cad)
 add_subdirectory(bouncurve)
