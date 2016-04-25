@@ -1,0 +1,383 @@
+% $ biblatex auxiliary file $
+% $ biblatex version 2.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated as
+% required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+\entry{mm:alauzet}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Alauzet}{A.}%
+     {F.}{F.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{AF1}
+  \strng{fullhash}{AF1}
+  \field{sortinit}{A}
+  \field{pages}{175\bibrangedash 200}
+  \field{title}{A changing-topology moving mesh technique for large
+  displacaments}
+  \field{volume}{30}
+  \field{journaltitle}{Engrg. Comput.}
+  \field{year}{2014}
+\endentry
+
+\entry{appl:dgeuler}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Bassi}{B.}%
+     {F.}{F.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Rebay}{R.}%
+     {S.}{S.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{BFRS1}
+  \strng{fullhash}{BFRS1}
+  \field{sortinit}{B}
+  \field{pages}{251\bibrangedash 285}
+  \field{title}{High-order accurate discontinuous finite element solution of
+  the 2D {E}uler equations}
+  \field{volume}{128}
+  \field{journaltitle}{J. Comput. Phys.}
+  \field{year}{1997}
+\endentry
+
+\entry{mm:batina}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Batina}{B.}%
+     {J.T.}{J.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{BJ1}
+  \strng{fullhash}{BJ1}
+  \field{sortinit}{B}
+  \field{number}{3}
+  \field{pages}{327\bibrangedash 333}
+  \field{title}{Unsteady {E}uler Algorithm with Unstructured Dynamic Mesh for
+  Complex-Aircraft Aerodynamic Analysis}
+  \field{volume}{29}
+  \field{journaltitle}{{AIAA} Journal}
+  \field{year}{1991}
+\endentry
+
+\entry{appl:fsi}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Farhat}{F.}%
+     {C.}{C.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Lesoinne}{L.}%
+     {M.}{M.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{FCLM1}
+  \strng{fullhash}{FCLM1}
+  \field{sortinit}{F}
+  \field{pages}{499\bibrangedash 515}
+  \field{title}{Two efficient staggered algorithms for the serial and parallel
+  solution of three-dimensional nonlinear transient aeroelastic problems}
+  \field{volume}{182}
+  \field{journaltitle}{Comput. Methods Appl. Mech. Engrg.}
+  \field{year}{2000}
+\endentry
+
+\entry{mm:torsionsprings}{article}{}
+  \name{author}{4}{}{%
+    {{}%
+     {Farhat}{F.}%
+     {C.}{C.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Degand}{D.}%
+     {C.}{C.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Koobus}{K.}%
+     {B.}{B.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Lesoinne}{L.}%
+     {M.}{M.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{FC+1}
+  \strng{fullhash}{FCDCKBLM1}
+  \field{sortinit}{F}
+  \field{pages}{231\bibrangedash 245}
+  \field{title}{Torsional springs for two-dimensional dynamic unstructured
+  fluid meshes}
+  \field{volume}{163}
+  \field{journaltitle}{Computer methods in applied mechanics and engineering}
+  \field{year}{1998}
+\endentry
+
+\entry{appl:opt2}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Hicken}{H.}%
+     {J.E.}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Zingg}{Z.}%
+     {D.W.}{D.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{HJZD1}
+  \strng{fullhash}{HJZD1}
+  \field{sortinit}{H}
+  \field{number}{2}
+  \field{pages}{400\bibrangedash 413}
+  \field{title}{Aerodynamic optimization algorithm with integrated geometry
+  parameterization and mesh movement}
+  \field{volume}{48}
+  \field{journaltitle}{AIAA Journal}
+  \field{year}{2010}
+\endentry
+
+\entry{appl:fsireview}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Hou}{H.}%
+     {G.}{G.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Wang}{W.}%
+     {J.}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Layton}{L.}%
+     {A.}{A.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{HGWJLA1}
+  \strng{fullhash}{HGWJLA1}
+  \field{sortinit}{H}
+  \field{number}{2}
+  \field{pages}{337\bibrangedash 377}
+  \field{title}{Numerical methods for fluid-structure interaction - a review}
+  \field{volume}{12}
+  \field{journaltitle}{Commun. Comput. Phys.}
+  \field{year}{2012}
+\endentry
+
+\entry{mm:dgm}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Liu}{L.}%
+     {X.}{X.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Qin}{Q.}%
+     {N.}{N.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Xia}{X.}%
+     {H.}{H.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{LXQNXH1}
+  \strng{fullhash}{LXQNXH1}
+  \field{sortinit}{L}
+  \field{pages}{405\bibrangedash 423}
+  \field{title}{Fast dynamic grid deformation based on {D}elaunay graph
+  mapping}
+  \field{volume}{211}
+  \field{journaltitle}{Journal of Computational Physics}
+  \field{year}{2006}
+\endentry
+
+\entry{curve:geomacc}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Luo}{L.}%
+     {X.}{X.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Shephard}{S.}%
+     {M.S.}{M.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Remacle}{R.}%
+     {J.-F.}{J.-F.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{LXSMRJF1}
+  \strng{fullhash}{LXSMRJF1}
+  \field{sortinit}{L}
+  \field{title}{The influence of geometric approximation on the accuracy of
+  high order methods}
+  \field{volume}{1}
+  \field{journaltitle}{Rensselaer {SCOREC} report}
+  \field{year}{2001}
+\endentry
+
+\entry{curve:persson}{inproceedings}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Persson}{P.}%
+     {P.-O.}{P.-O.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Peraire}{P.}%
+     {J.}{J.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{PPOPJ1}
+  \strng{fullhash}{PPOPJ1}
+  \field{sortinit}{P}
+  \field{booktitle}{47\textsuperscript{th} {AIAA} Aerospace Sciences Meeting}
+  \field{title}{Curved mesh generation and mesh refinement using lagrangian
+  solid mechanics}
+  \field{year}{2009}
+\endentry
+
+\entry{mm:fsielast}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Stein}{S.}%
+     {K.}{K.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Tezduyar}{T.}%
+     {T.}{T.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Benney}{B.}%
+     {R.}{R.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{SKTTBR1}
+  \strng{fullhash}{SKTTBR1}
+  \field{sortinit}{S}
+  \field{pages}{58\bibrangedash 63}
+  \field{title}{Mesh moving techniques for fluid-structure interactions with
+  large displacements}
+  \field{volume}{70}
+  \field{journaltitle}{J. Appl. Mech.}
+  \field{year}{2003}
+\endentry
+
+\entry{highorder}{article}{}
+  \name{author}{13}{}{%
+    {{}%
+     {Wang}{W.}%
+     {Z.J.}{Z.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Fidkowski}{F.}%
+     {K.}{K.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Abgrall}{A.}%
+     {R.}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Bassi}{B.}%
+     {F.}{F.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Caraeni}{C.}%
+     {D.}{D.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Cary}{C.}%
+     {A.}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Deconinck}{D.}%
+     {H.}{H.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hartmann}{H.}%
+     {R.}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Hillewaert}{H.}%
+     {K.}{K.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Huynh}{H.}%
+     {H.T.}{H.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Kroll}{K.}%
+     {N.}{N.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {May}{M.}%
+     {G.}{G.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Persson}{P.}%
+     {P.-O.}{P.-O.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{WZ+1}
+  \strng{fullhash}{WZFKARBFCDCADHHRHKHHKNMGPPO1}
+  \field{sortinit}{W}
+  \field{pages}{811\bibrangedash 845}
+  \field{title}{High-order {CFD} methods: current status and perspective}
+  \field{volume}{72}
+  \field{journaltitle}{Intl. J. Numer. Meth. Fluids}
+  \field{year}{2013}
+\endentry
+
+\lossort
+\endlossort
+
+\endinput

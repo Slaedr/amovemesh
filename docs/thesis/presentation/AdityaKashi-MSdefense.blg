@@ -1,0 +1,61 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/TeX Live for SUSE Linux)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: AdityaKashi-MSdefense.aux
+The style file: biblatex.bst
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: AdityaKashi-MSdefense-blx.bib
+Database file #2: AdityaKashi-MSdefense.bib
+Biblatex version: 2.7
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
+You've used 13 entries,
+            6022 wiz_defined-function locations,
+            1201 strings with 10148 characters,
+and the built_in function-call counts, 39548 in all, are:
+= -- 1280
+> -- 1486
+< -- 333
++ -- 464
+- -- 615
+* -- 3466
+:= -- 2645
+add.period$ -- 0
+call.type$ -- 13
+change.case$ -- 119
+chr.to.int$ -- 34
+cite$ -- 24
+duplicate$ -- 4373
+empty$ -- 4070
+format.name$ -- 1008
+if$ -- 8846
+int.to.chr$ -- 0
+int.to.str$ -- 24
+missing$ -- 0
+newline$ -- 373
+num.names$ -- 492
+pop$ -- 3916
+preamble$ -- 1
+purify$ -- 170
+quote$ -- 0
+skip$ -- 2289
+stack$ -- 0
+substring$ -- 529
+swap$ -- 1488
+text.length$ -- 375
+text.prefix$ -- 12
+top$ -- 1
+type$ -- 481
+warning$ -- 0
+while$ -- 262
+width$ -- 0
+write$ -- 359

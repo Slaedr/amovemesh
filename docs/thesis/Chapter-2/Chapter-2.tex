@@ -4,6 +4,8 @@
  
  The second type of technique to move the interior nodes involves \emph{interpolation} of the boundary displacement to interior nodes. Several methods exist; some examples are radial basis function (RBF) interpolation \cite{mm:rbf}, `explicit' interpolation \cite{mm:explicit}, and `Delaunay graph mapping' \cite{mm:dgm}. These methods do not involve any physics-based modeling of the mesh.
  
+ Combinations of these types has been used by some researchers; we also address one such method \cite{mm:hybriddg}. Further, techniques of topological mesh smoothing (such as edge-swapping) can be combined with these methods to achieve some spectacular results, as done by Alauzet \cite{mm:alauzet}.
+ 
  \section{Elasticity-based methods}
  Elasticity-based methods are among the oldest mesh-movement methods in use. These include lineal spring analogy, torsional spring analogy, and various kinds of elastic solid mechanics analogies. These methods model the mesh as some kind of solid entity, impose a boundary displacement and solve equilibrium equations to propagate the motion to the interior nodes.
  
@@ -44,7 +46,7 @@
  
  The simplest approach is linear elasticity.
  \begin{equation}
- \nabla \cdot \mathbf{\sigma}  = \mathbf{0} \quad \text{in} \, \Omega
+ \nabla \cdot \bld{\sigma}  = \mathbf{0} \quad \text{in} \, \Omega
  \end{equation}
  Assuming an isotropic material, the constitutive relation can be taken as
  \begin{equation}
@@ -87,7 +89,7 @@
  \[
  \bld{F} = \frac{\partial\bld{x}}{\partial\bld{X}}.
  \]
- Here, $\bld{x}$ is the physical position vector of a point with coordinate $\bld{X}$ in the reference configuration. The system is solved using Newton-GMRES iterations.
+ Here, $\bld{x}$ is the physical position vector of a point with coordinate $\bld{X}$ in the reference configuration. $\bld{P}$ is the first Piola-Kirchhoff stress tensor. The system is solved using Newton-GMRES iterations.
  
  In our opinion, this method probably cannot be used in any unsteady moving-geometry simulations, as the cost will be prohibitive. However, it leads to good results for curved mesh generation, as can be seen in Persson and Peraire's work.
  
