@@ -325,17 +325,21 @@
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {71}{71}}
 \defcounter {refsection}{0}\relax 
-\headcommand {\sectionentry {5}{References}{72}{References}{0}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@sectionpages {67}{71}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\beamer@subsectionpages {67}{71}}
-\defcounter {refsection}{0}\relax 
-\headcommand {\slideentry {5}{0}{11}{72/72}{}{0}}
+\headcommand {\slideentry {4}{0}{11}{72/72}{}{0}}
 \defcounter {refsection}{0}\relax 
 \headcommand {\beamer@framepages {72}{72}}
-\headcommand {\beamer@partpages {1}{78}}
-\headcommand {\beamer@subsectionpages {67}{78}}
-\headcommand {\beamer@sectionpages {67}{78}}
-\headcommand {\beamer@documentpages {78}}
-\headcommand {\def \inserttotalframenumber {72}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\sectionentry {5}{References}{73}{References}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@sectionpages {67}{72}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@subsectionpages {67}{72}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\slideentry {5}{0}{12}{73/73}{}{0}}
+\defcounter {refsection}{0}\relax 
+\headcommand {\beamer@framepages {73}{73}}
+\headcommand {\beamer@partpages {1}{79}}
+\headcommand {\beamer@subsectionpages {67}{79}}
+\headcommand {\beamer@sectionpages {67}{79}}
+\headcommand {\beamer@documentpages {79}}
+\headcommand {\def \inserttotalframenumber {73}}

@@ -128,7 +128,7 @@ Since we cannot integrate over arbitrary sets, physical elements are mapped to a
 	\includegraphics[scale=0.3]{geommapping}
 	\caption{Geometric mapping between reference element $S$ (left) and physical element $\Omega$ (right)}
 \end{figure}
-Change of variables theorem: if the mapping $f:S\rightarrow\Omega$ is bijective and differentiable, we can integrate over the reference element instead. This requires the Jacobian of $\bld{f}$, $D\bld{f}$ to be nonsingular throughout the element.
+Change of variables theorem: if the mapping $\bld{f}:S\rightarrow\Omega$ is bijective and differentiable, we can integrate over the reference element instead. This requires the Jacobian of $\bld{f}$ to be nonsingular throughout the element.
 \end{frame}
 
 \begin{frame}
@@ -162,7 +162,7 @@ Combination of these with each other and with other techniques such as topologic
 
 \begin{frame}{Torsional springs}
 The lineal spring analogy fails for large deformations or stretched elements. Farhat \emph{et. al.} came up with a more robust scheme, which is also a spring analogy \footfullcite{mm:torsionsprings}.
-\vspace{0.2in}
+
 They introduce two improvements over Batina's model.
 \begin{itemize}
 	\item The model is closer to a structural analogy in that the displacements in each coordinate direction are coupled.
@@ -199,6 +199,7 @@ The stiffness of the torsional springs at a node in an element is inversely rela
   \begin{equation}
   \bld{u} = \bld{u}_b \quad \text{on} \, \partial\Omega
   \end{equation}
+  Implemented using a standard continuous finite element method.
 \end{frame}
 
 \begin{frame}{Stiffened Linear elasticity}
@@ -253,7 +254,7 @@ The system is solved using Newton-GMRES iterations.
 \begin{frame}{Radial basis function (RBF) interpolation}
 Considering $n_b$ boundary points in the mesh, we express the displacement at any point in the mesh as \footfullcite{mm:rbf}
 \begin{equation}
-\mathbf{s}(\mathbf{x}) = \sum_{j=1}^{n_b} \mathbf{a}_j \phi(\lVert\mathbf{x} - \mathbf{x}_{bj}\rVert)
+\mathbf{s}(\mathbf{x}) = \sum_{j=1}^{n_b} \mathbf{a}_j \phi(\lVert\mathbf{x} - \mathbf{x}_{bj}\rVert_2)
 \label{eqn:rbf}
 \end{equation}
 $\phi$ is a radial basis function. As a function of $\bld{x}$, it is radially symmetric about the origin.
@@ -262,13 +263,14 @@ $\phi$ is a radial basis function. As a function of $\bld{x}$, it is radially sy
 \begin{frame}{RBF interpolation}
 Since we know the displacements of the boundary nodes, we can solve for the coefficients $\mathbf{a}_j$ using
 \begin{equation}
-\mathbf{s}(\mathbf{x}_{ib}) = \sum_{j=1}^{n_b} \mathbf{a}_j \phi(\lVert\mathbf{x}_{bi} - \mathbf{x}_{bj}\rVert).
+\mathbf{s}(\mathbf{x}_{ib}) = \sum_{j=1}^{n_b} \mathbf{a}_j \phi(\lVert\mathbf{x}_{bi} - \mathbf{x}_{bj}\rVert_2).
 \end{equation}
 In each coordinate direction $k$, this leads to a system of $n_b$ equations in $n_b$ unknowns:
 \begin{equation}
 \mathbf{A}\mathbf{a}_k = \mathbf{s}_k
 \label{eqn:rbf_system}
 \end{equation}
+where $\bld{A}_{ij} = \phi(\lVert\mathbf{x}_{bi} - \mathbf{x}_{bj}\rVert_2)$.
 \end{frame}
 
 \begin{frame}{RBF interpolation}
@@ -309,7 +311,7 @@ Iterative solvers do not always work! Sparse direct solvers are found to be a ro
 Wang \emph{et. al.} \footfullcite{mm:dgrbf} interpolate the displacements over each Delaunay graph element  using RBFs instead of barycentric coordinates.
 The displacement of a node with initial position $\bld{x}$ is given by
 \begin{equation}
-\mathbf{s}(\mathbf{x}) = \sum_{j=1}^{n_t} \mathbf{a}_j \phi(\lVert\mathbf{x} - \mathbf{x}_{tj}\rVert)
+\mathbf{s}(\mathbf{x}) = \sum_{j=1}^{n_t} \mathbf{a}_j \phi(\lVert\mathbf{x} - \mathbf{x}_{tj}\rVert_2)
 \label{eqn:dgrbf}
 \end{equation}
 where $\bld{x}_{tj}$ are positions of nodes of the Delaunay simplex that contains the node, $n_t$ is the number of nodes in that simplex (3 in 2D and 4 in 3D). 
@@ -318,7 +320,7 @@ where $\bld{x}_{tj}$ are positions of nodes of the Delaunay simplex that contain
 \begin{frame}{DGRBF}
 We need to solve for the $\bld{a}_j$, the RBF coefficients, by solving a $3 \times 3$ system in 2D or a $4 \times 4$ system in 3D, in each Delaunay element.
 \begin{equation}
-\mathbf{s}(\mathbf{x}_{ti}) = \sum_{j=1}^{n_t} \mathbf{a}_j \phi(\lVert\mathbf{x}_{ti} - \mathbf{x}_{tj}\rVert).
+\mathbf{s}(\mathbf{x}_{ti}) = \sum_{j=1}^{n_t} \mathbf{a}_j \phi(\lVert\mathbf{x}_{ti} - \mathbf{x}_{tj}\rVert_2).
 \label{eqn:dgrbfsys}
 \end{equation}
 This is more robust than DGM, but not as robust as RBF for large complex deformations.
@@ -442,7 +444,7 @@ metrics for triangles, quadrangles, tetrahedra and hexahedra.
 \end{frame}
 
 \begin{frame}{Shape metric}
-Shape metric takes into account only the relative lengths of the edges of a cell.
+Shape metric takes into account the relative lengths of the edges of a cell, and the relative interior angles of a cell.
  \begin{figure}
  	\centering
  	\subfloat{
@@ -555,7 +557,6 @@ We choose to use the shape metric for triangles and the \emph{skew} metric for q
 		\label{fig:qin-dgrbf2-120}
 	\end{figure}
 	RBF can achieve about 117$^\circ$ rotation before giving invalid elements.
-	
 	DGRBF2 is very robust for the case it is designed for - large rotational displacements.
 \end{frame}
 
@@ -577,6 +578,7 @@ Involves four steps:
 \begin{frame}{Boundary reconstruction}
 Based on the assumption of smoothness of the boundary, we can reconstruct a piecewise polynomial boundary from a piecewise linear boundary.
 \vspace{0.5in}
+
 2D boundary reconstruction code: Reconstructs an almost globally $C^2$ curve using cubic splines.
 
 Corners are detected by comparing normals of consecutive boundary facets.
@@ -602,7 +604,7 @@ Three main ways to achieve a valid and high-quality mesh:
 \begin{frame}{Curved mesh quality}
 We need a way for measuring curved mesh quality independent of linear mesh quality. This is done as a post-processing step using the plugin `AnalyseCurvedMesh' available in Gmsh \footfullcite{gmsh:quality}. The quantity computed by this plugin is given as
 \begin{equation} 
-m_i = \frac{\inf_{\mathbf{x}\in\Omega_i}\det \mathbf{J}(\mathbf{x})}{\det \mathbf{J_l}_i},
+m_i = \frac{\inf_{\mathbf{x}\in\Omega_i}\det \mathbf{J}_i(\mathbf{x})}{\det \mathbf{J_l}_i},
 \end{equation}
 It measures the `distortion' of the element from the corresponding linear element.
 \end{frame}
@@ -730,6 +732,7 @@ Results from RANS simulation run by rDGFLO \footfullcite{solver}
 	\item First order in time, implicit time stepping
 	\item LU SGS preconditioned GMRES solver
 \end{itemize}
+Results obtained for the RBF mesh are compared with those obtained from another curved mesh; the latter obtained by agglomeration of finer meshes.
 \end{frame}
 
 \begin{frame}{Residual convergence for mass flux}
@@ -774,6 +777,13 @@ Results from RANS simulation run by rDGFLO \footfullcite{solver}
 	\item Automatic estimation of support radius for curved mesh generation by RBF; could try this based on local curvature estimates and density of interior mesh points nearby.
 \end{itemize}
 \end{frame}
+
+\begin{frame}{Conference paper}
+	A. Kashi and H. Luo. "Curved mesh generation using radial basis functions". In: AIAA AVIATION, June 2016. 
+	
+	(\emph{accepted})
+\end{frame}
+
 \printbibliography
 
 

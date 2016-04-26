@@ -364,7 +364,7 @@
   \field{title}{Fast dynamic grid deformation based on {D}elaunay graph
   mapping}
   \field{volume}{211}
-  \field{journaltitle}{Jo. Comput. Phys.}
+  \field{journaltitle}{J. Comput. Phys.}
   \field{year}{2006}
 \endentry
 
@@ -391,9 +391,8 @@
      {}{}%
      {}{}}%
   }
-  \list{organization}{2}{%
-    {American Institute of Aeronautics}%
-    {Astronautics}%
+  \list{organization}{1}{%
+    {AIAA}%
   }
   \strng{namehash}{LX+1}
   \strng{fullhash}{LXXYCJLH1}
