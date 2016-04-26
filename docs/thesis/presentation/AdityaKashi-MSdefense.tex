@@ -131,7 +131,9 @@ Since we cannot integrate over arbitrary sets, physical elements are mapped to a
 Change of variables theorem: if the mapping $\bld{f}:S\rightarrow\Omega$ is bijective and differentiable, we can integrate over the reference element instead. This requires the Jacobian of $\bld{f}$ to be nonsingular throughout the element.
 \end{frame}
 
-\begin{frame}
+\subsection{Review of methods}
+
+\begin{frame}{Types of methods}
 Many mesh-movement methods for unstructured meshes can be found in literature. They can be broadly classified into two types.
 \vspace{0.2in}
 \begin{itemize}
@@ -141,8 +143,6 @@ Many mesh-movement methods for unstructured meshes can be found in literature. T
 \vspace{0.2in}
 Combination of these with each other and with other techniques such as topological (connectivity) smoothing are also used \footfullcite{mm:alauzet}.
 \end{frame}
-
-\subsection{Review of methods}
 
 \begin{frame}{Lineal spring analogy}
 	Every mesh edge is treated as a linear spring in each coordinate direction \footfullcite{mm:batina}.
@@ -157,7 +157,10 @@ Combination of these with each other and with other techniques such as topologic
 	 \end{equation}
 \end{frame}
 \begin{frame}{Lineal spring analogy}
-	This scheme requires the solution of a (SPD) linear system of size $N_n$ (the number of mesh nodes), $n_{dim}$ (the spatial dimension of the problem) times.
+	\vspace{0.5in}
+	This scheme requires the solution of $n_{dim}$ linear systems,
+	
+	each of size $N_n$ (the number of mesh nodes).
 \end{frame}
 
 \begin{frame}{Torsional springs}
@@ -232,6 +235,7 @@ The system is solved using Newton-GMRES iterations.
 \end{frame}
 
 \begin{frame}{Delaunay graph mapping (DGM)}
+Interpolation by barycentric coordinates (volume ratios) in a `background' simplicial mesh.
  \begin{figure}
  	\centering
  	\subfloat{
@@ -507,7 +511,7 @@ We choose to use the shape metric for triangles and the \emph{skew} metric for q
  	\caption{Original mesh}
  	\label{fig:qin-orig}
  \end{figure}
- This test case is taken from Wang \emph{et. al.}\footcite{mm:dgrbf}.
+ This test case is taken from Wang \emph{et. al.}\footfullcite{mm:dgrbf}.
 \end{frame}
 \begin{frame}
 	 \begin{figure}
@@ -691,7 +695,7 @@ Boundary displacements were first obtained from the analytical expression for th
 \begin{figure}
 	\centering
 	\includegraphics[scale=0.2]{bump3d-vcoarse2}
-	\caption{Coarsest curved mesh of 3D bump}
+	\caption{Coarsest curved mesh of 3D bump channel}
 	\label{fig:bump3d}
 \end{figure}
 \end{frame}
@@ -700,7 +704,7 @@ Boundary displacements were first obtained from the analytical expression for th
 	\begin{figure}
 		\centering
 		\includegraphics[scale=0.2]{bump3d-vcoarse-quality}
-		\caption{Minimum scaled Jacobian of coarse curved mesh of 3D bump}
+		\caption{Minimum scaled Jacobian of coarse curved mesh of 3D bump channel}
 		\label{fig:bump3d-coarse-jac}
 	\end{figure}
 \end{frame}
@@ -719,7 +723,7 @@ Boundary displacements were first obtained from the analytical expression for th
 			Wall-clock time			& 0.68s	& 12.6s		& 338s \\
 			\hline
 		\end{tabular}
-		\caption{Summary of 3D bump curved mesh generation}
+		\caption{Summary of 3D bump channel curved mesh generation}
 	\end{table}
 \end{frame}
 

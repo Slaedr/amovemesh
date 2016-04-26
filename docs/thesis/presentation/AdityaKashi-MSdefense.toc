@@ -12,7 +12,7 @@
 \defcounter {refsection}{0}\relax 
 \beamer@sectionintoc {2}{Section II : Mesh movement}{9}{0}{2}
 \defcounter {refsection}{0}\relax 
-\beamer@subsectionintoc {2}{1}{Review of methods}{13}{0}{2}
+\beamer@subsectionintoc {2}{1}{Review of methods}{12}{0}{2}
 \defcounter {refsection}{0}\relax 
 \beamer@subsectionintoc {2}{2}{Large rotation in inviscid mesh}{29}{0}{2}
 \defcounter {refsection}{0}\relax 

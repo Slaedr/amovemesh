@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2016.2.21)  26 APR 2016 01:42
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.2.4)  26 APR 2016 15:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1248,7 +1248,7 @@ LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10.95> not available
  <./ncsu-red.png>] [10
 
  <./ncsu-red.png>]
-<../images/geommapping.pdf, id=412, 531.73656pt x 161.20537pt>
+<../images/geommapping.pdf, id=411, 531.73656pt x 161.20537pt>
 File: ../images/geommapping.pdf Graphic file (type pdf)
 
 <use ../images/geommapping.pdf>
@@ -1282,24 +1282,24 @@ LaTeX Font Info:    Font shape `T1/phv/b/it' in size <6> not available
 
  <./ncsu-red.png>]
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 171.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 174.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <7> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 171.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 174.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <5> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 171.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 174.
  [15
 
- <./ncsu-red.png>] <../images/torsionspring.png, id=573, 740.7675pt x 375.4025p
+ <./ncsu-red.png>] <../images/torsionspring.png, id=574, 740.7675pt x 375.4025p
 t>
 File: ../images/torsionspring.png Graphic file (type png)
 
 <use ../images/torsionspring.png>
-Package pdftex.def Info: ../images/torsionspring.png used on input line 182.
+Package pdftex.def Info: ../images/torsionspring.png used on input line 185.
 (pdftex.def)             Requested size: 185.19142pt x 93.85039pt.
  [16
 
  <../images/torsionspring.png> <./ncsu-red.png>]
-LaTeX Font Info:    Try loading font information for T1+ptm on input line 203.
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 206.
  (/usr/share/texmf/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 ) [17
@@ -1312,35 +1312,35 @@ File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
  <./ncsu-red.png>] [20
 
  <./ncsu-red.png>]
-<../images/dgm-mesh.png, id=734, 275.52937pt x 204.01219pt>
+<../images/dgm-mesh.png, id=735, 275.52937pt x 204.01219pt>
 File: ../images/dgm-mesh.png Graphic file (type png)
 
 <use ../images/dgm-mesh.png>
-Package pdftex.def Info: ../images/dgm-mesh.png used on input line 252.
+Package pdftex.def Info: ../images/dgm-mesh.png used on input line 256.
 (pdftex.def)             Requested size: 68.88217pt x 51.00291pt.
 
-<../images/dgm-dg.png, id=735, 341.77687pt x 336.50719pt>
+<../images/dgm-dg.png, id=736, 341.77687pt x 336.50719pt>
 File: ../images/dgm-dg.png Graphic file (type png)
 
 <use ../images/dgm-dg.png>
-Package pdftex.def Info: ../images/dgm-dg.png used on input line 252.
+Package pdftex.def Info: ../images/dgm-dg.png used on input line 256.
 (pdftex.def)             Requested size: 68.35416pt x 67.30023pt.
 
-<../images/dgm-moveddg.png, id=736, 255.95625pt x 249.18094pt>
+<../images/dgm-moveddg.png, id=737, 255.95625pt x 249.18094pt>
 File: ../images/dgm-moveddg.png Graphic file (type png)
 
 <use ../images/dgm-moveddg.png>
-Package pdftex.def Info: ../images/dgm-moveddg.png used on input line 252.
+Package pdftex.def Info: ../images/dgm-moveddg.png used on input line 256.
 (pdftex.def)             Requested size: 63.98889pt x 62.29507pt.
 
-<../images/dgm-movedmesh.png, id=737, 270.25969pt x 194.22563pt>
+<../images/dgm-movedmesh.png, id=738, 270.25969pt x 194.22563pt>
 File: ../images/dgm-movedmesh.png Graphic file (type png)
 
 <use ../images/dgm-movedmesh.png>
-Package pdftex.def Info: ../images/dgm-movedmesh.png used on input line 252.
+Package pdftex.def Info: ../images/dgm-movedmesh.png used on input line 256.
 (pdftex.def)             Requested size: 67.56474pt x 48.55627pt.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 252.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 256.
  [21
 
  <../images/dgm-mesh.png> <../images/dgm-dg.png> <../images/dgm-moveddg.png> <.
@@ -1359,163 +1359,163 @@ LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <10.95> not available
  <./ncsu-red.png>] [28
 
  <./ncsu-red.png>]
-<../images/3comp-inviscid.pdf, id=977, 1485.55pt x 948.54375pt>
+<../images/3comp-inviscid.pdf, id=978, 1485.55pt x 948.54375pt>
 File: ../images/3comp-inviscid.pdf Graphic file (type pdf)
 
 <use ../images/3comp-inviscid.pdf>
-Package pdftex.def Info: ../images/3comp-inviscid.pdf used on input line 354.
+Package pdftex.def Info: ../images/3comp-inviscid.pdf used on input line 358.
 (pdftex.def)             Requested size: 237.69286pt x 151.7701pt.
 
-Overfull \vbox (30.47101pt too high) detected at line 354
+Overfull \vbox (30.47101pt too high) detected at line 358
  []
 
 [29
 
  <../images/3comp-inviscid.pdf> <./ncsu-red.png>]
-<../images/wing60-farhat.pdf, id=1014, 1485.55pt x 948.54375pt>
+<../images/wing60-farhat.pdf, id=1015, 1485.55pt x 948.54375pt>
 File: ../images/wing60-farhat.pdf Graphic file (type pdf)
 
 <use ../images/wing60-farhat.pdf>
-Package pdftex.def Info: ../images/wing60-farhat.pdf used on input line 364.
+Package pdftex.def Info: ../images/wing60-farhat.pdf used on input line 368.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (51.01917pt too high) detected at line 364
+Overfull \vbox (51.01917pt too high) detected at line 368
  []
 
 [30
 
  <../images/wing60-farhat.pdf> <./ncsu-red.png>]
-<../images/wing60-linelastp1.pdf, id=1050, 1485.55pt x 948.54375pt>
+<../images/wing60-linelastp1.pdf, id=1051, 1485.55pt x 948.54375pt>
 File: ../images/wing60-linelastp1.pdf Graphic file (type pdf)
 
 <use ../images/wing60-linelastp1.pdf>
-Package pdftex.def Info: ../images/wing60-linelastp1.pdf used on input line 373
+Package pdftex.def Info: ../images/wing60-linelastp1.pdf used on input line 377
 .
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 373
+Overfull \vbox (7.38126pt too high) detected at line 377
  []
 
 [31
 
  <../images/wing60-linelastp1.pdf> <./ncsu-red.png>]
-<../images/wing60-linelastp1_zoomed.pdf, id=1088, 1485.55pt x 948.54375pt>
+<../images/wing60-linelastp1_zoomed.pdf, id=1089, 1485.55pt x 948.54375pt>
 File: ../images/wing60-linelastp1_zoomed.pdf Graphic file (type pdf)
 
 <use ../images/wing60-linelastp1_zoomed.pdf>
 Package pdftex.def Info: ../images/wing60-linelastp1_zoomed.pdf used on input l
-ine 381.
+ine 385.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 381
+Overfull \vbox (7.38126pt too high) detected at line 385
  []
 
 [32
 
  <../images/wing60-linelastp1_zoomed.pdf> <./ncsu-red.png>]
-<../images/wing60-linelastp1_zoomed2.pdf, id=1124, 1485.55pt x 948.54375pt>
+<../images/wing60-linelastp1_zoomed2.pdf, id=1125, 1485.55pt x 948.54375pt>
 File: ../images/wing60-linelastp1_zoomed2.pdf Graphic file (type pdf)
 
 <use ../images/wing60-linelastp1_zoomed2.pdf>
 Package pdftex.def Info: ../images/wing60-linelastp1_zoomed2.pdf used on input 
-line 389.
+line 393.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 389
+Overfull \vbox (7.38126pt too high) detected at line 393
  []
 
 [33
 
  <../images/wing60-linelastp1_zoomed2.pdf> <./ncsu-red.png>]
-<../images/wing60-dg-ms.pdf, id=1160, 1485.55pt x 948.54375pt>
+<../images/wing60-dg-ms.pdf, id=1161, 1485.55pt x 948.54375pt>
 File: ../images/wing60-dg-ms.pdf Graphic file (type pdf)
 
 <use ../images/wing60-dg-ms.pdf>
-Package pdftex.def Info: ../images/wing60-dg-ms.pdf used on input line 397.
+Package pdftex.def Info: ../images/wing60-dg-ms.pdf used on input line 401.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 397
+Overfull \vbox (7.38126pt too high) detected at line 401
  []
 
 [34
 
  <../images/wing60-dg-ms.pdf> <./ncsu-red.png>]
-<../images/wing60-dg-ms_zoomed.pdf, id=1197, 1485.55pt x 948.54375pt>
+<../images/wing60-dg-ms_zoomed.pdf, id=1198, 1485.55pt x 948.54375pt>
 File: ../images/wing60-dg-ms_zoomed.pdf Graphic file (type pdf)
 
 <use ../images/wing60-dg-ms_zoomed.pdf>
 Package pdftex.def Info: ../images/wing60-dg-ms_zoomed.pdf used on input line 4
-05.
+09.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 405
+Overfull \vbox (7.38126pt too high) detected at line 409
  []
 
 [35
 
  <../images/wing60-dg-ms_zoomed.pdf> <./ncsu-red.png>]
-<../images/wing60-rbf-sr15-s3.pdf, id=1233, 1485.55pt x 948.54375pt>
+<../images/wing60-rbf-sr15-s3.pdf, id=1234, 1485.55pt x 948.54375pt>
 File: ../images/wing60-rbf-sr15-s3.pdf Graphic file (type pdf)
 
 <use ../images/wing60-rbf-sr15-s3.pdf>
 Package pdftex.def Info: ../images/wing60-rbf-sr15-s3.pdf used on input line 41
-4.
+8.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 414
+Overfull \vbox (7.38126pt too high) detected at line 418
  []
 
 [36
 
  <../images/wing60-rbf-sr15-s3.pdf> <./ncsu-red.png>]
-<../images/wing60-rbf-sr15-s3_zoomed.pdf, id=1269, 1485.55pt x 948.54375pt>
+<../images/wing60-rbf-sr15-s3_zoomed.pdf, id=1270, 1485.55pt x 948.54375pt>
 File: ../images/wing60-rbf-sr15-s3_zoomed.pdf Graphic file (type pdf)
 
 <use ../images/wing60-rbf-sr15-s3_zoomed.pdf>
 Package pdftex.def Info: ../images/wing60-rbf-sr15-s3_zoomed.pdf used on input 
-line 422.
+line 426.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 422
+Overfull \vbox (7.38126pt too high) detected at line 426
  []
 
 [37
 
  <../images/wing60-rbf-sr15-s3_zoomed.pdf> <./ncsu-red.png>]
-<../images/wing60-rbf-sr15-s3_zoomed2.pdf, id=1306, 1485.55pt x 948.54375pt>
+<../images/wing60-rbf-sr15-s3_zoomed2.pdf, id=1307, 1485.55pt x 948.54375pt>
 File: ../images/wing60-rbf-sr15-s3_zoomed2.pdf Graphic file (type pdf)
 
 <use ../images/wing60-rbf-sr15-s3_zoomed2.pdf>
 Package pdftex.def Info: ../images/wing60-rbf-sr15-s3_zoomed2.pdf used on input
- line 430.
+ line 434.
 (pdftex.def)             Requested size: 252.54016pt x 161.2503pt.
 
-Overfull \vbox (7.38126pt too high) detected at line 430
+Overfull \vbox (7.38126pt too high) detected at line 434
  []
 
 [38
 
  <../images/wing60-rbf-sr15-s3_zoomed2.pdf> <./ncsu-red.png>] [39
 
- <./ncsu-red.png>] <../images/tri_ideal.pdf, id=1371, 536.4156pt x 464.6616pt>
+ <./ncsu-red.png>] <../images/tri_ideal.pdf, id=1372, 536.4156pt x 464.6616pt>
 File: ../images/tri_ideal.pdf Graphic file (type pdf)
 
 <use ../images/tri_ideal.pdf>
-Package pdftex.def Info: ../images/tri_ideal.pdf used on input line 464.
+Package pdftex.def Info: ../images/tri_ideal.pdf used on input line 468.
 (pdftex.def)             Requested size: 64.36708pt x 55.75697pt.
 
-<../images/tri_bad.pdf, id=1372, 83.9135pt x 441.1983pt>
+<../images/tri_bad.pdf, id=1373, 83.9135pt x 441.1983pt>
 File: ../images/tri_bad.pdf Graphic file (type pdf)
 
 <use ../images/tri_bad.pdf>
-Package pdftex.def Info: ../images/tri_bad.pdf used on input line 464.
+Package pdftex.def Info: ../images/tri_bad.pdf used on input line 468.
 (pdftex.def)             Requested size: 12.58647pt x 66.17688pt.
 
-<../images/quad_quality.pdf, id=1373, 409.37944pt x 205.41743pt>
+<../images/quad_quality.pdf, id=1374, 409.37944pt x 205.41743pt>
 File: ../images/quad_quality.pdf Graphic file (type pdf)
 
 <use ../images/quad_quality.pdf>
-Package pdftex.def Info: ../images/quad_quality.pdf used on input line 464.
+Package pdftex.def Info: ../images/quad_quality.pdf used on input line 468.
 (pdftex.def)             Requested size: 102.3446pt x 51.35422pt.
  [40
 
@@ -1530,72 +1530,72 @@ ion: multiple pdfs with page group included in a single page
 > <./ncsu-red.png>]
 File: ../images/tri_ideal.pdf Graphic file (type pdf)
  <use ../images/tri_ideal.pdf>
-Package pdftex.def Info: ../images/tri_ideal.pdf used on input line 484.
+Package pdftex.def Info: ../images/tri_ideal.pdf used on input line 488.
 (pdftex.def)             Requested size: 64.36708pt x 55.75697pt.
 File: ../images/tri_bad.pdf Graphic file (type pdf)
  <use ../images/tri_bad.pdf>
-Package pdftex.def Info: ../images/tri_bad.pdf used on input line 484.
+Package pdftex.def Info: ../images/tri_bad.pdf used on input line 488.
 (pdftex.def)             Requested size: 12.58647pt x 66.17688pt.
 File: ../images/quad_quality.pdf Graphic file (type pdf)
 
 <use ../images/quad_quality.pdf>
-Package pdftex.def Info: ../images/quad_quality.pdf used on input line 484.
+Package pdftex.def Info: ../images/quad_quality.pdf used on input line 488.
 (pdftex.def)             Requested size: 110.53392pt x 55.46344pt.
  [41
 
  <./ncsu-red.png>] [42
 
  <./ncsu-red.png>]
-<../images/qin-orig-mesh.pdf, id=1466, 1337.99875pt x 780.9175pt>
+<../images/qin-orig-mesh.pdf, id=1467, 1337.99875pt x 780.9175pt>
 File: ../images/qin-orig-mesh.pdf Graphic file (type pdf)
 
 <use ../images/qin-orig-mesh.pdf>
-Package pdftex.def Info: ../images/qin-orig-mesh.pdf used on input line 511.
+Package pdftex.def Info: ../images/qin-orig-mesh.pdf used on input line 515.
 (pdftex.def)             Requested size: 200.69115pt x 117.13257pt.
  [43
 
  <../images/qin-orig-mesh.pdf> <./ncsu-red.png>] <../images/qin-60-dgm-quality.
-pdf, id=1506, 1337.99875pt x 780.9175pt>
+pdf, id=1505, 1337.99875pt x 780.9175pt>
 File: ../images/qin-60-dgm-quality.pdf Graphic file (type pdf)
 
 <use ../images/qin-60-dgm-quality.pdf>
-Package pdftex.def Info: ../images/qin-60-dgm-quality.pdf used on input line 51
-9.
+Package pdftex.def Info: ../images/qin-60-dgm-quality.pdf used on input line 52
+3.
 (pdftex.def)             Requested size: 267.59502pt x 156.18073pt.
  [44
 
  <../images/qin-60-dgm-quality.pdf> <./ncsu-red.png>]
-<../images/qin-60-rbf-quality.pdf, id=1542, 1337.99875pt x 780.9175pt>
+<../images/qin-60-rbf-quality.pdf, id=1541, 1337.99875pt x 780.9175pt>
 File: ../images/qin-60-rbf-quality.pdf Graphic file (type pdf)
 
 <use ../images/qin-60-rbf-quality.pdf>
-Package pdftex.def Info: ../images/qin-60-rbf-quality.pdf used on input line 52
-7.
+Package pdftex.def Info: ../images/qin-60-rbf-quality.pdf used on input line 53
+1.
 (pdftex.def)             Requested size: 267.59502pt x 156.18073pt.
  [45
 
  <../images/qin-60-rbf-quality.pdf> <./ncsu-red.png>]
-<../images/qin-60-dgrbf2-quality.pdf, id=1578, 1337.99875pt x 780.9175pt>
+<../images/qin-60-dgrbf2-quality.pdf, id=1577, 1337.99875pt x 780.9175pt>
 File: ../images/qin-60-dgrbf2-quality.pdf Graphic file (type pdf)
 
 <use ../images/qin-60-dgrbf2-quality.pdf>
 Package pdftex.def Info: ../images/qin-60-dgrbf2-quality.pdf used on input line
- 535.
+ 539.
 (pdftex.def)             Requested size: 267.59502pt x 156.18073pt.
  [46
 
  <../images/qin-60-dgrbf2-quality.pdf> <./ncsu-red.png>] [47
 
  <./ncsu-red.png>]
-<../images/qin-120-quality-withmesh.pdf, id=1643, 1337.99875pt x 780.9175pt>
+<../images/qin-120-quality-withmesh.pdf, id=1642, 1337.99875pt x 780.9175pt>
 File: ../images/qin-120-quality-withmesh.pdf Graphic file (type pdf)
 
 <use ../images/qin-120-quality-withmesh.pdf>
 Package pdftex.def Info: ../images/qin-120-quality-withmesh.pdf used on input l
-ine 561.
+ine 565.
 (pdftex.def)             Requested size: 267.59502pt x 156.18073pt.
 
-Overfull \vbox (4.28456pt too high) detected at line 561
+Overfull \vbox (4.28456pt too high) detected at line 565
  []
 
 [48
@@ -1604,12 +1604,12 @@ Overfull \vbox (4.28456pt too high) detected at line 561
 (./AdityaKashi-MSdefense.toc) [49
 
  <./ncsu-red.png>]
-<../images/coarse-curved-mesh-zoomed1.png, id=1721, 1337.99875pt x 780.9175pt>
+<../images/coarse-curved-mesh-zoomed1.png, id=1720, 1337.99875pt x 780.9175pt>
 File: ../images/coarse-curved-mesh-zoomed1.png Graphic file (type png)
 
 <use ../images/coarse-curved-mesh-zoomed1.png>
 Package pdftex.def Info: ../images/coarse-curved-mesh-zoomed1.png used on input
- line 576.
+ line 580.
 (pdftex.def)             Requested size: 133.80771pt x 78.09631pt.
  [50
 
@@ -1622,89 +1622,89 @@ Package pdftex.def Info: ../images/coarse-curved-mesh-zoomed1.png used on input
  <./ncsu-red.png>] [54
 
  <./ncsu-red.png>]
-<../images/3compblack.png, id=1870, 1188.44pt x 776.08125pt>
+<../images/3compblack.png, id=1869, 1188.44pt x 776.08125pt>
 File: ../images/3compblack.png Graphic file (type png)
 
 <use ../images/3compblack.png>
-Package pdftex.def Info: ../images/3compblack.png used on input line 620.
+Package pdftex.def Info: ../images/3compblack.png used on input line 624.
 (pdftex.def)             Requested size: 150.0pt x 97.94543pt.
  [55
 
  <../images/3compblack.png> <./ncsu-red.png>] <../images/3comp-elast-vzoomedblk
-.pdf, id=1903, 1485.55pt x 948.54375pt>
+.pdf, id=1902, 1485.55pt x 948.54375pt>
 File: ../images/3comp-elast-vzoomedblk.pdf Graphic file (type pdf)
 
 <use ../images/3comp-elast-vzoomedblk.pdf>
 Package pdftex.def Info: ../images/3comp-elast-vzoomedblk.pdf used on input lin
-e 635.
+e 639.
 (pdftex.def)             Requested size: 150.0pt x 95.77176pt.
 
-<../images/3comp-rbf-vzoomedblk.pdf, id=1904, 1485.55pt x 948.54375pt>
+<../images/3comp-rbf-vzoomedblk.pdf, id=1903, 1485.55pt x 948.54375pt>
 File: ../images/3comp-rbf-vzoomedblk.pdf Graphic file (type pdf)
 
 <use ../images/3comp-rbf-vzoomedblk.pdf>
 Package pdftex.def Info: ../images/3comp-rbf-vzoomedblk.pdf used on input line 
-635.
+639.
 (pdftex.def)             Requested size: 150.0pt x 95.77176pt.
  [56
 
  <../images/3comp-elast-vzoomedblk.pdf> <../images/3comp-rbf-vzoomedblk.pdf> <.
 /ncsu-red.png>]
-<../images/3comp-rbf-zoomed-jacobians2.png, id=1945, 842.14626pt x 504.88625pt>
+<../images/3comp-rbf-zoomed-jacobians2.png, id=1944, 842.14626pt x 504.88625pt>
 File: ../images/3comp-rbf-zoomed-jacobians2.png Graphic file (type png)
 <use ../images/3comp-rbf-zoomed-jacobians2.png>
 Package pdftex.def Info: ../images/3comp-rbf-zoomed-jacobians2.png used on inpu
-t line 644.
+t line 648.
 (pdftex.def)             Requested size: 252.64583pt x 151.46703pt.
  [57
 
  <../images/3comp-rbf-zoomed-jacobians2.png (PNG copy)> <./ncsu-red.png>]
-<../images/3comp_curved_elaststiff_vzoomed_jac.pdf, id=1977, 1485.55pt x 948.54
+<../images/3comp_curved_elaststiff_vzoomed_jac.pdf, id=1976, 1485.55pt x 948.54
 375pt>
 File: ../images/3comp_curved_elaststiff_vzoomed_jac.pdf Graphic file (type pdf)
 
  <use ../images/3comp_curved_elaststiff_vzoomed_jac.pdf>
 Package pdftex.def Info: ../images/3comp_curved_elaststiff_vzoomed_jac.pdf used
- on input line 652.
+ on input line 656.
 (pdftex.def)             Requested size: 297.10474pt x 189.70538pt.
 
-Overfull \vbox (5.23926pt too high) detected at line 652
+Overfull \vbox (5.23926pt too high) detected at line 656
  []
 
 [58
 
  <../images/3comp_curved_elaststiff_vzoomed_jac.pdf> <./ncsu-red.png>]
-<../images/3comp-stiffelast-zoomed.pdf, id=2018, 1485.55pt x 948.54375pt>
+<../images/3comp-stiffelast-zoomed.pdf, id=2017, 1485.55pt x 948.54375pt>
 File: ../images/3comp-stiffelast-zoomed.pdf Graphic file (type pdf)
 
 <use ../images/3comp-stiffelast-zoomed.pdf>
 Package pdftex.def Info: ../images/3comp-stiffelast-zoomed.pdf used on input li
-ne 660.
+ne 664.
 (pdftex.def)             Requested size: 297.10474pt x 189.70538pt.
 
-Overfull \vbox (18.83926pt too high) detected at line 660
+Overfull \vbox (18.83926pt too high) detected at line 664
  []
 
 [59
 
  <../images/3comp-stiffelast-zoomed.pdf> <./ncsu-red.png>] [60
 
- <./ncsu-red.png>] <../images/bump3d-vcoarse2.pdf, id=2090, 1445.68231pt x 141.
+ <./ncsu-red.png>] <../images/bump3d-vcoarse2.pdf, id=2089, 1445.68231pt x 141.
 27782pt>
 File: ../images/bump3d-vcoarse2.pdf Graphic file (type pdf)
 
 <use ../images/bump3d-vcoarse2.pdf>
-Package pdftex.def Info: ../images/bump3d-vcoarse2.pdf used on input line 697.
+Package pdftex.def Info: ../images/bump3d-vcoarse2.pdf used on input line 701.
 (pdftex.def)             Requested size: 289.13133pt x 28.25505pt.
  [61
 
  <../images/bump3d-vcoarse2.pdf> <./ncsu-red.png>]
-<../images/bump3d-vcoarse-quality.pdf, id=2125, 1485.55pt x 948.54375pt>
+<../images/bump3d-vcoarse-quality.pdf, id=2124, 1485.55pt x 948.54375pt>
 File: ../images/bump3d-vcoarse-quality.pdf Graphic file (type pdf)
 
 <use ../images/bump3d-vcoarse-quality.pdf>
 Package pdftex.def Info: ../images/bump3d-vcoarse-quality.pdf used on input lin
-e 706.
+e 710.
 (pdftex.def)             Requested size: 297.10474pt x 189.70538pt.
  [62
 
@@ -1713,32 +1713,32 @@ e 706.
  <./ncsu-red.png>] [64
 
  <./ncsu-red.png>]
-<../images/solver-convergence.pdf, id=2287, 870.85347pt x 619.71527pt>
+<../images/solver-convergence.pdf, id=2286, 870.85347pt x 619.71527pt>
 File: ../images/solver-convergence.pdf Graphic file (type pdf)
 
 <use ../images/solver-convergence.pdf>
 Package pdftex.def Info: ../images/solver-convergence.pdf used on input line 74
-5.
+9.
 (pdftex.def)             Requested size: 235.13358pt x 167.32535pt.
 
-Overfull \vbox (13.4563pt too high) detected at line 745
+Overfull \vbox (13.4563pt too high) detected at line 749
  []
 
 [65
 
  <../images/solver-convergence.pdf> <./ncsu-red.png>]
-<../images/cd_grid_conv.pdf, id=2355, 749.80125pt x 562.80264pt>
+<../images/cd_grid_conv.pdf, id=2354, 749.80125pt x 562.80264pt>
 File: ../images/cd_grid_conv.pdf Graphic file (type pdf)
 
 <use ../images/cd_grid_conv.pdf>
-Package pdftex.def Info: ../images/cd_grid_conv.pdf used on input line 754.
+Package pdftex.def Info: ../images/cd_grid_conv.pdf used on input line 758.
 (pdftex.def)             Requested size: 202.44904pt x 151.95874pt.
 LaTeX Font Info:    Font shape `T1/phv/bx/n' in size <17.28> not available
-(Font)              Font shape `T1/phv/b/n' tried instead on input line 754.
+(Font)              Font shape `T1/phv/b/n' tried instead on input line 758.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <17.28> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 754.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 758.
 
-Overfull \vbox (11.6897pt too high) detected at line 754
+Overfull \vbox (11.6897pt too high) detected at line 758
  []
 
 [66
@@ -1765,7 +1765,7 @@ Overfull \vbox (11.6897pt too high) detected at line 754
  </usr/share/texmf/tex/latex/beamer/art/beamericonarticle.pdf> <./ncsu-red.png>
 ] [75 <./ncsu-red.png>]
 [76 <./ncsu-red.png>] [77 <./ncsu-red.png>]
-LaTeX Font Info:    Try loading font information for T1+pcr on input line 787.
+LaTeX Font Info:    Try loading font information for T1+pcr on input line 791.
 
 (/usr/share/texmf/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
@@ -1779,13 +1779,13 @@ File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 \tf@snm=\write9
 \openout9 = `AdityaKashi-MSdefense.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 790.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 790.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 794.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 794.
  (./AdityaKashi-MSdefense.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 790.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 790.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 794.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 794.
 Package rerunfilecheck Info: File `AdityaKashi-MSdefense.out' has not changed.
-(rerunfilecheck)             Checksum: 50A6D259B27B2565F0F581B00934E48D;821.
+(rerunfilecheck)             Checksum: 9C73A68FD6B95A8C9CFC8F087F26C1D8;821.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -1794,12 +1794,12 @@ LaTeX Font Warning: Size substitutions with differences
 Package logreq Info: Writing requests to 'AdityaKashi-MSdefense.run.xml'.
 \openout1 = `AdityaKashi-MSdefense.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 790.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 794.
  ) 
 Here is how much of TeX's memory you used:
  23391 strings out of 493315
- 422064 string characters out of 6145893
- 595660 words of memory out of 5000000
+ 422064 string characters out of 6145894
+ 595661 words of memory out of 5000000
  26038 multiletter control sequences out of 15000+600000
  103079 words of font info for 124 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
@@ -1818,7 +1818,7 @@ e1/urw/helvetic/uhvb8a.pfb></usr/share/texmf/fonts/type1/urw/helvetic/uhvbo8a.p
 fb></usr/share/texmf/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf/font
 s/type1/urw/helvetic/uhvro8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmr8a
 .pfb>
-Output written on AdityaKashi-MSdefense.pdf (79 pages, 5605188 bytes).
+Output written on AdityaKashi-MSdefense.pdf (79 pages, 5605630 bytes).
 PDF statistics:
  2965 PDF objects out of 2984 (max. 8388607)
  2547 compressed objects within 26 object streams
