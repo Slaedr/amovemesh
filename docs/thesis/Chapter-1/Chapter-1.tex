@@ -15,7 +15,7 @@ Some mesh movement schemes that we present here satisfy only one or two of the a
 High-order computational methods are becoming popular in the aerospace community in recent years. Research is being conducted in robust high-order schemes that work on unstructured/hybrid grids, including continuous finite element methods such as streamline-upwind Petrov Galerkin methods \cite{appl:supg}, discontinuous Galerkin finite element methods \cite{solver, curve:hartmann, appl:mavriplis}, spectral element methods \cite{appl:spectral}, flux reconstruction \cite{appl:fr} and high-order finite volume methods, among others. According to Wang, Fidkowski \emph{et. al.}, high-order methods are better than prevailing second-order methods for smooth flows. While conclusive data was not available for flows with discontinuities, high-order methods with \emph{hp} adaptation might outperform second-order methods. One of the areas facing challenges, according to them, is high-order mesh generation \cite{highorder}. 
 
 High-order approximation of the boundary is required to attain high-order spatial accuracy \cite{curve:geomacc}, and in some cases it may be crucial to even preserve qualitative correctness of the flow. For example, if high-order boundary representation is not used with a DG P1 (discontinuous Galerkin with piecewise linear basis functions) scheme, the solution to the 2D Euler equations around a cylinder shows a wake and vortex shedding \cite{appl:dgeuler} (figure \ref{fig:bassi}).
- \begin{figure}[H!]
+ \begin{figure}[!h]
  	\centering
  	\subfloat{
  		\includegraphics[scale=0.15]{bassi-linear}

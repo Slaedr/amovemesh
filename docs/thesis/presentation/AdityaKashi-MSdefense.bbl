@@ -79,6 +79,34 @@
   \field{year}{1991}
 \endentry
 
+\entry{mm:rbf}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Boer}{B.}%
+     {A.}{A.}%
+     {de}{d.}%
+     {}{}}%
+    {{}%
+     {Schoot}{S.}%
+     {M.S.}{M.}%
+     {van~der}{v.~d.}%
+     {}{}}%
+    {{}%
+     {Bijl}{B.}%
+     {M.}{M.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{BAdSMvdBM1}
+  \strng{fullhash}{BAdSMvdBM1}
+  \field{sortinit}{B}
+  \field{pages}{784\bibrangedash 795}
+  \field{title}{Mesh deformation based on radial basis function interpolation}
+  \field{volume}{85}
+  \field{journaltitle}{Computers \& Structures}
+  \field{year}{2007}
+\endentry
+
 \entry{appl:fsi}{article}{}
   \name{author}{2}{}{%
     {{}%
@@ -133,8 +161,31 @@
   \field{title}{Torsional springs for two-dimensional dynamic unstructured
   fluid meshes}
   \field{volume}{163}
-  \field{journaltitle}{Computer methods in applied mechanics and engineering}
+  \field{journaltitle}{Comput. meth. appl. mech. engrg.}
   \field{year}{1998}
+\endentry
+
+\entry{curve:hartmann}{misc}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Hartmann}{H.}%
+     {Ralf}{R.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Leicht}{L.}%
+     {Tobias}{T.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{HRLT1}
+  \strng{fullhash}{HRLT1}
+  \field{sortinit}{H}
+  \field{howpublished}{53\textsuperscript{rd} AIAA Aerospace Sciences Meeting
+  (SciTech 2015), {AIAA} 2015-0819, Kissimmee, Florida}
+  \field{title}{High-order unstructured grid generation and Discontinuous
+  {G}alerkin discretization applied to a {3D} high-lift configuration}
+  \field{year}{2015}
 \endentry
 
 \entry{appl:opt2}{article}{}
@@ -191,6 +242,103 @@
   \field{year}{2012}
 \endentry
 
+\entry{curve:meshcurve}{inproceedings}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Ims}{I.}%
+     {J.}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Duan}{D.}%
+     {Z.}{Z.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Wang}{W.}%
+     {Z.J.}{Z.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{IJDZWZ1}
+  \strng{fullhash}{IJDZWZ1}
+  \field{sortinit}{I}
+  \field{booktitle}{22nd {AIAA} {C}omputational {F}luid {D}ynamics conference}
+  \field{title}{meshcurve : An automated low-order to high-order mesh
+  generator}
+  \field{year}{2015}
+\endentry
+
+\entry{sr:jiaowang}{article}{}
+  \name{author}{2}{}{%
+    {{}%
+     {Jiao}{J.}%
+     {X.}{X.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Wang}{W.}%
+     {D.}{D.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{JXWD1}
+  \strng{fullhash}{JXWD1}
+  \field{sortinit}{J}
+  \field{pages}{361\bibrangedash 373}
+  \field{title}{Reconstructing high-order surfaces for meshing}
+  \field{volume}{28}
+  \field{journaltitle}{Engineering with computers}
+  \field{year}{2012}
+\endentry
+
+\entry{gmsh:quality}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Johnen}{J.}%
+     {A.}{A.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Remacle}{R.}%
+     {J.-F.}{J.-F.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Geuzaine}{G.}%
+     {C.}{C.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{JARJFGC1}
+  \strng{fullhash}{JARJFGC1}
+  \field{sortinit}{J}
+  \field{pages}{359\bibrangedash 372}
+  \field{title}{Geometrical validity of curvilinear finite elements}
+  \field{volume}{233}
+  \field{journaltitle}{J. Comput. Phys.}
+  \field{year}{2013}
+\endentry
+
+\entry{qualknupp}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Knupp}{K.}%
+     {P.M.}{P.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{KP1}
+  \strng{fullhash}{KP1}
+  \field{sortinit}{K}
+  \field{pages}{217\bibrangedash 241}
+  \field{title}{Algebraic mesh quality measures for unstructured initial
+  meshes}
+  \field{volume}{39}
+  \field{journaltitle}{Finite Elements in Analysis and Design}
+  \field{year}{2003}
+\endentry
+
 \entry{mm:dgm}{article}{}
   \name{author}{3}{}{%
     {{}%
@@ -216,8 +364,44 @@
   \field{title}{Fast dynamic grid deformation based on {D}elaunay graph
   mapping}
   \field{volume}{211}
-  \field{journaltitle}{Journal of Computational Physics}
+  \field{journaltitle}{Jo. Comput. Phys.}
   \field{year}{2006}
+\endentry
+
+\entry{solver}{inproceedings}{}
+  \name{author}{4}{}{%
+    {{}%
+     {Liu}{L.}%
+     {Xiaodong}{X.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Xia}{X.}%
+     {Yidong}{Y.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Cheng}{C.}%
+     {Jian}{J.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Luo}{L.}%
+     {Hong}{H.}%
+     {}{}%
+     {}{}}%
+  }
+  \list{organization}{2}{%
+    {American Institute of Aeronautics}%
+    {Astronautics}%
+  }
+  \strng{namehash}{LX+1}
+  \strng{fullhash}{LXXYCJLH1}
+  \field{sortinit}{L}
+  \field{booktitle}{54th AIAA Aerospace Sciences Meeting}
+  \field{title}{Development and Assessment of a Reconstructed Discontinuous
+  Galerkin Method for the Compressible Turbulent Flows on Hybrid Grids}
+  \field{year}{2016}
 \endentry
 
 \entry{curve:geomacc}{article}{}
@@ -270,6 +454,22 @@
   \field{year}{2009}
 \endentry
 
+\entry{case:bump3d}{misc}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Rumsey}{R.}%
+     {Christopher}{C.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{RC1}
+  \strng{fullhash}{RC1}
+  \field{sortinit}{R}
+  \field{howpublished}{{NASA L}angley {R}esearch {C}enter Turbulence Models
+  website, \url{http://turbmodels.larc.nasa.gov/bump3d.html}}
+  \field{title}{VERIF/3DB: 3D Bump-in-channel Verification Case}
+\endentry
+
 \entry{mm:fsielast}{article}{}
   \name{author}{3}{}{%
     {{}%
@@ -297,6 +497,68 @@
   \field{volume}{70}
   \field{journaltitle}{J. Appl. Mech.}
   \field{year}{2003}
+\endentry
+
+\entry{gmsh:untangling}{article}{}
+  \name{author}{4}{}{%
+    {{}%
+     {Toulorge}{T.}%
+     {T.}{T.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Geuzaine}{G.}%
+     {C.}{C.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Remacle}{R.}%
+     {J.-F.}{J.-F.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Lambrechts}{L.}%
+     {J.}{J.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{TT+1}
+  \strng{fullhash}{TTGCRJFLJ1}
+  \field{sortinit}{T}
+  \field{pages}{8\bibrangedash 26}
+  \field{title}{Robust untangling of curvilinear meshes}
+  \field{volume}{254}
+  \field{journaltitle}{Journal of Computational Physics}
+  \field{year}{2013}
+\endentry
+
+\entry{mm:dgrbf}{article}{}
+  \name{author}{3}{}{%
+    {{}%
+     {Wang}{W.}%
+     {Y.}{Y.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Qin}{Q.}%
+     {N.}{N.}%
+     {}{}%
+     {}{}}%
+    {{}%
+     {Zhao}{Z.}%
+     {N.}{N.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{WYQNZN1}
+  \strng{fullhash}{WYQNZN1}
+  \field{sortinit}{W}
+  \field{pages}{149\bibrangedash 172}
+  \field{title}{Delaunay graph and radial basis function for fast quality mesh
+  deformation}
+  \field{volume}{294}
+  \field{journaltitle}{J. Comput. Phys.}
+  \field{year}{2015}
 \endentry
 
 \entry{highorder}{article}{}
@@ -375,6 +637,25 @@
   \field{volume}{72}
   \field{journaltitle}{Intl. J. Numer. Meth. Fluids}
   \field{year}{2013}
+\endentry
+
+\entry{rbf:errorwendland}{article}{}
+  \name{author}{1}{}{%
+    {{}%
+     {Wendland}{W.}%
+     {H.}{H.}%
+     {}{}%
+     {}{}}%
+  }
+  \strng{namehash}{WH1}
+  \strng{fullhash}{WH1}
+  \field{sortinit}{W}
+  \field{pages}{258\bibrangedash 272}
+  \field{title}{Error estimates for interpolation by compactly supported radial
+  basis functions of minimal degree}
+  \field{volume}{93}
+  \field{journaltitle}{J. Approx. Theory}
+  \field{year}{1998}
 \endentry
 
 \lossort

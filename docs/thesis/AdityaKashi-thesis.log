@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.2.4)  21 APR 2016 17:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.2.4)  25 APR 2016 11:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -667,73 +667,85 @@ Chapter 1.
 
 
 
-]) [2]
+] <images/bassi-linear.png, id=43, 767.11594pt x 768.62157pt>
+File: images/bassi-linear.png Graphic file (type png)
+
+<use images/bassi-linear.png>
+Package pdftex.def Info: images/bassi-linear.png used on input line 22.
+(pdftex.def)             Requested size: 115.06242pt x 115.28825pt.
+
+<images/bassi-q2.png, id=44, 764.10469pt x 762.59906pt>
+File: images/bassi-q2.png Graphic file (type png)
+
+<use images/bassi-q2.png>
+Package pdftex.def Info: images/bassi-q2.png used on input line 25.
+(pdftex.def)             Requested size: 114.61075pt x 114.38492pt.
+ [2 <./images/bassi-linear.png> <./images/bassi-q2.png>]) [3]
 \openout2 = `Chapter-2/Chapter-2.aux'.
 
  (./Chapter-2/Chapter-2.tex
 Chapter 2.
-[3
+[4
 
 
 
-] <Chapter-2/figs/torsionspring.png, id=51, 740.7675pt x 375.4025pt>
-File: Chapter-2/figs/torsionspring.png Graphic file (type png)
+] <images/torsionspring.png, id=56, 740.7675pt x 375.4025pt>
+File: images/torsionspring.png Graphic file (type png)
 
-<use Chapter-2/figs/torsionspring.png>
-Package pdftex.def Info: Chapter-2/figs/torsionspring.png used on input line 32
-.
+<use images/torsionspring.png>
+Package pdftex.def Info: images/torsionspring.png used on input line 34.
 (pdftex.def)             Requested size: 185.19142pt x 93.85039pt.
- [4 <./Chapter-2/figs/torsionspring.png>] [5] [6] <images/dgm-mesh.png, id=69, 
-275.52937pt x 204.01219pt>
+ [5] [6 <./images/torsionspring.png>] [7]
+[8] <images/dgm-mesh.png, id=77, 275.52937pt x 204.01219pt>
 File: images/dgm-mesh.png Graphic file (type png)
 
 <use images/dgm-mesh.png>
-Package pdftex.def Info: images/dgm-mesh.png used on input line 114.
+Package pdftex.def Info: images/dgm-mesh.png used on input line 119.
 (pdftex.def)             Requested size: 68.88217pt x 51.00291pt.
 
-<images/dgm-dg.png, id=70, 341.77687pt x 336.50719pt>
+<images/dgm-dg.png, id=78, 341.77687pt x 336.50719pt>
 File: images/dgm-dg.png Graphic file (type png)
  <use images/dgm-dg.png>
-Package pdftex.def Info: images/dgm-dg.png used on input line 117.
-(pdftex.def)             Requested size: 68.35416pt x 67.30023pt.
+Package pdftex.def Info: images/dgm-dg.png used on input line 122.
+(pdftex.def)             Requested size: 92.28098pt x 90.85814pt.
 
-<images/dgm-moveddg.png, id=71, 255.95625pt x 249.18094pt>
+<images/dgm-moveddg.png, id=79, 255.95625pt x 249.18094pt>
 File: images/dgm-moveddg.png Graphic file (type png)
 
 <use images/dgm-moveddg.png>
-Package pdftex.def Info: images/dgm-moveddg.png used on input line 120.
-(pdftex.def)             Requested size: 63.98889pt x 62.29507pt.
+Package pdftex.def Info: images/dgm-moveddg.png used on input line 125.
+(pdftex.def)             Requested size: 76.78746pt x 74.75485pt.
 
-<images/dgm-movedmesh.png, id=72, 270.25969pt x 194.22563pt>
+<images/dgm-movedmesh.png, id=80, 270.25969pt x 194.22563pt>
 File: images/dgm-movedmesh.png Graphic file (type png)
 
 <use images/dgm-movedmesh.png>
-Package pdftex.def Info: images/dgm-movedmesh.png used on input line 123.
+Package pdftex.def Info: images/dgm-movedmesh.png used on input line 128.
 (pdftex.def)             Requested size: 67.56474pt x 48.55627pt.
- [7] [8 <./images/dgm-mesh.png> <./images/dgm-dg.png> <./images/dgm-moveddg.png
-> <./images/dgm-movedmesh.png>]
-Overfull \hbox (16.85701pt too wide) in paragraph at lines 174--174
+ [9 <./images/dgm-mesh.png> <./images/dgm-dg.png> <./images/dgm-moveddg.png> <.
+/images/dgm-movedmesh.png>]
+Overfull \hbox (16.85701pt too wide) in paragraph at lines 179--179
 []\OT1/cmr/bx/n/12 Interpolation us-ing ra-dial ba-sis func-tion on the De-lau-
 nay graph (DGRBF) 
  []
 
-[9] [10]) [11]
+[10] [11] [12]) [13]
 \openout2 = `Chapter-3/Chapter-3.aux'.
 
  (./Chapter-3/Chapter-3.tex
 Chapter 3.
-[12
+[14
 
 
 
-] [13] [14] <Chapter-3/figs/3-airfoil.pdf, id=99, 1485.55pt x 948.54375pt>
+] [15] [16] <Chapter-3/figs/3-airfoil.pdf, id=108, 1485.55pt x 948.54375pt>
 File: Chapter-3/figs/3-airfoil.pdf Graphic file (type pdf)
 
 <use Chapter-3/figs/3-airfoil.pdf>
 Package pdftex.def Info: Chapter-3/figs/3-airfoil.pdf used on input line 64.
 (pdftex.def)             Requested size: 415.95117pt x 265.59044pt.
 
-<Chapter-3/figs/dg-3airfoil-zoomed.pdf, id=100, 1485.55pt x 948.54375pt>
+<Chapter-3/figs/dg-3airfoil-zoomed.pdf, id=109, 1485.55pt x 948.54375pt>
 File: Chapter-3/figs/dg-3airfoil-zoomed.pdf Graphic file (type pdf)
 
 <use Chapter-3/figs/dg-3airfoil-zoomed.pdf>
@@ -741,7 +753,7 @@ Package pdftex.def Info: Chapter-3/figs/dg-3airfoil-zoomed.pdf used on input li
 ne 70.
 (pdftex.def)             Requested size: 297.10474pt x 189.70538pt.
 
-<Chapter-3/figs/mesh-3airfoil-zoomed.pdf, id=101, 1485.55pt x 948.54375pt>
+<Chapter-3/figs/mesh-3airfoil-zoomed.pdf, id=110, 1485.55pt x 948.54375pt>
 File: Chapter-3/figs/mesh-3airfoil-zoomed.pdf Graphic file (type pdf)
 
 <use Chapter-3/figs/mesh-3airfoil-zoomed.pdf>
@@ -749,29 +761,29 @@ Package pdftex.def Info: Chapter-3/figs/mesh-3airfoil-zoomed.pdf used on input
 line 76.
 (pdftex.def)             Requested size: 297.10474pt x 189.70538pt.
 
-<Chapter-3/figs/DG-curved-problem.pdf, id=102, 562.50153pt x 491.96913pt>
+<Chapter-3/figs/DG-curved-problem.pdf, id=111, 562.50153pt x 491.96913pt>
 File: Chapter-3/figs/DG-curved-problem.pdf Graphic file (type pdf)
 
 <use Chapter-3/figs/DG-curved-problem.pdf>
 Package pdftex.def Info: Chapter-3/figs/DG-curved-problem.pdf used on input lin
 e 84.
 (pdftex.def)             Requested size: 140.62503pt x 122.99197pt.
-) [15] [16 <./Chapter-3/figs/3-airfoil.pdf> <./Chapter-3/figs/dg-3airfoil-zoome
-d.pdf>] [17 <./Chapter-3/figs/mesh-3airfoil-zoomed.pdf> <./Chapter-3/figs/DG-cu
+) [17] [18 <./Chapter-3/figs/3-airfoil.pdf> <./Chapter-3/figs/dg-3airfoil-zoome
+d.pdf>] [19 <./Chapter-3/figs/mesh-3airfoil-zoomed.pdf> <./Chapter-3/figs/DG-cu
 rved-problem.pdf>]
 \openout2 = `Chapter-4/ch-results.aux'.
 
 
 (./Chapter-4/ch-results.tex
 Chapter 4.
-<images/3comp-inviscid.pdf, id=131, 1485.55pt x 948.54375pt>
+<images/3comp-inviscid.pdf, id=139, 1485.55pt x 948.54375pt>
 File: images/3comp-inviscid.pdf Graphic file (type pdf)
 
 <use images/3comp-inviscid.pdf>
 Package pdftex.def Info: images/3comp-inviscid.pdf used on input line 8.
 (pdftex.def)             Requested size: 371.3866pt x 237.13535pt.
 
-<images/wing60-farhat.pdf, id=132, 1485.55pt x 948.54375pt>
+<images/wing60-farhat.pdf, id=140, 1485.55pt x 948.54375pt>
 File: images/wing60-farhat.pdf Graphic file (type pdf)
 
 <use images/wing60-farhat.pdf>
@@ -781,7 +793,7 @@ Package pdftex.def Info: images/wing60-farhat.pdf used on input line 17.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/wing60-linelastp1.pdf, id=133, 1485.55pt x 948.54375pt>
+<images/wing60-linelastp1.pdf, id=141, 1485.55pt x 948.54375pt>
 File: images/wing60-linelastp1.pdf Graphic file (type pdf)
 
 <use images/wing60-linelastp1.pdf>
@@ -791,7 +803,7 @@ Package pdftex.def Info: images/wing60-linelastp1.pdf used on input line 26.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/wing60-linelastp1_zoomed.pdf, id=134, 1485.55pt x 948.54375pt>
+<images/wing60-linelastp1_zoomed.pdf, id=142, 1485.55pt x 948.54375pt>
 File: images/wing60-linelastp1_zoomed.pdf Graphic file (type pdf)
 
 <use images/wing60-linelastp1_zoomed.pdf>
@@ -802,7 +814,7 @@ Package pdftex.def Info: images/wing60-linelastp1_zoomed.pdf used on input line
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/wing60-linelastp1_zoomed2.pdf, id=135, 1485.55pt x 948.54375pt>
+<images/wing60-linelastp1_zoomed2.pdf, id=143, 1485.55pt x 948.54375pt>
 File: images/wing60-linelastp1_zoomed2.pdf Graphic file (type pdf)
 
 <use images/wing60-linelastp1_zoomed2.pdf>
@@ -813,7 +825,7 @@ e 38.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/wing60-dg-ms.pdf, id=136, 1485.55pt x 948.54375pt>
+<images/wing60-dg-ms.pdf, id=144, 1485.55pt x 948.54375pt>
 File: images/wing60-dg-ms.pdf Graphic file (type pdf)
 
 <use images/wing60-dg-ms.pdf>
@@ -823,7 +835,7 @@ Package pdftex.def Info: images/wing60-dg-ms.pdf used on input line 47.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/wing60-dg-ms_zoomed.pdf, id=137, 1485.55pt x 948.54375pt>
+<images/wing60-dg-ms_zoomed.pdf, id=145, 1485.55pt x 948.54375pt>
 File: images/wing60-dg-ms_zoomed.pdf Graphic file (type pdf)
 
 <use images/wing60-dg-ms_zoomed.pdf>
@@ -833,14 +845,14 @@ Package pdftex.def Info: images/wing60-dg-ms_zoomed.pdf used on input line 53.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/wing60-rbf-sr15-s3.pdf, id=138, 1485.55pt x 948.54375pt>
+<images/wing60-rbf-sr15-s3.pdf, id=146, 1485.55pt x 948.54375pt>
 File: images/wing60-rbf-sr15-s3.pdf Graphic file (type pdf)
 
 <use images/wing60-rbf-sr15-s3.pdf>
 Package pdftex.def Info: images/wing60-rbf-sr15-s3.pdf used on input line 62.
 (pdftex.def)             Requested size: 371.3866pt x 237.13535pt.
 
-<images/wing60-rbf-sr15-s3_zoomed.pdf, id=139, 1485.55pt x 948.54375pt>
+<images/wing60-rbf-sr15-s3_zoomed.pdf, id=147, 1485.55pt x 948.54375pt>
 File: images/wing60-rbf-sr15-s3_zoomed.pdf Graphic file (type pdf)
 
 <use images/wing60-rbf-sr15-s3_zoomed.pdf>
@@ -848,44 +860,44 @@ Package pdftex.def Info: images/wing60-rbf-sr15-s3_zoomed.pdf used on input lin
 e 68.
 (pdftex.def)             Requested size: 371.3866pt x 237.13535pt.
 
-<images/wing60-rbf-sr15-s3_zoomed2.pdf, id=140, 1485.55pt x 948.54375pt>
+<images/wing60-rbf-sr15-s3_zoomed2.pdf, id=148, 1485.55pt x 948.54375pt>
 File: images/wing60-rbf-sr15-s3_zoomed2.pdf Graphic file (type pdf)
 
 <use images/wing60-rbf-sr15-s3_zoomed2.pdf>
 Package pdftex.def Info: images/wing60-rbf-sr15-s3_zoomed2.pdf used on input li
 ne 74.
 (pdftex.def)             Requested size: 371.3866pt x 237.13535pt.
- [18
+ [20
 
 
 
-] [19 <./images/3comp-inviscid.pdf> <./images/wing60-farhat.pdf>] [20 <./images
-/wing60-linelastp1.pdf> <./images/wing60-linelastp1_zoomed.pdf>] [21 <./images/
-wing60-linelastp1_zoomed2.pdf> <./images/wing60-dg-ms.pdf>] [22 <./images/wing6
-0-dg-ms_zoomed.pdf> <./images/wing60-rbf-sr15-s3.pdf>] [23 <./images/wing60-rbf
+] [21 <./images/3comp-inviscid.pdf> <./images/wing60-farhat.pdf>] [22 <./images
+/wing60-linelastp1.pdf> <./images/wing60-linelastp1_zoomed.pdf>] [23 <./images/
+wing60-linelastp1_zoomed2.pdf> <./images/wing60-dg-ms.pdf>] [24 <./images/wing6
+0-dg-ms_zoomed.pdf> <./images/wing60-rbf-sr15-s3.pdf>] [25 <./images/wing60-rbf
 -sr15-s3_zoomed.pdf> <./images/wing60-rbf-sr15-s3_zoomed2.pdf>]
-<images/qin-orig-mesh.pdf, id=211, 1337.99875pt x 780.9175pt>
+<images/qin-orig-mesh.pdf, id=219, 1337.99875pt x 780.9175pt>
 File: images/qin-orig-mesh.pdf Graphic file (type pdf)
 
 <use images/qin-orig-mesh.pdf>
 Package pdftex.def Info: images/qin-orig-mesh.pdf used on input line 85.
 (pdftex.def)             Requested size: 334.49887pt x 195.2289pt.
 
-<images/qin-60-dgm-quality.pdf, id=212, 1337.99875pt x 780.9175pt>
+<images/qin-60-dgm-quality.pdf, id=220, 1337.99875pt x 780.9175pt>
 File: images/qin-60-dgm-quality.pdf Graphic file (type pdf)
 
 <use images/qin-60-dgm-quality.pdf>
 Package pdftex.def Info: images/qin-60-dgm-quality.pdf used on input line 92.
 (pdftex.def)             Requested size: 334.49887pt x 195.2289pt.
 
-<images/qin-60-rbf-quality.pdf, id=213, 1337.99875pt x 780.9175pt>
+<images/qin-60-rbf-quality.pdf, id=221, 1337.99875pt x 780.9175pt>
 File: images/qin-60-rbf-quality.pdf Graphic file (type pdf)
 
 <use images/qin-60-rbf-quality.pdf>
 Package pdftex.def Info: images/qin-60-rbf-quality.pdf used on input line 99.
 (pdftex.def)             Requested size: 334.49887pt x 195.2289pt.
 
-<images/qin-60-dgrbf2-quality.pdf, id=214, 1337.99875pt x 780.9175pt>
+<images/qin-60-dgrbf2-quality.pdf, id=222, 1337.99875pt x 780.9175pt>
 File: images/qin-60-dgrbf2-quality.pdf Graphic file (type pdf)
 
 <use images/qin-60-dgrbf2-quality.pdf>
@@ -893,26 +905,26 @@ Package pdftex.def Info: images/qin-60-dgrbf2-quality.pdf used on input line 10
 6.
 (pdftex.def)             Requested size: 334.49887pt x 195.2289pt.
 
-<images/qin-120-quality-withmesh.pdf, id=215, 1337.99875pt x 780.9175pt>
+<images/qin-120-quality-withmesh.pdf, id=223, 1337.99875pt x 780.9175pt>
 File: images/qin-120-quality-withmesh.pdf Graphic file (type pdf)
 
 <use images/qin-120-quality-withmesh.pdf>
 Package pdftex.def Info: images/qin-120-quality-withmesh.pdf used on input line
  128.
 (pdftex.def)             Requested size: 334.49887pt x 195.2289pt.
- [24
+ [26
 
-] [25 <./images/qin-orig-mesh.pdf> <./images/qin-60-dgm-quality.pdf>] [26 <./im
-ages/qin-60-rbf-quality.pdf> <./images/qin-60-dgrbf2-quality.pdf>] [27 <./image
+] [27 <./images/qin-orig-mesh.pdf> <./images/qin-60-dgm-quality.pdf>] [28 <./im
+ages/qin-60-rbf-quality.pdf> <./images/qin-60-dgrbf2-quality.pdf>] [29 <./image
 s/qin-120-quality-withmesh.pdf>]
-<images/3compblack.png, id=255, 1188.44pt x 776.08125pt>
+<images/3compblack.png, id=263, 1188.44pt x 776.08125pt>
 File: images/3compblack.png Graphic file (type png)
 
 <use images/3compblack.png>
 Package pdftex.def Info: images/3compblack.png used on input line 150.
 (pdftex.def)             Requested size: 300.0pt x 195.90271pt.
 
-<images/3comp-elast-vzoomedblk.pdf, id=256, 1485.55pt x 948.54375pt>
+<images/3comp-elast-vzoomedblk.pdf, id=264, 1485.55pt x 948.54375pt>
 File: images/3comp-elast-vzoomedblk.pdf Graphic file (type pdf)
 
 <use images/3comp-elast-vzoomedblk.pdf>
@@ -920,7 +932,7 @@ Package pdftex.def Info: images/3comp-elast-vzoomedblk.pdf used on input line 1
 70.
 (pdftex.def)             Requested size: 200.0pt x 127.70052pt.
 
-<images/3comp-rbf-vzoomedblk.pdf, id=257, 1485.55pt x 948.54375pt>
+<images/3comp-rbf-vzoomedblk.pdf, id=265, 1485.55pt x 948.54375pt>
 File: images/3comp-rbf-vzoomedblk.pdf Graphic file (type pdf)
 
 <use images/3comp-rbf-vzoomedblk.pdf>
@@ -928,17 +940,17 @@ Package pdftex.def Info: images/3comp-rbf-vzoomedblk.pdf used on input line 173
 .
 (pdftex.def)             Requested size: 200.0pt x 127.70052pt.
 
-<images/3comp-rbf-zoomed-jacobians2.png, id=258, 842.14626pt x 504.88625pt>
+<images/3comp-rbf-zoomed-jacobians2.png, id=266, 842.14626pt x 504.88625pt>
 File: images/3comp-rbf-zoomed-jacobians2.png Graphic file (type png)
 
 <use images/3comp-rbf-zoomed-jacobians2.png>
 Package pdftex.def Info: images/3comp-rbf-zoomed-jacobians2.png used on input l
 ine 182.
 (pdftex.def)             Requested size: 421.0721pt x 252.44249pt.
- [28 <./images/3compblack.png>]
-[29 <./images/3comp-elast-vzoomedblk.pdf> <./images/3comp-rbf-vzoomedblk.pdf> <
+ [30 <./images/3compblack.png>]
+[31 <./images/3comp-elast-vzoomedblk.pdf> <./images/3comp-rbf-vzoomedblk.pdf> <
 ./images/3comp-rbf-zoomed-jacobians2.png (PNG copy)>]
-<images/3comp-stiffelast-zoomed.pdf, id=276, 1485.55pt x 948.54375pt>
+<images/3comp-stiffelast-zoomed.pdf, id=284, 1485.55pt x 948.54375pt>
 File: images/3comp-stiffelast-zoomed.pdf Graphic file (type pdf)
 
 <use images/3comp-stiffelast-zoomed.pdf>
@@ -950,15 +962,15 @@ Overfull \hbox (3.9911pt too wide) in paragraph at lines 199--212
 [][] 
  []
 
-[30 <./images/3comp-stiffelast-zoomed.pdf>]
-<images/bump3d-vcoarse2.pdf, id=291, 1445.68231pt x 141.27782pt>
+[32 <./images/3comp-stiffelast-zoomed.pdf>]
+<images/bump3d-vcoarse2.pdf, id=299, 1445.68231pt x 141.27782pt>
 File: images/bump3d-vcoarse2.pdf Graphic file (type pdf)
 
 <use images/bump3d-vcoarse2.pdf>
 Package pdftex.def Info: images/bump3d-vcoarse2.pdf used on input line 241.
 (pdftex.def)             Requested size: 433.70804pt x 42.38365pt.
 
-<images/bump3d-vcoarse-quality.pdf, id=292, 1485.55pt x 948.54375pt>
+<images/bump3d-vcoarse-quality.pdf, id=300, 1485.55pt x 948.54375pt>
 File: images/bump3d-vcoarse-quality.pdf Graphic file (type pdf)
 
 <use images/bump3d-vcoarse-quality.pdf>
@@ -966,43 +978,43 @@ Package pdftex.def Info: images/bump3d-vcoarse-quality.pdf used on input line 2
 48.
 (pdftex.def)             Requested size: 742.7732pt x 474.2707pt.
 
-<images/bump3d-medium-quality.pdf, id=293, 1485.55pt x 948.54375pt>
+<images/bump3d-medium-quality.pdf, id=301, 1485.55pt x 948.54375pt>
 File: images/bump3d-medium-quality.pdf Graphic file (type pdf)
 
 <use images/bump3d-medium-quality.pdf>
 Package pdftex.def Info: images/bump3d-medium-quality.pdf used on input line 25
 4.
 (pdftex.def)             Requested size: 742.7732pt x 474.2707pt.
- [31] [32 <./images/bump3d-vcoarse2.pdf> <./images/bump3d-vcoarse-quality.pdf>]
+ [33] [34 <./images/bump3d-vcoarse2.pdf> <./images/bump3d-vcoarse-quality.pdf>]
 
-<images/solver-convergence.pdf, id=374, 870.85347pt x 619.71527pt>
+<images/solver-convergence.pdf, id=383, 870.85347pt x 619.71527pt>
 File: images/solver-convergence.pdf Graphic file (type pdf)
 
 <use images/solver-convergence.pdf>
 Package pdftex.def Info: images/solver-convergence.pdf used on input line 264.
 (pdftex.def)             Requested size: 435.42566pt x 309.85687pt.
 
-<images/cd_grid_conv.pdf, id=375, 749.80125pt x 562.80264pt>
+<images/cd_grid_conv.pdf, id=384, 749.80125pt x 562.80264pt>
 File: images/cd_grid_conv.pdf Graphic file (type pdf)
 
 <use images/cd_grid_conv.pdf>
 Package pdftex.def Info: images/cd_grid_conv.pdf used on input line 271.
 (pdftex.def)             Requested size: 374.8997pt x 281.40063pt.
-) [33 <./images/bump3d-medium-quality.pdf>]
-[34 <./images/solver-convergence.pdf>] [35 <./images/cd_grid_conv.pdf>]
+) [35 <./images/bump3d-medium-quality.pdf>]
+[36 <./images/solver-convergence.pdf>] [37 <./images/cd_grid_conv.pdf>]
 \openout2 = `Chapter-5/ch-conclusion.aux'.
 
 
 (./Chapter-5/ch-conclusion.tex
 Chapter 5.
-[36
+[38
 
 
 
-]) [37] (./AdityaKashi-thesis.bbl [38
+]) [39] (./AdityaKashi-thesis.bbl [40
 
 
-] [39] [40]) [41] [42
+] [41] [42]) [43] [44
 
 ]
 \openout2 = `Appendix-A/Appendix-A.aux'.
@@ -1016,26 +1028,26 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 11.
- [43
+ [45
 
 
 
-] [44] [45]
+] [46] [47]
 Appendix B.
-[46
+[48
 
-]) [47] (./AdityaKashi-thesis.aux (./front.aux) (./Chapter-1/Chapter-1.aux)
+]) [49] (./AdityaKashi-thesis.aux (./front.aux) (./Chapter-1/Chapter-1.aux)
 (./Chapter-2/Chapter-2.aux) (./Chapter-3/Chapter-3.aux)
 (./Chapter-4/ch-results.aux) (./Chapter-5/ch-conclusion.aux)
 (./Appendix-A/Appendix-A.aux)) ) 
 Here is how much of TeX's memory you used:
- 7921 strings out of 493315
- 115564 string characters out of 6145894
- 376990 words of memory out of 5000000
- 11106 multiletter control sequences out of 15000+600000
+ 7935 strings out of 493315
+ 115816 string characters out of 6145894
+ 376014 words of memory out of 5000000
+ 11118 multiletter control sequences out of 15000+600000
  14687 words of font info for 53 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 43i,11n,45p,1874b,1433s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 43i,11n,45p,1576b,1433s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/cm-super/cm-s
 uper-ts1.enc}</usr/share/texmf/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/
 share/texmf/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf/fonts/t
@@ -1051,10 +1063,10 @@ type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/amsfonts
 type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/symbols/msbm10.pf
 b></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on AdityaKashi-thesis.pdf (57 pages, 11511523 bytes).
+Output written on AdityaKashi-thesis.pdf (59 pages, 11572008 bytes).
 PDF statistics:
- 1234 PDF objects out of 1440 (max. 8388607)
- 312 compressed objects within 4 object streams
+ 1242 PDF objects out of 1440 (max. 8388607)
+ 316 compressed objects within 4 object streams
  0 named destinations out of 1000 (max. 500000)
- 171 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 181 words of extra memory for PDF output out of 10000 (max. 10000000)
 

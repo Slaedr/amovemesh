@@ -104,9 +104,6 @@
  \begin{itemize}
  	\item A Delaunay triangulation is constructed from the boundary points of the mesh. This triangulation is referred to as the Delaunay graph.
  	\item Each internal mesh point is located in the Delaunay graph, and its barycentric coordinates are calculated with respect to the Delaunay element it lies in.
- 	\begin{equation}
- 	content...
- 	\end{equation}
  	\item Using the prescribed boundary displacements, the Delaunay graph is moved.
  	\item Using the calculated barycentric coordinates, the interior mesh points are mapped back to the deformed Delaunay elements keeping the barycentric coordinates constant, thus moving the mesh.
  \end{itemize}
@@ -118,10 +115,10 @@
  		\includegraphics[scale=0.25]{dgm-mesh}
  	}
  	\subfloat{
- 		\includegraphics[scale=0.2]{dgm-dg}
+ 		\includegraphics[scale=0.27]{dgm-dg}
  	}
  	\subfloat{
- 		\includegraphics[scale=0.25]{dgm-moveddg}
+ 		\includegraphics[scale=0.3]{dgm-moveddg}
  	}
  	\subfloat{
  		\includegraphics[scale=0.25]{dgm-movedmesh}
@@ -210,6 +207,17 @@
  In order to judge the effectiveness of mesh-movement methods, we need to measure the quality of the deformed mesh. Some mesh quality measures have been derived for linear 2D and 3D elements by Knupp \cite{qualknupp}. These include the relative size, shape and size-shape metrics for triangles and tetrahedra, and size, shape, skew, size-shape and size-skew metrics for quadrangles and hexahedra.
  
  The size metric distinguishes elements having very small or very large volume with respect to some reference volume. The shape metric identifies elements that have unequal edges or unequal angles between edges; it is independent of size of the element. Finally, the skew metric is a measure of unequal angles between edges of the element only, irrespective of lengths of edges and volume of element. The skew metric is different from shape in case of non-simplicial (like quadrangular and hexahedral) elements. While dealing with quadrilaterals, we use the skew metric. This is because for boundary layer meshes, cells with high aspect-ratios are desired, but they have poor shape metric. For triangular meshes, cells with high aspect-ratio must have very unequal interior angles too, leaving no difference between shape and skew.
+ 
+ For example, the shape quality is given by Knupp as
+ \begin{align}
+ f &= \frac{\sqrt{3}r\sin\theta}{1-r\cos\theta+r^2} \text{ for triangles} \\
+ f &= \frac{8}{\sum_0^3(1+r_k^2)/(r_k\sin\theta_k)} \text{ for quads.}
+ \end{align}
+ and the skew quality for quadrilaterals as
+ \begin{equation}
+ f = \frac{4}{\sum_0^3 1/\sin\theta_k},
+ \end{equation}
+ where $r_k$ is the ratio of consecutive edge lengths and $\theta_k$ is the angle made by intersecting edges at node $k$. Metrics for tetrahedra and hexahedra are defined similarly; details can be found in \cite{qualknupp}.
  
  All metrics are normalized so that they are 1.0 for ideal elements with regard to the characteristic they measure, and they are 0.0 for degenerate elements. 
  

@@ -18,44 +18,44 @@ Database file #2: AdityaKashi-MSdefense.bib
 Biblatex version: 2.7
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 9000 items from 6000.
-You've used 13 entries,
+You've used 24 entries,
             6022 wiz_defined-function locations,
-            1201 strings with 10148 characters,
-and the built_in function-call counts, 39548 in all, are:
-= -- 1280
-> -- 1486
-< -- 333
-+ -- 464
-- -- 615
-* -- 3466
-:= -- 2645
+            1261 strings with 11969 characters,
+and the built_in function-call counts, 74057 in all, are:
+= -- 2517
+> -- 2749
+< -- 676
++ -- 845
+- -- 1100
+* -- 6240
+:= -- 4682
 add.period$ -- 0
-call.type$ -- 13
-change.case$ -- 119
+call.type$ -- 24
+change.case$ -- 271
 chr.to.int$ -- 34
-cite$ -- 24
-duplicate$ -- 4373
-empty$ -- 4070
-format.name$ -- 1008
-if$ -- 8846
+cite$ -- 46
+duplicate$ -- 8271
+empty$ -- 7653
+format.name$ -- 1819
+if$ -- 16729
 int.to.chr$ -- 0
-int.to.str$ -- 24
+int.to.str$ -- 47
 missing$ -- 0
-newline$ -- 373
-num.names$ -- 492
-pop$ -- 3916
+newline$ -- 646
+num.names$ -- 992
+pop$ -- 7453
 preamble$ -- 1
-purify$ -- 170
+purify$ -- 359
 quote$ -- 0
-skip$ -- 2289
+skip$ -- 4373
 stack$ -- 0
-substring$ -- 529
-swap$ -- 1488
-text.length$ -- 375
-text.prefix$ -- 12
+substring$ -- 1076
+swap$ -- 2769
+text.length$ -- 688
+text.prefix$ -- 23
 top$ -- 1
-type$ -- 481
+type$ -- 899
 warning$ -- 0
-while$ -- 262
+while$ -- 453
 width$ -- 0
-write$ -- 359
+write$ -- 621
