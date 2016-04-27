@@ -90,6 +90,18 @@
   \item According to Wang, Fidkowski \emph{et. al.} \footfullcite{highorder}, spatially high-order methods perform better than prevailing second order methods for some kinds of simulations considering CPU time taken to achieve a given error level.
   \item One area of challenge they mention is generation of high-order meshes.
 \end{itemize}
+\begin{figure}
+		\centering
+		\subfloat{
+			\includegraphics[scale=0.07]{tri_ideal}
+		}
+		\hspace{0.2in}
+		\subfloat{
+			\includegraphics[scale=0.2]{tri_curved}
+		}
+		\caption{Regular linear triangle (left) and high-order curved `triangle' (right)}
+		\label{fig:curvedelement}
+\end{figure}
 \end{frame}
 
 \begin{frame}{The need for curved meshes}
@@ -213,22 +225,9 @@ The stiffness of the torsional springs at a node in an element is inversely rela
 	\end{itemize}
 \end{frame}
 
-\begin{frame}{Nonlinear elasticity}
-Claimed to be a highly robust method for mesh movement by Persson and Peraire \footfullcite{curve:persson}. 
-
-The constitutive equation \eqref{linelast:constt} and strain-displacement relation \eqref{linelast:strain} are replaced by the `neo-Hookean' constitutive model
-\begin{equation}
-\bld{\sigma} = \mu ((\boldsymbol{F}^T\bld{F})\bld{F}^{-T} - \bld{F}^{-T}) + \lambda(\ln \det\bld{F})\bld{F}^{-T}
-\end{equation}
-
-Here, $\bld{F} = \frac{\partial\bld{x}}{\partial\bld{\xi}}$, $\bld{x}$ is the physical position vector of a point with coordinate $\bld{\xi}$ in the reference configuration. 
-
-The system is solved using Newton-GMRES iterations.
-\end{frame}
-
 \begin{frame}{Elasticity-based methods}
 \begin{itemize}
-	\item Advantages: stiffened linear elasticity is found to be robust, and nonlinear elasticity is claimed to be very robust.
+	\item Advantages: stiffened linear elasticity is found to be robust
 	\item Disadvantage: expensive!
 	\item Also, implementation is dependent on element type and spatial dimension.
 \end{itemize}
@@ -292,23 +291,6 @@ $r_s$ is a real number called the `support radius'.
 	\item Positive definite - systems can (usually) be solved quickly
 	\item $C^2$ - smooth mesh movement
 \end{itemize}
-\end{frame}
-
-\begin{frame}{RBF interpolation}
-Catch: The condition number of the left hand side scales as
-\begin{equation}
-\begin{aligned}
-\text{cond}_2 (\bld{A}) &= \mathcal{O}(q^{-5}) \quad \text{in 2D, and} \\
-\text{cond}_2 (\bld{A}) &= \mathcal{O}(q^{-6}) \quad \text{in 3D}
-\end{aligned}
-\end{equation}
-where
-\begin{equation}
-q := \min_{i\neq j} \lVert \bld{x}_{bi} - \bld{x}_{bj} \rVert_2
-\end{equation}
-is the minimum distance between any two boundary nodes.
-
-Iterative solvers do not always work! Sparse direct solvers are found to be a robust option.
 \end{frame}
 
 \begin{frame}{RBF interpolation on a Delaunay Graph (DGRBF)}
@@ -790,5 +772,21 @@ Results obtained for the RBF mesh are compared with those obtained from another 
 
 \printbibliography
 
+\begin{frame}{RBF interpolation}
+	Catch: The condition number of the left hand side scales as
+	\begin{equation}
+	\begin{aligned}
+	\text{cond}_2 (\bld{A}) &= \mathcal{O}(q^{-5}) \quad \text{in 2D, and} \\
+	\text{cond}_2 (\bld{A}) &= \mathcal{O}(q^{-6}) \quad \text{in 3D}
+	\end{aligned}
+	\end{equation}
+	where
+	\begin{equation}
+	q := \min_{i\neq j} \lVert \bld{x}_{bi} - \bld{x}_{bj} \rVert_2
+	\end{equation}
+	is the minimum distance between any two boundary nodes.
+	
+	Iterative solvers do not always work! Sparse direct solvers are found to be a robust option.
+\end{frame}
 
 \end{document}
