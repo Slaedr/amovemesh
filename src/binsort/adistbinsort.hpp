@@ -20,12 +20,14 @@
 #include <vector>
 #endif
 
+namespace amc {
+
 /// Sorts a set of points into bins such that each bin contains points close to each other
 template<int _ndim> class DistBinSort
 {
 	amc_int npoin;								///< total number of points
 	const amat::Matrix<amc_real>* pointlist;	///< List of unsorted points
-	const amat::Matrix<amc_real>* sortedlist;	///< List of sorted points
+	amat::Matrix<amc_real>* sortedlist;			///< List of sorted points
 	const int* ndbins;							///< number of bins in each direction
 	int nbins;									///< Total number of bins
 	std::vector<std::vector<amc_real>> rbin;	///< coordinates of bin-divisions; contains an array of numbers for each coordinate direction
@@ -51,4 +53,5 @@ public:
 	{ return invbmap[index]; }
 };
 
+}
 #endif

@@ -1,7 +1,9 @@
 #include <adistbinsort.hpp>
 
+namespace amc {
+
 template<int _ndim>
-inline int DistBinSort::binfunc(const int* r) const
+inline int DistBinSort<_ndim>::binfunc(const int* r) const
 {
 	if(_ndim == 1) return r[0];
 	else if(_ndim == 2)
@@ -44,12 +46,12 @@ inline int DistBinSort::binfunc(const int* r) const
 	}
 }
 
-template int DistBinSort::binfunc<2>(const int* r) const;
-template int DistBinSort::binfunc<3>(const int* r) const;
+template int DistBinSort<2>::binfunc(const int* r) const;
+template int DistBinSort<3>::binfunc(const int* r) const;
 
 template<int _ndim>
-DistBinSort::DistBinSort(const amat::Matrix<amc_real>* const point_list, const int* num_bins, amat::Matrix<amc_real>* const sorted_list) 
-	: pointlist(point_list), ndbins(num_dir_bins), sortedlist(sorted_list),  epsilon(1e-10)
+DistBinSort<_ndim>::DistBinSort(const amat::Matrix<amc_real>* const point_list, const int* num_bins, amat::Matrix<amc_real>* const sorted_list) 
+	: pointlist(point_list), ndbins(num_bins), sortedlist(sorted_list),  epsilon(1e-10)
 {
 	int idim, ibin;
 	amc_int ipoin;
@@ -156,7 +158,7 @@ DistBinSort::DistBinSort(const amat::Matrix<amc_real>* const point_list, const i
 		}
 
 		// get global bin number from the dimensional bin numbers
-		curbin = binfunc<_ndim>(binloc);
+		curbin = binfunc(binloc);
 		std::cout << "DistBinSort: Point " << ipoin << " is located in bin " << curbin << std::endl;
 		ptrs[curbin].push_back(ipoin);
 	}
@@ -167,7 +169,7 @@ DistBinSort::DistBinSort(const amat::Matrix<amc_real>* const point_list, const i
 		for(i = 0; i < ptrs[ibin].size(); i++)
 		{
 			for(idim = 0; idim < _ndim; idim++)
-				(*sortedList)(k,idim) = pointList->get(ptrs[ibin][i],idim);
+				(*sortedlist)(k,idim) = pointlist->get(ptrs[ibin][i],idim);
 			k++;
 			
 			// update bin map and inverse bin map
@@ -177,5 +179,7 @@ DistBinSort::DistBinSort(const amat::Matrix<amc_real>* const point_list, const i
 	}
 }
 
-DistBinSort::DistBinSort<2>(const amat::Matrix<amc_real>* point_list const, const int* num_bins, amat::Matrix<amc_real>* sorted_list const);
-DistBinSort::DistBinSort<3>(const amat::Matrix<amc_real>* point_list const, const int* num_bins, amat::Matrix<amc_real>* sorted_list const);
+template DistBinSort<2>::DistBinSort(const amat::Matrix<amc_real>* const point_list, const int* num_bins, amat::Matrix<amc_real>* const sorted_list);
+template DistBinSort<3>::DistBinSort(const amat::Matrix<amc_real>* const point_list, const int* num_bins, amat::Matrix<amc_real>* const sorted_list);
+
+} // end namespace

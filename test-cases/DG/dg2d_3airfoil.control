@@ -1,0 +1,8 @@
+-input-file
+../../input/30P30N_3airfoil_tri.msh
+-output-file
+../../output/DG/30P30N_3airfoil_dg.msh
+-number-of-bins-in-x-dir
+8
+-number-of-binsin-y-dir
+5

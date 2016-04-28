@@ -85,3 +85,21 @@ One way of improving this situation has been described in section \ref{sec:hybri
 	\caption{Schematic diagram to show a possible Delaunay graph (dashed lines) and mesh (solid lines) near a boundary; circles represent regular boundary nodes; squares represent high-order boundary nodes}
 	\label{fig:dg-curved-problem}
 \end{figure}
+
+\FloatBarrier
+\section{Curved mesh validity and quality}
+\label{sec:curvedquality}
+ The validity and quality of the generated mesh is established by computing the minimum scaled Jacobian determinant for each element. If the minimum value of the Jacobian determinant is zero or negative, the element is considered invalid. This is done as a post-processing step using the plugin `AnalyseCurvedMesh' available in Gmsh \cite{gmsh}. The quantity computed by this plugin is given as
+ \begin{equation} 
+ m_i = \frac{\inf_{\mathbf{x}\in\Omega_i}\det \mathbf{J}(\mathbf{x})}{\det \mathbf{J_l}_i},
+ \end{equation}
+ where $\mathbf{J}$ is the Jacobian matrix of the transformation of a reference element to the curved physical element, and $\mathbf{J_l}$ is the Jacobian of the transformation of the reference element to the linear (straight) physical element. $\Omega_i$ represents the \emph{i}th element.
+ 
+ \begin{figure}[h!]
+ 	\centering
+ 	\includegraphics[scale=0.5]{mappings}
+ 	\caption{Mappings: from reference to linear element $\bld{x}(\bld{\xi})$, from linear to curved element $\bld{X}(\bld{x})$, and from reference to curved element $\bld{X}(\bld{\xi})$; referred from \cite{curve:validity}}
+ 	\label{fig:mappings}
+ \end{figure}
+ 
+ So $m_i$ essentially measures the minimum Jacobian of the transformation from the original linear element to the cuved element generated ($\bld{X}(\bld{x})$ in figure \ref{fig:mappings}). In the results, we refer to $m_i$, the minimum scaled Jacobian, as the curved element quality; `minimum mesh quality' refers to the minimum value of this quality over all elements, and `average mesh quality' refers to the simple average of the quality over all elements.

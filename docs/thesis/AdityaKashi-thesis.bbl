@@ -119,6 +119,11 @@ X.~Jiao and D.~Wang.
 \newblock Reconstructing high-order surfaces for meshing.
 \newblock {\em Engineering with computers}, 28:361--373, 2012.
 
+\bibitem{curve:validity}
+A.~Johnen, J.-F. Remacle, and C.~Geuzaine.
+\newblock Geometrical validity of curvilinear finite elements.
+\newblock {\em Journal of Computational Physics}, 233:359--372, 2013.
+
 \bibitem{qualknupp}
 P.M. Knupp.
 \newblock Algebraic mesh quality measures for unstructured initial meshes.

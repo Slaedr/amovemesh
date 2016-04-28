@@ -19,11 +19,12 @@
 \contentsline {section}{\numberline {3.2}Spline reconstruction for boundaries of 2D meshes}{15}
 \contentsline {section}{\numberline {3.3}Interior mesh movement}{16}
 \contentsline {subsection}{\numberline {3.3.1}Unsuitability of DG-based methods for curved mesh generation}{17}
-\contentsline {chapter}{\numberline {4}Results}{20}
-\contentsline {section}{\numberline {4.1}Mesh movement}{20}
-\contentsline {section}{\numberline {4.2}Generation of curved meshes}{29}
+\contentsline {section}{\numberline {3.4}Curved mesh validity and quality}{20}
+\contentsline {chapter}{\numberline {4}Results}{21}
+\contentsline {section}{\numberline {4.1}Mesh movement}{21}
+\contentsline {section}{\numberline {4.2}Generation of curved meshes}{30}
 \contentsline {subsection}{\numberline {4.2.1}2D Viscous Flow Mesh of Multi-element airfoil}{30}
-\contentsline {subsection}{\numberline {4.2.2}3D Viscous Flow Mesh for 3D Bump}{33}
+\contentsline {subsection}{\numberline {4.2.2}Viscous Flow Mesh for 3D Bump}{34}
 \contentsline {chapter}{\numberline {5}Conclusions and Future Work}{38}
 \contentsline {chapter}{References}{40}
 \contentsline {chapter}{Appendices}{44}

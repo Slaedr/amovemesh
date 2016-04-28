@@ -96,7 +96,7 @@ public:
 		//nelem = 0;
 		points = *_points;
 		npoints = _points->rows();
-		nodes.reserve(num_points+3);
+		nodes.reserve(npoints+3);
 	}
 
 	Delaunay2D(const Delaunay2D& other)
@@ -138,7 +138,7 @@ public:
 		faces.reserve(cap);
 		points = *_points;
 		npoints = _points->rows();
-		nodes.reserve(num_points+3);
+		nodes.reserve(npoints+3);
 	}
 
 	/** Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
@@ -257,7 +257,11 @@ public:
 
 			/// First, find the element containing the new point
 			int contelem = find_containing_triangle(points(ipoin,0),points(ipoin,1),0);
-			//std::cout << "Delaunay2D:  Containing element is " << contelem << std::endl;
+
+#if DEBUG==1
+			if(ipoin % 20 == 0)
+				std::cout << "Delaunay2D:  Point " << ipoin << ", Containing element is " << contelem << std::endl;
+#endif
 
 			/// Second, search among neighbors for other triangles whose circumcircles contain this point
 			//std::cout << "Delaunay2D:  Second, search among neighbors for other triangles whose circumcircles contain this point\n";
@@ -655,7 +659,7 @@ public:
 		bool flagj = false;
 		for(int i = 0; i < elems.size(); i++)
 		{
-			if(jacobians(i,0) < 1e-15) {
+			if(jacobians(i,0) < ZERO_TOL) {
 				//out << i << " " << jacobians(i,0) << '\n';
 				flagj = true;
 			}

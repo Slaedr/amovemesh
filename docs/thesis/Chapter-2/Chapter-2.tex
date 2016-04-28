@@ -163,8 +163,8 @@
  \begin{equation}
  \phi(x) = 
  \begin{cases}
- \left(1-\frac{x}{r_s}\right)^4\left(4\frac{x}{r_s} + 1\right) & x < r_s \\
- 0 & x \geq r_s
+ \left(1-\frac{x}{r_s}\right)^4\left(4\frac{x}{r_s} + 1\right) & x \leq r_s \\
+ 0 & x > r_s
  \end{cases}
  \end{equation}
  where $r_s$ is a real number called the `support radius'. This modified function has a compact support. In light of this, we see the matrix $\mathbf{A}$ is sparse if the support radius is less than the characteristic dimension of the domain. For curved mesh generation, this support radius can be kept quite small relative to the whole domain, giving us a very sparse linear system which is solved quite fast. Wendland's C2 function is claimed to be positive definite \cite{rbf:errorwendland} for 2D and 3D problems. This means that the RBF interpolation matrix must be positive definite, and must therefore be solvable quickly by conjugate gradient or Cholesky decomposition methods.
@@ -220,4 +220,37 @@
  where $r_k$ is the ratio of consecutive edge lengths and $\theta_k$ is the angle made by intersecting edges at node $k$. Metrics for tetrahedra and hexahedra are defined similarly; details can be found in \cite{qualknupp}.
  
  All metrics are normalized so that they are 1.0 for ideal elements with regard to the characteristic they measure, and they are 0.0 for degenerate elements. 
+ 
+ \begin{figure}
+ 	\centering
+ 	\subfloat{
+ 		\includegraphics[scale=0.12]{tri_ideal}
+ 	}
+ 	\hspace{0.2in}
+ 	\subfloat{
+ 		\includegraphics[scale=0.15]{tri_bad}
+ 	}
+ 	\hspace{0.2in}
+ 	\subfloat{
+ 		\includegraphics[scale=0.25]{quad_quality}
+ 	}
+ 	\caption{Cell shape quality. From left to right: triangle with good shape, triangle with bad shape, quadrilateral with good shape, quadrilateral with bad shape and another quadrilateral with bad shape}
+ 	\label{fig:shape}
+ \end{figure}
+ \begin{figure}
+ 	\centering
+ 	\subfloat{
+ 		\includegraphics[scale=0.12]{tri_ideal}
+ 	}
+ 	\hspace{0.2in}
+ 	\subfloat{
+ 		\includegraphics[scale=0.15]{tri_bad}
+ 	}
+ 	\hspace{0.2in}
+ 	\subfloat{
+ 		\includegraphics[scale=0.27]{quad_quality}
+ 	}
+ 	\caption{Cell skew quality. From left to right: good triangle, bad triangle, good quadrilateral, \emph{good} quadrilateral (but with bad shape) and a quadrilateral with both bad skew and bad shape qualities}
+ 	\label{fig:skew}
+ \end{figure}
  

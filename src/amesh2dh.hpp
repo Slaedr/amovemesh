@@ -197,7 +197,7 @@ public:
 	void readDomn(std::string mfile);
 
 	/// Reads mesh from Gmsh 2 format file
-	void readGmsh2(std::string mfile, int dimensions);
+	void readGmsh2(std::string mfile, int dimensions=2);
 	
 	/// Stores (in array bpointsb) for each boundary point: the associated global point number and the two bfaces associated with it.
 	void compute_boundary_points();
