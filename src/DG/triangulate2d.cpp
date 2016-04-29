@@ -48,6 +48,24 @@ int main(int argc, char* argv[])
 		sorter = new DistBinSort<2>(points, numbins, sortedpoints);
 	}
 
+	std::ofstream fout("../../output/DG/check.dat");
+	fout << std::setprecision(MESHDATA_DOUBLE_PRECISION);
+	int idim;
+	for(int ipoin = 0; ipoin < m.gnpoin(); ipoin++)
+	{
+		for(idim = 0; idim < 2; idim++)	
+			fout << points->get(ipoin,idim) - sortedpoints->get(sorter->gbmap(ipoin),idim) << " ";
+		fout << ", ";
+		for(idim = 0; idim < 2; idim++)
+			fout << points->get(ipoin,idim) << ' ';
+		fout << ", ";
+		for(idim = 0; idim < 2; idim++)
+			fout << sortedpoints->get(sorter->gbmap(ipoin),idim) << ' ';
+		fout << '\n';
+	}
+	fout.close();
+	// the output of the above check is fine. So sortedpoints has all points in the mesh.
+
 	Delaunay2D prob(sortedpoints);
 	prob.bowyer_watson();
 	prob.writeGmsh2(outp);

@@ -1,8 +1,8 @@
 -input-file
 ../../input/2dcylinder.msh
 -output-file
-../../output/DG/2dcylinder_dg.msh
+../../output/DG/2dcylinder_dg_bins.msh
 -number-of-bins-in-x-dir
-5
+4
 -number-of-binsin-y-dir
-5
+4

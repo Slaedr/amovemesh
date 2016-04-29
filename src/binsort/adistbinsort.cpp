@@ -126,7 +126,7 @@ DistBinSort<_ndim>::DistBinSort(const amat::Matrix<amc_real>* const point_list, 
 		for(idim = 0; idim < _ndim; idim++)
 		{
 			// do a binary search to find the bin for this point
-			std::cout << "Started searching for point " << ipoin << ", in dir " << idim << std::endl;
+			//std::cout << "Started searching for point " << ipoin << ", in dir " << idim << std::endl;
 			/*first = 0; last = ndbins[idim]-1;
 			while(true)
 			{
@@ -170,13 +170,15 @@ DistBinSort<_ndim>::DistBinSort(const amat::Matrix<amc_real>* const point_list, 
 		{
 			for(idim = 0; idim < _ndim; idim++)
 				(*sortedlist)(k,idim) = pointlist->get(ptrs[ibin][i],idim);
-			k++;
 			
 			// update bin map and inverse bin map
 			bmap[ptrs[ibin][i]] = k;
 			invbmap[k] = ptrs[ibin][i];
+			
+			k++;
 		}
 	}
+	std::cout << "DistBinSort: Number of points stored in the sorted list =  " << k << std::endl;
 }
 
 template DistBinSort<2>::DistBinSort(const amat::Matrix<amc_real>* const point_list, const int* num_bins, amat::Matrix<amc_real>* const sorted_list);

@@ -256,7 +256,7 @@ public:
 			int newpoinnum = nodes.size()-1;
 
 			/// First, find the element containing the new point
-			int contelem = find_containing_triangle(points(ipoin,0),points(ipoin,1),0);
+			int contelem = find_containing_triangle(points(ipoin,0),points(ipoin,1), elems.size()-1);
 
 #if DEBUG==1
 			if(ipoin % 20 == 0)
@@ -568,6 +568,7 @@ public:
 
 		outf << "$MeshFormat\n2.2 0 8\n$EndMeshFormat\n";
 		outf << "$Nodes\n" << npoints << '\n';
+		outf << std::setprecision(MESHDATA_DOUBLE_PRECISION);
 		for(int ip = 0; ip < npoints; ip++)
 		{
 			outf << ip+1 << " " << nodes[ip].x << " " << nodes[ip].y << " " << 0 << '\n';
@@ -648,8 +649,6 @@ public:
 		jacobians.setup(elems.size(),1);
 		for(int i = 0; i < elems.size(); i++)
 		{
-			// geoel(i,0) = D(i) = a1*b2 - a2*b1 :
-
 			jacobians(i,0) = nodes[elems[i].p[0]].x * (nodes[elems[i].p[1]].y - nodes[elems[i].p[2]].y) - nodes[elems[i].p[0]].y*(nodes[elems[i].p[1]].x-nodes[elems[i].p[2]].x) + nodes[elems[i].p[1]].x*nodes[elems[i].p[2]].y - nodes[elems[i].p[2]].x*nodes[elems[i].p[1]].y;
 		}
 	}
