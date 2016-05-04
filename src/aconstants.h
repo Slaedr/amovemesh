@@ -15,6 +15,9 @@
 	#define MESHDATA_DOUBLE_PRECISION 20
 	#endif
 	
+	#define NDIM2 2
+	#define NDIM3 3
+	
 	namespace amc 
 	{
 		/// the floating point type to be used
