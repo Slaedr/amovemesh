@@ -89,6 +89,7 @@ public:
 	// Specific RBFs
 	/// Wendland's compact C2 function - most tested
 	double rbf_c2_compact(double xi);
+
 	double rbf_c0(double xi);
 	double rbf_c4(double xi);
 	double gaussian(double xi);

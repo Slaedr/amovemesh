@@ -1090,7 +1090,7 @@ void UMesh::compute_topological()
 		lpoin(ipoin) = 1;
 		for(int jp = 0; jp < psup[ipoin].size(); jp++)
 		{
-			int jpoin = psup[ipoin].at(jp);
+			int jpoin = psup[ipoin][jp];
 			if(lpoin.get(jpoin) != 1 && flag_bpoin.get(ipoin)==1 && flag_bpoin.get(jpoin)==1)
 			{
 				edgepo(nbedge,0) = ipoin;

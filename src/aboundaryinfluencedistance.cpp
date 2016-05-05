@@ -16,9 +16,9 @@ amc_real g(amc_real y)
 
 void boundaryInfluenceDist2D(const UMesh2dh* const m, const amat::Matrix<amc_real>* const pointdisps, amat::Matrix<amc_real>* const radii)
 {
-	amc_int iface;
+	amc_int iface, ipoin;
 	int inofa, idim;
-	amc_real l, y[NDIM2], h;
+	amc_real l, temp;
 	radii->zeros();
 
 	for(iface = 0; iface < m->gnface(); iface++)
@@ -27,9 +27,19 @@ void boundaryInfluenceDist2D(const UMesh2dh* const m, const amat::Matrix<amc_rea
 		l += (m->gcoords(m->gbface(iface,0),1)-m->gcoords(m->gbface(iface,1),1))*(m->gcoords(m->gbface(iface,0),1)-m->gcoords(m->gbface(iface,1),1));
 		l = sqrt(l);
 		for(idim = 0; idim < NDIM2; idim++)
-			y[idim] = pointdisps->get(m->gbface(iface,2),idim);
-		h = sqrt(y[0]*y[0] + y[1]*y[1]);
-		radii(iface) = l*0.5 + g(h/l);
+		{
+			temp = l/2.0 + g(pointdisps->get(m->gbface(iface,2),idim)/l);
+			(*radii)(m->gbface(iface,2),idim) = 2.0*temp;
+
+			(*radii)(m->gbface(iface,0),idim) += temp;
+			(*radii)(m->gbface(iface,1),idim) += temp;
+		}
+	}
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+	{
+		if(!m->gflag_bpoin(ipoin)) continue;
+		for(idim = 0; idim < NDIM2; idim++)
+			(*radii)(ipoin,idim) /= 2.0;
 	}
 }
 

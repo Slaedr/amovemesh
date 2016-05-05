@@ -133,13 +133,7 @@ RBFmove::~RBFmove()
 }
 
 // RBFs
-/// Wendland's C2 function
-/*double RBFmove::rbf_c2_compact(double xi)
-{
-	if(xi < srad)
-		return pow(1-xi/srad,4)*(4*xi/srad+1);
-	else return 0;
-}*/
+// Wendland's C2 function
 double RBFmove::rbf_c2_compact(double xi)
 {
 	if(xi < srad)
