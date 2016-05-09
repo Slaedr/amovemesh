@@ -1,15 +1,13 @@
-/** @file arbf.hpp
- * @brief A mesh-movement method using radial basis function interpolation 
+/** @file arbf_sr.hpp
+ * @brief A mesh-movement method using radial basis function interpolation, but using different support radii for each interpolation center.
  * 
  * based on the 2007 paper by de Boer, van der Schoot and Bijl,
  * but with one major difference - the interpolation is done using only RBFs; the polynomial part is ignored.
  * @author Aditya Kashi
- * @date August 6, 2015
- * 
- * Aug 14, 2015: Modified to work with curved mesh generation. Now requires interior points and boundary points as separate inputs.
+ * @date May 9, 2016
  */
 
-#ifndef __ARBF_H
+#ifndef __ARBF_SR_H
 
 #ifndef _GLIBCXX_CSTDIO
 #include <cstdio>
@@ -23,25 +21,25 @@
 #include <alinalg.hpp>
 #endif
 
-#define __ARBF_H 1
+#define __ARBF_SR_H 1
 
 namespace amc {
 
-/// Movement of a point-cloud based on radial basis function interpolation of some other points
-/*! \sa RBFmove::RBFmove
+/// Movement of a point-cloud based on radial basis function interpolation of some other points called interpolation centers
+/*! Requires specification of support radii separately at each interpolation center (bpoints)
  */
 class RBFmove
 {
-	amat::Matrix<double> inpoints;
-	amat::Matrix<double> bpoints;
-	amat::Matrix<double> bmotion;
+	amat::Matrix<amc_real>* const inpoints;
+	amat::Matrix<amc_real>* const bpoints;
+	const amat::Matrix<amc_real>* const bmotion;
 	amat::Matrix<int> bflag;
 	int npoin;			///< total number of points
 	int ninpoin;		///< number of interior points
 	int nbpoin;			///< number of boundary points
 	int ndim;
-	double (RBFmove::*rbf)(double);
-	double srad;
+	double (RBFmove::*rbf)(double, amc_int);
+	const amat::Matrix<amc_real>* const srad;
 
 	int nsteps;			///< Number of steps in which to carry out the movement. More steps lead to better results upto a certain number of steps.
 	double tol;
@@ -66,35 +64,22 @@ public:
 	 * \param boun_points is the array of boundary points
 	 * \param boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
 	 * \param rbf_ch indicates the RBF to use - 0 : C0, 2 : C2, 4 : C4, default : Gaussian
+	 * \param support_radius contains the support radius to use for each boundary point
 	 * \param num_steps is the number of steps in which to break up the movement to perform separately (sequentially)
 	 * \param linear_solver indicates the linear solver to use to solve the RBF equations - "DLU", "CG", "LU"
 	 */
-	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, const int num_steps, 
-			const double tolerance, const int iter, const std::string linear_solver);
-
-	/// Sets the data needed
-	/** Note that all parameters are deep-copied.
-	 * \param int_points is a list of all interior points to be moved
-	 * \param boun_points is the array of boundary points
-	 * \param boundary_motion is nbpoin-by-ndim array - containing displacements corresponding to boundary points.
-	 * \param rbf_ch indicates the RBF to use - 0 : C0, 2 : C2, 4 : C4, default : Gaussian
-	 * \param num_steps is the number of steps in which to break up the movement to perform separately (sequentially)
-	 * \param linear_solver indicates the linear solver to use to solve the RBF equations - "DLU", "CG", "LU"
-	 * 
-	 * \note The use of this function is deprecated; use the constructor instead.
-	 */
-	void setup(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const double support_radius, const int num_steps, 
-			const double tolerance, const int iter, const std::string linear_solver);
+	RBFmove(amat::Matrix<double>* int_points, amat::Matrix<double>* boun_points, amat::Matrix<double>* boundary_motion, const int rbf_ch, const amat::Matrix<amc_real>* const support_radius, 
+			const int num_steps, const double tolerance, const int iter, const std::string linear_solver);
 
 	~RBFmove();
 
 	// Specific RBFs
 	/// Wendland's compact C2 function - most tested
-	double rbf_c2_compact(double xi);
+	double rbf_c2_compact(double xi, amc_int ibp);
 
-	double rbf_c0(double xi);
-	double rbf_c4(double xi);
-	double gaussian(double xi);
+	double rbf_c0(double xi, amc_int ibp);
+	double rbf_c4(double xi, amc_int ibp);
+	double gaussian(double xi, amc_int ibp);
 
 	/// Assembles the LHS matrix.
 	void assembleLHS();
