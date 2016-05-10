@@ -59,9 +59,8 @@ int main(int argc, char* argv[])
 	m.compute_boundary_points();
 	//m.compute_topological();
 
-	RBFmove rmove;
 	Curvedmeshgen2d cu;
-	cu.setup(&m, &mq, &rmove, nsplineparts, splineflags, PI/180.0*cornerangle, spltol, splmaxiter, rbftol, rbfmaxiter, rbfchoice, supportradius, nrbfsteps, rbf_solver);
+	cu.setup(&m, &mq, nsplineparts, splineflags, PI/180.0*cornerangle, spltol, splmaxiter, rbftol, rbfmaxiter, rbfchoice, nrbfsteps, rbf_solver);
 	cu.compute_boundary_displacements();
 	
 	clock_t begin = clock();
