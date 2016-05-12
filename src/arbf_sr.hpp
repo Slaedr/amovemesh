@@ -56,7 +56,7 @@ class RBFmove
 public:
 
 	/// No-arg constructor
-	RBFmove();
+	//RBFmove();
 
 	/// Sets the data needed
 	/** Note that all parameters are deep-copied.
@@ -93,10 +93,10 @@ public:
 	void move();
 
 	/// Returns new positions of interior points.
-	amat::Matrix<double> getInteriorPoints();
+	amat::Matrix<double>* getInteriorPoints();
 
 	/// Returns new positions of boundary points.
-	amat::Matrix<double> getBoundaryPoints();
+	amat::Matrix<double>* getBoundaryPoints();
 };
 
 } // end namespace

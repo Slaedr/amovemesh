@@ -7,11 +7,11 @@
  * @date May 9, 2015
  */
 
-#include "arbf.hpp"
+#include <arbf_sr.hpp>
 
 namespace amc {
 	
-RBFmove::RBFmove() {isalloc = false; }
+//RBFmove::RBFmove() {isalloc = false; }
 
 RBFmove::RBFmove(amat::Matrix<double>* const int_points, amat::Matrix<double>* const boun_points, amat::Matrix<double>* const boundary_motion, 
 		const int rbf_ch, const amat::Matrix<amc_real>* const support_radius, const int num_steps, const double tolerance, const int iter, const std::string linear_solver)
@@ -72,7 +72,7 @@ double RBFmove::rbf_c2_compact(double xi, amc_int ibp)
 {
 	if(xi < srad->get(ibp))
 	{
-		double q = xi/srad;
+		double q = xi/srad->get(ibp);
 		return (1.0-q)*(1.0-q)*(1.0-q)*(1.0-q)*(4.0*q+1.0);
 	}
 	else return 0.0;
@@ -81,7 +81,7 @@ double RBFmove::rbf_c2_compact(double xi, amc_int ibp)
 double RBFmove::rbf_c0(double xi, amc_int ibp)
 {
 	if(xi < srad->get(ibp))
-		return (1-xi/srad)*(1-xi/srad);
+		return (1-xi/srad->get(ibp))*(1-xi/srad->get(ibp));
 	else
 		return 0;
 }
@@ -89,7 +89,7 @@ double RBFmove::rbf_c0(double xi, amc_int ibp)
 double RBFmove::rbf_c4(double xi, amc_int ibp)
 {
 	if(xi < srad->get(ibp))
-		return pow(1-xi/srad,6)*(35*xi*xi/(srad*srad) + 18*xi/srad + 3);
+		return pow(1-xi/srad->get(ibp),6)*(35*xi*xi/(srad->get(ibp)*srad->get(ibp)) + 18*xi/srad->get(ibp) + 3);
 	else
 		return 0;
 }
@@ -108,9 +108,9 @@ void RBFmove::assembleLHS()
 	double dist;
 	double temp;
 
-	amat::SpMatrix* A = (RBFmove::A);
+	amat::SpMatrix* A = &(RBFmove::A);
 	amat::Matrix<double>* bpoints = (RBFmove::bpoints);
-	double (RBFmove::*rbfunc)(double) = rbf;
+	double (RBFmove::*rbfunc)(double,amc_int) = rbf;
 	int nbpoin = RBFmove::nbpoin;
 	int ndim = RBFmove::ndim;
 
@@ -240,13 +240,13 @@ void RBFmove::move_step()
 	amat::Matrix<double>* co = coeffs;			// first assign local pointers to class variables for OpenMP
 	amat::Matrix<double>* bp = bpoints;
 	amat::Matrix<double>* ip = inpoints;
-	double (RBFmove::*rbfunc)(double) = rbf;
+	double (RBFmove::*rbfunc)(double,amc_int) = rbf;
 	int nbpoin = RBFmove::nbpoin;
 	int ninpoin = RBFmove::ninpoin;
 	int ndim = RBFmove::ndim;
 	const amat::Matrix<amc_real>* const sr = RBFmove::srad;
 
-	#pragma omp parallel for default(none) private(i) shared(co, bp, ip, rbfunc, nbpoin, ninpoin, ndim, srad)
+	#pragma omp parallel for default(none) private(i) shared(co, bp, ip, rbfunc, nbpoin, ninpoin, ndim)
 	for(i = 0; i < ninpoin; i++)
 	{
 		double* sum = new double[ndim];		// for storing sum of RBFs corresponding to an interior point
@@ -270,7 +270,7 @@ void RBFmove::move_step()
 			}
 			dist = sqrt(dist);
 
-			if(dist < srad->get(j))
+			if(dist < sr->get(j))
 				for(idim = 0; idim < ndim; idim++)
 					sum[idim] += co[idim].get(j) * (this->*rbfunc)(dist,j);
 		}
@@ -299,16 +299,16 @@ void RBFmove::move()
 		// move buondary points
 		for(int i = 0; i < nbpoin; i++)
 			for(int j = 0; j < ndim; j++)
-				bpoints(i,j) += b[j](i);
+				(*bpoints)(i,j) += b[j](i);
 	}
 }
 
-amat::Matrix<double> RBFmove::getInteriorPoints()
+amat::Matrix<double>* RBFmove::getInteriorPoints()
 {
 	return inpoints;
 }
 
-amat::Matrix<double> RBFmove::getBoundaryPoints()
+amat::Matrix<double>* RBFmove::getBoundaryPoints()
 {
 	return bpoints;
 }

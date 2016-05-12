@@ -2,6 +2,8 @@
 
 namespace amc{
 
+int nexp = 0;
+
 /// Function for the adjustment factor
 amc_real g(amc_real y)
 {
@@ -9,6 +11,7 @@ amc_real g(amc_real y)
 		return exp(y*y);
 	else
 	{
+		nexp++;
 		amc_real val = exp(0.25);
 		return val*y + val*0.5;
 	}
@@ -29,7 +32,7 @@ void boundaryInfluenceDist2D(const UMesh2dh* const m, const amat::Matrix<amc_rea
 		disp = pointdisps->get(m->gbface(iface,2),0)*pointdisps->get(m->gbface(iface,2),0) + pointdisps->get(m->gbface(iface,2),1)*pointdisps->get(m->gbface(iface,2),1);
 		disp = sqrt(disp);
 
-		temp = l/2.0 + g(disp/l);
+		temp = l/4.0 + g(disp/l)*disp;
 		(*radii)(m->gbface(iface,2)) = 2.0*temp;
 
 		(*radii)(m->gbface(iface,0)) += temp;
@@ -40,6 +43,7 @@ void boundaryInfluenceDist2D(const UMesh2dh* const m, const amat::Matrix<amc_rea
 		if(!m->gflag_bpoin(ipoin)) continue;
 		(*radii)(ipoin) /= 2.0;
 	}
+	std::cout << "** N = " << nexp << std::endl;
 }
 
 }
