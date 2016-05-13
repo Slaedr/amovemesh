@@ -123,7 +123,6 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 				{
 					midpoints[iface](inode,idim) = (m->gcoords(m->gbface(iface,inode),idim) + m->gcoords(m->gbface(iface,jnode),idim)) / 2.0;
 					
-					// copy true high-order point coord to disps
 					disps(m->gbface(iface,inode+3),idim) = m->gcoords(m->gbface(iface,inode+3),idim) - midpoints[iface].get(inode,idim);
 				}
 			}
@@ -227,6 +226,17 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 		}
 	}
 	delete [] midpoints;
+	
+	// estimate support radius
+	amat::Matrix<amc_real> supportradius(m->gnpoin(),1), srad(nbpoin,1);
+	amc_real sradius, dist;
+	supportradius.zeros();
+	for(ipoin = 0; ipoin < m->gnpoin(); ipoin++)
+		if(m->gflag_bpoin(ipoin)==1 && rbfbpoin.get(ipoin)==0)
+		{
+			dist = sqrt(disps.get(ipoin,0)*disps.get(ipoin,0) + disps.get(ipoin,1)*disps.get(ipoin,1) + disps.get(ipoin,2)*disps.get(ipoin,2));
+			supportradius(ipoin) = 100.0*dist;
+		}
 
 	k = 0; l = 0;
 
@@ -239,6 +249,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 				bounpoints(k,idim) = m->gcoords(ipoin,idim);
 				boundisps(k,idim) = disps.get(ipoin,idim);
 			}
+			srad(k) = supportradius.get(ipoin);
 			k++;
 		}
 		else
@@ -262,8 +273,34 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 		std::cout << nrm[idim] << ", ";
 	}
 	std::cout << std::endl;
+	
+	// get avg support radius
+	amc_real ssum = 0, smin = 1.0, smax = 0;
+	for(ipoin = 0; ipoin < nbpoin; ipoin++)
+		ssum += srad.get(ipoin);
+	ssum /= nbpoin;
+	std::cout << "CurvedMeshGen: Average estimated support radius = " << ssum << std::endl;
+	
+	for(ipoin = 0; ipoin < nbpoin; ipoin++)
+		if(smax < srad.get(ipoin))
+			smax = srad.get(ipoin);
+	std::cout << "CurvedMeshGen: Max estimated support radius = " << smax << std::endl;
+	
+	for(ipoin = 0; ipoin < nbpoin; ipoin++)
+		sradius = (0.6*ssum+0.4*smax);
+	std::cout << "CurvedMeshGen: Final estimated support radius = " << sradius << std::endl;
+	
+	if(param1 < ZERO_TOL) 
+	{
+		std::cout << "CurvedMeshGen: Using estimated support radius." << std::endl;
+	}
+	else
+	{
+		std::cout << "CurvedMeshGen: Using user-provided support radius.\n";
+		sradius = param1;
+	}
 
-	move = new RBFmove(&inpoints, &bounpoints, &boundisps, choice, param1, 1, tol, maxiter, solver );
+	move = new RBFmove(&inpoints, &bounpoints, &boundisps, choice, sradius, 1, tol, maxiter, solver );
 }
 
 CurvedMeshGen::~CurvedMeshGen()

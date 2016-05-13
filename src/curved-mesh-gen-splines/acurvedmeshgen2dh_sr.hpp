@@ -44,7 +44,7 @@ class Curvedmeshgen2d
 	int nummovesteps;					///< Number of steps in which to accomplish the total mesh movement.
 	string rbfsolver;					///< string describing the method to use for solving the RBF equations
 
-	int nbounpoin;					///< Number if boundary points.
+	int nbounpoin;					///< Number of boundary points.
 	int ninpoin;					///< Number of interior points.
 	Matrix<double> disps;			///< Displacement of midpoint of each face
 	Matrix<double> boundisps;		///< Displacement at each boundary point of the quadratic mesh, computed using [disps](@ref disps).
@@ -161,8 +161,18 @@ void Curvedmeshgen2d::generate_curved_mesh()
 			bflagg(mq->gbface(iface,inode)) = 1;
 	}
 
+	amc_int ipoin;
+	amc_real dist;
+	
 	// compute support radii
-	boundaryInfluenceDist2D(mq, &allpoint_disps, &supportradius);
+	//boundaryInfluenceDist2D(mq, &allpoint_disps, &supportradius);
+	supportradius.zeros();
+	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
+		if(bflagg.get(ipoin))
+		{
+			dist = sqrt(allpoint_disps.get(ipoin,0)*allpoint_disps.get(ipoin,0) + allpoint_disps(ipoin,1)*allpoint_disps.get(ipoin,1));
+			supportradius(ipoin) = 100*dist;
+		}
 
 	nbounpoin = 0;
 	for(int i = 0; i < mq->gnpoin(); i++)
@@ -178,7 +188,6 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	
 	///We divide mesh nodes into boundary points and interior points. We also populate boundisp so that it holds the displacement of each boundary point.
 	int k = 0, l = 0, idim;
-	amc_int ipoin;
 	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
 		if(bflagg(ipoin))
 		{
@@ -196,20 +205,21 @@ void Curvedmeshgen2d::generate_curved_mesh()
 			l++;
 		}
 	
-	// get avg support radius (for debug)
-	amc_real ssum = 0, smin = 1.0;
+	// get avg support radius
+	amc_real ssum = 0, smin = 1.0, smax = 0;
 	for(ipoin = 0; ipoin < nbounpoin; ipoin++)
 		ssum += srad.get(ipoin);
 	ssum /= nbounpoin;
 	cout << "CurvedMeshGen2d: generate_curved_mesh(): Average support radius = " << ssum << endl;
 	
 	for(ipoin = 0; ipoin < nbounpoin; ipoin++)
-		if(smin > srad.get(ipoin))
-			smin = srad.get(ipoin);
-	cout << "CurvedMeshGen2d: generate_curved_mesh(): Min support radius = " << smin << endl;
+		if(smax < srad.get(ipoin))
+			smax = srad.get(ipoin);
+	cout << "CurvedMeshGen2d: generate_curved_mesh(): Max support radius = " << smax << endl;
 	
 	for(ipoin = 0; ipoin < nbounpoin; ipoin++)
-		srad(ipoin) = ssum;
+		srad(ipoin) = (ssum+smax)/2.0;
+	cout << "CurvedMeshGen2d: generate_curved_mesh(): Final support radius = " << (smax+ssum)/2.0 << endl;
 	
 	/*// before calling RBF, scale everything
 	for(int ipoin = 0; ipoin < nbounpoin; ipoin++)

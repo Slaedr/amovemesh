@@ -1,13 +1,13 @@
 -input-mesh-file
 ../../output/bouncurve/bump3d-vcoarse_bouncurved.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/bump3d-vcoarse_curved-r0.2-cg.msh
+../../output/curved-mesh-gen/bump3d-vcoarse_curved-sr.msh
 -choice(RBF-choice)
 2
 -support-radius
-0.2
+-0.2
 -solver
-CG
+EIGENLU
 -tolerance
 1e-6
 -max-iterations
