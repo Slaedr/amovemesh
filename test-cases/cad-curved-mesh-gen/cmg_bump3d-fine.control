@@ -1,13 +1,13 @@
 -input-mesh-file
 ../../output/bouncurve/bump3d-fine_bouncurved.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/bump3d-fine_curved-r0.04.msh
+../../output/curved-mesh-gen/bump3d-fine_curved-sr.msh
 -choice(RBF-choice)
 2
 -support-radius
-0.04
+-0.04
 -solver
-PASTIXLDLT
+EIGENLU
 -tolerance
 1e-6
 -max-iterations

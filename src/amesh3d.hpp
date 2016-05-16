@@ -80,6 +80,7 @@ private:
 	std::vector<int>* psup;				///< points surrounding points
 	amat::Matrix<amc_int> esuel;		///< elements surrounding elements
 	amat::Matrix<amc_int> edgepo;		///< edge data structure. Stores the indices of the points making up the edge.
+	std::vector<amc_int>* edsup;		///< edges surrounding point
 	std::vector<int>* elsed;			///< elements surrounding edge; note that ordering of edges is same as in [edgepo](@ref edgepo)
 	amat::Matrix<amc_int> intfac;		///< face data strcture
 	
@@ -91,7 +92,8 @@ private:
 	amat::Matrix<amc_int> bfsubf;		///< boundary faces surrounding boundary face
 	amat::Matrix<amc_int> bpsubp;		///< boundary points surrounding boundary point
 	amat::Matrix<amc_int> bpsubp_p;		///< contains pointers into [bpsubp](@ref bpsubp) for each boundary point
-	amat::Matrix<amc_int> intbedge;		/**< boundary edge - boundary face connectivity. Ordering of edges is same as that of [edgepo](@ref edgepo). 
+	amat::Matrix<amc_int> intbedge;		/**< boundary edge - boundary face connectivity. Ordering of edges is same as that of [edgepo](@ref edgepo).
+										  Contains, for each b-edge, the two bfaces forming it and the nodes that it consists of.
 											NOTE: The edge may not always point from smaller index cell to larger index cell! 
 											The edge direction may not be consistent. */
 	amat::Matrix<amc_int> bfaceHostCell;		///< Stores the host element number for each bface, computed (inefficiently) by findBfaceHostCell()
@@ -148,6 +150,8 @@ public:
 	amc_int gpsup(amc_int i, int j) const { return psup[i].at(j); }		// get jth surrounding point of ith node
 	amc_int gpsupsize(amc_int i) const { return psup[i].size(); }
 	amc_int gedgepo(amc_int iedge, int ipoin) const { return edgepo.get(iedge,ipoin); }
+	amc_int gedsup(amc_int ipoin, int j) const { return edsup[ipoin][j]; }
+	amc_int gedsupsize(amc_int ipoin) const { return edsup[ipoin].size(); }
 	amc_int gelsed(amc_int iedge, int ielem) const { return elsed[iedge].at(ielem); }
 	amc_int gelsedsize(amc_int iedge) const { return elsed[iedge].size(); }
 	amc_int gesuel(amc_int ielem, int jnode) const { return esuel.get(ielem, jnode); }

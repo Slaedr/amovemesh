@@ -287,7 +287,7 @@ CurvedMeshGen::CurvedMeshGen(UMesh* mesh, const std::vector<int> rbf_boundaries,
 	std::cout << "CurvedMeshGen: Max estimated support radius = " << smax << std::endl;
 	
 	for(ipoin = 0; ipoin < nbpoin; ipoin++)
-		sradius = (0.6*ssum+0.4*smax);
+		sradius = (0.7*ssum+0.3*smax);
 	std::cout << "CurvedMeshGen: Final estimated support radius = " << sradius << std::endl;
 	
 	if(param1 < ZERO_TOL) 

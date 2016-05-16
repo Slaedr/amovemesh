@@ -1,11 +1,11 @@
 -input-mesh-file
 ../../output/bouncurve/bump3d-medium_bouncurved.msh
 -outpur-mesh-file
-../../output/curved-mesh-gen/bump3d-medium_curved-r0.06.msh
+../../output/curved-mesh-gen/bump3d-medium_curved-sr.msh
 -choice(RBF-choice)
 2
 -support-radius
-0.06
+-0.06
 -solver
 EIGENLU
 -tolerance

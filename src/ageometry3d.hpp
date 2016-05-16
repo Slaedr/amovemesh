@@ -59,7 +59,7 @@ protected:
 	amat::Matrix<amc_real>* V;			///< Vandermonde matrices for surface points
 	amat::Matrix<amc_real>* D;			///< unknowns (various derivatives)
 	amat::Matrix<amc_real>* F;			///< RHS of least-squares problem, consisting of point heights or coordinates
-	std::string stencilType;			///< A string describing the type of stencil to use - "regular" or "noisy". "noisy" results in a more extended stencil
+	std::string stencilType;			///< A string describing the type of stencil to use - "half" or "full". "full" results in a more extended stencil
 	const amc_real s1;					///< Any number (to use for deciding the local coordinate frames)
 	const amc_real s2;					///< Any number (to use for deciding the local coordinate frames)
 	const int istart;					///< starting index for Taylor polynomials - 0 for allowing a constant term in the Taylor series and 1 for starting the series with first-order terms

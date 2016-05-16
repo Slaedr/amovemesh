@@ -60,6 +60,8 @@ UMesh::~UMesh()
 {
 	if(psup != nullptr)
 		delete [] psup;
+	if(edsup != nullptr)
+		delete [] edsup;
 	if(elsed != nullptr)
 		delete [] elsed;
 }
@@ -994,8 +996,12 @@ void UMesh::compute_topological()
 	if(psup != nullptr)
 		delete [] psup;
 	psup = new std::vector<int>[npoin];
+	edsup = new std::vector<int>[npoin];		// also allocate edges surrounding point
 	for(int i = 0; i < npoin; i++)
+	{
 		psup[i].reserve(10);
+		edsup[i].reserve(10);
+	}
 
 	amat::Matrix<int> lpoin(npoin,1);  // The ith member indicates the global point number of which the ith point is a surrounding point
 
@@ -1079,7 +1085,7 @@ void UMesh::compute_topological()
 		elsed[i].reserve(8);
 	edgepo.setup(nedge, nnoded);
 
-	// 4. get edgepo
+	// 4. get edgepo and edsup
 	std::cout << "UMesh3d: compute_topological(): Calculating edgepo" << std::endl;
 
 	// first, boundary edges
@@ -1095,6 +1101,8 @@ void UMesh::compute_topological()
 			{
 				edgepo(nbedge,0) = ipoin;
 				edgepo(nbedge,1) = jpoin;
+				edsup[ipoin].push_back(nbedge);
+				edsup[ipoin].push_back(nbedge);
 				nbedge++;
 			}
 		}
@@ -1116,6 +1124,8 @@ void UMesh::compute_topological()
 			{
 				edgepo(nedge,0) = ipoin;
 				edgepo(nedge,1) = jpoin;
+				edsup[ipoin].push_back(nedge);
+				edsup[ipoin].push_back(nedge);
 				nedge++;
 			}
 		}

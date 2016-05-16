@@ -194,8 +194,8 @@ void Curvedmeshgen2d::generate_curved_mesh()
 			for(idim = 0; idim < mq->gndim(); idim++){
 				bounpoints(k,idim) = mq->gcoords(ipoin,idim);
 				boundisps(k,idim) = allpoint_disps(ipoin,idim);
-				srad(k) = supportradius.get(ipoin);
 			}
+			srad(k) = supportradius.get(ipoin);
 			k++;
 		}
 		else
@@ -206,7 +206,7 @@ void Curvedmeshgen2d::generate_curved_mesh()
 		}
 	
 	// get avg support radius
-	amc_real ssum = 0, smin = 1.0, smax = 0;
+	amc_real ssum = 0, sfinal, smax = 0;
 	for(ipoin = 0; ipoin < nbounpoin; ipoin++)
 		ssum += srad.get(ipoin);
 	ssum /= nbounpoin;

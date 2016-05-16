@@ -141,23 +141,37 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	/// Get a vector of displacements for each node of the quadratic mesh
 	Matrix<double> allpoint_disps(mq->gnpoin(),mq->gndim());
 	allpoint_disps.zeros();
-	for(int iface = 0; iface < mq->gnface(); iface++)
+	amc_int iface;
+	int inode, idim;
+	for(iface = 0; iface < mq->gnface(); iface++)
 	{
-		for(int idim = 0; idim < mq->gndim(); idim++)
+		for(idim = 0; idim < mq->gndim(); idim++)
 			allpoint_disps(mq->gbface(iface,mq->gnnofa()-1), idim) = disps(iface,idim);
 	}
 	
 	// first get bflag
 	bflagg.zeros();
-	for(int iface = 0; iface < mq->gnface(); iface++)
+	for(iface = 0; iface < mq->gnface(); iface++)
 	{
-		for(int inode = 0; inode < mq->gnnofa(); inode++)
+		for(inode = 0; inode < mq->gnnofa(); inode++)
 			bflagg(mq->gbface(iface,inode)) = 1;
 	}
 
 	nbounpoin = 0;
 	for(int i = 0; i < mq->gnpoin(); i++)
 		nbounpoin += bflagg(i);
+	
+	// compute local support radii
+	Matrix<amc_real> lsupportradius(mq->gnpoin(),1);
+	amc_real dist;
+	amc_int ipoin;
+	lsupportradius.zeros();
+	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
+		if(bflagg.get(ipoin))
+		{
+			dist = sqrt(allpoint_disps.get(ipoin,0)*allpoint_disps.get(ipoin,0) + allpoint_disps(ipoin,1)*allpoint_disps.get(ipoin,1));
+			lsupportradius(ipoin) = 100.0*dist;
+		}
 
 	ninpoin = mq->gnpoin()-nbounpoin;
 	cout << "Curvedmeshgen2d: generate_curved_mesh(): Number of boundary points in quadratic mesh = " << nbounpoin << endl;
@@ -165,24 +179,50 @@ void Curvedmeshgen2d::generate_curved_mesh()
 	bounpoints.setup(nbounpoin,mq->gndim());
 	boundisps.setup(nbounpoin,mq->gndim());
 	inpoints.setup(ninpoin,mq->gndim());
+	Matrix<amc_real> srad(nbounpoin,1);
 	
 	///We divide mesh nodes into boundary points and interior points. We also populate boundisp so that it holds the displacement of each boundary point.
 	int k = 0, l = 0;
-	for(int ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
-		if(bflagg(ipoin))
+	for(ipoin = 0; ipoin < mq->gnpoin(); ipoin++)
+		if(bflagg.get(ipoin))
 		{
-			for(int idim = 0; idim < mq->gndim(); idim++){
+			for(idim = 0; idim < mq->gndim(); idim++){
 				bounpoints(k,idim) = mq->gcoords(ipoin,idim);
 				boundisps(k,idim) = allpoint_disps(ipoin,idim);
 			}
+			srad(k) = lsupportradius.get(ipoin);
 			k++;
 		}
 		else
 		{
-			for(int idim = 0; idim < mq->gndim(); idim++)	
+			for(idim = 0; idim < mq->gndim(); idim++)	
 				inpoints(l,idim) = mq->gcoords(ipoin,idim);
 			l++;
 		}
+	
+	// estimate support radius
+	amc_real ssum = 0, sfinal, smax = 0;
+	for(ipoin = 0; ipoin < nbounpoin; ipoin++)
+		ssum += srad.get(ipoin);
+	ssum /= nbounpoin;
+	cout << "CurvedMeshGen2d: generate_curved_mesh(): Average est support radius = " << ssum << endl;
+	
+	for(ipoin = 0; ipoin < nbounpoin; ipoin++)
+		if(smax < srad.get(ipoin))
+			smax = srad.get(ipoin);
+	cout << "CurvedMeshGen2d: generate_curved_mesh(): Max est support radius = " << smax << endl;
+	
+	sfinal = 0.9*ssum+0.1*smax;
+	cout << "CurvedMeshGen2d: generate_curved_mesh(): Final est support radius = " << sfinal << endl;
+	if(supportradius < ZERO_TOL) 
+	{
+		std::cout << "CurvedMeshGen: Using estimated support radius." << std::endl;
+		supportradius = sfinal;
+	}
+	else
+	{
+		std::cout << "CurvedMeshGen: Using user-provided support radius.\n";
+	}
 	
 	/*// before calling RBF, scale everything
 	for(int ipoin = 0; ipoin < nbounpoin; ipoin++)
