@@ -32,12 +32,20 @@ protected:
 	int ncurves;										///< number of feature curves in the boundary
 	std::vector<std::vector<amc_int>> fecurve;			///< Stores an ordered list of edges in each feature curve
 	std::vector<int> febedge;							///< Stores the feature curve that a boundary-edge (b-edge) belongs to, for each b-edge
-	std::vector<bool> cornerPoint;						///< For each boundary point, stores 0 if it's not a corner, and an integer indicating the type of corner if it is one
+	std::vector<int> febpoint;							///< Stores the feature-curve number that each boundary point belongs to
+	std::vector<int> cornerpoint;						///< For each boundary point, stores 0 if it's not a corner, and an integer indicating the type of corner if it is one
 
 public:
 	DiscontinuityDetection(const UMesh* const mesh);
-	amc_int gfecurve(int icurve, int ied) const;
-	int gfebedge(amc_int ied) const;
+
+	virtual void detect_C1_discontinuities();
+
+	// getter functions
+	int gncurves() const { return ncurves; }
+	amc_int gfecurve(int icurve, int ied) const { return fecurve[icurve][ied]; }
+	int gfebedge(amc_int ied) const { return febedge[ied]; }
+	int gfebpoint(amc_int ipoin) const { return febpoint[ipoin]; }
+	int gcornerpoint(amc_int ipoin) const { return cornerpoint[ipoin]; }
 };
 
 /// Abstract class for implementing a surface reconstruction using local Taylor expansion fittings
@@ -161,7 +169,12 @@ public:
 	~FaceCenteredBoundaryReconstruction();
 
 	/// rotation matrix and stencil for each face
+	/** For each boundary face, the stencil is computed as follows.
+	 * First, the vertices of the face are added to the stencil. Then, all vertices surrounding the initially-added vertices are also added.
+	 * NOTE: Just adding all vertices of faces surrounding the face should also suffice; perhaps we should be doing that.
+	 */
 	void preprocess();
+
 	/// solve linear least-squares problem at each point
 	void solve();
 	
