@@ -18,6 +18,35 @@ inline int factorial(int x)
 		return x * factorial(x-1);
 }
 
+
+DiscontinuityDetection::DiscontinuityDetection(const UMesh* const mesh, const amat::Matrix<amc_real>* const fnormal, const double max_angle) : m(mesh), fnormals(fnormal), maxangle(max_angle)
+{
+	febedge.resize(m->gnbedge(),-1);
+	febpoint.resize(m->gnbpoin(),-1);
+}
+	
+void DiscontinuityDetection::detect_C1_discontinuities()
+{
+	int idim;
+	amc_int ied, iface, jface, ibpoin, jbpoin;
+	amc_real dotproduct;
+	for(ied = 0; ied < m->gnbedge(); ied++)
+	{
+		iface = m->gintbedge(ied,0);
+		jface = m->gintbedge(ied,1);
+		ibpoin = m->gbpointsinv(m->gintbedge(ied,2));
+		jbpoin = m->gbpointsinv(m->gintbedge(ied,3));
+		dotproduct = 0;
+		for(idim = 0; idim < 3; idim++)
+			dotproduct += fnormals->get(iface,idim)*fnormals->get(jface,idim);
+		if(dotproduct < cos(maxangle))
+		{
+			if(
+			febedge[ied] = -2;
+		}
+	}
+}
+
 BoundaryReconstruction::BoundaryReconstruction(const UMesh* mesh, int deg, std::string stencil_type, int i_start) 
 	: m(mesh), degree(deg), stencilType(stencil_type), s1(1.0), s2(2.0), istart(i_start)
 {

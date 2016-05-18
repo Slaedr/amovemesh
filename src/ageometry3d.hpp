@@ -29,6 +29,8 @@ class DiscontinuityDetection
 {
 protected:
 	const UMesh* const m;
+	const amat::Matrix<amc_real>* const fnormals;
+	const double maxangle;								///< Maximum angle between two faces to consider them as C1 continuous
 	int ncurves;										///< number of feature curves in the boundary
 	std::vector<std::vector<amc_int>> fecurve;			///< Stores an ordered list of edges in each feature curve
 	std::vector<int> febedge;							///< Stores the feature curve that a boundary-edge (b-edge) belongs to, for each b-edge
@@ -36,7 +38,7 @@ protected:
 	std::vector<int> cornerpoint;						///< For each boundary point, stores 0 if it's not a corner, and an integer indicating the type of corner if it is one
 
 public:
-	DiscontinuityDetection(const UMesh* const mesh);
+	DiscontinuityDetection(const UMesh* const mesh, const amat::Matrix<amc_real>* const fnormal);
 
 	virtual void detect_C1_discontinuities();
 
