@@ -29,7 +29,8 @@ class DiscontinuityDetection
 {
 protected:
 	const UMesh* const m;
-	const amat::Matrix<amc_real>* const fnormals;
+	const amat::Matrix<amc_real>* const fnormals;		///< Normals to faces
+	amat::Matrix<amc_real> etangents;					///< tangents of edges
 	const double maxangle;								///< Maximum angle between two faces to consider them as C1 continuous
 	int ncurves;										///< number of feature curves in the boundary
 	std::vector<std::vector<amc_int>> fecurve;			///< Stores an ordered list of edges in each feature curve

@@ -23,13 +23,34 @@ DiscontinuityDetection::DiscontinuityDetection(const UMesh* const mesh, const am
 {
 	febedge.resize(m->gnbedge(),-1);
 	febpoint.resize(m->gnbpoin(),-1);
+	etangents.setup(m->gnbedge(),NDIM3);
+
+	// get unit tangent of edges
+	std::cout << "DiscontinuityDetection: Getting tangents of edges.." << std::endl;
+	amc_int ipoin, jpoin;
+	amc_real mag;
+	for(amc_int ied = 0; ied < m->gnbedge(); ied++)
+	{
+		ipoin = m->gintbedge(ied,2);
+		jpoin = m->gintbedge(ied,3);
+		mag = 0;
+		for(idim = 0; idim < NDIM3; idim++)
+		{
+			etangents(ied,idim) = m->gcoords(jpoin,idim) - m->gcoords(ipoin,idim);
+			mag += etangents.get(ied,idim)*etangents.get(ied,idim);
+		}
+		mag = sqrt(mag);
+		for(idim = 0; idim < NDIM3; idim++)
+			etangents(ied,idim) /= mag;
+	}
 }
 	
 void DiscontinuityDetection::detect_C1_discontinuities()
 {
-	int idim;
-	amc_int ied, iface, jface, ibpoin, jbpoin;
+	int idim, j;
+	amc_int ied, iface, jface, ibpoin, jbpoin, curedge, ipoin, jpoin;
 	amc_real dotproduct;
+
 	for(ied = 0; ied < m->gnbedge(); ied++)
 	{
 		iface = m->gintbedge(ied,0);
@@ -37,12 +58,38 @@ void DiscontinuityDetection::detect_C1_discontinuities()
 		ibpoin = m->gbpointsinv(m->gintbedge(ied,2));
 		jbpoin = m->gbpointsinv(m->gintbedge(ied,3));
 		dotproduct = 0;
-		for(idim = 0; idim < 3; idim++)
+		for(idim = 0; idim < NDIM3; idim++)
 			dotproduct += fnormals->get(iface,idim)*fnormals->get(jface,idim);
 		if(dotproduct < cos(maxangle))
 		{
-			if(
 			febedge[ied] = -2;
+			febpoint[ibpoin] = -2;
+			febpoint[jbpoin] = -2;
+		}
+	}
+
+	while(true)
+	{
+		curedge = -1;
+
+		// find an unsorted edge
+		for(ied = 0; ied < m->gnbedge(); ied++)
+			if(febedge[ied] == -2) curedge = ied;
+		if(curedge == -1) break;
+
+		// for this edge, construct its edge-chain
+		while(true)
+		{
+			ipoin = m->gintbedge(ied,2);
+			// search among edges surrounding this point
+			for(j = 0; j < m->gedsupsize(ipoin); j++)
+			{
+				jed = m->gedsup(ipoin,j);
+				if(febedge[jed] == -2)
+				{
+					//check tangent direction of jed wrt ied using etangents
+				}
+			}
 		}
 	}
 }
