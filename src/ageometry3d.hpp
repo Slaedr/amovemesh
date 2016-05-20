@@ -32,6 +32,7 @@ protected:
 	const amat::Matrix<amc_real>* const fnormals;		///< Normals to faces
 	amat::Matrix<amc_real> etangents;					///< tangents of edges
 	const double maxangle;								///< Maximum angle between two faces to consider them as C1 continuous
+	const double maxedgeangle;							///< Max angle between two edges to consider them as part of the same feature curve
 	int ncurves;										///< number of feature curves in the boundary
 	std::vector<std::vector<amc_int>> fecurve;			///< Stores an ordered list of edges in each feature curve
 	std::vector<int> febedge;							///< Stores the feature curve that a boundary-edge (b-edge) belongs to, for each b-edge

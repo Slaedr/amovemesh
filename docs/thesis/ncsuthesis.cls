@@ -479,7 +479,7 @@
     \ncsu@defaultspacing%
 }
 %% tocloft typesets ToC title, so we must give it our heading formats
-\renewcommand{\cfttoctitlefont}{\hfill\ncsu@headingformat}
+\renewcommand{\cfttoctitlefont}{\ncsu@headingformat}
 \renewcommand{\cftaftertoctitle}{\hfill}
 
 %\renewcommand{\listfigurename}{List of Figures}

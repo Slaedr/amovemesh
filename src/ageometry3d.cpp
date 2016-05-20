@@ -19,7 +19,8 @@ inline int factorial(int x)
 }
 
 
-DiscontinuityDetection::DiscontinuityDetection(const UMesh* const mesh, const amat::Matrix<amc_real>* const fnormal, const double max_angle) : m(mesh), fnormals(fnormal), maxangle(max_angle)
+DiscontinuityDetection::DiscontinuityDetection(const UMesh* const mesh, const amat::Matrix<amc_real>* const fnormal, const double max_angle, const double max_edge_angle) 
+	: m(mesh), fnormals(fnormal), maxangle(max_angle), maxedgeangle(max_edge_angle)
 {
 	febedge.resize(m->gnbedge(),-1);
 	febpoint.resize(m->gnbpoin(),-1);
@@ -47,10 +48,11 @@ DiscontinuityDetection::DiscontinuityDetection(const UMesh* const mesh, const am
 	
 void DiscontinuityDetection::detect_C1_discontinuities()
 {
-	int idim, j;
-	amc_int ied, iface, jface, ibpoin, jbpoin, curedge, ipoin, jpoin;
+	int idim, j, curnum;
+	amc_int ied, iface, jface, ibpoin, jbpoin, startedge, curedge, ipoin, jpoin;
 	amc_real dotproduct;
 
+	// identify edges having C1 discontinuity
 	for(ied = 0; ied < m->gnbedge(); ied++)
 	{
 		iface = m->gintbedge(ied,0);
@@ -68,8 +70,15 @@ void DiscontinuityDetection::detect_C1_discontinuities()
 		}
 	}
 
+	featurenum = -1;
+	std::vector<int> startedges;		// gives the start edge corresponding to each feature curve - useful if an ordered list of edges is required. DO WE REQUIRE IT?
+
+	// loop to collect the identified edges into feature curves
 	while(true)
 	{
+		// each iteration of this outer loop is for one feature curve
+		featurenum++;
+
 		curedge = -1;
 
 		// find an unsorted edge
@@ -77,20 +86,93 @@ void DiscontinuityDetection::detect_C1_discontinuities()
 			if(febedge[ied] == -2) curedge = ied;
 		if(curedge == -1) break;
 
+		startedge = curedge;
+		startedges.push_back(startedge);
+
+		std::vector<int> edgesincurve;
+
 		// for this edge, construct its edge-chain
 		while(true)
 		{
-			ipoin = m->gintbedge(ied,2);
+			bool nextedgefound = false;
+			febedge[curedge] = featurenum;
+			edgesincurve.push_back(curedge);
+
+			ipoin = m->gintbedge(curedge,2);
+			if(febpoint[m->gbpointsinv(ipoin)] == featurenum)
+				ipoin = m->gintbedge(curedge,3);
+			febpoint[m->gbpointsinv(ipoin)] = featurenum;
+			
 			// search among edges surrounding this point
 			for(j = 0; j < m->gedsupsize(ipoin); j++)
 			{
 				jed = m->gedsup(ipoin,j);
 				if(febedge[jed] == -2)
 				{
-					//check tangent direction of jed wrt ied using etangents
+					//check tangent direction of jed wrt curedge
+
+					dotproduct = 0;
+					for(idim = 0; idim < NDIM3; idim++)
+						dotproduct += etangents.get(curedge,idim)*etangents.get(jed,idim);
+
+					if(fabs(dotproduct) < cos(maxedgeangle))
+						continue;
+
+					nextedgefound = true;
 				}
+				if(nextedgefound) break;
 			}
+			if(nextedgefound)
+			{
+				curedge = jed;
+				continue;
+			}
+			else
+				break;
 		}
+		
+		// now go the other way from the starting edge
+		curedge = startedge;
+		while(true)
+		{
+			bool nextedgefound = false;
+			febedge[curedge] = featurenum;
+			edgesincurve.push_back(curedge);
+
+			ipoin = m->gintbedge(curedge,3);
+			if(febpoint[m->gbpointsinv(ipoin)] == featurenum)
+				ipoin = m->gintbedge(curedge,2);
+			febpoint[m->gbpointsinv(ipoin)] = featurenum;
+			
+			// search among edges surrounding this point
+			for(j = 0; j < m->gedsupsize(ipoin); j++)
+			{
+				jed = m->gedsup(ipoin,j);
+				if(febedge[jed] == -2)
+				{
+					//check tangent direction of jed wrt curedge
+
+					dotproduct = 0;
+					for(idim = 0; idim < NDIM3; idim++)
+						dotproduct += etangents.get(curedge,idim)*etangents.get(jed,idim);
+
+					if(fabs(dotproduct) < cos(maxedgeangle))
+						continue;
+
+					nextedgefound = true;
+				}
+				if(nextedgefound) break;
+			}
+			if(nextedgefound)
+			{
+				curedge = jed;
+				continue;
+			}
+			else
+				break;
+		}
+
+		fecurve.push_back(edgesincurve);
 	}
 }
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.2.4)  27 APR 2016 16:01
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/TeX Live for SUSE Linux) (format=pdflatex 2014.2.4)  20 MAY 2016 16:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1092,7 +1092,7 @@ Appendix B.
 Here is how much of TeX's memory you used:
  7960 strings out of 493315
  116334 string characters out of 6145894
- 377095 words of memory out of 5000000
+ 377094 words of memory out of 5000000
  11139 multiletter control sequences out of 15000+600000
  14687 words of font info for 53 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
@@ -1112,7 +1112,7 @@ type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf/fonts/type1/public/amsfonts
 type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texmf/fonts/type1/public/amsfonts/symbols/msbm10.pf
 b></usr/share/texmf/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on AdityaKashi-thesis.pdf (59 pages, 11596610 bytes).
+Output written on AdityaKashi-thesis.pdf (59 pages, 11596621 bytes).
 PDF statistics:
  1250 PDF objects out of 1440 (max. 8388607)
  320 compressed objects within 4 object streams
