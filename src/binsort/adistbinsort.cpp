@@ -102,13 +102,21 @@ DistBinSort<_ndim>::DistBinSort(const amat::Matrix<amc_real>* const point_list, 
 	std::vector<amc_real> binsize(_ndim);
 	for(idim = 0; idim < _ndim; idim++)
 	{
-		binsize[idim] = (rmax[idim]-rmin[idim])/ndbins[idim];
+		binsize[idim] = (rmax[idim]-rmin[idim])/((double)ndbins[idim]);
 	}
 
 	// set bin boundaries; rbin stores the location of the starting point of a bin
+	std::cout << "DistBinSort: Bin boundaries for direction\n";
 	for(idim = 0; idim < _ndim; idim++)
+	{
+		std::cout << idim << ": ";
 		for(ibin = 0; ibin < ndbins[idim]+1; ibin++)
+		{
 			rbin[idim][ibin] = rmin[idim] + ibin*binsize[idim];
+			std::cout << " " << rbin[idim][ibin];
+		}
+		std::cout  << std::endl;
+	}
 
 	for(idim = 0; idim < _ndim; idim++)	
 		if(fabs(rmax[idim] - rbin[idim][ndbins[idim]]) > ZERO_TOL)
@@ -147,9 +155,10 @@ DistBinSort<_ndim>::DistBinSort(const amat::Matrix<amc_real>* const point_list, 
 			{
 				ibin++;
 #ifdef DEBUG
-				if(ibin >= ndbins[idim])
+				if(ibin > ndbins[idim])
 				{
-					std::cout << "DistBinSort: ! Something's wrong. Linear search couldn't locate point " << ipoin << std::endl;
+					std::cout << "DistBinSort: ! Something's wrong. Linear search couldn't locate point " << ipoin << " in " << idim << " direction" << std::endl;
+					std::cout << "		" << pointlist->get(ipoin,idim) << std::endl;
 					break;
 				}
 #endif
@@ -159,7 +168,9 @@ DistBinSort<_ndim>::DistBinSort(const amat::Matrix<amc_real>* const point_list, 
 
 		// get global bin number from the dimensional bin numbers
 		curbin = binfunc(binloc);
+#ifdef DEBUG
 		std::cout << "DistBinSort: Point " << ipoin << " is located in bin " << curbin << std::endl;
+#endif
 		ptrs[curbin].push_back(ipoin);
 	}
 

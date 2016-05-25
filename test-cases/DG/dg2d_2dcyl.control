@@ -3,6 +3,6 @@
 -output-file
 ../../output/DG/2dcylinder_dg_bins.msh
 -number-of-bins-in-x-dir
-4
+7
 -number-of-binsin-y-dir
-4
+7

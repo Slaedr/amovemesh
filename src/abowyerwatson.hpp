@@ -656,14 +656,17 @@ public:
 	bool detect_negative_jacobians()
 	{
 		bool flagj = false;
+		amc_int numneg = 0;
 		for(int i = 0; i < elems.size(); i++)
 		{
 			if(jacobians(i,0) < ZERO_TOL) {
 				//out << i << " " << jacobians(i,0) << '\n';
 				flagj = true;
+				numneg++;
+				std::cout << i << '\n';
 			}
 		}
-		if(flagj == true) std::cout << "Delaunay2D: detect_negative_jacobians(): There exist element(s) with negative jacobian!!\n";
+		if(flagj == true) std::cout << "Delaunay2D: detect_negative_jacobians(): There exist " << numneg << " element(s) with negative jacobian!!\n";
 		else std::cout << "Delaunay2d: detect_negative_jacobians(): DG is fine." << std::endl;
 		return flagj;
 	}

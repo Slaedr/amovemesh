@@ -1,0 +1,10 @@
+-input-file
+../../input/3dsphereinviscid.points
+-output-file
+../../output/DG/t_3dsphereinviscid.msh
+-number-of-bins-in-x-dir
+4
+-number-of-binsin-y-dir
+4
+-number-of-bins-in-z-dir
+4

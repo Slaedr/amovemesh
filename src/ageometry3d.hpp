@@ -40,7 +40,7 @@ protected:
 	std::vector<int> cornerpoint;						///< For each boundary point, stores 0 if it's not a corner, and an integer indicating the type of corner if it is one
 
 public:
-	DiscontinuityDetection(const UMesh* const mesh, const amat::Matrix<amc_real>* const fnormal);
+	DiscontinuityDetection(const UMesh* const mesh, const amat::Matrix<amc_real>* const fnormal, const double max_angle, const double max_edge_angle);
 
 	virtual void detect_C1_discontinuities();
 

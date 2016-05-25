@@ -3,6 +3,6 @@
 -output-file
 ../../output/DG/30P30N_3airfoil_dg.msh
 -number-of-bins-in-x-dir
-8
+5
 -number-of-binsin-y-dir
 5

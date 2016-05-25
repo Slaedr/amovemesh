@@ -1,0 +1,11 @@
+-input-file
+../../input/weird-solid.points
+-output-file
+../../output/DG/t_weird-solid.msh
+-number-of-bins-in-x-dir
+5
+-number-of-binsin-y-dir
+2
+-number-of-bins-in-z-dir
+1
+

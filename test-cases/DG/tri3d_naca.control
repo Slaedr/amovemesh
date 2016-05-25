@@ -1,0 +1,10 @@
+-input-file
+../../input/naca0012-coarse-all.points
+-output-file
+../../output/DG/t_naca0012-coarse-all.msh
+-number-of-bins-in-x-dir
+1
+-number-of-binsin-y-dir
+1
+-number-of-bins-in-z-dir
+1

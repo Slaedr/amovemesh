@@ -1,7 +1,6 @@
 /**
 @file abowyerwatson3d.hpp
 @brief This file contains a class that implements the Bowyer-Watson algorithm for Delaunay tesselation in 3D.
-
 @author Aditya Kashi
 @date November 3, 2015
 */
@@ -13,6 +12,8 @@
  * It has also been referenced from Wikipedia's Bowyer-Watson algorithm page.
  *
  * Notes:
+ * \todo Change points to a pointer to const Matrix rather than a matrix itself, in the interest of efficiency.
+ *
  * Currently uses a std::std::vector to store elements, faces etc. 
  * \todo Change the deletion and insertion of faces and elements such that we're not moving entire lists (easier said than done).
  *
@@ -121,10 +122,10 @@ public:
 	int npoints;
 
 	Delaunay3d();
-	Delaunay3d(amat::Matrix<double>* _points, int num_points);
+	Delaunay3d(amat::Matrix<double>* _points);
 	Delaunay3d(const Delaunay3d& other);
 	Delaunay3d& operator=(const Delaunay3d& other);
-	void setup(amat::Matrix<double>* _points, int num_points);
+	void setup(amat::Matrix<double>* _points);
 	
 	double l2norm(const std::vector<double>& a) const;
 	
@@ -166,6 +167,7 @@ public:
 
 	void write_jacobians(const std::string fname) const;
 
+	/// Carry out checks on the mesh produced
 	void check();
 };
 
@@ -191,7 +193,7 @@ Delaunay3d::Delaunay3d()
 	setlpofa();
 }
 
-Delaunay3d::Delaunay3d(amat::Matrix<double>* _points, int num_points)
+Delaunay3d::Delaunay3d(amat::Matrix<double>* _points)
 {
 	nnode = 4;
 	ndim = 3;
@@ -201,8 +203,8 @@ Delaunay3d::Delaunay3d(amat::Matrix<double>* _points, int num_points)
 	elems.reserve(cap);
 	faces.reserve(cap);
 	points = *_points;
-	npoints = num_points;
-	nodes.reserve(num_points+3);
+	npoints = points.rows();
+	nodes.reserve(npoints+3);
 	setlpofa();
 
 	std::cout << std::setprecision(12);
@@ -241,7 +243,7 @@ Delaunay3d& Delaunay3d::operator=(const Delaunay3d& other)
 	return *this;
 }
 
-void Delaunay3d::setup(amat::Matrix<double>* _points, int num_points)
+void Delaunay3d::setup(amat::Matrix<double>* _points)
 {
 	nnode = 4;
 	ndim = 3;
@@ -251,8 +253,8 @@ void Delaunay3d::setup(amat::Matrix<double>* _points, int num_points)
 	elems.reserve(cap);
 	faces.reserve(cap);
 	points = *_points;
-	npoints = num_points;
-	nodes.reserve(num_points+3);
+	npoints = points.rows();
+	nodes.reserve(npoints+3);
 	setlpofa();
 
 	std::cout << std::setprecision(12);
@@ -1246,7 +1248,7 @@ bool Delaunay3d::detect_negative_jacobians() const
 	return flagj;
 }
 
-/// Carry out checks on the mesh produced
+// Carry out checks on the mesh produced
 void Delaunay3d::check()
 {
 	std::cout << "Delaunay3d: check(): Computing jacobians..." << std::endl;

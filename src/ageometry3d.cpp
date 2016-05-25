@@ -29,6 +29,7 @@ DiscontinuityDetection::DiscontinuityDetection(const UMesh* const mesh, const am
 	// get unit tangent of edges
 	std::cout << "DiscontinuityDetection: Getting tangents of edges.." << std::endl;
 	amc_int ipoin, jpoin;
+	int idim;
 	amc_real mag;
 	for(amc_int ied = 0; ied < m->gnbedge(); ied++)
 	{
@@ -49,7 +50,7 @@ DiscontinuityDetection::DiscontinuityDetection(const UMesh* const mesh, const am
 void DiscontinuityDetection::detect_C1_discontinuities()
 {
 	int idim, j, curnum;
-	amc_int ied, iface, jface, ibpoin, jbpoin, startedge, curedge, ipoin, jpoin;
+	amc_int ied, jed, iface, jface, ibpoin, jbpoin, startedge, curedge, ipoin, jpoin;
 	amc_real dotproduct;
 
 	// identify edges having C1 discontinuity
@@ -70,7 +71,7 @@ void DiscontinuityDetection::detect_C1_discontinuities()
 		}
 	}
 
-	featurenum = -1;
+	int featurenum = -1;
 	std::vector<int> startedges;		// gives the start edge corresponding to each feature curve - useful if an ordered list of edges is required. DO WE REQUIRE IT?
 
 	// loop to collect the identified edges into feature curves
