@@ -3,8 +3,8 @@
 -output-file
 ../../output/DG/t_bump.msh
 -number-of-bins-in-x-dir
-5
--number-of-binsin-y-dir
 4
+-number-of-binsin-y-dir
+2
 -number-of-bins-in-z-dir
 1

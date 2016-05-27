@@ -98,6 +98,9 @@ target_link_libraries(aoutput amesh2dh)
 add_library(amesh2dh amesh2dh.cpp)
 target_link_libraries(amesh2dh adatastructures)
 
+add_library(abowyerwatson3d abowyerwatson3d.cpp)
+target_link_libraries(abowyerwatson3d amatrix adatastructures)
+
 add_library(amatrix amatrix.cpp)
 
 add_library(adatastructures adatastructures.cpp)
