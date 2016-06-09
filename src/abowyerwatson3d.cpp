@@ -480,8 +480,6 @@ inline int Delaunay3d::check_face_tet(const Tet& elem, const Face& face) const
 
 void Delaunay3d::bowyer_watson()
 {
-	// first, add super triangle
-	
 	//	find minimum and maximum x and y of the point set
 	//	scalef contains scaling factors for each direction
 	std::vector<double> rmin(ndim,0), rmax(ndim,0), scalef(ndim);
@@ -563,11 +561,6 @@ void Delaunay3d::bowyer_watson()
 	pp[3][1] = 0.5*(rmax[0]-rmin[0]) + 0.25*(rmax[2]-rmin[2]) + rmax[1];
 	pp[3][2] = 0.5*(rmax[2] + rmin[2]);
 	
-	/*pp[0][0] = -10; pp[0][1] = -2; pp[0][2] = 2;
-	pp[1][0] = 0; pp[1][1] = 8; pp[1][2] = 0;
-	pp[2][0] = 10; pp[2][1] = -2; pp[2][2] = 2;
-	pp[3][0] = 0; pp[3][1] = -2; pp[3][2] = -8;*/
-
 	std::cout << "Delaunay3d: bowyer_watson(): Coordinates of vertices of the super triangle are:\n";
 	for(int inode = 0; inode < nnode; inode++)
 	{
@@ -658,8 +651,6 @@ void Delaunay3d::bowyer_watson()
 			//if(dabs(dist - elems[curelem].radius) < ZERO_TOL) std::cout << "Delaunay3D: Degenerate case (type 2)!!\n";
 			#endif
 			
-			//std::cout << "Delaunay3d: bowyer_watson(): Dist^2 and radius^2 are " << dist << ", " << elems[curelem].radius << std::endl;
-
 			if(dist < elems[curelem].radius - zero_scale*ZERO_TOL)		// if point lies inside circumsphere, ie, Delaunay criterion is violated
 			{
 				badelems.push_back(curelem);
@@ -673,17 +664,9 @@ void Delaunay3d::bowyer_watson()
 				stk.pop_back();
 			}
 		}
-		//std::cout << std::endl;
-
-		// Output badelems for debug purpose
-		/*std::cout << "Delaunay3d:  Badelems: ";
-		for(int i = 0; i < badelems.size(); i++)
-			std::cout << badelems[i] << " ";
-		std::cout << std::endl;*/
 
 		/// Third, we store the faces that will be obtained after removal of bad elements
 		flags.assign(faces.size(),-1);
-		//std::cout << "** Flags : (" << faces.size() << ", " << flags.size() << ")\n";
 
 		for(int ifa = 0; ifa < faces.size(); ifa++)
 		{
@@ -771,7 +754,6 @@ void Delaunay3d::bowyer_watson()
 		std::cout << std::endl;*/
 
 		/// Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'.
-		//std::cout << "Delaunay2D:  Fifth, add new elements; Also correspondingly update 'faces'\n";
 		std::vector<int> newfaces;				// new faces formed from new elements created
 		int temp;
 		for(int ifa = 0; ifa < voidpoly.size(); ifa++)		// for each face in void polygon
@@ -897,7 +879,6 @@ void Delaunay3d::bowyer_watson()
 			}
 		}
 
-		//std::cout << "Delaunay2D:  Added point " << ipoin << ".\n";
 		//empty badelems and voidpoly
 		badelems.clear();
 		voidpoly.clear();
@@ -907,7 +888,6 @@ void Delaunay3d::bowyer_watson()
 	
 	std::cout << "Delaunay3d: bowyer_watson(): Number of elements before removing super points is " << elems.size() << std::endl;
 	// Remove super triangle
-	//std::cout << "Delaunay2D:  Remove super triangle\n";
 	for(int ielem = 0; ielem < elems.size(); ielem++)
 	{
 		//std::vector<bool> val(nnode,false);
@@ -991,8 +971,6 @@ void Delaunay3d::writeGmsh2(const std::string mfile) const
 }
 
 Walkdata Delaunay3d::find_containing_tet_and_barycentric_coords(const std::vector<double>& xx, const int startelement) const
-/* Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
-   Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
 {
 	Walkdata dat;
 	if(xx.size() < 3) {

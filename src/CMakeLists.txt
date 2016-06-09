@@ -83,9 +83,6 @@ target_link_libraries(ageometry3d alinalg amesh3d amatrix adatastructures)
 add_library(arbf arbf.cpp)
 target_link_libraries(arbf alinalg amatrix)
 
-# add_library(arbfsr arbf_sr.cpp)
-# target_link_libraries(arbfsr alinalg amatrix)
-# 
 # add_library(aboundaryinfluence aboundaryinfluencedistance.cpp)
 # target_link_libraries(aboundaryinfluence amesh2dh)
 

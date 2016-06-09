@@ -141,13 +141,12 @@ public:
 		nodes.reserve(npoints+3);
 	}
 
-	/** Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
-	 * Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked.
+	/// Walk through the mesh from element to element, until the element containing a given point is found.
+	/** NOTE: It will be better to find the minimum of the area coordinates and move to the next element according to that, as done in the 3D code.
 	 */
 	int find_containing_triangle(double xx, double yy, int startelement)
 	{
 		int ielem = startelement;
-		//int p1, p2;
 		double l1, l2, l3;
 		//std::cout << "Delaunay2D:   Finding containing triangle...\n";
 		while(1)
@@ -155,7 +154,6 @@ public:
 			if(ielem < 0 || ielem >= elems.size()) { std::cout << "Delaunay2D:   !! Reached an element index that is out of bounds!! Index is " << ielem << "\n"; }
 			Triangle super = elems[ielem];
 
-			//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];
 			l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;
 			#if DEBUG==1
 			if(fabs(l3) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
@@ -166,7 +164,6 @@ public:
 				continue;
 			}
 
-			//p1 = elems[ielem].p[1]; p2 = elems[ielem].p[2];
 			l1 = xx*(nodes[super.p[1]].y - nodes[super.p[2]].y) - yy*(nodes[super.p[1]].x - nodes[super.p[2]].x) + nodes[super.p[1]].x*nodes[super.p[2]].y - nodes[super.p[2]].x*nodes[super.p[1]].y;
 			#if DEBUG==1
 			if(fabs(l1) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l1!!\n";
@@ -192,6 +189,7 @@ public:
 		return ielem;
 	}
 
+	/// Implements the Bowyer-Watson algorithm
 	void bowyer_watson()
 	/* Make sure 'points' has space for three more points when passing to this sub. 'N' is the actual number of real points. */
 	{
@@ -264,7 +262,6 @@ public:
 #endif
 
 			/// Second, search among neighbors for other triangles whose circumcircles contain this point
-			//std::cout << "Delaunay2D:  Second, search among neighbors for other triangles whose circumcircles contain this point\n";
 			int curelem;
 			std::vector<int> stk;					// stack to hold the indices of triangles to be checked
 			double dist;						// square of distance from point to circumcentre
@@ -297,9 +294,7 @@ public:
 				}
 			}
 
-			// Output badelems for debug purpose
 			/// Third, store the faces that will be obtained after removal of bad triangles
-			//std::cout << "Delaunay2D:  Third, store the faces that will be obtained after removal of bad triangles\n";
 			flags.assign(faces.size(),-1);
 
 			for(int ifa = 0; ifa < faces.size(); ifa++)
@@ -332,7 +327,7 @@ public:
 					voidpoly.push_back(ifa);
 				}
 			}
-			// delete faces
+			// delete faces that were shared by 2 bad triangles
 			for(int ifa = 0; ifa < faces.size(); ifa++)
 			{
 				if(flags[ifa] == -10)				// if face belongs to two bad elements, delete face
@@ -349,7 +344,6 @@ public:
 			}
 
 			// Fourth, delete bad elements
-			//std::cout << "Delaunay2D:  Fourth, delete bad elements\n";
 			for(int ibe = 0; ibe < badelems.size(); ibe++)
 			{
 				elems.erase(elems.begin()+badelems[ibe]);
@@ -377,7 +371,6 @@ public:
 			}
 
 			// Fifth, add new elements; these are formed by the faces in voidpoly and the new point. Also correspondingly update 'faces'.
-			//std::cout << "Delaunay2D:  Fifth, add new elements; Also correspondingly update 'faces'\n";
 			std::vector<int> newfaces;				// new faces formed from new elements created
 			for(int ifa = 0; ifa < voidpoly.size(); ifa++)		// for each face in void polygon
 			{
@@ -489,7 +482,6 @@ public:
 
 				// Now to set the new element as a surrounding element of the element neighboring this void face
 				int nbor = elems.back().surr[0];
-				//std::cout << "**" << nbor << std::endl;
 				if(nbor >= 0)
 				{
 					if( (elems[nbor].p[0] == faces[voidpoly[ifa]].p[0] && elems[nbor].p[1] == faces[voidpoly[ifa]].p[1]) || (elems[nbor].p[0] == faces[voidpoly[ifa]].p[1] && elems[nbor].p[1] == faces[voidpoly[ifa]].p[0]) )	// if the neighbor's face 2 matches the current void face
@@ -511,14 +503,13 @@ public:
 				}
 			}
 
-			//std::cout << "Delaunay2D:  Added point " << ipoin << ".\n";
 			//empty badelems and voidpoly
 			badelems.clear();
 			voidpoly.clear();
-		} // end iteration over points
+		}
+		// end iteration over points
 
 		// Remove super triangle
-		//std::cout << "Delaunay2D:  Remove super triangle\n";
 		for(int ielem = 0; ielem < elems.size(); ielem++)
 		{
 			for(int i = 0; i < 3; i++)
@@ -534,7 +525,7 @@ public:
 							if(elems[iel].surr[j] > ielem) elems[iel].surr[j]--;
 						}
 					}
-					//TODO: readjust elem of each face
+					//we could also readjust elem of each face here, but it's not needed
 
 					ielem--;
 					break;		// once the element has been deleted, we don't want to check other points
@@ -562,6 +553,7 @@ public:
 		voidpoly.clear();
 	}
 
+	/// Write the Delaunay graph in Gmsh format
 	void writeGmsh2(std::string mfile)
 	{
 		std::ofstream outf(mfile);
@@ -587,27 +579,22 @@ public:
 		//std::cout << "Delaunay2D: Number of faces finally = " << faces.size() << std::endl;
 	}
 
+	/// Locates a given point with coordinates xx and yy in the Delaunay graph and returns its area coordinates in the containing element
 	Walkdata find_containing_triangle_and_area_coords(double xx, double yy, int startelement)
-	/* Note that the local node numbering is not assumed to be consistent. So checking the sign of the area of the triangle formed by the new point and an edge is not enough.
-	Rather, we compare the corresponding area-ratio. If the sign of the area of the triangle created by the new point changes because of opposite orientation, so does the area of the triangle being checked. */
 	{
 		Walkdata dat;
 		int ielem = startelement;
-		//int p1, p2;
 		double l1, l2, l3;
-		//std::cout << "Delaunay2D:   Finding containing triangle...\n";
 		Triangle super;
 		while(1)
 		{
-			//std::cout << "  Iteration of walk-through\n";
 			if(ielem < 0 || ielem >= elems.size()) { 
 				std::cout << "Delaunay2D: find_containing_triangle..(): !!Reached an element index that is out of bounds!! Index is " << ielem << "\n";
 				break;
 			}
 			//super = elems[ielem];
-			super = elems.at(ielem);			// at() function checks index out-of-bounds, unlike overloaded [] operator.
+			super = elems.at(ielem);			// at() function checks index out-of-bounds, unlike overloaded [] operator (so it's also a bit slower).
 
-			//p1 = elems[ielem].p[0]; p2 = elems[ielem].p[1];
 			l3 = xx*(nodes[super.p[0]].y - nodes[super.p[1]].y) - yy*(nodes[super.p[0]].x - nodes[super.p[1]].x) + nodes[super.p[0]].x*nodes[super.p[1]].y - nodes[super.p[1]].x*nodes[super.p[0]].y;
 			#if DEBUG==1
 			if(fabs(l3) < tol) std::cout << "Delaunay2D:   Degenerate case (type 1) l3!!\n";
@@ -639,7 +626,6 @@ public:
 			}
 			break;		// if all three area-ratios are positive, we've found our element
 		}
-		//std::cout << "Delaunay2D:   Containing triangle found: " << ielem << ".\n";
 		dat.elem = ielem; dat.areacoords[0] = l1/super.D; dat.areacoords[1] = l2/super.D; dat.areacoords[2] = l3/super.D;
 		return dat;
 	}

@@ -141,11 +141,13 @@ public:
 	/// Computes circumcentre and square of circumradius of a tet
 	void compute_circumsphere(Tet& elem);
 
+	/// Computes circumcenter and square of circumradius according to Dr Luo's method
 	void compute_circumsphere_contra(Tet& elem);
 	
 	/// Returs the Jacobian (6 * volume) of a tetrahedron formed by 4 points taken as arguments
 	double tetvol(const std::vector<double>& a, const std::vector<double>& b, const std::vector<double>& c, const std::vector<double>& d) const;
 	
+	/// Unused
 	int find_containing_tet_old(const std::vector<double>& r, const int startelement) const;
 
 	/// Locates the Delaunay graph (DG) element which contains the input point (improved).
@@ -159,7 +161,7 @@ public:
 	 */
 	int find_containing_tet(const std::vector<double>& r, const int startelement) const;
 	
-	/// Returns the local face number (number of node opposite to the face) of elem's face that is the same as the second argument.
+	/// Returns the local face number (number of node opposite to the face) of elem's face given by the second argument.
 	/**  If no faces of elem match, it returns -1.
 	 */
 	int check_face_tet(const Tet& elem, const Face& face) const;
@@ -174,7 +176,7 @@ public:
 	/// Writes the Delaunay graph to a Gmsh file.
 	void writeGmsh2(const std::string mfile) const;
 	
-	/// Finds the DG element containing a given point.
+	/// Finds the DG element containing a given point and return the area coordinates in that element
 	Walkdata find_containing_tet_and_barycentric_coords(const std::vector<double>& rr, const int startelement) const;
 	
 	/// Computes the jacobian of all elements in the triangulation using cross products
