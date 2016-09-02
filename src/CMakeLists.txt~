@@ -16,7 +16,7 @@ set (EIGEN_DIR ../eigen-3.2.8)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
 
 # set search path(s) for pastix library here - normally no need of this
-#find_library(PASTIX_LIB NAMES pastix PATHS /usr/lib64 /usr/lib/)
+find_library(PASTIX_LIB NAMES pastix PATHS /usr/lib64 /usr/lib/)
 
 # PastiX needs a single-threaded BLAS, so set search path(s) for that here
 find_library(BLAS_LIB NAMES blas PATHS /usr/lib64 /usr/lib/)
