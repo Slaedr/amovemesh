@@ -9,7 +9,9 @@ Curved meshes can be generated, from linear meshes, for both 2D and 3D cases. Cu
 
 Building
 --------
-Create a directory for binaries, eg, build, and then run CMake for the AMoCurve/src directory. This creates makefiles in the bin directory. The compiler to be used should be set in the environment variable CXX, or can be passed as an argument to the CMake command via -DCMAKE_CXX_COMPILER=path_to_compiler. If the compiler is not GNU, you may have to edit the top-level CMakeLists.txt file to set debug and optimization flags. C++ 11 support is required. GCC 5.2 and 5.3 are known to work.
+Requires the [Eigen](http://eigen.tuxfamily.org/) matrix library version 3.2.8 or newer. An environment variable `EIGEN_DIR` needs to be set to the top-level Eigen directory, if it is not in a standard include location. 
+
+Create a directory for binaries, eg, build, and then run CMake for the AMoCurve/src directory. This creates makefiles in the bin directory. The compiler to be used should be set in the environment variable CXX, or can be passed as an argument to the CMake command via -DCMAKE_CXX_COMPILER=path_to_compiler. If the compiler is not GNU, you may have to edit the top-level CMakeLists.txt file to set debug and optimization flags. C++ 11 support is required. GCC 5 series is known to work.
 
 So assuming you are currently in the top level AMoCurve directory, and a (GNU) compiler is set in CXX,
 

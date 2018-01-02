@@ -1447,9 +1447,10 @@ void leastSquares_SVD(Matrix<amc_real>& A, Matrix<amc_real>& b, Matrix<amc_real>
 	}
 
 	Eigen::JacobiSVD<Eigen::MatrixXd> esvd(Ae, Eigen::ComputeThinU|Eigen::ComputeThinV);
-	auto so = esvd.solve(be);
-	Eigen::MatrixXd sol;
-	so.evalTo(sol);
+	Eigen::MatrixXd sol = esvd.solve(be);
+	//auto so = esvd.solve(be);
+	//Eigen::MatrixXd sol;
+	//so.evalTo(sol);
 	for(i = 0; i < n; i++)
 		for(j = 0; j < nrhs; j++)
 			x(i,j) = sol(i,j);

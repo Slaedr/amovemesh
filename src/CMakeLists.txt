@@ -9,11 +9,8 @@ project (amocurve)
 # to compile with OpenMP
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
-# to compile with Eigen 3
-set (EIGEN_DIR ../eigen-3.2.8) 
-
 # set compile options
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 
 # set search path(s) for pastix library here - normally no need of this
 #find_library(PASTIX_LIB NAMES pastix PATHS /usr/lib64 /usr/lib/)
@@ -25,8 +22,8 @@ find_library(BLAS_LIB NAMES blas PATHS /usr/lib64 /usr/lib/)
 
 # flags and stuff
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -DDEBUG=1")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -UDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -DDEBUG=1")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mavx -UDEBUG")
 
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     message(STATUS "Debug mode")
@@ -34,10 +31,10 @@ else()
 	message(STATUS "Release mode")
 endif()
 
-if (DEFINED EIGEN_DIR)
-	message (STATUS "Will build with Eigen from ${EIGEN_DIR}")
+if (DEFINED ENV{EIGEN_DIR})
+	message (STATUS "Will build with Eigen from $ENV{EIGEN_DIR}")
 	add_definitions (-DEIGEN_LIBRARY=1)
-	include_directories (${EIGEN_DIR})
+	include_directories ($ENV{EIGEN_DIR})
 endif()
 
 if (DEFINED PASTIX_LIB AND DEFINED BLAS_LIB)
