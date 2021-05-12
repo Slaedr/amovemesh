@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 2.8)
 
 project (amocurve)
 
-# set compiler
-#set (CMAKE_C_COMPILER $ENV{GC})
-#set (CMAKE_CXX_COMPILER $ENV{GPP})
-
 # to compile with OpenMP
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
@@ -16,14 +12,14 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall")
 #find_library(PASTIX_LIB NAMES pastix PATHS /usr/lib64 /usr/lib/)
 
 # PastiX needs a single-threaded BLAS, so set search path(s) for that here
-find_library(BLAS_LIB NAMES blas PATHS /usr/lib64 /usr/lib/)
+#find_library(BLAS_LIB NAMES blas PATHS /usr/lib64 /usr/lib/)
 
 # ---------------------------------------------------------------------------- #
 
 # flags and stuff
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -g -DDEBUG=1")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mavx -UDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -mavx")
 
 if(CMAKE_BUILD_TYPE MATCHES "Debug")
     message(STATUS "Debug mode")
@@ -57,15 +53,10 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 # libraries to be compiled
 
-# add_library(amocurve amesh3d.cpp amesh2dh.cpp ageometry.cpp ageometryh.cpp ageometry3d.cpp arbf.cpp alinalg.cpp aoutput.cpp amatrix.cpp adatastructures.cpp)
-# if(DEFINED PASTIX_LIB)
-# 	target_link_libraries(amocurve ${PASTIX_LIB} ${BLAS_LIB})
-# endif()
-
 add_library(amesh3d amesh3d.cpp)
 target_link_libraries(amesh3d amatrix adatastructures)
 
-add_library(alinalg alinalg.cpp)
+add_library(alinalg alinalg.cpp asparsematrix.cpp)
 target_link_libraries(alinalg amatrix)
 if(DEFINED PASTIX_LIB)
 	target_link_libraries(alinalg ${PASTIX_LIB} ${BLAS_LIB})

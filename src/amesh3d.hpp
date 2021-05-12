@@ -2,38 +2,17 @@
 /// @author Aditya Kashi
 /// @date August 20, 2015
 
-#ifndef __AMESH3D_H
+#ifndef AMC_MESH3D_H
+#define AMC_MESH3D_H
 
-#ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
-#endif
-#ifndef _GLIBCXX_FSTREAM
 #include <fstream>
-#endif
-#ifndef _GLIBCXX_STRING
 #include <string>
-#endif
-#ifndef _GLIBCXX_CMATH
 #include <cmath>
-#endif
-#ifndef _GLIBCXX_VECTOR
 #include <vector>
-#endif
-#ifdef _OPENMP
-#ifndef OMP_H
-#include <omp.h>
-#endif
-#endif
 
-#ifndef __AMATRIX_H
 #include "amatrix.hpp"
-#endif
-
-#ifndef __ADATASTRUCTURES_H
 #include "adatastructures.hpp"
-#endif
-
-#define __AMESH3D_H
 
 /**
  * \namespace amc

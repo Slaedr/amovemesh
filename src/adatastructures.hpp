@@ -1,18 +1,8 @@
-#ifndef __ADATASTRUCTURES_H
+#ifndef AMC_DATASTRUCTURES_H
+#define AMC_DATASTRUCTURES_H
 
-#ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
-#endif
-
-#ifndef _GLIBCXX_VECTOR
 #include <vector>
-#endif
-
-#ifndef _GLIBCXX_FORWARD_LIST
-#include <forward_list>
-#endif
-
-#define __ADATASTRUCTURES_H
 
 template <class T>
 struct Node

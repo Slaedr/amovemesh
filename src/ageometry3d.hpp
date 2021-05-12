@@ -7,17 +7,11 @@
  * \author Aditya Kashi
  */
 
-#ifndef __AGEOMETRY3D_H
+#ifndef AMC_GEOMETRY3D_H
+#define AMC_GEOMETRY3D_H
 
-#ifndef __AMESH3D_H
-#include <amesh3d.hpp>
-#endif
-
-#ifndef __ALINALG_H
-#include <alinalg.hpp>
-#endif
-
-#define __AGEOMETRY3D_H
+#include "amesh3d.hpp"
+#include "alinalg.hpp"
 
 namespace amc {
 

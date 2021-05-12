@@ -6,30 +6,15 @@
  * \date Feb 2015
  */
 
-#ifndef __ALINALG_H
+#ifndef AMC_LINALG_H
+#define AMC_LINALG_H
 
-#ifndef __AMATRIX_H
-#include <amatrix.hpp>
-#endif
-
-#ifndef __ASPARSEMATRIX_H
-#include <asparsematrix.hpp>
-#endif
-
-#ifndef _GLIBCXX_CMATH
 #include <cmath>
-#endif
 
-#ifdef _OPENMP
-#ifndef OMP_H
-#include <omp.h>
-#endif
-#endif
+#include "amatrix.hpp"
+#include "asparsematrix.hpp"
 
-#define __ALINALG_H 1
-
-namespace amat
-{
+namespace amat {
 
 /// Computes solution of Ax = b by Gaussian elimination. Reasonably well-tested. ("DLU")
 /** A is mxm, b is mxk where k is the number of systems to be solved with the same LHS.

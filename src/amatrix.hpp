@@ -16,36 +16,15 @@
  * \brief Includes all array and matrix storage classes, as well as linear algebra.
  */
 
-#ifndef __AMATRIX_H
+#ifndef AMC_MATRIX_H
+#define AMC_MATRIX_H
 
-#ifndef _GLIBCXX_IOSTREAM
 #include <iostream>
-#endif
-
-#ifndef _GLIBCXX_IOMANIP
 #include <iomanip>
-#endif
-
-#ifndef _GLIBCXX_FSTREAM
 #include <fstream>
-#endif
-
-#ifndef _GLIBCXX_CMATH
 #include <cmath>
-#endif
 
-#ifdef _OPENMP
-	#ifndef OMP_H
-		#include <omp.h>
-		#define nthreads_m 4
-	#endif
-#endif
-
-#ifndef __ACONSTANTS_H
-#include <aconstants.h>
-#endif
-
-#define __AMATRIX_H
+#include "aconstants.h"
 
 #ifndef MATRIX_DOUBLE_PRECISION
 #define MATRIX_DOUBLE_PRECISION 14
